@@ -1,6 +1,6 @@
 /*****************************************************************************
  * 
- * Copyright 2012 LE ROUX Thomas <thomas@november-eleven.fr>
+ * Copyright 2012 See AUTHORS file.
  * 
  * This file is part of Escape-IR.
  * 
@@ -11,18 +11,29 @@
 
 package fr.escape;
 
+import fr.escape.app.Activity;
+
 /**
  * Default Launcher/Main for Escape-IR
  */
 public final class Launcher {
 
+	private static final String TAG = "Launcher";
+	
 	/**
 	 * Default Entry Point
 	 * 
 	 * @param args Options, if any.
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		
+		configure();
+		
+		Escape.activity.debug(TAG, "Initialize Launcher");
+	}
+	
+	public static void configure() {
+		Escape.activity.setLogLevel(Activity.LOG_DEBUG);
 	}
 	
 }
