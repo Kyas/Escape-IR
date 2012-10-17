@@ -46,7 +46,7 @@ public class RightDrift implements Gesture {
 		
 	}
 	
-	//TODO main de test a virer quand pu n�cessaire
+	//TODO main de test a virer quand pu necessaire
 	/*public static void main(String[] args) {
 		final int WIDTH = 800;
 	    final int HEIGHT = 600;
