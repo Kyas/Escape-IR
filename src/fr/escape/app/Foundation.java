@@ -9,21 +9,11 @@
  * 
  *****************************************************************************/
 
-package fr.escape.game;
+package fr.escape.app;
 
-import fr.escape.app.Game;
-import fr.escape.game.screen.Splash;
-
-public class Escape extends Game {
-
-	private Splash splash;
+public class Foundation {
 	
-	@Override
-	public void create() {
-		splash = new Splash(this);
-		// Other Screen if any ...
-		
-		setScreen(splash);
-	}
+	public static Activity activity;
+	public static Graphics graphics;
 	
 }

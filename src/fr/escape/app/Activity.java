@@ -14,7 +14,6 @@ package fr.escape.app;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import fr.escape.E;
 import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
@@ -44,9 +43,10 @@ public final class Activity {
 		logLevel = LOG_INFO;
 		title = configuration.title;
 		
-		E.activity = this;
-		E.graphics = graphics;
+		Foundation.activity = this;
+		Foundation.graphics = graphics;
 
+		game.create();
 		initialize();
 	}
 	
@@ -59,7 +59,7 @@ public final class Activity {
 				
 				try {
 					
-					debug("Activity", "Application started");
+					log("Activity", "Application started");
 					
 					for(;;) {
 						
@@ -83,7 +83,7 @@ public final class Activity {
 								}
 								
 								executionTime = (int) (System.currentTimeMillis() - start);
-								debug("Activity - Runnable", "Runnable(s) executed in "+executionTime+" ms");
+								// debug("Activity - Runnable", "Runnable(s) executed in "+executionTime+" ms");
 							}
 						}
 						
@@ -98,6 +98,7 @@ public final class Activity {
 							Thread.currentThread().interrupt();
 						}
 						
+						getGraphics().render(context);
 						
 					}
 					
@@ -197,14 +198,13 @@ public final class Activity {
 	}
 	
 	/**
-	 * // TODO
+	 * Push a Runnable into Execution Queue for next loop.
 	 * 
 	 * @param runnable Runnable to execute.
 	 */
 	public void post(Runnable runnable) {
 		synchronized (runnables) {
 			runnables.add(runnable);
-			// graphics.requestRendering();
 		}
 	}
 	

@@ -13,6 +13,7 @@ package fr.escape;
 
 import fr.escape.app.Activity;
 import fr.escape.app.Configuration;
+import fr.escape.app.Foundation;
 import fr.escape.game.Escape;
 
 /**
@@ -23,7 +24,7 @@ public final class Launcher {
 	private static final String TAG = "Launcher";
 	
 	public Launcher() {
-		new Activity(new Escape(), new Configuration());
+		(new Activity(new Escape(), new Configuration())).setLogLevel(Activity.LOG_DEBUG);
 	}
 	
 	/**
@@ -34,8 +35,7 @@ public final class Launcher {
 	public static void main(String[] args) {
 		
 		new Launcher();
-		
-		E.activity.debug(TAG, "Initialize Launcher");
+		Foundation.activity.debug(TAG, "Initialize Launcher");
 	}
 	
 }

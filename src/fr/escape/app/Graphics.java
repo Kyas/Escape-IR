@@ -11,8 +11,13 @@
 
 package fr.escape.app;
 
-import fr.escape.E;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
+import fr.umlv.zen2.ApplicationContext;
+import fr.umlv.zen2.ApplicationRenderCode;
 
 // TODO Comment this class
 public final class Graphics {
@@ -21,6 +26,7 @@ public final class Graphics {
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
 	
 	private final RenderListener listener;
+	private final Batch batch;
 	private final int width;
 	private final int heigt;
 	private final int displayFps;
@@ -30,15 +36,16 @@ public final class Graphics {
 	private int smoothFps;
 	private int wakeUp;
 
-	public Graphics(RenderListener render, Configuration configuration) {
+	public Graphics(RenderListener listener, Configuration configuration) {
 		this.width = configuration.width;
 		this.heigt = configuration.height;
 		this.displayFps = configuration.fps;
-		this.listener = render;
+		this.listener = listener;
 		this.lastRender = System.currentTimeMillis();
 		this.rawFps = 0;
 		this.smoothFps = 0;
 		this.wakeUp = 25;
+		this.batch = new Batch();
 	}
 	
 	/** 
@@ -77,9 +84,31 @@ public final class Graphics {
 		return wakeUp;
 	}
 	
-	public void render() {
+	public void render(final ApplicationContext context) {
 		
 		listener.render();
+		
+		context.render(new ApplicationRenderCode() {
+			@Override
+			public void render(Graphics2D graphics) {
+				
+				// Flush and clear previous drawing
+				graphics.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+				
+				while(!batch.isEmpty()) {
+					try {
+						
+						Render render = batch.pop();
+						render.setGraphics(graphics);
+						render.run();
+						
+					} catch(Throwable e) {
+						Foundation.activity.error("Graphics - render", "Exception raised for this batch", e);
+					}
+				}
+				
+			}
+		});
 		
 		long currentRender = System.currentTimeMillis();
 		rawFps++;
@@ -87,10 +116,10 @@ public final class Graphics {
 		if((lastRender / 1000) < (currentRender / 1000)) {
 			updateFramesPerSecond();
 			updateWait();
-			E.activity.log("Graphics - FPS", String.valueOf(getFramesPerSecond()));
 		}
 		
 		lastRender = currentRender;
+		
 	}
 	
 	/**
@@ -121,5 +150,62 @@ public final class Graphics {
 			
 		}
 		
+	}
+	
+	/**
+	 * Draws a rectangle with the bottom left corner at x,y having the width and height of the texture.
+	 * 
+	 * @param texture
+	 * @param x
+	 * @param y
+	 */
+//	public void draw(Texture texture, float x, float y) {
+//		
+//	}
+//	
+	/**
+	 * Draws a rectangle with the bottom left corner at x,y and stretching the region to cover the given width and height.
+	 * 
+	 * @param texture
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+//	public draw(Texture texture, float x, float y, float width, float height) {
+//		
+//	}
+	
+	public void draw(String message, int x, int y) {
+		draw(message, x, y, getDefaultFont());
+	}
+	
+	public void draw(String message, int x, int y, Font font) {
+		draw(message, x, y, font, getDefaultColor());
+	}
+	
+	public void draw(String message, int x, int y, Color color) {
+		draw(message, x, y, getDefaultFont(), getDefaultColor());
+	}
+	
+	public void draw(final String message, final int x, final int y, final Font font, final Color color) {
+		batch.push(new Render() {
+			
+			@Override
+			protected void render() {
+				getGraphics().setPaint(color);
+				getGraphics().setFont(font);
+				getGraphics().drawString(message, x, y);
+			}
+			
+		});
+	}
+
+	private Font getDefaultFont() {
+		return new Font("Arial", Font.PLAIN, 14);
+	}
+	
+	private Color getDefaultColor() {
+		return new Color(0);
 	}
 }

@@ -9,17 +9,6 @@
  * 
  *****************************************************************************/
 
-/*****************************************************************************
- * 
- * Copyright 2012 See AUTHORS file.
- * 
- * This file is part of Escape-IR.
- * 
- * Escape-IR is free software: you can redistribute it and/or modify
- * it under the terms of the zlib license. See the COPYING file.
- * 
- *****************************************************************************/
-
 package fr.escape.app;
 
 /**
@@ -39,7 +28,7 @@ public interface Screen {
 	/**
 	 * @see Game#resize(int, int)
 	 */
-	public void resize(int width, int height);
+	//public void resize(int width, int height);
 
 	/** 
 	 * Called when this screen becomes the current screen for a {@link Game}.
@@ -54,15 +43,15 @@ public interface Screen {
 	/**
 	 * @see ApplicationListener#pause()
 	 */
-	public void pause();
+	//public void pause();
 
 	/** 
 	 * @see ApplicationListener#resume()
 	 */
-	public void resume();
+	//public void resume();
 
 	/** 
 	 * Called when this screen should release itself.
 	 */
-	public void dispose();
+	//public void dispose();
 }

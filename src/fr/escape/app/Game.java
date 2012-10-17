@@ -11,7 +11,6 @@
 
 package fr.escape.app;
 
-import fr.escape.E;
 
 /**
  * <p>
@@ -26,35 +25,35 @@ public abstract class Game implements RenderListener {
 
 	public abstract void create();
 	
-	public void dispose() {
-		if (screen != null) {
-			screen.hide();
-		}
-	}
-
-	public void pause() {
-		if (screen != null) {
-			screen.pause();
-		}
-	}
-
-	public void resume() {
-		if (screen != null) {
-			screen.resume();
-		}
-	}
+//	public void dispose() {
+//		if(screen != null) {
+//			screen.hide();
+//		}
+//	}
+//
+//	public void pause() {
+//		if(screen != null) {
+//			screen.pause();
+//		}
+//	}
+//
+//	public void resume() {
+//		if(screen != null) {
+//			screen.resume();
+//		}
+//	}
 
 	public void render() {
 		if(screen != null) {
-			screen.render(E.graphics.getDeltaTime());
+			screen.render(Foundation.graphics.getDeltaTime());
 		}
 	}
 	
-	public void resize(int width, int height) {
-		if (screen != null) {
-			screen.resize(width, height);
-		}
-	}
+//	public void resize(int width, int height) {
+//		if(screen != null) {
+//			screen.resize(width, height);
+//		}
+//	}
 
 	public void setScreen(Screen screen) {
 		
@@ -65,7 +64,7 @@ public abstract class Game implements RenderListener {
 		this.screen = screen;
 		
 		screen.show();
-		screen.resize(E.graphics.getWidth(), E.graphics.getHeight());
+		//screen.resize(Foundation.graphics.getWidth(), Foundation.graphics.getHeight());
 	}
 
 	/**
@@ -76,4 +75,23 @@ public abstract class Game implements RenderListener {
 	public Screen getScreen() {
 		return screen;
 	}
+	
+	/**
+	 * Return the {@link Activity} which created this Game.
+	 * 
+	 * @return {@link Activity}.
+	 */
+	public Activity getActivity() {
+		return Foundation.activity;
+	}
+	
+	/**
+	 * Return the {@link Graphics} for the Game.
+	 * 
+	 * @return {@link Graphics}
+	 */
+	public Graphics getGraphics() {
+		return Foundation.graphics;
+	}
+	
 }
