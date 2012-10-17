@@ -11,7 +11,7 @@
 
 package fr.escape.app;
 
-import fr.escape.Escape;
+import fr.escape.E;
 
 /**
  * <p>
@@ -20,10 +20,12 @@ import fr.escape.Escape;
  * <p>
  * Allowing multiple screens for a Game.
  */
-public abstract class Game {
+public abstract class Game implements RenderListener {
 	
 	private Screen screen;
 
+	public abstract void create();
+	
 	public void dispose() {
 		if (screen != null) {
 			screen.hide();
@@ -36,18 +38,16 @@ public abstract class Game {
 		}
 	}
 
-	public void resume () {
+	public void resume() {
 		if (screen != null) {
 			screen.resume();
 		}
 	}
 
-	public void render () {
+	public void render() {
 		if(screen != null) {
-			// TODO finish it!
-			//screen.render(Gdx.graphics.getDeltaTime());
+			screen.render(E.graphics.getDeltaTime());
 		}
-		Escape.graphics.render();
 	}
 	
 	public void resize(int width, int height) {
@@ -58,15 +58,14 @@ public abstract class Game {
 
 	public void setScreen(Screen screen) {
 		
-		if (this.screen != null) {
+		if(this.screen != null) {
 			this.screen.hide();
 		}
 		
 		this.screen = screen;
 		
 		screen.show();
-		// TODO finish it!
-		//screen.resize(600, 800);
+		screen.resize(E.graphics.getWidth(), E.graphics.getHeight());
 	}
 
 	/**
@@ -74,7 +73,7 @@ public abstract class Game {
 	 *
 	 * @return active {@link Screen}.
 	 */
-	public Screen getScreen () {
+	public Screen getScreen() {
 		return screen;
 	}
 }

@@ -12,6 +12,8 @@
 package fr.escape;
 
 import fr.escape.app.Activity;
+import fr.escape.app.Configuration;
+import fr.escape.game.Escape;
 
 /**
  * Default Launcher/Main for Escape-IR
@@ -20,6 +22,10 @@ public final class Launcher {
 
 	private static final String TAG = "Launcher";
 	
+	public Launcher() {
+		new Activity(new Escape(), new Configuration());
+	}
+	
 	/**
 	 * Default Entry Point
 	 * 
@@ -27,13 +33,9 @@ public final class Launcher {
 	 */
 	public static void main(String[] args) {
 		
-		configure();
+		new Launcher();
 		
-		Escape.activity.debug(TAG, "Initialize Launcher");
-	}
-	
-	public static void configure() {
-		Escape.activity.setLogLevel(Activity.LOG_DEBUG);
+		E.activity.debug(TAG, "Initialize Launcher");
 	}
 	
 }

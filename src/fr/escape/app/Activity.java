@@ -11,6 +11,14 @@
 
 package fr.escape.app;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
+import fr.escape.E;
+import fr.umlv.zen2.Application;
+import fr.umlv.zen2.ApplicationCode;
+import fr.umlv.zen2.ApplicationContext;
+
 public final class Activity {
 
 	public static final int LOG_NONE = 0;
@@ -18,11 +26,92 @@ public final class Activity {
 	public static final int LOG_INFO = 2;
 	public static final int LOG_ERROR = 1;
 	
+	private final Graphics graphics;
+	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
+	//private final Audio audio;
+	//private final Files files;
+	//private final Input input;
+	private final String title;
 	private int logLevel;
 	
-	public Activity() {
-		this.logLevel = LOG_INFO;
+	public Activity(Game game) {
+		this(game, new Configuration());
 	}
+	
+	public Activity(Game game, Configuration configuration) {
+		
+		graphics = new Graphics(game, configuration);
+		logLevel = LOG_INFO;
+		title = configuration.title;
+		
+		E.activity = this;
+		E.graphics = graphics;
+
+		initialize();
+	}
+	
+	private void initialize () {
+		
+		Application.run(title, graphics.getWidth(), graphics.getHeight(), new ApplicationCode() {
+			
+			@Override
+			public void run(ApplicationContext context) {
+				
+				try {
+					
+					debug("Activity", "Application started");
+					
+					for(;;) {
+						
+						/**
+						 * May need to implements QoS in Runnable execution.
+						 */
+						int executionTime = 0;
+						synchronized(runnables) {
+							
+							if(runnables.isEmpty()) {
+								
+								long start = System.currentTimeMillis();
+								Runnable next;
+								
+								while((next = runnables.poll()) != null) {
+									try {
+										next.run();
+									} catch(Throwable t) {
+										error("Activity - Runnable", "Error while executing a Runnable", t);
+									}
+								}
+								
+								executionTime = (int) (System.currentTimeMillis() - start);
+								debug("Activity - Runnable", "Runnable(s) executed in "+executionTime+" ms");
+							}
+						}
+						
+						try {
+							
+							int sleep = graphics.getNextWakeUp() - executionTime;
+							if(sleep > 0) {
+								Thread.sleep(sleep);
+							}
+							
+						} catch(InterruptedException e) {
+							Thread.currentThread().interrupt();
+						}
+						
+						
+					}
+					
+				} finally {
+					debug("Activity", "Application closed");			
+				}
+				
+			}
+			
+		});
+		
+	}
+	
+	
 	
 	/** 
 	 * Logs a message to the console.
@@ -101,6 +190,22 @@ public final class Activity {
 			}
 		}
 		
+	}
+	
+	public Graphics getGraphics () {
+		return graphics;
+	}
+	
+	/**
+	 * // TODO
+	 * 
+	 * @param runnable Runnable to execute.
+	 */
+	public void post(Runnable runnable) {
+		synchronized (runnables) {
+			runnables.add(runnable);
+			// graphics.requestRendering();
+		}
 	}
 	
 }

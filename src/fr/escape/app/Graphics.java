@@ -11,25 +11,30 @@
 
 package fr.escape.app;
 
-import fr.escape.Escape;
+import fr.escape.E;
 
+
+// TODO Comment this class
 public final class Graphics {
 	
-	private final static int FPS_DEFAULT = 60;
 	private final static int MINIMUM_WAKEUP_TIME = 4;
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
 	
+	private final RenderListener listener;
 	private final int width;
 	private final int heigt;
+	private final int displayFps;
 	
-	volatile private long lastRender;
+	private long lastRender;
 	private int rawFps;
-	volatile private int smoothFps;
-	volatile private int wakeUp;
-	
-	public Graphics(int width, int height) {
-		this.width = width;
-		this.heigt = height;
+	private int smoothFps;
+	private int wakeUp;
+
+	public Graphics(RenderListener render, Configuration configuration) {
+		this.width = configuration.width;
+		this.heigt = configuration.height;
+		this.displayFps = configuration.fps;
+		this.listener = render;
 		this.lastRender = System.currentTimeMillis();
 		this.rawFps = 0;
 		this.smoothFps = 0;
@@ -65,7 +70,7 @@ public final class Graphics {
 	}
 	
 	public int getRequestedFramesPerSecond() {
-		return FPS_DEFAULT;
+		return displayFps;
 	}
 	
 	public int getNextWakeUp() {
@@ -74,13 +79,15 @@ public final class Graphics {
 	
 	public void render() {
 		
+		listener.render();
+		
 		long currentRender = System.currentTimeMillis();
 		rawFps++;
 		
 		if((lastRender / 1000) < (currentRender / 1000)) {
 			updateFramesPerSecond();
 			updateWait();
-			Escape.activity.log("Graphics - FPS", String.valueOf(getFramesPerSecond()));
+			E.activity.log("Graphics - FPS", String.valueOf(getFramesPerSecond()));
 		}
 		
 		lastRender = currentRender;
