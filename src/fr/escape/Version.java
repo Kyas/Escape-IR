@@ -1,6 +1,6 @@
 /*****************************************************************************
  * 
- * Copyright 2012 LE ROUX Thomas <thomas@november-eleven.fr>
+ * Copyright 2012 See AUTHORS file.
  * 
  * This file is part of Escape-IR.
  * 
