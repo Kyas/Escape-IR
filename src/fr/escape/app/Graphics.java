@@ -14,6 +14,7 @@ package fr.escape.app;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 
 import fr.umlv.zen2.ApplicationContext;
@@ -163,6 +164,18 @@ public final class Graphics {
 //		
 //	}
 //	
+	
+	public void draw(final Image texture, final int x, final int y) {
+		batch.push(new Render() {
+
+			@Override
+			protected void render() {
+				getGraphics().drawImage(texture, x, y, null);
+			}
+
+		});
+	}
+	
 	/**
 	 * Draws a rectangle with the bottom left corner at x,y and stretching the region to cover the given width and height.
 	 * 

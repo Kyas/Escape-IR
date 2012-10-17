@@ -27,9 +27,7 @@ public final class Activity {
 	
 	private final Graphics graphics;
 	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
-	//private final Audio audio;
 	//private final Files files;
-	//private final Input input;
 	private final String title;
 	private int logLevel;
 	

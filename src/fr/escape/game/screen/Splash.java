@@ -11,6 +11,10 @@
 
 package fr.escape.game.screen;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 
@@ -25,11 +29,13 @@ public class Splash implements Screen {
 	@Override
 	public void render(float delta) {
 		
-		game.getActivity().error("Splash - render", String.valueOf(delta));
-		
 		game.getGraphics().draw("Delta :"+delta, 10, 20);
 		game.getGraphics().draw("Fps :"+game.getGraphics().getFramesPerSecond(), 10, 34);
-
+		
+		Image logo = new ImageIcon("res/Escape-IR.png").getImage();
+		
+		game.getGraphics().draw(logo, game.getGraphics().getWidth() - logo.getWidth(null), game.getGraphics().getHeight() - logo.getHeight(null));
+		
 	}
 
 	@Override
