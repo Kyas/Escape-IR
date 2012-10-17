@@ -1,5 +1,6 @@
 package fr.escape.app;
 
+// TODO May need to remove it
 public class Input {
 	
 	public int getX() {

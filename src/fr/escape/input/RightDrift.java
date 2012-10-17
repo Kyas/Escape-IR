@@ -1,15 +1,17 @@
 package fr.escape.input;
 
 import java.util.List;
-import fr.escape.E;
+
+import fr.escape.app.Foundation;
 import fr.umlv.zen2.MotionEvent;
 
 public class RightDrift implements Gesture {
 
 	@Override
-	public boolean accept(MotionEvent start,List<MotionEvent> events) {
-		int width = E.graphics.getWidth();
-		int height = E.graphics.getHeight();
+	public boolean accept(MotionEvent start, List<MotionEvent> events) {
+		
+		int width = Foundation.graphics.getWidth();
+		int height = Foundation.graphics.getHeight();
 		int coeff = 200;
 		int faultTolerence = 20;
 		boolean valid = false;
