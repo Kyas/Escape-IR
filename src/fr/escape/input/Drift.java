@@ -1,42 +1,37 @@
 package fr.escape.input;
 
 import java.util.List;
-
-import fr.escape.app.Foundation;
 import fr.umlv.zen2.MotionEvent;
 
-public class RightDrift implements Gesture {
+public class Drift implements Gesture {
 
 	@Override
-	public boolean accept(MotionEvent start, List<MotionEvent> events) {
-		
-		int width = Foundation.graphics.getWidth();
-		int height = Foundation.graphics.getHeight();
-		int coeff = 200;
+	public boolean accept(MotionEvent start, List<MotionEvent> events,MotionEvent end) {
+		if(start.getY() < end.getY()) return false;
 		int faultTolerence = 20;
 		boolean valid = false;
-		double xa = start.getX();
-		int ya = start.getY();
-		double xb = xa + width + coeff;
-		double yb = ya - height + coeff;
+		boolean isRight = start.getX() < end.getX();
 		
-		double upCoeffDir = (yb-ya)/(xb-xa);
-		xb = xa + width - coeff;
-  		yb = ya - height - coeff;
-  		double downCoeffDir = (yb-ya)/(xb-xa);
+		double upCoeffDir, downCoeffDir;
+		if(isRight) {
+			upCoeffDir = -0.3;
+			downCoeffDir = -1.7;
+		} else {
+			upCoeffDir = 1.7;
+			downCoeffDir = 0.3;
+		}
+  		double cd = (double)(end.getY()-start.getY())/(end.getX()-start.getX());
   		
-  		int size = events.size();
-  		MotionEvent last = events.get(size-1);
-  		double cd = (last.getY()-ya)/(last.getX()-xa);
-  		
-  		if((cd < upCoeffDir && cd > downCoeffDir)) {
+  		if(cd < upCoeffDir && cd > downCoeffDir) {
   			valid = true;
-  			double pUp = (last.getY() + faultTolerence) - (cd * (last.getX() + faultTolerence));
-      		double pDown = (last.getY() - faultTolerence) - (cd * (last.getX() - faultTolerence));
+  			double pUp = (end.getY() + faultTolerence) - (cd * (end.getX() + faultTolerence));
+      		double pDown = (end.getY() - faultTolerence) - (cd * (end.getX() - faultTolerence));
       		for(MotionEvent event : events) {
       			double yUp = cd * event.getX() + pUp;
       			double yDown = cd * event.getX() + pDown;
-      			if(yUp < event.getY() || yDown > event.getY()) valid = false;
+      			if(yUp < event.getY() || yDown > event.getY()) {
+      				valid = false;
+      			}
       		}
   		}
 		return valid;
@@ -76,7 +71,7 @@ public class RightDrift implements Gesture {
 		                    	if(it.hasNext()) {
 			                    	MotionEvent start = it.next();
 			                    	it.remove();
-			                    	if(g.accept(start, events)) graphics.setPaint(new Color(0,255,0));
+			                    	if(g.accept(start,events,event)) graphics.setPaint(new Color(0,255,0));
 			                    	else graphics.setPaint(new Color(255,0,0));
 			                    	graphics.drawLine(start.getX(),start.getY(),event.getX(),event.getY());
 			                    	events.clear();

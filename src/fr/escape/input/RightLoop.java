@@ -8,7 +8,7 @@ public class RightLoop implements Gesture {
 	//final static int[] array = new int[2];
 
 	@Override
-	public boolean accept(MotionEvent start, List<MotionEvent> events) {
+	public boolean accept(MotionEvent start, List<MotionEvent> events,MotionEvent end) {
 		boolean valid = true;
 		int faultTolerance = 50;
 		MotionEvent maxX = start;
