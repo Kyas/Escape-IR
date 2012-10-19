@@ -205,5 +205,11 @@ public final class Activity {
 			runnables.add(runnable);
 		}
 	}
+
+	// TODO Implements this method
+	public void exit() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

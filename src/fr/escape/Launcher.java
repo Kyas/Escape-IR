@@ -23,6 +23,9 @@ public final class Launcher {
 
 	private static final String TAG = "Launcher";
 	
+	/**
+	 * Default Constructor for launching the Game
+	 */
 	public Launcher() {
 		(new Activity(new Escape(), new Configuration())).setLogLevel(Activity.LOG_DEBUG);
 	}
@@ -33,7 +36,6 @@ public final class Launcher {
 	 * @param args Options, if any.
 	 */
 	public static void main(String[] args) {
-		
 		new Launcher();
 		Foundation.activity.debug(TAG, "Initialize Launcher");
 	}

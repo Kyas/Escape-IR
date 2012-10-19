@@ -11,19 +11,33 @@
 
 package fr.escape.game.screen;
 
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
+import java.io.File;
+import java.io.IOException;
 
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.graphics.Texture;
 
 public class Splash implements Screen {
 
+	private final static String TAG = Splash.class.getSimpleName();
+	
 	private final Escape game;
+	private Texture logo;
 	
 	public Splash(Escape game) {
+		
 		this.game = game;
+		
+		try {
+			
+			// this.logo = new Texture(new File("res/ScrollingBackground.jpg"));
+			this.logo = new Texture(new File("res/Escape-IR.png"));
+			
+		} catch(IOException e) {
+			game.getActivity().error(TAG, "Cannot load a required Texture", e);
+			game.getActivity().exit();
+		}
 	}
 	
 	@Override
@@ -32,10 +46,12 @@ public class Splash implements Screen {
 		game.getGraphics().draw("Delta :"+delta, 10, 20);
 		game.getGraphics().draw("Fps :"+game.getGraphics().getFramesPerSecond(), 10, 34);
 		
-		Image logo = new ImageIcon("res/Escape-IR.png").getImage();
+		if(logo == null) {
+			game.getActivity().error("Splash", "Cannot load image in memory");
+		}
 		
-		game.getGraphics().draw(logo, game.getGraphics().getWidth() - logo.getWidth(null), game.getGraphics().getHeight() - logo.getHeight(null));
-		
+		//game.getGraphics().draw(logo, game.getGraphics().getWidth() - logo.getWidth(null), game.getGraphics().getHeight() - logo.getHeight(null));
+		game.getGraphics().draw(logo, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight(), 0, 0, 100, 100);
 	}
 
 	@Override

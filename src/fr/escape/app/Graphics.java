@@ -14,9 +14,9 @@ package fr.escape.app;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
 
+import fr.escape.graphics.Texture;
 import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 
@@ -152,42 +152,95 @@ public final class Graphics {
 		}
 		
 	}
+
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y having the width and height of the texture.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Position X in Display Screen
+	 * @param y Position Y in Display Screen
+	 */
+	public void draw(final Texture texture, final int x, final int y) {
+		draw(texture, x, y, texture.getWidth(), texture.getHeight());
+	}
 	
 	/**
-	 * Draws a rectangle with the bottom left corner at x,y having the width and height of the texture.
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y and stretching the region to cover the given width and height.
 	 * 
-	 * @param texture
-	 * @param x
-	 * @param y
+	 * @param texture Texture used for rendering
+	 * @param x Starting Position X in Display Screen
+	 * @param y Starting Position Y in Display Screen
+	 * @param width Ending Position X in Display Screen
+	 * @param height Ending Position Y in Display Screen
 	 */
-//	public void draw(Texture texture, float x, float y) {
-//		
-//	}
-//	
+	public void draw(final Texture texture, final int x, final int y, final int width, final int height) {
+		draw(texture, x, y, width, height, 0, 0, width, height);
+	}
 	
-	public void draw(final Image texture, final int x, final int y) {
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y having the given width and height in pixels. 
+	 * 
+	 * <p>
+	 * The portion of the Texture given by srcX, srcY and srcWidth, srcHeight are used.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Position X in Display Screen
+	 * @param y Position Y in Display Screen
+	 * @param srcX Starting Position X in Texture
+	 * @param srcY Starting Position Y in Texture
+	 * @param srcWidth Ending Position X in Texture
+	 * @param srcHeight Ending Position Y in Texture
+	 */
+	public void draw(final Texture texture, final int x, final int y, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
+		this.draw(texture, x, y, srcWidth - srcX, srcHeight - srcY, srcX, srcY, srcWidth, srcHeight);
+	}
+	
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y having the given width and height in pixels. 
+	 * 
+	 * <p>
+	 * The portion of the Texture given by srcX, srcY and srcWidth, srcHeight is used.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Starting Position X in Display Screen
+	 * @param y Starting Position Y in Display Screen
+	 * @param width Ending Position X in Display Screen
+	 * @param height Ending Position Y in Display Screen
+	 * @param srcX Starting Position X in Texture
+	 * @param srcY Starting Position Y in Texture
+	 * @param srcWidth Ending Position X in Texture
+	 * @param srcHeight Ending Position Y in Texture
+	 */
+	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
+		Foundation.activity.debug("Graphics - Draw", 
+				"x:"+x+","
+				+"y:"+y+","
+				+"width:"+width+","
+				+"height:"+height+","
+				+"srcX:"+srcX+","
+				+"srcY:"+srcY+","
+				+"srcWidth:"+srcWidth+","
+				+"srcHeight:"+srcHeight);
+		
 		batch.push(new Render() {
-
+			
 			@Override
 			protected void render() {
-				getGraphics().drawImage(texture, x, y, null);
+				
+				//Shape oldClip = getGraphics().getClip ();
+				//getGraphics().setClip(x, y, width, height);
+				getGraphics().drawImage(texture.getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
+				//getGraphics().setClip(oldClip);
+				
+				//getGraphics().drawImage(texture.getAll(), x, y, width, height, null);
 			}
 
 		});
 	}
-	
-	/**
-	 * Draws a rectangle with the bottom left corner at x,y and stretching the region to cover the given width and height.
-	 * 
-	 * @param texture
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 */
-//	public draw(Texture texture, float x, float y, float width, float height) {
-//		
-//	}
 	
 	public void draw(String message, int x, int y) {
 		draw(message, x, y, getDefaultFont());
