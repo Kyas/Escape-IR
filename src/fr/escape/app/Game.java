@@ -11,7 +11,6 @@
 
 package fr.escape.app;
 
-
 /**
  * <p>
  * A class which delegates rendering to a {@link Screen}. 

@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
 
 public class Splash implements Screen {
@@ -24,15 +25,19 @@ public class Splash implements Screen {
 	
 	private final Escape game;
 	private Texture logo;
+	private ScrollingTexture background;
+	private long time;
 	
 	public Splash(Escape game) {
 		
 		this.game = game;
+		this.time = 0;
 		
 		try {
 			
 			// this.logo = new Texture(new File("res/ScrollingBackground.jpg"));
 			this.logo = new Texture(new File("res/Escape-IR.png"));
+			this.background = new ScrollingTexture(new Texture(new File("res/ScrollingBackground.jpg")));
 			
 		} catch(IOException e) {
 			game.getActivity().error(TAG, "Cannot load a required Texture", e);
@@ -41,7 +46,11 @@ public class Splash implements Screen {
 	}
 	
 	@Override
-	public void render(float delta) {
+	public void render(long delta) {
+
+		time += delta;
+		
+		game.getActivity().debug(TAG, "time: "+time);
 		
 		game.getGraphics().draw("Delta :"+delta, 10, 20);
 		game.getGraphics().draw("Fps :"+game.getGraphics().getFramesPerSecond(), 10, 34);
@@ -51,7 +60,20 @@ public class Splash implements Screen {
 		}
 		
 		//game.getGraphics().draw(logo, game.getGraphics().getWidth() - logo.getWidth(null), game.getGraphics().getHeight() - logo.getHeight(null));
-		game.getGraphics().draw(logo, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight(), 0, 0, 100, 100);
+		//game.getGraphics().draw(logo, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight(), 0, 0, 100, 100);
+		
+		float percent = ((float) time) / 5000;
+		
+		if(percent > 1.0f) {
+			percent = 1.0f;
+		}
+		
+		game.getActivity().debug(TAG, "YPercent: "+percent);
+		
+		background.setXPercent(percent);
+		background.setYPercent(percent);
+		
+		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 	}
 
 	@Override

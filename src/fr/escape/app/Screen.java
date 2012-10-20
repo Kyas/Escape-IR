@@ -23,7 +23,7 @@ public interface Screen {
 	 * 
 	 * @param delta The time in seconds since the last render.
 	 */
-	public void render(float delta);
+	public void render(long delta);
 
 	/**
 	 * @see Game#resize(int, int)

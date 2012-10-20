@@ -17,6 +17,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import fr.escape.graphics.Texture;
+import fr.escape.graphics.TextureOperator;
 import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 
@@ -240,6 +241,19 @@ public final class Graphics {
 			}
 
 		});
+	}
+	
+	public void draw(final TextureOperator texture, final int x, final int y, final int width, final int height) {
+		
+		batch.push(new Render() {
+
+			@Override
+			protected void render() {
+				texture.draw(getGraphics(), x, y, width, height);
+			}
+			
+		});
+		
 	}
 	
 	public void draw(String message, int x, int y) {

@@ -1,10 +1,11 @@
 package fr.escape.graphics;
 
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -26,10 +27,6 @@ public final class Texture implements Disposable {
 	
 	public int getHeight() {
 		return image.getHeight();
-	}
-	
-	public void getPartial(int x, int y, int width, int height) {
-		image.getData(new Rectangle(x, y, width, height));
 	}
 	
 	public void dispose() {
