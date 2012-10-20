@@ -13,7 +13,7 @@ import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 import fr.umlv.zen2.MotionEvent;
 
-public class RightLoop implements Gesture {
+public class LeftLoop implements Gesture {
 	//TODO remove with main
 	//final static int[] array = new int[2];
 
@@ -21,15 +21,14 @@ public class RightLoop implements Gesture {
 	public boolean accept(MotionEvent start, List<MotionEvent> events,MotionEvent end) {
 		boolean valid = true;
 		int faultTolerance = 90;
-		System.out.println("(" + start.getX() + "," + start.getY() + ") " + "(" + end.getX() + "," + end.getY() + ")");
 		if((start.getX()+(start.getX()*faultTolerance/100)) < end.getX() || (start.getX()-(start.getX()*faultTolerance/100)) > end.getX()) return false;
-		MotionEvent maxX = start;
+		MotionEvent minX = start;
 		for(MotionEvent event : events) {
-			if(event.getX() > maxX.getX()) maxX = event;
+			if(event.getX() < minX.getX()) minX = event;
 		}
-		int diameter = maxX.getX() - start.getX();
+		int diameter = start.getX() - minX.getX();
 		int radius = diameter / 2;
-		int cx = start.getX() + radius;
+		int cx = start.getX() - radius;
 		int cy = start.getY();
 		
 		int smallRad = radius - (radius*faultTolerance/100);
@@ -52,7 +51,7 @@ public class RightLoop implements Gesture {
 	public static void main(String[] args) {
 		final int WIDTH = 800;
 	    final int HEIGHT = 600;
-	    final Gesture g = new RightLoop();
+	    final Gesture g = new LeftLoop();
 	    final LinkedList<MotionEvent> events = new LinkedList<MotionEvent>();
 	    Application.run("Detect motions", WIDTH, HEIGHT, new ApplicationCode() {
 	    @Override
