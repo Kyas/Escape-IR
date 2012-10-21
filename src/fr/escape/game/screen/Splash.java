@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
 
@@ -37,7 +38,7 @@ public class Splash implements Screen {
 			
 			// this.logo = new Texture(new File("res/ScrollingBackground.jpg"));
 			this.logo = new Texture(new File("res/Escape-IR.png"));
-			this.background = new ScrollingTexture(new Texture(new File("res/ScrollingBackground.jpg")));
+			this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")));
 			
 		} catch(IOException e) {
 			game.getActivity().error(TAG, "Cannot load a required Texture", e);
@@ -62,13 +63,7 @@ public class Splash implements Screen {
 		//game.getGraphics().draw(logo, game.getGraphics().getWidth() - logo.getWidth(null), game.getGraphics().getHeight() - logo.getHeight(null));
 		//game.getGraphics().draw(logo, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight(), 0, 0, 100, 100);
 		
-		float percent = ((float) time) / 5000;
-		
-		if(percent > 1.0f) {
-			percent = 1.0f;
-		}
-		
-		game.getActivity().debug(TAG, "YPercent: "+percent);
+		float percent = ((float) time) / 10000;
 		
 		background.setXPercent(percent);
 		background.setYPercent(percent);

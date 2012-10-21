@@ -117,8 +117,8 @@ public class ScrollingTexture implements TextureOperator {
 		if(percent < 0f || percent > 1.0f) {
 			throw new IllegalArgumentException("Percent must be between 0 and 1 included");
 		}
-		
-		this.percentY = percent;	
+
+		this.percentY = percent;
 	}
 	
 	public float getYPercent() {
