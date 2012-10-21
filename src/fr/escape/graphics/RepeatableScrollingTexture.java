@@ -46,9 +46,9 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	 * +-------+--------+
 	 * 
 	 * Part 1 Normal Texture
-	 * Part 2 Repeat the beginning of the Texture in X-axis
-	 * Part 3 Repeat the beginning of the Texture in Y-axis 
-	 * Part 4 Repeat the leftover.
+	 * Part 2 Beginning of the Texture in X-axis
+	 * Part 3 Beginning of the Texture in Y-axis 
+	 * Part 4 The leftover.
 	 * 
 	 * @see TextureOperator#draw(Graphics2D, int, int, int, int);
 	 */

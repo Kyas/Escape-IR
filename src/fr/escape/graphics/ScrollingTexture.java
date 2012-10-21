@@ -52,6 +52,10 @@ public class ScrollingTexture implements TextureOperator {
 	}
 
 	/**
+	 * <p>
+	 * Draw a Scrollable Texture defined by {@link ScrollingTexture#setXPercent(float)} 
+	 * and {@link ScrollingTexture#setYPercent(float)}
+	 * 
 	 * @see TextureOperator#draw(Graphics2D, int, int, int, int);
 	 */
 	@Override
@@ -103,6 +107,11 @@ public class ScrollingTexture implements TextureOperator {
 		graphics.drawImage(texture.getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
 	}
 	
+	/**
+	 * Define the percent of Scrolling in the Texture for X-Axis 
+	 * 
+	 * @param percent Percent of Scroll in X-Axis
+	 */
 	public void setXPercent(float percent) {
 		
 		if(percent < 0f || percent > 1.0f) {
@@ -112,6 +121,11 @@ public class ScrollingTexture implements TextureOperator {
 		this.percentX = percent;
 	}
 	
+	/**
+	 * Define the percent of Scrolling in the Texture for Y-Axis
+	 * 
+	 * @param percent Percent of Scroll in Y-Axis
+	 */
 	public void setYPercent(float percent) {
 		
 		if(percent < 0f || percent > 1.0f) {
@@ -121,14 +135,29 @@ public class ScrollingTexture implements TextureOperator {
 		this.percentY = percent;
 	}
 	
+	/**
+	 * Get the percent of scrolling defined for X-Axis.
+	 * 
+	 * @return Percent of scrolling defined for X-Axis
+	 */
 	public float getYPercent() {
 		return this.percentY;
 	}
 	
+	/**
+	 * Get the percent of scrolling defined for Y-Axis.
+	 * 
+	 * @return Percent of scrolling defined for Y-Axis
+	 */
 	public float getXPercent() {
 		return this.percentX;
 	}
 
+	/**
+	 * Return the Texture.
+	 * 
+	 * @return Texture used for Rendering
+	 */
 	protected Texture getTexture() {
 		return texture;
 	}
