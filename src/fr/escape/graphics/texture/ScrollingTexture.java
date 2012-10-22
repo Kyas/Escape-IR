@@ -9,7 +9,7 @@
  * 
  *****************************************************************************/
 
-package fr.escape.graphics;
+package fr.escape.graphics.texture;
 
 import java.awt.Graphics2D;
 
@@ -104,7 +104,7 @@ public class ScrollingTexture implements TextureOperator {
 		/**
 		 * Draw the Texture.
 		 */
-		graphics.drawImage(texture.getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
+		getTexture().draw(graphics, x, y, width, height, srcX, srcY, srcWidth, srcHeight);
 	}
 	
 	/**

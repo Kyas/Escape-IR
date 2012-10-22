@@ -16,8 +16,12 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import fr.escape.graphics.Texture;
-import fr.escape.graphics.TextureOperator;
+import fr.escape.graphics.GraphicsBatchRender;
+import fr.escape.graphics.GraphicsPoolRender;
+import fr.escape.graphics.render.GraphicsRender;
+import fr.escape.graphics.render.GraphicsStringRender;
+import fr.escape.graphics.texture.Texture;
+import fr.escape.graphics.texture.TextureOperator;
 import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 
@@ -28,7 +32,8 @@ public final class Graphics {
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
 	
 	private final RenderListener listener;
-	private final Batch batch;
+	private final GraphicsBatchRender batch;
+	private final GraphicsPoolRender pool;
 	private final int width;
 	private final int heigt;
 	private final int displayFps;
@@ -39,15 +44,19 @@ public final class Graphics {
 	private int wakeUp;
 
 	public Graphics(RenderListener listener, Configuration configuration) {
+		
 		this.width = configuration.width;
 		this.heigt = configuration.height;
 		this.displayFps = configuration.fps;
+		
 		this.listener = listener;
 		this.lastRender = System.currentTimeMillis();
 		this.rawFps = 0;
 		this.smoothFps = 0;
 		this.wakeUp = 25;
-		this.batch = new Batch();
+		
+		this.batch = GraphicsBatchRender.getInstance();
+		this.pool = GraphicsPoolRender.getInstance();
 	}
 	
 	/** 
@@ -100,7 +109,7 @@ public final class Graphics {
 				while(!batch.isEmpty()) {
 					try {
 						
-						Render render = batch.pop();
+						GraphicsRender render = batch.pop();
 						render.setGraphics(graphics);
 						render.run();
 						
@@ -217,27 +226,12 @@ public final class Graphics {
 	 * @param srcHeight Ending Position Y in Texture
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
-		Foundation.activity.debug("Graphics - Draw", 
-				"x:"+x+","
-				+"y:"+y+","
-				+"width:"+width+","
-				+"height:"+height+","
-				+"srcX:"+srcX+","
-				+"srcY:"+srcY+","
-				+"srcWidth:"+srcWidth+","
-				+"srcHeight:"+srcHeight);
 		
-		batch.push(new Render() {
+		batch.push(new GraphicsRender() {
 			
 			@Override
 			protected void render() {
-				
-				//Shape oldClip = getGraphics().getClip ();
-				//getGraphics().setClip(x, y, width, height);
-				getGraphics().drawImage(texture.getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
-				//getGraphics().setClip(oldClip);
-				
-				//getGraphics().drawImage(texture.getAll(), x, y, width, height, null);
+				texture.draw(getGraphics(), x, y, width, height, srcX, srcY, srcWidth, srcHeight);
 			}
 
 		});
@@ -245,7 +239,7 @@ public final class Graphics {
 	
 	public void draw(final TextureOperator texture, final int x, final int y, final int width, final int height) {
 		
-		batch.push(new Render() {
+		batch.push(new GraphicsRender() {
 
 			@Override
 			protected void render() {
@@ -269,16 +263,7 @@ public final class Graphics {
 	}
 	
 	public void draw(final String message, final int x, final int y, final Font font, final Color color) {
-		batch.push(new Render() {
-			
-			@Override
-			protected void render() {
-				getGraphics().setPaint(color);
-				getGraphics().setFont(font);
-				getGraphics().drawString(message, x, y);
-			}
-			
-		});
+		batch.push(pool.fetchGraphicsStringRender().setX(x).setY(y).setMessage(message).setColor(color).setFont(font));
 	}
 
 	private Font getDefaultFont() {

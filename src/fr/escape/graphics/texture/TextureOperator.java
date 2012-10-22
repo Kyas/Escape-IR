@@ -1,4 +1,4 @@
-package fr.escape.graphics;
+package fr.escape.graphics.texture;
 
 import java.awt.Graphics2D;
 

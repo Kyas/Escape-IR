@@ -1,9 +1,9 @@
-package fr.escape.app;
+package fr.escape.graphics.render;
 
 import java.awt.Graphics2D;
 import java.util.Objects;
 
-abstract class Render implements Runnable {
+public abstract class GraphicsRender implements Runnable {
 
 	private Graphics2D g2d;
 	
@@ -23,4 +23,6 @@ abstract class Render implements Runnable {
 	
 	protected abstract void render();
 
+	public abstract void recycle();
+	
 }

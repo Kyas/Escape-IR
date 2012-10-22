@@ -9,7 +9,7 @@
  * 
  *****************************************************************************/
 
-package fr.escape.graphics;
+package fr.escape.graphics.texture;
 
 import java.awt.Graphics2D;
 
@@ -100,7 +100,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 		/**
 		 * Draw the Part 1 Texture.
 		 */
-		graphics.drawImage(getTexture().getImage(), x, y, deltaWidth, deltaHeight, srcX, srcY, srcWidth, srcHeight, null);
+		getTexture().draw(graphics, x, y, deltaWidth, deltaHeight, srcX, srcY, srcWidth, srcHeight);
 		
 		/**
 		 * Compute Texture Width Area for Part 2
@@ -111,7 +111,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 		/**
 		 * Draw the Part 2 Texture.
 		 */
-		graphics.drawImage(getTexture().getImage(), deltaWidth, y, width, deltaHeight, srcX2, srcY, srcWidth2, srcHeight, null);
+		getTexture().draw(graphics, deltaWidth, y, width, deltaHeight, srcX2, srcY, srcWidth2, srcHeight);
 		
 		/**
 		 * Compute Texture Height Area for Part 3
@@ -122,12 +122,12 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 		/**
 		 * Draw the Part 3 Texture.
 		 */
-		graphics.drawImage(getTexture().getImage(), x, deltaHeight, deltaWidth, height, srcX, srcY3, srcWidth, srcHeight3, null);
+		getTexture().draw(graphics, x, deltaHeight, deltaWidth, height, srcX, srcY3, srcWidth, srcHeight3);
 		
 		/**
 		 * Draw the Final Part, the Part 4 Texture. 
 		 */
-		graphics.drawImage(getTexture().getImage(), deltaWidth, deltaHeight, width, height, srcX2, srcY3, srcWidth2, srcHeight3, null);
+		getTexture().draw(graphics, deltaWidth, deltaHeight, width, height, srcX2, srcY3, srcWidth2, srcHeight3);
 	}
 	
 	/**

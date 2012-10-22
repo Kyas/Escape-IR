@@ -16,9 +16,9 @@ import java.io.IOException;
 
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
-import fr.escape.graphics.RepeatableScrollingTexture;
-import fr.escape.graphics.ScrollingTexture;
-import fr.escape.graphics.Texture;
+import fr.escape.graphics.texture.RepeatableScrollingTexture;
+import fr.escape.graphics.texture.ScrollingTexture;
+import fr.escape.graphics.texture.Texture;
 
 public class Splash implements Screen {
 
