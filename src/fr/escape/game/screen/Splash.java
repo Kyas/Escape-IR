@@ -16,9 +16,9 @@ import java.io.IOException;
 
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
-import fr.escape.graphics.texture.RepeatableScrollingTexture;
-import fr.escape.graphics.texture.ScrollingTexture;
-import fr.escape.graphics.texture.Texture;
+import fr.escape.graphics.RepeatableScrollingTexture;
+import fr.escape.graphics.ScrollingTexture;
+import fr.escape.graphics.Texture;
 
 public class Splash implements Screen {
 
@@ -44,6 +44,7 @@ public class Splash implements Screen {
 			game.getActivity().error(TAG, "Cannot load a required Texture", e);
 			game.getActivity().exit();
 		}
+		
 	}
 	
 	@Override
@@ -51,36 +52,30 @@ public class Splash implements Screen {
 
 		time += delta;
 		
-		game.getActivity().debug(TAG, "time: "+time);
-		
-		game.getGraphics().draw("Delta :"+delta, 10, 20);
-		game.getGraphics().draw("Fps :"+game.getGraphics().getFramesPerSecond(), 10, 34);
-		
 		if(logo == null) {
 			game.getActivity().error("Splash", "Cannot load image in memory");
 		}
 		
-		//game.getGraphics().draw(logo, game.getGraphics().getWidth() - logo.getWidth(null), game.getGraphics().getHeight() - logo.getHeight(null));
-		//game.getGraphics().draw(logo, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight(), 0, 0, 100, 100);
-		
 		float percent = ((float) time) / 10000;
 		
-		background.setXPercent(percent);
+		// background.setXPercent(percent);
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		
+		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
+		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
+		
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
+		game.getGameUI().setVisible(true);
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+		game.getGameUI().setVisible(false);
 	}
 
 }

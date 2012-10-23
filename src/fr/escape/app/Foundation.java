@@ -11,9 +11,12 @@
 
 package fr.escape.app;
 
+import fr.escape.resources.Resources;
+
 public class Foundation {
 	
 	public static Activity activity;
 	public static Graphics graphics;
+	public static Resources resources;
 	
 }

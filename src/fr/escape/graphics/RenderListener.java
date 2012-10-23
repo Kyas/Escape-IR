@@ -9,7 +9,9 @@
  * 
  *****************************************************************************/
 
-package fr.escape.app;
+package fr.escape.graphics;
+
+import fr.escape.app.Graphics;
 
 /**
  * <p>

@@ -16,12 +16,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import fr.escape.graphics.GraphicsBatchRender;
-import fr.escape.graphics.GraphicsPoolRender;
-import fr.escape.graphics.render.GraphicsRender;
-import fr.escape.graphics.render.GraphicsStringRender;
-import fr.escape.graphics.texture.Texture;
-import fr.escape.graphics.texture.TextureOperator;
+import fr.escape.graphics.RenderListener;
+import fr.escape.graphics.Texture;
+import fr.escape.graphics.TextureOperator;
 import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 
@@ -32,12 +29,11 @@ public final class Graphics {
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
 	
 	private final RenderListener listener;
-	private final GraphicsBatchRender batch;
-	private final GraphicsPoolRender pool;
 	private final int width;
 	private final int heigt;
 	private final int displayFps;
 	
+	private Graphics2D g2d;
 	private long lastRender;
 	private int rawFps;
 	private int smoothFps;
@@ -55,8 +51,6 @@ public final class Graphics {
 		this.smoothFps = 0;
 		this.wakeUp = 25;
 		
-		this.batch = GraphicsBatchRender.getInstance();
-		this.pool = GraphicsPoolRender.getInstance();
 	}
 	
 	/** 
@@ -96,27 +90,19 @@ public final class Graphics {
 	}
 	
 	public void render(final ApplicationContext context) {
-		
-		listener.render();
-		
+
 		context.render(new ApplicationRenderCode() {
 			@Override
 			public void render(Graphics2D graphics) {
 				
+				// Set Graphics Engine
+				g2d = graphics;
+				
 				// Flush and clear previous drawing
 				graphics.fill(new Rectangle(0, 0, getWidth(), getHeight()));
 				
-				while(!batch.isEmpty()) {
-					try {
-						
-						GraphicsRender render = batch.pop();
-						render.setGraphics(graphics);
-						render.run();
-						
-					} catch(Throwable e) {
-						Foundation.activity.error("Graphics - render", "Exception raised for this batch", e);
-					}
-				}
+				// Start Game Rendering
+				listener.render();
 				
 			}
 		});
@@ -226,28 +212,11 @@ public final class Graphics {
 	 * @param srcHeight Ending Position Y in Texture
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
-		
-		batch.push(new GraphicsRender() {
-			
-			@Override
-			protected void render() {
-				texture.draw(getGraphics(), x, y, width, height, srcX, srcY, srcWidth, srcHeight);
-			}
-
-		});
+		texture.draw(g2d, x, y, width, height, srcX, srcY, srcWidth, srcHeight);
 	}
 	
 	public void draw(final TextureOperator texture, final int x, final int y, final int width, final int height) {
-		
-		batch.push(new GraphicsRender() {
-
-			@Override
-			protected void render() {
-				texture.draw(getGraphics(), x, y, width, height);
-			}
-			
-		});
-		
+		texture.draw(g2d, x, y, width, height);
 	}
 	
 	public void draw(String message, int x, int y) {
@@ -259,11 +228,13 @@ public final class Graphics {
 	}
 	
 	public void draw(String message, int x, int y, Color color) {
-		draw(message, x, y, getDefaultFont(), getDefaultColor());
+		draw(message, x, y, getDefaultFont(), color);
 	}
 	
 	public void draw(final String message, final int x, final int y, final Font font, final Color color) {
-		batch.push(pool.fetchGraphicsStringRender().setX(x).setY(y).setMessage(message).setColor(color).setFont(font));
+		g2d.setPaint(color);
+		g2d.setFont(font);
+		g2d.drawString(message, x, y);
 	}
 
 	private Font getDefaultFont() {
@@ -271,6 +242,6 @@ public final class Graphics {
 	}
 	
 	private Color getDefaultColor() {
-		return new Color(0);
+		return Color.BLACK;
 	}
 }

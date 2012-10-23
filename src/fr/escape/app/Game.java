@@ -11,6 +11,9 @@
 
 package fr.escape.app;
 
+import fr.escape.graphics.RenderListener;
+import fr.escape.resources.Resources;
+
 /**
  * <p>
  * A class which delegates rendering to a {@link Screen}. 
@@ -93,4 +96,7 @@ public abstract class Game implements RenderListener {
 		return Foundation.graphics;
 	}
 	
+	public Resources getResources() {
+		return Foundation.resources;
+	}
 }

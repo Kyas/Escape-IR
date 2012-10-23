@@ -14,6 +14,7 @@ package fr.escape.app;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import fr.escape.resources.Resources;
 import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
@@ -43,6 +44,7 @@ public final class Activity {
 		
 		Foundation.activity = this;
 		Foundation.graphics = graphics;
+		Foundation.resources = new Resources();
 
 		game.create();
 		initialize();
