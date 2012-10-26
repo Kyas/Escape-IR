@@ -36,6 +36,7 @@ public class GestureMain {
 					context.render(new ApplicationRenderCode() {
 						@Override
 						public void render(Graphics2D graphics) {
+							System.out.println(event.getKind().name());
 							graphics.setFont(font);
 							Input e = new Input(event);
 							switch(e.getKind().name()) {
