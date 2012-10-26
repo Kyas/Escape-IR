@@ -14,10 +14,12 @@ package fr.escape.app;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;
 import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
+import fr.umlv.zen2.MotionEvent;
 
 // TODO Comment
 public final class Activity {
@@ -27,6 +29,7 @@ public final class Activity {
 	public static final int LOG_INFO = 2;
 	public static final int LOG_ERROR = 1;
 	
+	private final EventListener listener;
 	private final Graphics graphics;
 	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
 	private final String title;
@@ -41,6 +44,7 @@ public final class Activity {
 		graphics = new Graphics(game, configuration);
 		logLevel = LOG_INFO;
 		title = configuration.title;
+		listener = game;
 		
 		Foundation.activity = this;
 		Foundation.graphics = graphics;
@@ -65,16 +69,24 @@ public final class Activity {
 				try {
 					
 					log("Activity", "Application started");
-					
+					Input lastEvent = null;
 					for(;;) {
 						
 						/**
 						 * May need to implements QoS in Runnable execution.
 						 */
 						int executionTime = 0;
+						
+						MotionEvent evt = context.pollMotion();
+						if(evt != null) {
+							Input event = new Input(evt);
+							event(event,lastEvent);
+							lastEvent = event;
+						}
+						
 						synchronized(runnables) {
 							
-							if(runnables.isEmpty()) {
+							if(!runnables.isEmpty()) {
 								
 								long start = System.currentTimeMillis();
 								Runnable next;
@@ -215,6 +227,42 @@ public final class Activity {
 	public void post(Runnable runnable) {
 		synchronized (runnables) {
 			runnables.add(runnable);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void event(final Input event,final Input lastEvent) {
+		if(!event.isNull()) {
+			switch(event.getKind().name()) {
+				case "ACTION_DOWN" :
+					break;
+				case "ACTION_MOVE" :
+					post(new Runnable() {
+						
+						@Override
+						public void run() {
+							listener.move(lastEvent);
+						}
+						
+					});
+					break;
+				case "ACTION_UP" :
+					if(lastEvent.getKind().name().equals("ACTION_DOWN")) {
+						post(new Runnable() {
+							
+							@Override
+							public void run() {
+								listener.touch(lastEvent);
+							}
+							
+						});
+					}
+					break;
+				default : 
+					break;
+			}
 		}
 	}
 	

@@ -12,6 +12,7 @@
 package fr.escape.app;
 
 import fr.escape.graphics.RenderListener;
+import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;
 
 /**
@@ -21,7 +22,7 @@ import fr.escape.resources.Resources;
  * <p>
  * Allowing multiple screens for a Game.
  */
-public abstract class Game implements RenderListener {
+public abstract class Game implements RenderListener, EventListener {
 	
 	private Screen screen;
 
@@ -103,5 +104,19 @@ public abstract class Game implements RenderListener {
 	 */
 	public Resources getResources() {
 		return Foundation.resources;
+	}
+	
+	/**
+	 * 
+	 */
+	public void touch(Input i) {
+		System.out.println("Touch");
+	}
+	
+	/**
+	 * 
+	 */
+	public void move(Input i) {
+		System.out.println("Move");
 	}
 }
