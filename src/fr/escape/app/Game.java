@@ -47,7 +47,7 @@ public abstract class Game implements RenderListener {
 
 	public void render() {
 		if(screen != null) {
-			screen.render(Foundation.graphics.getDeltaTime());
+			screen.render(getGraphics().getDeltaTime());
 		}
 	}
 	
@@ -95,7 +95,12 @@ public abstract class Game implements RenderListener {
 	public Graphics getGraphics() {
 		return Foundation.graphics;
 	}
-	
+
+	/**
+	 * Return the {@link Resources} for the Game.
+	 * 
+	 * @return {@link Resources}
+	 */
 	public Resources getResources() {
 		return Foundation.resources;
 	}

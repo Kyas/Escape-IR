@@ -4,9 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 
 import fr.escape.app.Game;
-import fr.escape.graphics.RenderListener;
+import fr.escape.app.Overlay;
+import fr.escape.game.HighscoreUpdater.HighscoreListener;
 
-public class UIHighscore implements RenderListener {
+public class UIHighscore implements Overlay, HighscoreListener {
 
 	private static final int TOP_PADDING = 20;
 	private static final int LEFT_MARGIN = 10;
@@ -15,10 +16,15 @@ public class UIHighscore implements RenderListener {
 	private final Font font;
 	private final Color color;
 	
+	private int highscore;
+	private boolean isVisible;
+	
 	public UIHighscore(Game game) {
 		this.game = game;
-		this.font = game.getResources().getFont("visitor2");
+		this.font = game.getResources().getFont("visitor");
 		this.color = Color.WHITE;
+		this.highscore = 0;
+		this.isVisible = false;
 	}
 	
 	private int getTopPadding() {
@@ -30,8 +36,25 @@ public class UIHighscore implements RenderListener {
 	}
 
 	@Override
-	public void render() {
-		game.getGraphics().draw("Highscore: "+Integer.MAX_VALUE, getLeftMargin(), getTopPadding(), font, color);
+	public void render(long delta) {
+		if(isVisible) {
+			game.getGraphics().draw("Highscore: "+highscore, getLeftMargin(), getTopPadding(), font, color);
+		}
+	}
+
+	@Override
+	public void show() {
+		isVisible = true;
+	}
+
+	@Override
+	public void hide() {
+		isVisible = false;
+	}
+
+	@Override
+	public void update(int highscore) {
+		this.highscore = highscore;
 	}
 
 }

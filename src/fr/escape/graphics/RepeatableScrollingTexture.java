@@ -58,6 +58,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 		/**
 		 * Check if we can draw safely without scaling.
 		 */
+		// TODO Implements Scaling
 		if(width > getTexture().getWidth()) {
 			throw new IllegalArgumentException("Scale is not implemented for RepeatableScrollingTexture, drawing width must be lesser than Texture width");
 		}

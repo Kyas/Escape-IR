@@ -29,21 +29,13 @@ public class Splash implements Screen {
 	private ScrollingTexture background;
 	private long time;
 	
-	public Splash(Escape game) {
+	public Splash(Escape game) throws IOException {
 		
 		this.game = game;
 		this.time = 0;
 		
-		try {
-			
-			// this.logo = new Texture(new File("res/ScrollingBackground.jpg"));
-			this.logo = new Texture(new File("res/Escape-IR.png"));
-			this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")));
-			
-		} catch(IOException e) {
-			game.getActivity().error(TAG, "Cannot load a required Texture", e);
-			game.getActivity().exit();
-		}
+		this.logo = new Texture(new File("res/Escape-IR.png"));
+		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")));
 		
 	}
 	
@@ -70,12 +62,12 @@ public class Splash implements Screen {
 
 	@Override
 	public void show() {
-		game.getGameUI().setVisible(true);
+		game.getOverlay().show();
 	}
 
 	@Override
 	public void hide() {
-		game.getGameUI().setVisible(false);
+
 	}
 
 }

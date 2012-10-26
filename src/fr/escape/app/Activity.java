@@ -19,6 +19,7 @@ import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
 
+// TODO Comment
 public final class Activity {
 
 	public static final int LOG_NONE = 0;
@@ -28,7 +29,6 @@ public final class Activity {
 	
 	private final Graphics graphics;
 	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
-	//private final Files files;
 	private final String title;
 	private int logLevel;
 	
@@ -50,7 +50,12 @@ public final class Activity {
 		initialize();
 	}
 	
+	/**
+	 * Initialize and Run the Game with Graphics Engine and Activity Core
+	 */
 	private void initialize () {
+		
+		// TODO May need to remove comment for Run Exec
 		
 		Application.run(title, graphics.getWidth(), graphics.getHeight(), new ApplicationCode() {
 			
@@ -193,7 +198,12 @@ public final class Activity {
 		
 	}
 	
-	public Graphics getGraphics () {
+	/**
+	 * Return the Graphics Engine 
+	 * 
+	 * @return Graphics Engine 
+	 */
+	private Graphics getGraphics () {
 		return graphics;
 	}
 	
@@ -206,12 +216,6 @@ public final class Activity {
 		synchronized (runnables) {
 			runnables.add(runnable);
 		}
-	}
-
-	// TODO Implements this method
-	public void exit() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

@@ -12,15 +12,16 @@
 package fr.escape.game;
 
 import fr.escape.app.Game;
+import fr.escape.app.Overlay;
 import fr.escape.game.screen.Splash;
 import fr.escape.game.screen.Error;
-import fr.escape.game.ui.GameUI;
+import fr.escape.game.ui.IngameUI;
 
 public class Escape extends Game {
 
 	private Splash splash;
 	private Error error;
-	private GameUI gui;
+	private Overlay ingameUI;
 	
 	/**
 	 * @see Game#create()
@@ -32,7 +33,7 @@ public class Escape extends Game {
 			splash = new Splash(this);
 			// Other Screen if any ...
 			
-			gui = new GameUI(this);
+			ingameUI = new IngameUI();
 			
 			setScreen(splash);
 			
@@ -50,19 +51,13 @@ public class Escape extends Game {
 	@Override
 	public void render() {
 		super.render();
-		if(gui != null) {
-			gui.render();
+		if(ingameUI != null) {
+			ingameUI.render(getGraphics().getDeltaTime());
 		}
 	}
 
-	public GameUI getGameUI() {
-		return gui;
+	public Overlay getOverlay() {
+		return ingameUI;
 	}
 
-	public void hideAll() {
-		if(gui != null) {
-			gui.setVisible(false);
-		}
-	}
-	
 }

@@ -14,7 +14,7 @@ import fr.escape.graphics.RepeatableScrollingTexture;
 // TODO Finish
 public class Error implements Screen {
 
-	private final static String TAG = Error.class.getSimpleName();
+	private final static String TAG = "Error Screen Handler";
 	
 	private final Escape game;
 	private final Random random;
@@ -99,7 +99,7 @@ public class Error implements Screen {
 
 	@Override
 	public void show() {
-		game.hideAll();
+		game.getOverlay().hide();
 	}
 
 	@Override
