@@ -11,8 +11,15 @@
 
 package fr.escape.app;
 
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Objects;
+
 import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
+import fr.escape.input.Gesture;
 import fr.escape.resources.Resources;
 
 /**
@@ -25,7 +32,9 @@ import fr.escape.resources.Resources;
 public abstract class Game implements RenderListener, EventListener {
 	
 	private Screen screen;
-
+	private ArrayList<Gesture> gestures;
+	private final LinkedList<Input> events = new LinkedList<>();
+	
 	public abstract void create();
 	
 //	public void dispose() {
@@ -109,6 +118,14 @@ public abstract class Game implements RenderListener, EventListener {
 	/**
 	 * 
 	 */
+	public void setGestures(ArrayList<Gesture> gestures) {
+		Objects.requireNonNull(gestures);
+		this.gestures = gestures;
+	}
+	
+	/**
+	 * 
+	 */
 	public void touch(Input i) {
 		System.out.println("Touch");
 	}
@@ -117,6 +134,16 @@ public abstract class Game implements RenderListener, EventListener {
 	 * 
 	 */
 	public void move(Input i) {
-		System.out.println("Move");
+		Objects.requireNonNull(i);
+		if(i.getKind().name().equals("ACTION_UP")) {
+			for(Gesture g : gestures) {
+				Iterator<Input> it = events.iterator();
+				Input start = it.next(); it.remove();
+				if(g.accept(start,events,i)) System.out.println(g.getClass().toString());
+			}
+			events.clear();
+		} else {
+			events.add(i);
+		}
 	}
 }

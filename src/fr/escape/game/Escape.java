@@ -11,6 +11,8 @@
 
 package fr.escape.game;
 
+import java.util.ArrayList;
+
 import fr.escape.app.Game;
 import fr.escape.app.Overlay;
 import fr.escape.game.screen.Splash;
@@ -18,6 +20,11 @@ import fr.escape.game.screen.Error;
 import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
 import fr.escape.game.ui.UIWeapons;
+import fr.escape.input.BackOff;
+import fr.escape.input.Drift;
+import fr.escape.input.Gesture;
+import fr.escape.input.LeftLoop;
+import fr.escape.input.RightLoop;
 
 public class Escape extends Game {
 
@@ -40,16 +47,22 @@ public class Escape extends Game {
 			// Create Game Components
 			ingameUI = new IngameUI();
 			highscoreUpdater = new HighscoreUpdater();
+			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			UIWeapons uWeapons = new UIWeapons(this);
+			//UIWeapons uWeapons = new UIWeapons(this);
 			
 			highscoreUpdater.add(uHighscore);
 			ingameUI.add(uHighscore);
-			ingameUI.add(uWeapons);
+			//ingameUI.add(uWeapons);
 			
+			gestures.add(new Drift());
+			gestures.add(new BackOff());
+			gestures.add(new LeftLoop());
+			gestures.add(new RightLoop());
+						
 			setScreen(splash);
-			
+			setGestures(gestures);
 		} catch(Exception e) {
 			error = new Error(this);
 			getActivity().error("Escape", "Exception raised during create()", e);
