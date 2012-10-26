@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import fr.escape.app.Input;
 import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
@@ -22,7 +23,7 @@ public class GestureMain {
 		lGesture.add(new LeftLoop());
 		lGesture.add(new RightLoop());
 		lGesture.add(new BackOff());
-		final LinkedList<MotionEvent> events = new LinkedList<MotionEvent>();
+		final LinkedList<Input> events = new LinkedList<Input>();
 		Application.run("Detect motions", WIDTH, HEIGHT, new ApplicationCode() {
 			@Override
 			public void run(final ApplicationContext context) {
@@ -36,16 +37,17 @@ public class GestureMain {
 						@Override
 						public void render(Graphics2D graphics) {
 							graphics.setFont(font);
-							switch(event.getKind().name()) {
+							Input e = new Input(event);
+							switch(e.getKind().name()) {
 								case "ACTION_DOWN" : 
-									events.add(event);
+									events.add(e);
 									break;
 								case "ACTION_UP" : 
-									Iterator<MotionEvent> it = events.iterator();
+									Iterator<Input> it = events.iterator();
 									if(it.hasNext()) {
-										MotionEvent start = it.next(); it.remove();
+										Input start = it.next(); it.remove();
 										for(Gesture g : lGesture) {
-											if(g.accept(start,events,event)) {
+											if(g.accept(start,events,e)) {
 												graphics.setPaint(new Color(0,255,0));
 												System.out.println(g.getClass().toString());
 												break;
@@ -55,8 +57,8 @@ public class GestureMain {
 											}
 										}
 										
-										MotionEvent lastEvent = start;
-										for(MotionEvent event : events) {
+										Input lastEvent = start;
+										for(Input event : events) {
 											graphics.drawLine(lastEvent.getX(),lastEvent.getY(),event.getX(),event.getY());
 											lastEvent = event;
 										}
@@ -64,7 +66,7 @@ public class GestureMain {
 									}
 									break;
 								case "ACTION_MOVE" :
-									events.add(event);
+									events.add(e);
 									break;
 								default :
 									break;

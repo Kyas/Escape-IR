@@ -12,9 +12,9 @@
 package fr.escape.input;
 
 import java.util.List;
-import fr.umlv.zen2.MotionEvent;
+
+import fr.escape.app.Input;
 
 public interface Gesture {
-	public boolean accept(MotionEvent start, List<MotionEvent> events,MotionEvent end);
-	public void move();
+	public boolean accept(Input start, List<Input> events,Input end);
 }

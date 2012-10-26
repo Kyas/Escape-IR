@@ -2,17 +2,17 @@ package fr.escape.input;
 
 import java.util.List;
 
-import fr.umlv.zen2.MotionEvent;
+import fr.escape.app.Input;
 
 public class RightLoop implements Gesture {
 
 	@Override
-	public boolean accept(MotionEvent start, List<MotionEvent> events,MotionEvent end) {
+	public boolean accept(Input start, List<Input> events,Input end) {
 		boolean valid = true;
 		int faultTolerance = 90;
 		int coeff = 25;
-		MotionEvent maxX = start;
-		for(MotionEvent event : events) {
+		Input maxX = start;
+		for(Input event : events) {
 			if(event.getX() > maxX.getX()) maxX = event;
 		}
 		
@@ -26,16 +26,10 @@ public class RightLoop implements Gesture {
 		
 		int smallRad = radius - (radius*faultTolerance/100);
 		int bigRad = radius + (radius*faultTolerance/100);
-		for(MotionEvent event : events) {
+		for(Input event : events) {
 			double dist = Math.sqrt(Math.pow(event.getX()-cx, 2)+Math.pow(event.getY()-cy, 2));
 			if(dist < smallRad || dist > bigRad) return false;
 		}
 		return valid;
 	}
-
-	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-	}
-
 }
