@@ -3,12 +3,12 @@ package fr.escape.input;
 import java.util.List;
 
 import fr.escape.app.Foundation;
-import fr.umlv.zen2.MotionEvent;
+import fr.escape.app.Input;
 
 public class BackOff implements Gesture {
 
 	@Override
-	public boolean accept(MotionEvent start, List<MotionEvent> events, MotionEvent end) {
+	public boolean accept(Input start, List<Input> events, Input end) {
 		if(start.getY() >= end.getY()) return false;
 		int height = Foundation.graphics.getHeight();
 		int coeff = 150;
@@ -25,7 +25,7 @@ public class BackOff implements Gesture {
   			valid = true;
   			double pUp = (end.getY() + faultTolerence) - (cd * (end.getX() + faultTolerence));
       		double pDown = (end.getY() - faultTolerence) - (cd * (end.getX() - faultTolerence));
-      		for(MotionEvent event : events) {
+      		for(Input event : events) {
       			double yUp = cd * event.getX() + pUp;
       			double yDown = cd * event.getX() + pDown;
       			if(yUp > event.getY() || yDown < event.getY()) return false;
@@ -33,10 +33,4 @@ public class BackOff implements Gesture {
   		}
 		return valid;
 	}
-
-	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-	}
-	
 }
