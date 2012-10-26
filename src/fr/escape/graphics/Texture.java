@@ -13,6 +13,11 @@ import javax.imageio.ImageIO;
 
 import fr.escape.app.Disposable;
 
+/**
+ * 
+ * <p>
+ * This class is Immutable.
+ */
 public final class Texture implements Disposable {
 
 	private final BufferedImage image;

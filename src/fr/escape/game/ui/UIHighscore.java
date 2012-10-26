@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 
 import fr.escape.app.Game;
-import fr.escape.app.Overlay;
+import fr.escape.app.Input;
 import fr.escape.game.HighscoreUpdater.HighscoreListener;
 
-public class UIHighscore implements Overlay, HighscoreListener {
+public class UIHighscore extends AbstractOverlay implements HighscoreListener {
 
 	private static final int TOP_PADDING = 20;
 	private static final int LEFT_MARGIN = 10;
@@ -17,14 +17,12 @@ public class UIHighscore implements Overlay, HighscoreListener {
 	private final Color color;
 	
 	private int highscore;
-	private boolean isVisible;
 	
 	public UIHighscore(Game game) {
 		this.game = game;
 		this.font = game.getResources().getFont("visitor");
 		this.color = Color.WHITE;
 		this.highscore = 0;
-		this.isVisible = false;
 	}
 	
 	private int getTopPadding() {
@@ -37,24 +35,19 @@ public class UIHighscore implements Overlay, HighscoreListener {
 
 	@Override
 	public void render(long delta) {
-		if(isVisible) {
+		if(isVisible()) {
 			game.getGraphics().draw("Highscore: "+highscore, getLeftMargin(), getTopPadding(), font, color);
 		}
 	}
-
-	@Override
-	public void show() {
-		isVisible = true;
-	}
-
-	@Override
-	public void hide() {
-		isVisible = false;
-	}
-
+	
 	@Override
 	public void update(int highscore) {
 		this.highscore = highscore;
+	}
+
+	@Override
+	public boolean contains(Input touch) {
+		return false;
 	}
 
 }

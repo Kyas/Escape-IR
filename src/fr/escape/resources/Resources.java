@@ -6,7 +6,10 @@ import java.util.NoSuchElementException;
 
 import fr.escape.graphics.Texture;
 import fr.escape.resources.drawable.BErrorDrawable;
+import fr.escape.resources.drawable.BUIDrawable;
 import fr.escape.resources.drawable.DrawableLoader;
+import fr.escape.resources.drawable.WBlackholeDrawable;
+import fr.escape.resources.drawable.WFireballDrawable;
 import fr.escape.resources.font.FontLoader;
 import fr.escape.resources.font.Visitor;
 
@@ -26,6 +29,9 @@ public final class Resources {
 	private void init() {
 		fontLoader.put("visitor", new Visitor());
 		drawableLoader.put("berror", new BErrorDrawable());
+		drawableLoader.put("bui", new BUIDrawable());
+		drawableLoader.put("wblackhole", new WBlackholeDrawable());
+		drawableLoader.put("wfireball", new WFireballDrawable());
 	}
 	
 	public Font getFont(String name) throws NoSuchElementException {

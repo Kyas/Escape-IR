@@ -14,20 +14,23 @@ package fr.escape.game.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.escape.app.Input;
 import fr.escape.app.Overlay;
 
-public final class IngameUI implements Overlay {
+public final class IngameUI extends AbstractOverlay {
 	
 	private final List<Overlay> overlays;
-	private boolean isVisible;
 	
 	public IngameUI() {
 		overlays = new ArrayList<>();
-		this.isVisible = false;
 	}
 	
-	public boolean isVisible() {
-		return isVisible;
+	public boolean add(Overlay overlay) {
+		return overlays.add(overlay);
+	}
+	
+	public boolean remove(Overlay overlay) {
+		return overlays.remove(overlay);
 	}
 
 	@Override
@@ -41,7 +44,7 @@ public final class IngameUI implements Overlay {
 
 	@Override
 	public void show() {
-		isVisible = true;
+		super.show();
 		for(Overlay o : overlays) {
 			o.show();
 		}
@@ -49,9 +52,21 @@ public final class IngameUI implements Overlay {
 
 	@Override
 	public void hide() {
-		isVisible = false;
+		super.hide();
 		for(Overlay o : overlays) {
 			o.hide();
 		}
+	}
+
+	@Override
+	public boolean contains(Input touch) {
+		
+		for(Overlay o : overlays) {
+			if(o.contains(touch)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

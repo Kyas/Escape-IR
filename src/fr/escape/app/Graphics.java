@@ -158,7 +158,7 @@ public final class Graphics {
 	 * @param y Position Y in Display Screen
 	 */
 	public void draw(final Texture texture, final int x, final int y) {
-		draw(texture, x, y, texture.getWidth(), texture.getHeight());
+		draw(texture, x, y, x + texture.getWidth(), y + texture.getHeight());
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public final class Graphics {
 	 * @param height Ending Position Y in Display Screen
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height) {
-		draw(texture, x, y, width, height, 0, 0, width, height);
+		draw(texture, x, y, width, height, 0, 0, ((texture.getWidth() < width)?texture.getWidth():width), ((texture.getHeight() < height)?texture.getHeight():height));
 	}
 	
 	/**

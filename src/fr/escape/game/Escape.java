@@ -16,12 +16,15 @@ import fr.escape.app.Overlay;
 import fr.escape.game.screen.Splash;
 import fr.escape.game.screen.Error;
 import fr.escape.game.ui.IngameUI;
+import fr.escape.game.ui.UIHighscore;
+import fr.escape.game.ui.UIWeapons;
 
 public class Escape extends Game {
 
 	private Splash splash;
 	private Error error;
-	private Overlay ingameUI;
+	private IngameUI ingameUI;
+	private HighscoreUpdater highscoreUpdater;
 	
 	/**
 	 * @see Game#create()
@@ -30,10 +33,20 @@ public class Escape extends Game {
 	public void create() {
 		try {
 			
+			// Create Screen
 			splash = new Splash(this);
 			// Other Screen if any ...
 			
+			// Create Game Components
 			ingameUI = new IngameUI();
+			highscoreUpdater = new HighscoreUpdater();
+			
+			UIHighscore uHighscore = new UIHighscore(this);
+			UIWeapons uWeapons = new UIWeapons(this);
+			
+			highscoreUpdater.add(uHighscore);
+			ingameUI.add(uHighscore);
+			ingameUI.add(uWeapons);
 			
 			setScreen(splash);
 			
@@ -56,8 +69,24 @@ public class Escape extends Game {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Return the Overlay used as Ingame UI.
+	 * 
+	 * @return {@link Overlay}
+	 */
 	public Overlay getOverlay() {
 		return ingameUI;
 	}
-
+	
+	/**
+	 * <p>
+	 * Return the {@link HighscoreUpdater} used Ingame.
+	 * 
+	 * @return {@link HighscoreUpdater}
+	 */
+	public HighscoreUpdater getHighscoreUpdater() {
+		return highscoreUpdater;
+	}
+	
 }

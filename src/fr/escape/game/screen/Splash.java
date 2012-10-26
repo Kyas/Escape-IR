@@ -58,6 +58,7 @@ public class Splash implements Screen {
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
+		game.getHighscoreUpdater().update((int) time);
 	}
 
 	@Override
