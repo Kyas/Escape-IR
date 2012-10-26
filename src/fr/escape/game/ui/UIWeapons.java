@@ -8,12 +8,13 @@ import fr.escape.app.Input;
 import fr.escape.game.WeaponsUpdater.WeaponsListener;
 import fr.escape.graphics.Texture;
 import fr.escape.weapons.Weapon;
+import fr.escape.weapons.Weapons;
 
 public class UIWeapons extends AbstractOverlay {
 	
 	private final static int TOP_MARGING = 3;
 	private final static int BOTTOM_MARGING = 3;
-	private final static int LEFT_MARGING = 3;
+	private final static int LEFT_MARGING = 5;
 	private final static int RIGHT_MARGING = 3;
 	
 	private final Game game;
@@ -26,7 +27,7 @@ public class UIWeapons extends AbstractOverlay {
 	private int width;
 	private int height;
 
-	public UIWeapons(Game game, LinkedList<Weapon> weapons) {
+	public UIWeapons(Game game, List<Weapon> weapons) {
 		
 		this.game = game;
 		this.background = game.getResources().getDrawable("bui");
@@ -34,20 +35,27 @@ public class UIWeapons extends AbstractOverlay {
 		this.listeners = new LinkedList<>();
 		
 		this.width = game.getGraphics().getWidth();
-		this.y = (int) (((double) 1 / 5) * game.getGraphics().getHeight());
+		this.y = (int) (((double) 1 / 16) * game.getGraphics().getHeight());
 		
-		this.x = 0;
-//		this.x = game.getGraphics().getWidth() - (wea1.getWidth() + 6);
-//		this.y = 20;
-//		this.width = game.getGraphics().getWidth();
-//		this.height = y + wea1.getHeight() + 6;
+		this.x = this.width - (Weapons.getDrawableWidth() + LEFT_MARGING + RIGHT_MARGING);
+		this.height = this.y + (this.weapons.size() * (Weapons.getDrawableHeight() + TOP_MARGING + BOTTOM_MARGING));
 
 	}
 
 	@Override
 	public void render(long delta) {
-		game.getGraphics().draw(background, x, y, width, height);
-		//game.getGraphics().draw(wea1, x + 3, y + 3);
+		this.game.getGraphics().draw(this.background, this.x, this.y, this.width, this.height);
+		
+		int offset = this.y;
+		for(Weapon w : weapons) {
+			offset += TOP_MARGING;
+			this.game.getGraphics().draw(w.getDrawable(), this.x + LEFT_MARGING, offset);
+			offset += (Weapons.getDrawableHeight() + BOTTOM_MARGING);
+		}
+	}
+	
+	public void add(WeaponsListener listener) {
+		listeners.add(listener);
 	}
 
 	@Override

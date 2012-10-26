@@ -11,6 +11,9 @@
 
 package fr.escape.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.escape.app.Game;
 import fr.escape.app.Overlay;
 import fr.escape.game.screen.Splash;
@@ -18,6 +21,9 @@ import fr.escape.game.screen.Error;
 import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
 import fr.escape.game.ui.UIWeapons;
+import fr.escape.weapons.BlackHole;
+import fr.escape.weapons.Weapon;
+import fr.escape.weapons.Weapons;
 
 public class Escape extends Game {
 
@@ -42,7 +48,18 @@ public class Escape extends Game {
 			highscoreUpdater = new HighscoreUpdater();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			UIWeapons uWeapons = new UIWeapons(this);
+			
+			List<Weapon> lWeapons = new ArrayList<>();
+			
+			Weapon w = new BlackHole();
+			Weapons.validate(w);
+			
+			lWeapons.add(w);
+			lWeapons.add(w);
+			lWeapons.add(w);
+			lWeapons.add(w);
+			
+			UIWeapons uWeapons = new UIWeapons(this, lWeapons);
 			
 			highscoreUpdater.add(uHighscore);
 			ingameUI.add(uHighscore);
