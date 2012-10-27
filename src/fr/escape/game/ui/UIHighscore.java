@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 
 import fr.escape.app.Game;
-import fr.escape.game.HighscoreUpdater.HighscoreListener;
+import fr.escape.game.Receiver;
 
-public class UIHighscore extends AbstractOverlay implements HighscoreListener {
+public class UIHighscore extends AbstractOverlay implements Receiver {
 
 	private static final int TOP_PADDING = 20;
 	private static final int LEFT_MARGIN = 10;
@@ -38,9 +38,13 @@ public class UIHighscore extends AbstractOverlay implements HighscoreListener {
 			game.getGraphics().draw("Highscore: "+highscore, getLeftMargin(), getTopPadding(), font, color);
 		}
 	}
-	
+
 	@Override
-	public void update(int highscore) {
+	public void receive(int message) {
+		setHighscore(message);
+	}
+	
+	private void setHighscore(int highscore) {
 		this.highscore = highscore;
 	}
 
