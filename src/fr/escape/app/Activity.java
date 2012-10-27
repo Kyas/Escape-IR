@@ -258,6 +258,14 @@ public final class Activity {
 							}
 							
 						});
+					} else {
+						post(new Runnable() {
+							
+							@Override
+							public void run() {
+								listener.move(event);
+							}
+						});
 					}
 					break;
 				default : 

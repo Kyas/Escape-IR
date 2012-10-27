@@ -24,6 +24,11 @@ import fr.escape.game.ui.UIWeapons;
 import fr.escape.weapons.BlackHole;
 import fr.escape.weapons.Weapon;
 import fr.escape.weapons.Weapons;
+import fr.escape.input.BackOff;
+import fr.escape.input.Drift;
+import fr.escape.input.Gesture;
+import fr.escape.input.LeftLoop;
+import fr.escape.input.RightLoop;
 
 public class Escape extends Game {
 
@@ -46,6 +51,7 @@ public class Escape extends Game {
 			// Create Game Components
 			ingameUI = new IngameUI();
 			highscoreUpdater = new HighscoreUpdater();
+			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
 			
@@ -65,7 +71,13 @@ public class Escape extends Game {
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);
 			
+			gestures.add(new Drift());
+			gestures.add(new BackOff());
+			gestures.add(new LeftLoop());
+			gestures.add(new RightLoop());
+						
 			setScreen(splash);
+			setGestures(gestures);
 			
 		} catch(Exception e) {
 			error = new Error(this);
