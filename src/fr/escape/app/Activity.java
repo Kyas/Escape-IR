@@ -235,7 +235,7 @@ public final class Activity {
 	 * 
 	 */
 	public void event(final Input event,final Input lastEvent) {
-		
+
 		Objects.requireNonNull(event);
 		
 		switch(event.getKind().name()) {
