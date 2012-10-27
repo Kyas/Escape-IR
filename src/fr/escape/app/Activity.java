@@ -12,6 +12,7 @@
 package fr.escape.app;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 
 import fr.escape.input.EventListener;
@@ -234,6 +235,9 @@ public final class Activity {
 	 * 
 	 */
 	public void event(final Input event,final Input lastEvent) {
+
+		Objects.requireNonNull(event);
+		
 		switch(event.getKind().name()) {
 			case "ACTION_DOWN" :
 				break;

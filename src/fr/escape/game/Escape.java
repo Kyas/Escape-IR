@@ -37,7 +37,6 @@ public class Escape extends Game {
 	private Splash splash;
 	private Error error;
 	private IngameUI ingameUI;
-	private HighscoreUpdater highscoreUpdater;
 	
 	/**
 	 * @see Game#create()
@@ -52,7 +51,7 @@ public class Escape extends Game {
 			
 			// Create Game Components
 			ingameUI = new IngameUI();
-			highscoreUpdater = new HighscoreUpdater();
+
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
@@ -62,7 +61,24 @@ public class Escape extends Game {
 				public void setPosition(int x, int y) {
 					getGraphics().draw(getResources().getDrawable("wfireball"), x, y);
 				}
+
+				@Override
+				public List<Weapon> getAllWeapons() {
+					return null;
+				}
+
+				@Override
+				public boolean setActiveWeapon(int which) {
+					return false;
+				}
+
+				@Override
+				public int getActiveWeapon() {
+					return 0;
+				}
 			};
+			
+			getUser().register(uHighscore);
 			
 			List<Weapon> lWeapons = new ArrayList<>();
 			
@@ -74,9 +90,8 @@ public class Escape extends Game {
 			lWeapons.add(w);
 			lWeapons.add(w);
 			
-			UIWeapons uWeapons = new UIWeapons(this, lWeapons);
+			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons);
 			
-			highscoreUpdater.add(uHighscore);
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);
 			
@@ -137,16 +152,6 @@ public class Escape extends Game {
 	 */
 	public Overlay getOverlay() {
 		return ingameUI;
-	}
-	
-	/**
-	 * <p>
-	 * Return the {@link HighscoreUpdater} used Ingame.
-	 * 
-	 * @return {@link HighscoreUpdater}
-	 */
-	public HighscoreUpdater getHighscoreUpdater() {
-		return highscoreUpdater;
 	}
 	
 }

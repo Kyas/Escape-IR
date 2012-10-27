@@ -148,7 +148,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	 * @see ScrollingTexture#setXPercent(float)
 	 */
 	public void setYPercent(float percent) {
-		super.setYPercent(percent % 1.0f);	
+		super.setYPercent(percent % 1.0f);
 	}
 
 }

@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import fr.escape.game.User;
 import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.input.Gesture;
@@ -36,6 +37,12 @@ public abstract class Game implements RenderListener, EventListener {
 	private ArrayList<Gesture> gestures;
 	private final LinkedList<Input> events = new LinkedList<>();
 	private Ship ship;
+	
+	private User user;
+	
+	public Game() {
+		user = new User();
+	}
 	
 	public abstract void create();
 	
@@ -175,5 +182,14 @@ public abstract class Game implements RenderListener, EventListener {
 				events.add(i);
 		}*/
 		return true;
+	}
+	
+	/**
+	 * Retrieve the {@link User} in this Game.
+	 * 
+	 * @return {@link User}
+	 */
+	public User getUser() {
+		return user;
 	}
 }

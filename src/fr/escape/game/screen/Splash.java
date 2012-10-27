@@ -52,7 +52,7 @@ public class Splash implements Screen {
 		time += delta;
 		
 		if(logo == null) {
-			game.getActivity().error("Splash", "Cannot load image in memory");
+			game.getActivity().error(TAG, "Cannot load image in memory");
 		}
 		
 		float percent = ((float) time) / 10000;
@@ -67,7 +67,7 @@ public class Splash implements Screen {
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
-		game.getHighscoreUpdater().update((int) time);
+		game.getUser().setHighscore((int) time);
 	}
 
 	@Override
@@ -76,9 +76,7 @@ public class Splash implements Screen {
 	}
 
 	@Override
-	public void hide() {
-
-	}
+	public void hide() {}
 
 	@Override
 	public boolean touch(Input i) {
