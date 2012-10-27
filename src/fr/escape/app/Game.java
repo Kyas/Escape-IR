@@ -21,6 +21,7 @@ import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.input.Gesture;
 import fr.escape.resources.Resources;
+import fr.escape.ships.Ship;
 
 /**
  * <p>
@@ -34,6 +35,7 @@ public abstract class Game implements RenderListener, EventListener {
 	private Screen screen;
 	private ArrayList<Gesture> gestures;
 	private final LinkedList<Input> events = new LinkedList<>();
+	private Ship ship;
 	
 	public abstract void create();
 	
@@ -126,6 +128,28 @@ public abstract class Game implements RenderListener, EventListener {
 	/**
 	 * 
 	 */
+	public ArrayList<Gesture> getGestures() {
+		return gestures;
+	}
+	
+	/**
+	 * 
+	 */
+	public LinkedList<Input> getEvents() {
+		return events;
+	}
+	
+	public Ship getShip() {
+		return ship;
+	}
+	
+	public void setShip(Ship ship) {
+		this.ship = ship;
+	}
+	
+	/**
+	 * 
+	 */
 	public boolean touch(Input i) {
 		System.out.println("Touch");
 		return true;
@@ -135,21 +159,21 @@ public abstract class Game implements RenderListener, EventListener {
 	 * 
 	 */
 	public boolean move(Input i) {
-		Objects.requireNonNull(i);
+		/*Objects.requireNonNull(i);
 		switch(i.getKind().name()) {
 			case "ACTION_UP" :
 				Iterator<Input> it = events.iterator();
 				if(it.hasNext()) {
 					Input start = it.next(); it.remove();
 					for(Gesture g : gestures) {
-						if(g.accept(start,events,i)) System.out.println(g.getClass().toString());
+						if(g.accept(start,events,i)) ship.setPosition(i.getX(),i.getY());
 					}
 					events.clear();
 				}
 				break;
 			default :
 				events.add(i);
-		}
+		}*/
 		return true;
 	}
 }

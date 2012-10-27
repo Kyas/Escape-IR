@@ -30,7 +30,10 @@ public class Drift implements Gesture {
       		for(Input event : events) {
       			double yUp = cd * event.getX() + pUp;
       			double yDown = cd * event.getX() + pDown;
-      			if(yUp < event.getY() || yDown > event.getY()) return false;
+      			if(yUp < event.getY() || yDown > event.getY()) {
+      				System.out.println(event.getKind().name() + " " + yUp + " " + event.getY() + " " + yDown);
+      				return false;
+      			}
       		}
   		}
 		return valid;

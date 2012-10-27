@@ -22,6 +22,7 @@ import fr.escape.game.screen.Error;
 import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
 import fr.escape.game.ui.UIWeapons;
+import fr.escape.ships.Ship;
 import fr.escape.weapons.BlackHole;
 import fr.escape.weapons.Weapon;
 import fr.escape.weapons.Weapons;
@@ -56,6 +57,13 @@ public class Escape extends Game {
 			
 			UIHighscore uHighscore = new UIHighscore(this);
 			
+			Ship ship = new Ship() {
+				@Override
+				public void setPosition(int x, int y) {
+					getGraphics().draw(getResources().getDrawable("wfireball"), x, y);
+				}
+			};
+			
 			List<Weapon> lWeapons = new ArrayList<>();
 			
 			Weapon w = new BlackHole();
@@ -79,7 +87,7 @@ public class Escape extends Game {
 						
 			setScreen(splash);
 			setGestures(gestures);
-			
+			setShip(ship);
 		} catch(Exception e) {
 			error = new Error(this);
 			getActivity().error("Escape", "Exception raised during create()", e);

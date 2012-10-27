@@ -10,7 +10,7 @@ public class BackOff implements Gesture {
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end) {
 		if(start.getY() >= end.getY()) return false;
-		int height = Foundation.graphics.getHeight();
+		int height = 600;//Foundation.graphics.getHeight();
 		int coeff = 150;
 		int faultTolerence = 20;
 		boolean valid = false;
@@ -28,7 +28,8 @@ public class BackOff implements Gesture {
       		for(Input event : events) {
       			double yUp = cd * event.getX() + pUp;
       			double yDown = cd * event.getX() + pDown;
-      			if(yUp > event.getY() || yDown < event.getY()) return false;
+      			if(start.getX() <= end.getX() && (event.getY() < yUp || event.getY() > yDown)) return false;
+      			else if(start.getX() > end.getX() && (event.getY() > yUp || event.getY() < yDown)) return false;
       		}
   		}
 		return valid;

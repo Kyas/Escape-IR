@@ -13,13 +13,19 @@ package fr.escape.game.screen;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Objects;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
+import fr.escape.input.Gesture;
 
 public class Splash implements Screen {
 
@@ -56,6 +62,8 @@ public class Splash implements Screen {
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
+		game.getShip().setPosition(180,500);
+		
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
@@ -78,7 +86,32 @@ public class Splash implements Screen {
 	}
 
 	@Override
-	public boolean move(Input i) {
+	public boolean move(final Input i) {
+		Objects.requireNonNull(i);
+		LinkedList<Input> events = game.getEvents();
+		ArrayList<Gesture> gestures = game.getGestures();
+		switch(i.getKind().name()) {
+			case "ACTION_UP" :
+				Iterator<Input> it = events.iterator();
+				if(it.hasNext()) {
+					Input start = it.next(); it.remove();
+					for(Gesture g : gestures) {
+						if(g.accept(start,events,i)) {
+							System.out.println(i.getX() + " " + i.getY());
+							Foundation.activity.post(new Runnable() {
+								@Override
+								public void run() {
+									game.getShip().setPosition(i.getX(),i.getY());
+								}
+							});
+						}
+					}
+					events.clear();
+				}
+				break;
+			default :
+				events.add(i);
+		}
 		return false;
 	}
 
