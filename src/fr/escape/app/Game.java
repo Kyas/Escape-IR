@@ -21,6 +21,7 @@ import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.input.Gesture;
 import fr.escape.resources.Resources;
+import fr.umlv.zen2.MotionEvent;
 
 /**
  * <p>
@@ -135,15 +136,19 @@ public abstract class Game implements RenderListener, EventListener {
 	 */
 	public void move(Input i) {
 		Objects.requireNonNull(i);
-		if(i.getKind().name().equals("ACTION_UP")) {
-			for(Gesture g : gestures) {
+		switch(i.getKind().name()) {
+			case "ACTION_UP" :
 				Iterator<Input> it = events.iterator();
-				Input start = it.next(); it.remove();
-				if(g.accept(start,events,i)) System.out.println(g.getClass().toString());
-			}
-			events.clear();
-		} else {
-			events.add(i);
+				if(it.hasNext()) {
+					Input start = it.next(); it.remove();
+					for(Gesture g : gestures) {
+						if(g.accept(start,events,i)) System.out.println(g.getClass().toString());
+					}
+					events.clear();
+				}
+				break;
+			default :
+				events.add(i);
 		}
 	}
 }
