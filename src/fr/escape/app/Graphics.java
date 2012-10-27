@@ -244,4 +244,5 @@ public final class Graphics {
 	private Color getDefaultColor() {
 		return Color.BLACK;
 	}
+	
 }

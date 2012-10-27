@@ -1,6 +1,5 @@
 package fr.escape.game;
 
-import fr.escape.app.Foundation;
 import fr.escape.ships.Ship;
 
 public final class User implements Receiver, Sender {
@@ -23,14 +22,14 @@ public final class User implements Receiver, Sender {
 		this.highscore = highscore;
 		this.send(highscore);
 	}
-	
-	public void setReceiver(Receiver receiver) {
-		this.receiver = receiver;
-	}
 
 	/**
 	 * <p>
-	 * Send Highscore for Receiver.
+	 * Send Highscore for a Receiver.
+	 * 
+	 * <p>
+	 * This method DOES NOT update the Highscore, 
+	 * use {@link User#setHighscore(int)} instead.
 	 * 
 	 * @param highscore Highscore
 	 */
@@ -44,13 +43,23 @@ public final class User implements Receiver, Sender {
 
 	/**
 	 * <p>
-	 * Receive Weapon Selection.
+	 * Receive Weapon Selection from a {@link Sender} and 
+	 * change the active weapon on {@link User#ship}.
 	 * 
 	 * @param weaponID Weapon ID
+	 * @see Ship#setActiveWeapon(int)
 	 */
 	@Override
 	public void receive(int weaponID) {
 		ship.setActiveWeapon(weaponID);
+	}
+
+	/**
+	 * @see {@link Sender#register(Receiver)}
+	 */
+	@Override
+	public void register(Receiver receiver) {
+		this.receiver = receiver;
 	}
 	
 }

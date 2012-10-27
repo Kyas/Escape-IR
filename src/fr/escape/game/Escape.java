@@ -55,7 +55,7 @@ public class Escape extends Game {
 			
 			UIHighscore uHighscore = new UIHighscore(this);
 			
-			getUser().setReceiver(uHighscore);
+			getUser().register(uHighscore);
 			
 			List<Weapon> lWeapons = new ArrayList<>();
 			
@@ -67,7 +67,7 @@ public class Escape extends Game {
 			lWeapons.add(w);
 			lWeapons.add(w);
 			
-			UIWeapons uWeapons = new UIWeapons(this, lWeapons, getUser());
+			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons);
 			
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);

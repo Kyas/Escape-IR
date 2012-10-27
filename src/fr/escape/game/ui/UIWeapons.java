@@ -31,7 +31,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 	private int width;
 	private int height;
 
-	public UIWeapons(Game game, List<Weapon> weapons, Receiver receiver) {
+	public UIWeapons(Game game, Receiver receiver, List<Weapon> weapons) {
 		
 		Objects.requireNonNull(game);
 		Objects.requireNonNull(weapons);
@@ -78,6 +78,17 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 		}
 	}
 	
+	/**
+	 * <p>
+	 * Send the Weapons ID to the Receiver.
+	 * 
+	 * @param weaponsID Weapon ID
+	 */
+	@Override
+	public void send(int weaponsID) {
+		receiver.receive(weaponsID);
+	}
+
 	@Override
 	public boolean touch(Input touch) {
 		
@@ -94,14 +105,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 		return false;
 	}
 
-	/**
-	 * <p>
-	 * Send the Weapons ID to the Receiver.
-	 * 
-	 * @param weaponsID Weapon ID
-	 */
 	@Override
-	public void send(int weaponsID) {
-		receiver.receive(weaponsID);
-	}
+	public void register(Receiver receiver) {}
+	
 }
