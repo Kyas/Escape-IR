@@ -21,7 +21,6 @@ import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.input.Gesture;
 import fr.escape.resources.Resources;
-import fr.umlv.zen2.MotionEvent;
 
 /**
  * <p>

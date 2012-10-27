@@ -234,43 +234,41 @@ public final class Activity {
 	 * 
 	 */
 	public void event(final Input event,final Input lastEvent) {
-		if(!event.isEmpty()) {
-			switch(event.getKind().name()) {
-				case "ACTION_DOWN" :
-					break;
-				case "ACTION_MOVE" :
+		switch(event.getKind().name()) {
+			case "ACTION_DOWN" :
+				break;
+			case "ACTION_MOVE" :
+				post(new Runnable() {
+					
+					@Override
+					public void run() {
+						listener.move(lastEvent);
+					}
+					
+				});
+				break;
+			case "ACTION_UP" :
+				if(lastEvent.getKind().name().equals("ACTION_DOWN")) {
 					post(new Runnable() {
 						
 						@Override
 						public void run() {
-							listener.move(lastEvent);
+							listener.touch(lastEvent);
 						}
 						
 					});
-					break;
-				case "ACTION_UP" :
-					if(lastEvent.getKind().name().equals("ACTION_DOWN")) {
-						post(new Runnable() {
-							
-							@Override
-							public void run() {
-								listener.touch(lastEvent);
-							}
-							
-						});
-					} else {
-						post(new Runnable() {
-							
-							@Override
-							public void run() {
-								listener.move(event);
-							}
-						});
-					}
-					break;
-				default : 
-					break;
-			}
+				} else {
+					post(new Runnable() {
+						
+						@Override
+						public void run() {
+							listener.move(event);
+						}
+					});
+				}
+				break;
+			default : 
+				break;
 		}
 	}
 	
