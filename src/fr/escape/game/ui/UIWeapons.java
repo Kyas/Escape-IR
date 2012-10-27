@@ -1,5 +1,6 @@
 package fr.escape.game.ui;
 
+import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class UIWeapons extends AbstractOverlay {
 	private final Texture background;
 	private final List<Weapon> weapons;
 	private final List<WeaponsListener> listeners;
+	private final List<Rectangle> touchArea;
 	
 	private int x;
 	private int y;
@@ -39,7 +41,23 @@ public class UIWeapons extends AbstractOverlay {
 		
 		this.x = this.width - (Weapons.getDrawableWidth() + LEFT_MARGING + RIGHT_MARGING);
 		this.height = this.y + (this.weapons.size() * (Weapons.getDrawableHeight() + TOP_MARGING + BOTTOM_MARGING));
-
+		
+		this.touchArea = new LinkedList<>();
+		
+		int offset = this.y;
+		for(int i = 0; i < weapons.size(); i++) {
+			
+			Rectangle r = new Rectangle(
+					this.x + LEFT_MARGING, 
+					offset + TOP_MARGING,
+					Weapons.getDrawableWidth() + RIGHT_MARGING,
+					Weapons.getDrawableHeight() + BOTTOM_MARGING
+			);
+			
+			offset += TOP_MARGING + Weapons.getDrawableHeight() + BOTTOM_MARGING;
+			touchArea.add(r);
+			
+		}
 	}
 
 	@Override
@@ -60,6 +78,19 @@ public class UIWeapons extends AbstractOverlay {
 
 	@Override
 	public boolean touch(Input touch) {
+		
+		int i = 0;
+		
+		for(Rectangle rectangle : touchArea) {
+			if(rectangle.contains(touch.getX(), touch.getY())) {
+				for(WeaponsListener listener : listeners) {
+					listener.select(i);
+				}
+				return true;
+			}
+			i++;
+		}
+		
 		return false;
 	}
 }

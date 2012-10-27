@@ -68,9 +68,7 @@ public class Splash implements Screen {
 	}
 
 	@Override
-	public void hide() {
-
-	}
+	public void hide() {}
 
 	@Override
 	public boolean touch(Input i) {

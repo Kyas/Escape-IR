@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 
 import fr.escape.app.Game;
-import fr.escape.app.Input;
 import fr.escape.game.HighscoreUpdater.HighscoreListener;
 
 public class UIHighscore extends AbstractOverlay implements HighscoreListener {
