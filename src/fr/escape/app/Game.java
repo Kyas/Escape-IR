@@ -126,14 +126,15 @@ public abstract class Game implements RenderListener, EventListener {
 	/**
 	 * 
 	 */
-	public void touch(Input i) {
+	public boolean touch(Input i) {
 		System.out.println("Touch");
+		return true;
 	}
 	
 	/**
 	 * 
 	 */
-	public void move(Input i) {
+	public boolean move(Input i) {
 		Objects.requireNonNull(i);
 		if(i.getKind().name().equals("ACTION_UP")) {
 			for(Gesture g : gestures) {
@@ -145,5 +146,6 @@ public abstract class Game implements RenderListener, EventListener {
 		} else {
 			events.add(i);
 		}
+		return true;
 	}
 }

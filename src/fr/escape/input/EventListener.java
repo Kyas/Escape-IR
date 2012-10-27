@@ -3,6 +3,6 @@ package fr.escape.input;
 import fr.escape.app.Input;
 
 public interface EventListener {
-	public void touch(Input i);
-	public void move(Input i);
+	public boolean touch(Input i);
+	public boolean move(Input i);
 }

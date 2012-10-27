@@ -25,8 +25,4 @@ public class Input {
 		return event.getKind();
 	}
 	
-	public boolean isNull() {
-		return event == null;
-	}
-
 }

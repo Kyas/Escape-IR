@@ -45,9 +45,4 @@ public class UIHighscore extends AbstractOverlay implements HighscoreListener {
 		this.highscore = highscore;
 	}
 
-	@Override
-	public boolean contains(Input touch) {
-		return false;
-	}
-
 }

@@ -11,12 +11,14 @@
 
 package fr.escape.app;
 
+import fr.escape.input.EventListener;
+
 /**
  * Represents one of many game screens, like main menu, or settings etc...
  * 
  * @see Game
  */
-public interface Screen {
+public interface Screen extends EventListener {
 	
 	/**
 	 * Called when the screen should render itself.

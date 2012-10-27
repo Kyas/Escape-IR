@@ -234,7 +234,7 @@ public final class Activity {
 	 * 
 	 */
 	public void event(final Input event,final Input lastEvent) {
-		if(!event.isNull()) {
+		if(!event.isEmpty()) {
 			switch(event.getKind().name()) {
 				case "ACTION_DOWN" :
 					break;

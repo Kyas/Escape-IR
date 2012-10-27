@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.escape.app.Game;
+import fr.escape.app.Input;
 import fr.escape.app.Overlay;
 import fr.escape.game.screen.Splash;
 import fr.escape.game.screen.Error;
@@ -96,6 +97,28 @@ public class Escape extends Game {
 		if(ingameUI != null) {
 			ingameUI.render(getGraphics().getDeltaTime());
 		}
+	}
+	
+	/**
+	 * @see Game#touch(Input)
+	 */
+	@Override
+	public boolean touch(Input i) {
+		if(getOverlay().touch(i)) {
+			return true;
+		}
+		return getScreen().touch(i);
+	}
+	
+	/**
+	 * @see Game#move(Input)
+	 */
+	@Override
+	public boolean move(Input i) {
+		if(getOverlay().move(i)) {
+			return true;
+		}
+		return getScreen().move(i);
 	}
 
 	/**
