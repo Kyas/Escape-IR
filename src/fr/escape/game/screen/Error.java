@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.graphics.RepeatableScrollingTexture;
@@ -104,5 +105,15 @@ public class Error implements Screen {
 
 	@Override
 	public void hide() {}
+
+	@Override
+	public boolean touch(Input i) {
+		return false;
+	}
+
+	@Override
+	public boolean move(Input i) {
+		return false;
+	}
 
 }

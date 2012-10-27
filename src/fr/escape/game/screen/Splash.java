@@ -14,6 +14,7 @@ package fr.escape.game.screen;
 import java.io.File;
 import java.io.IOException;
 
+import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.graphics.RepeatableScrollingTexture;
@@ -69,6 +70,16 @@ public class Splash implements Screen {
 	@Override
 	public void hide() {
 
+	}
+
+	@Override
+	public boolean touch(Input i) {
+		return false;
+	}
+
+	@Override
+	public boolean move(Input i) {
+		return false;
 	}
 
 }

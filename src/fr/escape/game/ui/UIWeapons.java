@@ -59,7 +59,7 @@ public class UIWeapons extends AbstractOverlay {
 	}
 
 	@Override
-	public boolean contains(Input touch) {
+	public boolean touch(Input touch) {
 		return false;
 	}
 }

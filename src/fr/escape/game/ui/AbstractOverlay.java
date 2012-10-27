@@ -1,6 +1,8 @@
 package fr.escape.game.ui;
 
+import fr.escape.app.Input;
 import fr.escape.app.Overlay;
+import fr.escape.input.EventListener;
 
 public abstract class AbstractOverlay implements Overlay {
 	
@@ -34,6 +36,22 @@ public abstract class AbstractOverlay implements Overlay {
 	 */
 	public boolean isVisible() {
 		return isVisible;
+	}
+	
+	/**
+	 * @see EventListener#touch(Input)
+	 */
+	@Override
+	public boolean touch(Input touch) {
+		return false;
+	}
+
+	/**
+	 * @see EventListener#move(Input)
+	 */
+	@Override
+	public boolean move(Input move) {
+		return false;
 	}
 	
 }
