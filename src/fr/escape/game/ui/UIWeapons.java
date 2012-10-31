@@ -1,11 +1,14 @@
 package fr.escape.game.ui;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 import fr.escape.app.Game;
+import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.game.Receiver;
 import fr.escape.game.Sender;
@@ -19,9 +22,12 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 	private final static int BOTTOM_MARGING = 3;
 	private final static int LEFT_MARGING = 5;
 	private final static int RIGHT_MARGING = 3;
+	private final static float FONT_SIZE = 10.0f;
+	private final static Color FONT_COLOR = Color.WHITE;
 	
 	private final Game game;
 	private final Texture background;
+	private final Font font;
 	private final List<Weapon> weapons;
 	private final List<Rectangle> touchArea;
 	private final Receiver receiver;
@@ -39,6 +45,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 		
 		this.game = game;
 		this.background = game.getResources().getDrawable("bui");
+		this.font = game.getResources().getFont("visitor").deriveFont(FONT_SIZE);
 		this.weapons = weapons;
 		this.receiver = receiver;
 		
@@ -64,6 +71,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 			touchArea.add(r);
 			
 		}
+
 	}
 
 	@Override
@@ -72,8 +80,12 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 		
 		int offset = this.y;
 		for(Weapon w : weapons) {
+			
 			offset += TOP_MARGING;
-			this.game.getGraphics().draw(w.getDrawable(), this.x + LEFT_MARGING, offset);
+			
+			renderWeaponDrawable(w.getDrawable(), this.x + LEFT_MARGING, offset);
+			renderWeaponAmmunition(String.valueOf(w.getAmmunition()), this.x + LEFT_MARGING, (offset + Weapons.getDrawableHeight()), LEFT_MARGING);
+			
 			offset += (Weapons.getDrawableHeight() + BOTTOM_MARGING);
 		}
 	}
@@ -108,4 +120,11 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 	@Override
 	public void register(Receiver receiver) {}
 	
+	private void renderWeaponDrawable(Texture weapon, int x, int y) {
+		game.getGraphics().draw(weapon, x, y);
+	}
+	
+	private void renderWeaponAmmunition(String ammunition, int x, int y, int offset) {
+		game.getGraphics().draw(ammunition, x + offset, y - offset, font, FONT_COLOR);
+	}
 }

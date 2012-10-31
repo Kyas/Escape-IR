@@ -18,4 +18,8 @@ public class BlackHole implements Weapon {
 		return drawable;
 	}
 
+	public int getAmmunition() {
+		return 655;
+	}
+	
 }

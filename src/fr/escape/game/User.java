@@ -1,5 +1,6 @@
 package fr.escape.game;
 
+import fr.escape.app.Foundation;
 import fr.escape.ships.Ship;
 
 public final class User implements Receiver, Sender {
@@ -51,7 +52,8 @@ public final class User implements Receiver, Sender {
 	 */
 	@Override
 	public void receive(int weaponID) {
-		ship.setActiveWeapon(weaponID);
+		Foundation.activity.debug("User", "Weapons: "+weaponID);
+		//ship.setActiveWeapon(weaponID);
 	}
 
 	/**
@@ -61,5 +63,14 @@ public final class User implements Receiver, Sender {
 	public void register(Receiver receiver) {
 		this.receiver = receiver;
 	}
+
+	// TODO DEBUG
+	public void setShip(Ship ship) {
+		this.ship = ship;
+	}
 	
+	// TODO DEBUG
+	public Ship getShip() {
+		return this.ship;
+	}
 }

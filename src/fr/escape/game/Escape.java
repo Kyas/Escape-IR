@@ -76,9 +76,11 @@ public class Escape extends Game {
 				public int getActiveWeapon() {
 					return 0;
 				}
+
 			};
 			
 			getUser().register(uHighscore);
+			getUser().setShip(ship);
 			
 			List<Weapon> lWeapons = new ArrayList<>();
 			
