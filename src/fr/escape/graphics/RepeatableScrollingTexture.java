@@ -11,6 +11,8 @@
 
 package fr.escape.graphics;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 /**
@@ -37,6 +39,16 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	}
 	
 	/**
+	 * A Repeatable ScrollingTexture with a given Texture.
+	 * 
+	 * @param texture Texture to use.
+	 * @param reverse Apply a reverse scrolling.
+	 */
+	public RepeatableScrollingTexture(Texture texture, boolean reverse) {
+		super(texture, reverse);
+	}
+	
+	/**
 	 * Draw the RepeatableScrollingTexture in 4 part :
 	 * 
 	 * +-------+--------+
@@ -55,80 +67,124 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	@Override
 	public void draw(Graphics2D graphics, int x, int y, int width, int height) {
 		
+		boolean repeatX = true;
+		boolean repeatY = true;
+		
 		/**
 		 * Check if we can draw safely without scaling.
 		 */
-		// TODO Implements Scaling
 		if(width > getTexture().getWidth()) {
-			throw new IllegalArgumentException("Scale is not implemented for RepeatableScrollingTexture, drawing width must be lesser than Texture width");
+			repeatX = false;
 		}
 		if(height > getTexture().getHeight()) {
-			throw new IllegalArgumentException("Scale is not implemented for RepeatableScrollingTexture, drawing height must be lesser than Texture height");
+			repeatY = false;
 		}
 		
 		/**
-		 * Compute Texture Width Area
+		 * Check if we can repeat at least one axis.
+		 * 
+		 * Otherwise, use ScrollingTexture.
 		 */
-		int srcX = (int) (getXPercent() * getTexture().getWidth());
-		int srcWidth = srcX + width;
-		
-		/**
-		 * Check Width boundary.
-		 */
-		if(srcWidth > getTexture().getWidth()) {
-			srcWidth = getTexture().getWidth();
+		if(repeatX || repeatY) {
+			
+			/**
+			 * Compute Texture Width Area
+			 */
+			int srcX;
+			if(isReversed()) {
+				srcX = (int) ((1.0f - getXPercent()) * getTexture().getWidth());
+			} else {
+				srcX = (int) (getXPercent() * getTexture().getWidth());
+			}
+			int srcWidth = srcX + width;
+			
+			/**
+			 * Check Width boundary.
+			 */
+			srcWidth = checkMaximumBoundary(srcWidth, getTexture().getWidth());
+			srcX = checkMinimumBoundary(srcX);
+			
+			/**
+			 * Compute Texture Height Area
+			 */
+			int srcY;
+			if(isReversed()) {
+				srcY = (int) ((1.0f - getYPercent()) * getTexture().getHeight());
+			} else {
+				srcY = (int) (getYPercent() * getTexture().getHeight());
+			}
+			int srcHeight = srcY + height;
+			
+			/**
+			 * Check Height boundary.
+			 */
+			srcHeight = checkMaximumBoundary(srcHeight, getTexture().getHeight());
+			srcY = checkMinimumBoundary(srcY);
+			
+			/**
+			 * Compute what is drawn
+			 */
+			int deltaHeight = srcHeight - srcY;
+			int deltaWidth = srcWidth - srcX;
+			
+			if(!repeatX) {
+				deltaWidth = width;
+			}
+			if(!repeatY) {
+				deltaHeight = height;
+			}
+			
+			/**
+			 * Draw the Part 1 Texture.
+			 */
+			getTexture().draw(graphics, x, y, deltaWidth, deltaHeight, srcX, srcY, srcWidth, srcHeight);
+			// TODO REMOVE IT
+			//debugPart(graphics, x, y, 1);
+			
+			/**
+			 * Compute Texture Width Area for Part 2
+			 */
+			int srcX2 = 0;
+			int srcWidth2 = width - deltaWidth;
+			
+			/**
+			 * Draw the Part 2 Texture.
+			 */
+			if(repeatX) {
+				getTexture().draw(graphics, deltaWidth, y, width, deltaHeight, srcX2, srcY, srcWidth2, srcHeight);
+				// TODO REMOVE IT
+				//debugPart(graphics, deltaWidth, y, 2);
+			}
+			
+			
+			/**
+			 * Compute Texture Height Area for Part 3
+			 */
+			int srcY3 = 0;
+			int srcHeight3 = height - deltaHeight;
+			
+			/**
+			 * Draw the Part 3 Texture.
+			 */
+			if(repeatY) {
+				getTexture().draw(graphics, x, deltaHeight, deltaWidth, height, srcX, srcY3, srcWidth, srcHeight3);
+				// TODO REMOVE IT
+				//debugPart(graphics, x, deltaHeight, 3);
+			}
+			
+			/**
+			 * Draw the Final Part, the Part 4 Texture. 
+			 */
+			if(repeatX && repeatY) {
+				getTexture().draw(graphics, deltaWidth, deltaHeight, width, height, srcX2, srcY3, srcWidth2, srcHeight3);
+				// TODO REMOVE IT
+				//debugPart(graphics, deltaWidth, deltaHeight, 4);
+			}
+			
+		} else {
+			super.draw(graphics, x, y, width, height);
 		}
 		
-		/**
-		 * Compute Texture Height Area
-		 */
-		int srcY = (int) (getYPercent() * getTexture().getHeight());
-		int srcHeight = srcY + height;
-		
-		/**
-		 * Check Height boundary.
-		 */
-		if(srcHeight > getTexture().getHeight()) {
-			srcHeight = getTexture().getHeight();
-		}
-		
-		/**
-		 * Compute what is drawn
-		 */
-		int deltaHeight = srcHeight - srcY;
-		int deltaWidth = srcWidth - srcX; 
-		
-		/**
-		 * Draw the Part 1 Texture.
-		 */
-		getTexture().draw(graphics, x, y, deltaWidth, deltaHeight, srcX, srcY, srcWidth, srcHeight);
-		
-		/**
-		 * Compute Texture Width Area for Part 2
-		 */
-		int srcX2 = 0;
-		int srcWidth2 = width - deltaWidth;
-		
-		/**
-		 * Draw the Part 2 Texture.
-		 */
-		getTexture().draw(graphics, deltaWidth, y, width, deltaHeight, srcX2, srcY, srcWidth2, srcHeight);
-		
-		/**
-		 * Compute Texture Height Area for Part 3
-		 */
-		int srcY3 = 0;
-		int srcHeight3 = height - deltaHeight;
-		
-		/**
-		 * Draw the Part 3 Texture.
-		 */
-		getTexture().draw(graphics, x, deltaHeight, deltaWidth, height, srcX, srcY3, srcWidth, srcHeight3);
-		
-		/**
-		 * Draw the Final Part, the Part 4 Texture. 
-		 */
-		getTexture().draw(graphics, deltaWidth, deltaHeight, width, height, srcX2, srcY3, srcWidth2, srcHeight3);
 	}
 	
 	/**
@@ -151,4 +207,15 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 		super.setYPercent(percent % 1.0f);
 	}
 
+	// TODO REMOVE IT
+//	private void debugPart(Graphics2D graphics, int x, int y, int id) {
+//		Color old = graphics.getColor();
+//		Font font = graphics.getFont();
+//		graphics.setFont(new Font("Arial", Font.BOLD, 15));
+//		graphics.setColor(Color.BLUE);
+//		graphics.drawString(String.valueOf(id), x, y+15);
+//		graphics.setColor(old);
+//		graphics.setFont(font);
+//	}
+	
 }

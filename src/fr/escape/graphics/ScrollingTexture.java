@@ -39,6 +39,11 @@ public class ScrollingTexture implements TextureOperator {
 	 * Percent of scrolling in Y axis.
 	 */
 	private float percentY;
+
+	/**
+	 * Reverse the scrolling Effet.
+	 */
+	private boolean reverse;
 	
 	/**
 	 * A Scrolling Texture with a given Texture.
@@ -46,9 +51,20 @@ public class ScrollingTexture implements TextureOperator {
 	 * @param texture Texture to use.
 	 */
 	public ScrollingTexture(Texture texture) {
+		this(texture, false);
+	}
+	
+	/**
+	 * A Scrolling Texture with a given Texture.
+	 * 
+	 * @param texture Texture to use.
+	 * @param reverse Apply a reverse scrolling.
+	 */
+	public ScrollingTexture(Texture texture, boolean reverse) {
 		this.texture = texture;
 		this.percentX = 0;
 		this.percentY = 0;
+		this.reverse = reverse;
 	}
 
 	/**
@@ -78,28 +94,42 @@ public class ScrollingTexture implements TextureOperator {
 		/**
 		 * Compute Texture Width Area
 		 */
-		int srcX = (int) (percentX * maxWidth);
-		int srcWidth = srcX + width;
+		int srcX;
+		int srcWidth;
+		
+		if(isReversed()) {
+			srcWidth = texture.getWidth() - ((int) percentX * maxWidth);
+			srcX = srcWidth - width;
+		} else {
+			srcX = (int) (percentX * maxWidth);
+			srcWidth = srcX + width;
+		}
 		
 		/**
 		 * Check Width boundary.
 		 */
-		if(srcWidth > texture.getWidth()) {
-			srcWidth = texture.getWidth();
-		}
+		srcWidth = checkMaximumBoundary(srcWidth, texture.getWidth());
+		srcX = checkMinimumBoundary(srcX);
 		
 		/**
 		 * Compute Texture Height Area
 		 */
-		int srcY = (int) (percentY * maxHeight);
-		int srcHeight = srcY + height;
+		int srcY;
+		int srcHeight;
+		
+		if(isReversed()) {
+			srcHeight = texture.getHeight() - (int)(percentY * maxHeight);
+			srcY = srcHeight - height;
+		} else {
+			srcY = (int) (percentY * maxHeight);
+			srcHeight = srcY + height;
+		}
 		
 		/**
 		 * Check Height boundary.
 		 */
-		if(srcHeight > texture.getHeight()) {
-			srcHeight = texture.getHeight();
-		}
+		srcHeight = checkMaximumBoundary(srcHeight, texture.getHeight());
+		srcY = checkMinimumBoundary(srcY);
 		
 		/**
 		 * Draw the Texture.
@@ -162,4 +192,15 @@ public class ScrollingTexture implements TextureOperator {
 		return texture;
 	}
 	
+	protected int checkMinimumBoundary(int src) {
+		return (src < 0)?0:src;
+	}
+	
+	protected int checkMaximumBoundary(int src, int max) {
+		return (src > max)?max:src;
+	}
+	
+	protected boolean isReversed() {
+		return reverse;
+	}
 }

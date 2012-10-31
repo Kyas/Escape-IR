@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 import fr.escape.graphics.RenderListener;
 import fr.escape.graphics.Texture;
@@ -32,8 +33,9 @@ public final class Graphics {
 	private final int width;
 	private final int heigt;
 	private final int displayFps;
+	private final BufferedImage gBuffer;
+	private final Graphics2D g2d;
 	
-	private Graphics2D g2d;
 	private long lastRender;
 	private int rawFps;
 	private int smoothFps;
@@ -44,6 +46,8 @@ public final class Graphics {
 		this.width = configuration.width;
 		this.heigt = configuration.height;
 		this.displayFps = configuration.fps;
+		this.gBuffer = new BufferedImage(width, heigt, BufferedImage.TYPE_INT_ARGB);
+		this.g2d = this.gBuffer.createGraphics();
 		
 		this.listener = listener;
 		this.lastRender = System.currentTimeMillis();
@@ -95,15 +99,13 @@ public final class Graphics {
 			@Override
 			public void render(Graphics2D graphics) {
 				
-				// Set Graphics Engine
-				g2d = graphics;
-				
 				// Flush and clear previous drawing
-				graphics.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+				g2d.fill(new Rectangle(0, 0, getWidth(), getHeight()));
 				
 				// Start Game Rendering
 				listener.render();
 				
+				graphics.drawImage(gBuffer, 0, 0, null);
 			}
 		});
 		
@@ -191,7 +193,7 @@ public final class Graphics {
 	 * @param srcHeight Ending Position Y in Texture
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
-		this.draw(texture, x, y, srcWidth - srcX, srcHeight - srcY, srcX, srcY, srcWidth, srcHeight);
+		draw(texture, x, y, srcWidth - srcX, srcHeight - srcY, srcX, srcY, srcWidth, srcHeight);
 	}
 	
 	/**

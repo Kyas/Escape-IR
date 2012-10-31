@@ -42,7 +42,8 @@ public class Splash implements Screen {
 		this.time = 0;
 		
 		this.logo = new Texture(new File("res/Escape-IR.png"));
-		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")));
+		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
+		//this.background = new ScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		
 	}
 	
@@ -57,7 +58,7 @@ public class Splash implements Screen {
 		
 		float percent = ((float) time) / 10000;
 		
-		// background.setXPercent(percent);
+		//background.setXPercent(percent);
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
