@@ -2,7 +2,6 @@ package fr.escape.input;
 
 import java.util.List;
 
-import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 
 public class BackOff implements Gesture {

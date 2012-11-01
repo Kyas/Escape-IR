@@ -7,7 +7,7 @@ import fr.escape.app.Input;
 public class LeftLoop implements Gesture {
 
 	@Override
-	public boolean accept(Input start, List<Input> events,Input end) {
+	public boolean accept(Input start, List<Input> events, Input end) {
 		boolean valid = true;
 		int faultTolerance = 90;
 		int coeff = 25;
