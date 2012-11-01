@@ -8,6 +8,7 @@ import fr.escape.graphics.Texture;
 import fr.escape.resources.drawable.BErrorDrawable;
 import fr.escape.resources.drawable.BUIDrawable;
 import fr.escape.resources.drawable.DrawableLoader;
+import fr.escape.resources.drawable.SWin;
 import fr.escape.resources.drawable.WBlackholeDrawable;
 import fr.escape.resources.drawable.WFireballDrawable;
 import fr.escape.resources.font.FontLoader;
@@ -32,6 +33,7 @@ public final class Resources {
 		drawableLoader.put("bui", new BUIDrawable());
 		drawableLoader.put("wblackhole", new WBlackholeDrawable());
 		drawableLoader.put("wfireball", new WFireballDrawable());
+		drawableLoader.put("swin", new SWin());
 	}
 	
 	public Font getFont(String name) throws NoSuchElementException {

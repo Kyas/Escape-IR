@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.escape.app.Game;
-import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.game.Receiver;
 import fr.escape.game.Sender;

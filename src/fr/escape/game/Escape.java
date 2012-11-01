@@ -57,9 +57,13 @@ public class Escape extends Game {
 			UIHighscore uHighscore = new UIHighscore(this);
 			
 			Ship ship = new Ship() {
+				
+				private double angle = 0; 
+				
 				@Override
 				public void setPosition(int x, int y) {
-					getGraphics().draw(getResources().getDrawable("wfireball"), x, y);
+					angle = (angle + 1) % 360;
+					getGraphics().draw(getResources().getDrawable("swin"), x, y, angle);
 				}
 
 				@Override

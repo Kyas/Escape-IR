@@ -26,8 +26,10 @@ import fr.umlv.zen2.ApplicationRenderCode;
 // TODO Comment this class
 public final class Graphics {
 	
-	private final static int MINIMUM_WAKEUP_TIME = 4;
+	private final static int MINIMUM_WAKEUP_TIME = 0;
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
+	private final static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 14);
+	private final static Color DEFAULT_COLOR = Color.BLACK;
 	
 	private final RenderListener listener;
 	private final int width;
@@ -85,14 +87,56 @@ public final class Graphics {
 		return smoothFps;
 	}
 	
+	/**
+	 * @return The requested number of frames per second.
+	 */
 	public int getRequestedFramesPerSecond() {
 		return displayFps;
 	}
 	
+	/**
+	 * @return Wait time until next render.
+	 */
 	public int getNextWakeUp() {
 		return wakeUp;
 	}
 	
+	/**
+	 * Return render listener for Drawing.
+	 * 
+	 * @return {@link RenderListener}
+	 */
+	RenderListener getRenderListener() {
+		return listener;
+	}
+	
+	/**
+	 * Return Buffered Image as Frame.
+	 * 
+	 * @return {@link BufferedImage}
+	 */
+	BufferedImage getBufferedImage() {
+		return gBuffer;
+	}
+	
+	/**
+	 * Return Buffered Graphics for Frame.
+	 * 
+	 * @return {@link Graphics2D}
+	 */
+	Graphics2D getBufferedGraphics() {
+		return g2d;
+	}
+	
+	/**
+	 * <p>
+	 * Core Engine for Rendering.
+	 * 
+	 * <p>
+	 * Called by {@link Activity} at each loop.
+	 * 
+	 * @param context ApplicationContext used in Zen2 library.
+	 */
 	public void render(final ApplicationContext context) {
 
 		context.render(new ApplicationRenderCode() {
@@ -100,12 +144,13 @@ public final class Graphics {
 			public void render(Graphics2D graphics) {
 				
 				// Flush and clear previous drawing
-				g2d.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+				getBufferedGraphics().fill(new Rectangle(0, 0, getWidth(), getHeight()));
 				
 				// Start Game Rendering
-				listener.render();
+				getRenderListener().render();
 				
-				graphics.drawImage(gBuffer, 0, 0, null);
+				// Draw Graphics
+				graphics.drawImage(getBufferedImage(), 0, 0, null);
 			}
 		});
 		
@@ -129,6 +174,9 @@ public final class Graphics {
 		rawFps = 0;
 	}
 	
+	/**
+	 * Update the next waiting time for next render.
+	 */
 	private void updateWait() {
 		
 		if(((getFramesPerSecond() < getRequestedFramesPerSecond()) &&
@@ -160,7 +208,23 @@ public final class Graphics {
 	 * @param y Position Y in Display Screen
 	 */
 	public void draw(final Texture texture, final int x, final int y) {
-		draw(texture, x, y, x + texture.getWidth(), y + texture.getHeight());
+		draw(texture, x, y, 0.);
+	}
+	
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y having the width and height of the texture.
+	 * 
+	 * <p>
+	 * Apply a Rotation on Texture with the given angle in degree.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Position X in Display Screen
+	 * @param y Position Y in Display Screen
+	 * @param angle Rotation to apply on Texture in Degree
+	 */
+	public void draw(final Texture texture, final int x, final int y, final double angle) {
+		draw(texture, x, y, x + texture.getWidth(), y + texture.getHeight(), angle);
 	}
 	
 	/**
@@ -174,7 +238,25 @@ public final class Graphics {
 	 * @param height Ending Position Y in Display Screen
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height) {
-		draw(texture, x, y, width, height, 0, 0, ((texture.getWidth() < width)?texture.getWidth():width), ((texture.getHeight() < height)?texture.getHeight():height));
+		draw(texture, x, y, width, height, 0.);
+	}
+	
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y and stretching the region to cover the given width and height.
+	 * 
+	 * <p>
+	 * Apply a Rotation on Texture with the given angle in degree.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Starting Position X in Display Screen
+	 * @param y Starting Position Y in Display Screen
+	 * @param width Ending Position X in Display Screen
+	 * @param height Ending Position Y in Display Screen
+	 * @param angle Rotation to apply on Texture in Degree
+	 */
+	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final double angle) {
+		draw(texture, x, y, width, height, 0, 0, ((texture.getWidth() < width)?texture.getWidth():width), ((texture.getHeight() < height)?texture.getHeight():height), angle);
 	}
 	
 	/**
@@ -193,7 +275,30 @@ public final class Graphics {
 	 * @param srcHeight Ending Position Y in Texture
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
-		draw(texture, x, y, srcWidth - srcX, srcHeight - srcY, srcX, srcY, srcWidth, srcHeight);
+		draw(texture, x, y, srcX, srcY, srcWidth, srcHeight, 0.);
+	}
+	
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y having the given width and height in pixels. 
+	 * 
+	 * <p>
+	 * The portion of the Texture given by srcX, srcY and srcWidth, srcHeight are used.
+	 * 
+	 * <p>
+	 * Apply a Rotation on Texture with the given angle in degree.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Position X in Display Screen
+	 * @param y Position Y in Display Screen
+	 * @param srcX Starting Position X in Texture
+	 * @param srcY Starting Position Y in Texture
+	 * @param srcWidth Ending Position X in Texture
+	 * @param srcHeight Ending Position Y in Texture
+	 * @param angle Rotation to apply on Texture in Degree
+	 */
+	public void draw(final Texture texture, final int x, final int y, final int srcX, final int srcY, final int srcWidth, final int srcHeight, double angle) {
+		draw(texture, x, y, srcWidth - srcX, srcHeight - srcY, srcX, srcY, srcWidth, srcHeight, angle);
 	}
 	
 	/**
@@ -214,37 +319,100 @@ public final class Graphics {
 	 * @param srcHeight Ending Position Y in Texture
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final int srcX, final int srcY, final int srcWidth, final int srcHeight) {
-		texture.draw(g2d, x, y, width, height, srcX, srcY, srcWidth, srcHeight);
+		draw(texture, x, y, width, height, srcX, srcY, srcWidth, srcHeight, 0.);
 	}
 	
-	public void draw(final TextureOperator texture, final int x, final int y, final int width, final int height) {
-		texture.draw(g2d, x, y, width, height);
+	/**
+	 * <p>
+	 * Draws a rectangle with the top left corner at x,y having the given width and height in pixels. 
+	 * 
+	 * <p>
+	 * The portion of the Texture given by srcX, srcY and srcWidth, srcHeight is used.
+	 * 
+	 * <p>
+	 * Apply a Rotation on Texture with the given angle in degree.
+	 * 
+	 * @param texture Texture used for rendering
+	 * @param x Starting Position X in Display Screen
+	 * @param y Starting Position Y in Display Screen
+	 * @param width Ending Position X in Display Screen
+	 * @param height Ending Position Y in Display Screen
+	 * @param srcX Starting Position X in Texture
+	 * @param srcY Starting Position Y in Texture
+	 * @param srcWidth Ending Position X in Texture
+	 * @param srcHeight Ending Position Y in Texture
+	 * @param angle Rotation to apply on Texture in Degree
+	 */
+	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final int srcX, final int srcY, final int srcWidth, final int srcHeight, final double angle) {
+		texture.draw(g2d, x, y, width, height, srcX, srcY, srcWidth, srcHeight, angle);
 	}
 	
+	/**
+	 * <p>
+	 * Draw a TextureOperator with the top left corner at x,y having the given width and height in pixels. 
+	 * 
+	 * @param textureOp TextureOperator used for rendering.
+	 * @param x Starting Position X in Display Screen
+	 * @param y Starting Position Y in Display Screen
+	 * @param width Ending Position X in Display Screen
+	 * @param height Ending Position Y in Display Screen
+	 */
+	public void draw(final TextureOperator textureOp, final int x, final int y, final int width, final int height) {
+		textureOp.draw(g2d, x, y, width, height);
+	}
+	
+	/**
+	 * <p>
+	 * Draw a String with the top left corner at x,y.
+	 * 
+	 * @param message String to display
+	 * @param x Left Position X in Display Screen
+	 * @param y Bottom Position Y in Display Screen
+	 */
 	public void draw(String message, int x, int y) {
-		draw(message, x, y, getDefaultFont());
+		draw(message, x, y, DEFAULT_FONT, DEFAULT_COLOR);
 	}
 	
+	/**
+	 * <p>
+	 * Draw a String with the top left corner at x,y with a given Font.
+	 * 
+	 * @param message String to display
+	 * @param x Left Position X in Display Screen
+	 * @param y Bottom Position Y in Display Screen
+	 * @param font Font used for rendering
+	 */
 	public void draw(String message, int x, int y, Font font) {
-		draw(message, x, y, font, getDefaultColor());
+		draw(message, x, y, font, DEFAULT_COLOR);
 	}
 	
+	/**
+	 * <p>
+	 * Draw a String with the top left corner at x,y with a given Color.
+	 * 
+	 * @param message String to display
+	 * @param x Left Position X in Display Screen
+	 * @param y Bottom Position Y in Display Screen
+	 * @param color Color used for rendering
+	 */
 	public void draw(String message, int x, int y, Color color) {
-		draw(message, x, y, getDefaultFont(), color);
+		draw(message, x, y, DEFAULT_FONT, color);
 	}
 	
+	/**
+	 * <p>
+	 * Draw a String with the top left corner at x,y with a given Color and Font.
+	 * 
+	 * @param message String to display
+	 * @param x Left Position X in Display Screen
+	 * @param y Bottom Position Y in Display Screen
+	 * @param font Font used for rendering
+	 * @param color Color used for rendering
+	 */
 	public void draw(final String message, final int x, final int y, final Font font, final Color color) {
 		g2d.setPaint(color);
 		g2d.setFont(font);
 		g2d.drawString(message, x, y);
-	}
-
-	private Font getDefaultFont() {
-		return new Font("Arial", Font.PLAIN, 14);
-	}
-	
-	private Color getDefaultColor() {
-		return Color.BLACK;
 	}
 	
 }
