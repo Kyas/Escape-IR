@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jbox2d.dynamics.Body;
 
+import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.weapons.Weapon;
 
 public abstract class AbstractShip implements Ship {
@@ -47,5 +49,13 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public float getY() {
 		return body.getPosition().y;
+	}
+	
+	@Override
+	public void draw(Graphics graphics) {
+		int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
+		int x = (int)(body.getPosition().x / 10 * coeff);
+		int y = (int)(body.getPosition().y  / 10 * coeff);
+		graphics.draw(Foundation.resources.getDrawable("swin"),x,y);
 	}
 }
