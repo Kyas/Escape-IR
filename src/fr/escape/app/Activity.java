@@ -15,12 +15,14 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
+import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;
 import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.MotionEvent;
+import fr.umlv.zen2.MotionEvent.Kind;
 
 // TODO Comment
 public final class Activity {
@@ -62,7 +64,7 @@ public final class Activity {
 		
 		// TODO May need to remove comment for Run Exec
 		
-		Application.run(title, graphics.getWidth(), graphics.getHeight(), new ApplicationCode() {
+		Application.run(this.title, graphics.getWidth(), graphics.getHeight(), new ApplicationCode() {
 			
 			@Override
 			public void run(ApplicationContext context) {
@@ -73,26 +75,27 @@ public final class Activity {
 					Input lastEvent = null;
 					for(;;) {
 						
-						/**
-						 * May need to implements QoS in Runnable execution.
-						 */
+						
 						int executionTime = 0;
 						
-						MotionEvent evt = context.pollMotion();
-						if(evt != null) {
-							Input event = new Input(evt);
-							event(event,lastEvent);
+						MotionEvent mEvent = context.pollMotion();
+						if(mEvent != null) {
+							Input event = new Input(mEvent);
+							event(event, lastEvent);
 							lastEvent = event;
 						}
 						
-						synchronized(runnables) {
+						/**
+						 * May need to implements QoS in Runnable execution.
+						 */
+						synchronized(getRunnables()) {
 							
-							if(!runnables.isEmpty()) {
+							if(!getRunnables().isEmpty()) {
 								
 								long start = System.currentTimeMillis();
 								Runnable next;
 								
-								while((next = runnables.poll()) != null) {
+								while((next = getRunnables().poll()) != null) {
 									try {
 										next.run();
 									} catch(Throwable t) {
@@ -101,13 +104,13 @@ public final class Activity {
 								}
 								
 								executionTime = (int) (System.currentTimeMillis() - start);
-								// debug("Activity - Runnable", "Runnable(s) executed in "+executionTime+" ms");
+								debug("Activity - Runnable", "Runnable(s) executed in "+executionTime+" ms");
 							}
 						}
 						
 						try {
 							
-							int sleep = graphics.getNextWakeUp() - executionTime;
+							int sleep = getGraphics().getNextWakeUp() - executionTime;
 							if(sleep > 0) {
 								Thread.sleep(sleep);
 							}
@@ -129,9 +132,7 @@ public final class Activity {
 		});
 		
 	}
-	
-	
-	
+
 	/** 
 	 * Logs a message to the console.
 	 */
@@ -212,12 +213,42 @@ public final class Activity {
 	}
 	
 	/**
-	 * Return the Graphics Engine 
+	 * <p>
+	 * Return the Graphics Engine.
+	 * 
+	 * <p>
+	 * Wrapper for Anonymous Class in {@link Activity#initialize()}.
 	 * 
 	 * @return Graphics Engine 
 	 */
-	private Graphics getGraphics () {
+	Graphics getGraphics() {
 		return graphics;
+	}
+	
+	/**
+	 * <p>
+	 * Return Runnable Queue.
+	 * 
+	 * <p>
+	 * Wrapper for Anonymous Class in {@link Activity#initialize()}.
+	 * 
+	 * @return Runnable Queue
+	 */
+	Queue<Runnable> getRunnables() {
+		return runnables;
+	}
+	
+	/**
+	 * <p>
+	 * Return Runnable Queue.
+	 * 
+	 * <p>
+	 * Wrapper for Anonymous Class in {@link Activity#initialize()}.
+	 * 
+	 * @return Event Listener
+	 */
+	EventListener getEventListener() {
+		return listener;
 	}
 	
 	/**
@@ -226,53 +257,65 @@ public final class Activity {
 	 * @param runnable Runnable to execute.
 	 */
 	public void post(Runnable runnable) {
-		synchronized (runnables) {
-			runnables.add(runnable);
+		synchronized (getRunnables()) {
+			getRunnables().add(runnable);
 		}
 	}
 	
 	/**
-	 * 
+	 * Push an Event to EventListener
 	 */
-	public void event(final Input event,final Input lastEvent) {
+	public void event(final Input event, final Input lastEvent) {
 
 		Objects.requireNonNull(event);
 		
-		switch(event.getKind().name()) {
-			case "ACTION_DOWN" :
+		switch(event.getKind()) {
+			case ACTION_DOWN: {
 				break;
-			case "ACTION_MOVE" :
+			}
+			case ACTION_MOVE: {
+				
 				post(new Runnable() {
 					
 					@Override
 					public void run() {
-						listener.move(lastEvent);
+						getEventListener().move(lastEvent);
 					}
 					
 				});
+				
 				break;
-			case "ACTION_UP" :
-				if(lastEvent.getKind().name().equals("ACTION_DOWN")) {
+			}
+			case ACTION_UP: {
+				if(event.getKind() == Kind.ACTION_DOWN) {
+					
 					post(new Runnable() {
 						
 						@Override
 						public void run() {
-							listener.touch(lastEvent);
+							getEventListener().touch(lastEvent);
 						}
 						
 					});
+					
 				} else {
+					
 					post(new Runnable() {
 						
 						@Override
 						public void run() {
-							listener.move(event);
+							getEventListener().move(event);
 						}
+						
 					});
+					
 				}
+				
 				break;
-			default : 
-				break;
+			}
+			default: {
+				throw new AssertionError("Unknown Event");
+			}
 		}
 	}
 	

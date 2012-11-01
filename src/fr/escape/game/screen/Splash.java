@@ -23,6 +23,8 @@ import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.game.scenario.Earth;
+import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
@@ -34,9 +36,12 @@ public class Splash implements Screen {
 	private final static String TAG = Splash.class.getSimpleName();
 	
 	private final Escape game;
+	private final Stage stage;
+	
 	private Texture logo;
 	private ScrollingTexture background;
 	private long time;
+
 	private final LinkedList<Input> events = new LinkedList<>();
 	
 	public Splash(Escape game) throws IOException {
@@ -46,6 +51,9 @@ public class Splash implements Screen {
 		this.logo = new Texture(new File("res/Escape-IR.png"));
 		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		//this.background = new ScrollingTexture(new Texture(new File("res/04.jpg")), true);
+		
+		stage = new Earth();
+		stage.start();
 	}
 	
 	@Override
@@ -72,6 +80,7 @@ public class Splash implements Screen {
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
 		game.getUser().setHighscore((int) time);
+		stage.update((int) (time / 1000));
 	}
 
 	@Override
@@ -80,7 +89,9 @@ public class Splash implements Screen {
 	}
 
 	@Override
-	public void hide() {}
+	public void hide() {
+		game.getOverlay().hide();
+	}
 
 	@Override
 	public boolean touch(Input i) {

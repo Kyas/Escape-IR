@@ -5,7 +5,9 @@ import java.util.Objects;
 import fr.umlv.zen2.MotionEvent;
 import fr.umlv.zen2.MotionEvent.Kind;
 
+// TODO Comment
 public class Input {
+	
 	private final MotionEvent event;
 	
 	public Input(MotionEvent event) {
@@ -22,6 +24,9 @@ public class Input {
 	}
 	
 	public Kind getKind() {
+		if(event.getKind() == Kind.ACTION_DOWN) {
+			;
+		}
 		return event.getKind();
 	}
 	

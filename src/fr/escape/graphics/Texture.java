@@ -2,6 +2,7 @@ package fr.escape.graphics;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import fr.escape.app.Disposable;
  * <p>
  * This class is Immutable.
  */
+// TODO Comment
 public final class Texture implements Disposable {
 
 	private final BufferedImage image;
@@ -45,8 +47,40 @@ public final class Texture implements Disposable {
 
 	public void draw(Graphics2D graphics, int x, int y, int width, int height,
 			int srcX, int srcY, int srcWidth, int srcHeight) {
+		
+		draw(graphics, x, y, width, height, srcX, srcY, srcWidth, srcHeight, 0.);
+	}
+	
+	public void draw(Graphics2D graphics, int x, int y, int width, int height,
+			int srcX, int srcY, int srcWidth, int srcHeight, double angle) {
 
+		AffineTransform transformMatrix = null;
+		boolean updateMatrix = false;
+		
+		// Create a Transform Matrix if we need to apply a rotation on Texture
+		if(angle != 0) {
+			
+			transformMatrix = graphics.getTransform();
+			updateMatrix = true;
+			
+			AffineTransform rotationMatrix = new AffineTransform();
+			
+			// Create Transform Matrix
+			rotationMatrix.rotate(Math.toRadians(angle), (x + width) / 2, (y + height) / 2);
+			
+			// Apply Transform Matrix
+			graphics.setTransform(rotationMatrix);
+
+		} 
+		
 		graphics.drawImage(getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
+		
+		// Restore Previous Matrix
+		if(updateMatrix) {
+			assert transformMatrix != null;
+			graphics.setTransform(transformMatrix);
+		}
+		
 	}
 	
 }

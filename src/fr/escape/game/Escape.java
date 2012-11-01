@@ -64,6 +64,7 @@ public class Escape extends Game {
 			
 			UIHighscore uHighscore = new UIHighscore(this);
 			Ship ship = sf.createRegularShip(world,(getGraphics().getWidth()/2 - 20) / coeff * 10,(getGraphics().getHeight() - 50) / coeff * 10,BodyType.DYNAMIC,1);
+
 			getUser().register(uHighscore);
 			getUser().setShip(ship);
 			
