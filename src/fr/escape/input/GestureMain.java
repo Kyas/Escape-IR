@@ -48,7 +48,7 @@ public class GestureMain {
 									if(it.hasNext()) {
 										Input start = it.next(); it.remove();
 										for(Gesture g : lGesture) {
-											if(g.accept(start,events,e)) {
+											if(g.accept(start,events,e) != 0) {
 												graphics.setPaint(new Color(0,255,0));
 												System.out.println(g.getClass().toString());
 												break;

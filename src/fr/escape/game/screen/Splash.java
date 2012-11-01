@@ -18,8 +18,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
-import fr.escape.app.Foundation;
-import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -29,7 +27,6 @@ import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
-import fr.escape.ships.Ship;
 
 public class Splash implements Screen {
 
@@ -41,6 +38,7 @@ public class Splash implements Screen {
 	private Texture logo;
 	private ScrollingTexture background;
 	private long time;
+	private float[] gestureVal = {0,0};
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
@@ -71,7 +69,9 @@ public class Splash implements Screen {
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics(),gestureVal);
 		//game.getGraphics().draw(game.getResources().getDrawable("wfireball"),game.getGraphics().getWidth()/2 - 20,game.getGraphics().getHeight() - 100);
+		//game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics());
 		/*Ship ship = game.getUser().getShip();
 		ship.setPosition(game.getWorld(),game.getGraphics(),Math.max(game.getGraphics().getHeight(),game.getGraphics().getWidth()));*/
 		//ship.draw(game.getGraphics(),(int)ship.getBody().getPosition().x - 0.1f,(int)ship.getBody().getPosition().y - 0.1f);
@@ -112,16 +112,18 @@ public class Splash implements Screen {
 				if(it.hasNext()) {
 					Input start = it.next(); it.remove();
 					for(Gesture g : gestures) {
-						if(g.accept(start,events,i)) {
-							System.out.println(i.getX() + " " + i.getY());
-							Foundation.activity.post(new Runnable() {
-								@Override
-								public void run() {
-									Graphics graphics = game.getGraphics();
-									game.getUser().getShip().setPosition(game.getWorld(),graphics,Math.max(graphics.getWidth(),graphics.getHeight()));
-								}
-							});
+						double val = g.accept(start,events,i);
+						if(val >= 0.3 && val <= 1.7) {
+							gestureVal[0] = -0.5f;
+							gestureVal[1] = -0.5f;
+						} else if(val <= -0.3 && val >= -1.7) {
+							gestureVal[0] = 0.5f;
+							gestureVal[1] = -0.5f;
+						} else if(val != 0) {
+							gestureVal[0] = 0.f;
+							gestureVal[1] = 1.5f;
 						}
+						
 					}
 					events.clear();
 				}

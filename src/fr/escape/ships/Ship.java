@@ -9,7 +9,8 @@ import fr.escape.app.Graphics;
 import fr.escape.weapons.Weapon;
 
 public interface Ship {
-	public void setPosition(World world,Graphics graphics,int coeff);
+	public void setPosition(World world,Graphics graphics,float[] val);
+	public void draw(Graphics graphics);
 	public List<Weapon> getAllWeapons();
 	public void setActiveWeapon(int which);
 	public int getActiveWeapon();

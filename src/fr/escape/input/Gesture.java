@@ -16,5 +16,5 @@ import java.util.List;
 import fr.escape.app.Input;
 
 public interface Gesture {
-	public boolean accept(Input start, List<Input> events, Input end);
+	public double accept(Input start, List<Input> events, Input end);
 }
