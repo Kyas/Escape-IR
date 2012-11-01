@@ -1,13 +1,16 @@
 package fr.escape.game;
 
+import java.util.ArrayList;
+
 import fr.escape.app.Foundation;
+import fr.escape.input.Gesture;
 import fr.escape.ships.Ship;
 
-public final class User implements Receiver, Sender {
-	
+public final class User implements Receiver, Sender {	
 	private Ship ship;
 	private int highscore;
 	private Receiver receiver;
+	private ArrayList<Gesture> gestures;
 
 	// TODO Ship
 	public User() {
@@ -72,5 +75,13 @@ public final class User implements Receiver, Sender {
 	// TODO DEBUG
 	public Ship getShip() {
 		return this.ship;
+	}
+	
+	public ArrayList<Gesture> getGestures() {
+		return gestures;
+	}
+	
+	public void setGestures(ArrayList<Gesture> gestures) {
+		this.gestures = gestures;
 	}
 }

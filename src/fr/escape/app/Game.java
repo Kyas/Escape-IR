@@ -11,18 +11,12 @@
 
 package fr.escape.app;
 
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Objects;
+import org.jbox2d.dynamics.World;
 
 import fr.escape.game.User;
 import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
-import fr.escape.input.Gesture;
 import fr.escape.resources.Resources;
-import fr.escape.ships.Ship;
 
 /**
  * <p>
@@ -32,13 +26,9 @@ import fr.escape.ships.Ship;
  * Allowing multiple screens for a Game.
  */
 public abstract class Game implements RenderListener, EventListener {
-	
-	private Screen screen;
-	private ArrayList<Gesture> gestures;
-	private final LinkedList<Input> events = new LinkedList<>();
-	private Ship ship;
-	
+	private Screen screen;	
 	private User user;
+	private World world;
 	
 	public Game() {
 		user = new User();
@@ -127,38 +117,7 @@ public abstract class Game implements RenderListener, EventListener {
 	/**
 	 * 
 	 */
-	public void setGestures(ArrayList<Gesture> gestures) {
-		Objects.requireNonNull(gestures);
-		this.gestures = gestures;
-	}
-	
-	/**
-	 * 
-	 */
-	public ArrayList<Gesture> getGestures() {
-		return gestures;
-	}
-	
-	/**
-	 * 
-	 */
-	public LinkedList<Input> getEvents() {
-		return events;
-	}
-	
-	public Ship getShip() {
-		return ship;
-	}
-	
-	public void setShip(Ship ship) {
-		this.ship = ship;
-	}
-	
-	/**
-	 * 
-	 */
 	public boolean touch(Input i) {
-		System.out.println("Touch");
 		return true;
 	}
 	
@@ -166,21 +125,6 @@ public abstract class Game implements RenderListener, EventListener {
 	 * 
 	 */
 	public boolean move(Input i) {
-		/*Objects.requireNonNull(i);
-		switch(i.getKind().name()) {
-			case "ACTION_UP" :
-				Iterator<Input> it = events.iterator();
-				if(it.hasNext()) {
-					Input start = it.next(); it.remove();
-					for(Gesture g : gestures) {
-						if(g.accept(start,events,i)) ship.setPosition(i.getX(),i.getY());
-					}
-					events.clear();
-				}
-				break;
-			default :
-				events.add(i);
-		}*/
 		return true;
 	}
 	
@@ -191,5 +135,21 @@ public abstract class Game implements RenderListener, EventListener {
 	 */
 	public User getUser() {
 		return user;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public World getWorld() {
+		return world;
+	}
+	
+	/**
+	 * 
+	 * @param world
+	 */
+	public void setWorld(World world) {
+		this.world = world;
 	}
 }

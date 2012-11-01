@@ -2,18 +2,18 @@ package fr.escape.ships;
 
 import java.util.List;
 
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
+
+import fr.escape.app.Graphics;
 import fr.escape.weapons.Weapon;
 
-
-//TODO just a test
 public interface Ship {
-	
-	public void setPosition(int x,int y);
-	
-	
+	public void setPosition(World world,Graphics graphics,int coeff);
 	public List<Weapon> getAllWeapons();
-	
-	public boolean setActiveWeapon(int which);
+	public void setActiveWeapon(int which);
 	public int getActiveWeapon();
-	
+	public Body getBody();
+	public float getX();
+	public float getY();
 }

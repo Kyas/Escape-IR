@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -26,6 +27,7 @@ import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
+import fr.escape.ships.Ship;
 
 public class Splash implements Screen {
 
@@ -35,16 +37,15 @@ public class Splash implements Screen {
 	private Texture logo;
 	private ScrollingTexture background;
 	private long time;
+	private final LinkedList<Input> events = new LinkedList<>();
 	
 	public Splash(Escape game) throws IOException {
-		
 		this.game = game;
 		this.time = 0;
 		
 		this.logo = new Texture(new File("res/Escape-IR.png"));
 		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		//this.background = new ScrollingTexture(new Texture(new File("res/04.jpg")), true);
-		
 	}
 	
 	@Override
@@ -62,8 +63,10 @@ public class Splash implements Screen {
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
-		
-		game.getShip().setPosition(180,500);
+		//game.getGraphics().draw(game.getResources().getDrawable("wfireball"),game.getGraphics().getWidth()/2 - 20,game.getGraphics().getHeight() - 100);
+		/*Ship ship = game.getUser().getShip();
+		ship.setPosition(game.getWorld(),game.getGraphics(),Math.max(game.getGraphics().getHeight(),game.getGraphics().getWidth()));*/
+		//ship.draw(game.getGraphics(),(int)ship.getBody().getPosition().x - 0.1f,(int)ship.getBody().getPosition().y - 0.1f);
 		
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
@@ -87,8 +90,8 @@ public class Splash implements Screen {
 	@Override
 	public boolean move(final Input i) {
 		Objects.requireNonNull(i);
-		LinkedList<Input> events = game.getEvents();
-		ArrayList<Gesture> gestures = game.getGestures();
+		LinkedList<Input> events = this.events;
+		ArrayList<Gesture> gestures = game.getUser().getGestures();
 		switch(i.getKind().name()) {
 			case "ACTION_UP" :
 				Iterator<Input> it = events.iterator();
@@ -100,7 +103,8 @@ public class Splash implements Screen {
 							Foundation.activity.post(new Runnable() {
 								@Override
 								public void run() {
-									game.getShip().setPosition(i.getX(),i.getY());
+									Graphics graphics = game.getGraphics();
+									game.getUser().getShip().setPosition(game.getWorld(),graphics,Math.max(graphics.getWidth(),graphics.getHeight()));
 								}
 							});
 						}

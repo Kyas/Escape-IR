@@ -14,6 +14,10 @@ package fr.escape.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.World;
+
 import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
@@ -23,6 +27,7 @@ import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
 import fr.escape.game.ui.UIWeapons;
 import fr.escape.ships.Ship;
+import fr.escape.ships.ShipFactory;
 import fr.escape.weapons.BlackHole;
 import fr.escape.weapons.Weapon;
 import fr.escape.weapons.Weapons;
@@ -33,7 +38,6 @@ import fr.escape.input.LeftLoop;
 import fr.escape.input.RightLoop;
 
 public class Escape extends Game {
-
 	private Splash splash;
 	private Error error;
 	private IngameUI ingameUI;
@@ -44,7 +48,11 @@ public class Escape extends Game {
 	@Override
 	public void create() {
 		try {
-			
+			float coeff = Math.max(getGraphics().getWidth(),getGraphics().getHeight());
+			ShipFactory sf = new ShipFactory();
+			Vec2 gravity = new Vec2(0.0f,0.0f);
+			World world = new World(gravity,true);
+			setWorld(world);
 			// Create Screen
 			splash = new Splash(this);
 			// Other Screen if any ...
@@ -55,33 +63,16 @@ public class Escape extends Game {
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			
-			Ship ship = new Ship() {
-				@Override
-				public void setPosition(int x, int y) {
-					getGraphics().draw(getResources().getDrawable("wfireball"), x, y);
-				}
-
-				@Override
-				public List<Weapon> getAllWeapons() {
-					return null;
-				}
-
-				@Override
-				public boolean setActiveWeapon(int which) {
-					return false;
-				}
-
-				@Override
-				public int getActiveWeapon() {
-					return 0;
-				}
-
-			};
-			
+			Ship ship = sf.createRegularShip(world,(getGraphics().getWidth()/2 - 20) / coeff * 10,(getGraphics().getHeight() - 50) / coeff * 10,BodyType.DYNAMIC,1);
 			getUser().register(uHighscore);
 			getUser().setShip(ship);
 			
+			gestures.add(new Drift());
+			gestures.add(new BackOff());
+			gestures.add(new LeftLoop());
+			gestures.add(new RightLoop());
+			getUser().setGestures(gestures);
+			getUser().setShip(ship);
 			List<Weapon> lWeapons = new ArrayList<>();
 			
 			Weapon w = new BlackHole();
@@ -97,14 +88,7 @@ public class Escape extends Game {
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);
 			
-			gestures.add(new Drift());
-			gestures.add(new BackOff());
-			gestures.add(new LeftLoop());
-			gestures.add(new RightLoop());
-						
 			setScreen(splash);
-			setGestures(gestures);
-			setShip(ship);
 		} catch(Exception e) {
 			error = new Error(this);
 			getActivity().error("Escape", "Exception raised during create()", e);
