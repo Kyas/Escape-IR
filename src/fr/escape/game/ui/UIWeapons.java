@@ -75,7 +75,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 
 	@Override
 	public void render(long delta) {
-		this.game.getGraphics().draw(this.background, this.x, this.y, this.width, this.height);
+		//this.game.getGraphics().draw(this.background, this.x, this.y, this.width, this.height);
 		
 		int offset = this.y;
 		for(Weapon w : weapons) {

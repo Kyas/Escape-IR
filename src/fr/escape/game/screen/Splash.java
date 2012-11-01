@@ -81,6 +81,9 @@ public class Splash implements Screen {
 		
 		game.getUser().setHighscore((int) time);
 		stage.update((int) (time / 1000));
+		
+		game.getGraphics().draw(game.getResources().getDrawable("wpmissile"), game.getGraphics().getWidth()/2, game.getGraphics().getHeight() - (int) (time / 10), 33);
+		
 	}
 
 	@Override

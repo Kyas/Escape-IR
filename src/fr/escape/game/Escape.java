@@ -29,6 +29,7 @@ import fr.escape.game.ui.UIWeapons;
 import fr.escape.ships.Ship;
 import fr.escape.ships.ShipFactory;
 import fr.escape.weapons.BlackHole;
+import fr.escape.weapons.Missile;
 import fr.escape.weapons.Weapon;
 import fr.escape.weapons.Weapons;
 import fr.escape.input.BackOff;
@@ -76,13 +77,16 @@ public class Escape extends Game {
 			getUser().setShip(ship);
 			List<Weapon> lWeapons = new ArrayList<>();
 			
-			Weapon w = new BlackHole();
-			Weapons.validate(w);
+			Weapon wB = new BlackHole();
+			Weapons.validate(wB);
 			
-			lWeapons.add(w);
-			lWeapons.add(w);
-			lWeapons.add(w);
-			lWeapons.add(w);
+			Weapon wM = new Missile();
+			Weapons.validate(wM);
+			
+			lWeapons.add(wM);
+			lWeapons.add(wB);
+			lWeapons.add(wB);
+			lWeapons.add(wB);
 			
 			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons);
 			

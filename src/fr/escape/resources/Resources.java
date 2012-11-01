@@ -11,6 +11,8 @@ import fr.escape.resources.drawable.DrawableLoader;
 import fr.escape.resources.drawable.SWin;
 import fr.escape.resources.drawable.WBlackholeDrawable;
 import fr.escape.resources.drawable.WFireballDrawable;
+import fr.escape.resources.drawable.WMissileDrawable;
+import fr.escape.resources.drawable.WPMissileDrawable;
 import fr.escape.resources.font.FontLoader;
 import fr.escape.resources.font.Visitor;
 
@@ -32,7 +34,9 @@ public final class Resources {
 		drawableLoader.put("berror", new BErrorDrawable());
 		drawableLoader.put("bui", new BUIDrawable());
 		drawableLoader.put("wblackhole", new WBlackholeDrawable());
+		drawableLoader.put("wmissile", new WMissileDrawable());
 		drawableLoader.put("wfireball", new WFireballDrawable());
+		drawableLoader.put("wpmissile", new WPMissileDrawable());
 		drawableLoader.put("swin", new SWin());
 	}
 	
