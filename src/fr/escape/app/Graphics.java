@@ -256,7 +256,8 @@ public final class Graphics {
 	 * @param angle Rotation to apply on Texture in Degree
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final double angle) {
-		draw(texture, x, y, width, height, 0, 0, ((texture.getWidth() < width)?texture.getWidth():width), ((texture.getHeight() < height)?texture.getHeight():height), angle);
+		draw(texture, x, y, width, height, 0, 0, texture.getWidth(), texture.getHeight(), angle);
+		//draw(texture, x, y, width, height, 0, 0, ((texture.getWidth() < width)?texture.getWidth():width), ((texture.getHeight() < height)?texture.getHeight():height), angle);
 	}
 	
 	/**

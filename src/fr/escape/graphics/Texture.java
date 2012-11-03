@@ -73,7 +73,6 @@ public final class Texture implements Disposable {
 
 		}
 		
-		// TODO When image reach < 0 for X or Y: Glitch
 		graphics.drawImage(getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
 		
 		// Restore Previous Matrix
