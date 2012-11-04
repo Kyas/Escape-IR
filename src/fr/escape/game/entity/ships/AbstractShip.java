@@ -1,4 +1,4 @@
-package fr.escape.ships;
+package fr.escape.game.entity.ships;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
-import fr.escape.weapons.Weapon;
+import fr.escape.game.entity.weapons.Weapon;
 
 public abstract class AbstractShip implements Ship {
 	private final Body body;

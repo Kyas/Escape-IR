@@ -9,11 +9,11 @@ import java.util.Objects;
 
 import fr.escape.app.Game;
 import fr.escape.app.Input;
-import fr.escape.game.Receiver;
-import fr.escape.game.Sender;
+import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.Weapons;
+import fr.escape.game.message.Receiver;
+import fr.escape.game.message.Sender;
 import fr.escape.graphics.Texture;
-import fr.escape.weapons.Weapon;
-import fr.escape.weapons.Weapons;
 
 public class UIWeapons extends AbstractOverlay implements Sender {
 	

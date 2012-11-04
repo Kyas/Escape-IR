@@ -3,8 +3,10 @@ package fr.escape.game;
 import java.util.ArrayList;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.entity.ships.Ship;
+import fr.escape.game.message.Receiver;
+import fr.escape.game.message.Sender;
 import fr.escape.input.Gesture;
-import fr.escape.ships.Ship;
 
 public final class User implements Receiver, Sender {	
 	private Ship ship;

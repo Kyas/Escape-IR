@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import fr.escape.app.Game;
-import fr.escape.game.Receiver;
+import fr.escape.game.message.Receiver;
 
 public class UIHighscore extends AbstractOverlay implements Receiver {
 

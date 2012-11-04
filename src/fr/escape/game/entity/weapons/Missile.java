@@ -1,16 +1,14 @@
-package fr.escape.weapons;
+package fr.escape.game.entity.weapons;
 
 import fr.escape.app.Foundation;
 import fr.escape.graphics.Texture;
 
-public final class BlackHole implements Weapon {
+public final class Missile implements Weapon {
 	
 	private final Texture drawable;
 	
-	public BlackHole() {
-		
-		drawable = Foundation.resources.getDrawable("wblackhole");
-		
+	public Missile() {
+		drawable = Foundation.resources.getDrawable("wmissile");
 	}
 
 	@Override
@@ -19,7 +17,7 @@ public final class BlackHole implements Weapon {
 	}
 
 	public int getAmmunition() {
-		return 655;
+		return 999;
 	}
 	
 }

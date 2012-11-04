@@ -1,4 +1,4 @@
-package fr.escape.weapons;
+package fr.escape.game.entity.weapons;
 
 import fr.escape.graphics.Texture;
 

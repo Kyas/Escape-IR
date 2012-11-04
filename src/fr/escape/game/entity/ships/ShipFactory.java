@@ -1,4 +1,4 @@
-package fr.escape.ships;
+package fr.escape.game.entity.ships;
 
 import java.util.Objects;
 

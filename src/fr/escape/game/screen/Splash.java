@@ -21,6 +21,7 @@ import java.util.Objects;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.game.entity.weapons.shot.MissileShot;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
@@ -42,6 +43,8 @@ public class Splash implements Screen {
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
+	private final MissileShot[] msArray;
+	
 	public Splash(Escape game) throws IOException {
 		this.game = game;
 		this.time = 0;
@@ -52,6 +55,17 @@ public class Splash implements Screen {
 		
 		stage = new Earth();
 		stage.start();
+		
+		msArray = new MissileShot[200];
+		
+		for(int i = 0; i < msArray.length; i++) {
+			msArray[i] = new MissileShot();
+			
+			msArray[i].setPosition(game.getGraphics().getWidth()/2, game.getGraphics().getHeight()/2);
+			msArray[i].setRotation(0);
+			
+		}
+		
 	}
 	
 	@Override
@@ -82,7 +96,23 @@ public class Splash implements Screen {
 		game.getUser().setHighscore((int) time);
 		stage.update((int) (time / 1000));
 		
-		game.getGraphics().draw(game.getResources().getDrawable("wpmissile"), game.getGraphics().getWidth()/2, game.getGraphics().getHeight()/2 - (int) (time / 10), 33);
+		for(int i = 0; i < msArray.length; i++) {
+			
+			final MissileShot ms = msArray[i];
+			final int msY = (int) percent;
+			final int rX = 5;
+			game.getActivity().post(new Runnable() {
+				
+				@Override
+				public void run() {
+					ms.moveBy(0, (int) msY);
+					ms.rotateBy(rX);
+				}
+			});
+			
+			msArray[i].draw(game.getGraphics());
+		}
+		
 		
 	}
 
