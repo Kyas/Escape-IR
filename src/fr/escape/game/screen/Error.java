@@ -11,6 +11,8 @@ import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.graphics.RepeatableScrollingTexture;
+import fr.escape.resources.font.FontLoader;
+import fr.escape.resources.texture.TextureLoader;
 
 // TODO Finish
 public class Error implements Screen {
@@ -33,14 +35,14 @@ public class Error implements Screen {
 		this.random = new Random(200);
 		
 		try {
-			font = game.getResources().getFont("visitor");
+			font = game.getResources().getFont(FontLoader.VISITOR_ID);
 			fallbackFont = false;
 		} catch(NoSuchElementException e) {
 			fallbackFont = true;
 		}
 		
 		try {
-			background = new RepeatableScrollingTexture(game.getResources().getDrawable("berror"));
+			background = new RepeatableScrollingTexture(game.getResources().getDrawable(TextureLoader.BACKGROUND_ERROR));
 			fallbackBackground = false;
 		} catch(NoSuchElementException e) {
 			fallbackBackground = true;

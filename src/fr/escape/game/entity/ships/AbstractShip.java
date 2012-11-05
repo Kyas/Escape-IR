@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.Body;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.resources.texture.TextureLoader;
 
 public abstract class AbstractShip implements Ship {
 	private final Body body;
@@ -56,6 +57,6 @@ public abstract class AbstractShip implements Ship {
 		int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
 		int x = (int)(body.getPosition().x / 10 * coeff);
 		int y = (int)(body.getPosition().y  / 10 * coeff);
-		graphics.draw(Foundation.resources.getDrawable("swin"),x,y);
+		graphics.draw(Foundation.resources.getDrawable(TextureLoader.DEBUG_WIN),x,y);
 	}
 }

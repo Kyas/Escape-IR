@@ -14,6 +14,7 @@ import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.message.Receiver;
 import fr.escape.game.message.Sender;
 import fr.escape.graphics.Texture;
+import fr.escape.resources.font.FontLoader;
 
 public class UIWeapons extends AbstractOverlay implements Sender {
 	
@@ -25,7 +26,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 	private final static Color FONT_COLOR = Color.WHITE;
 	
 	private final Game game;
-	private final Texture background;
+	//private final Texture background;
 	private final Font font;
 	private final List<Weapon> weapons;
 	private final List<Rectangle> touchArea;
@@ -43,8 +44,8 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 		Objects.requireNonNull(receiver);
 		
 		this.game = game;
-		this.background = game.getResources().getDrawable("bui");
-		this.font = game.getResources().getFont("visitor").deriveFont(FONT_SIZE);
+		//this.background = game.getResources().getDrawable("bui");
+		this.font = game.getResources().getFont(FontLoader.VISITOR_ID).deriveFont(FONT_SIZE);
 		this.weapons = weapons;
 		this.receiver = receiver;
 		

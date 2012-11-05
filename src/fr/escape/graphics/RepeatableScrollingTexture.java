@@ -147,7 +147,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 			 */
 			getTexture().draw(graphics, x, y, deltaWidth, deltaHeight, srcX, srcY, srcWidth, srcHeight);
 			// TODO REMOVE IT
-			debugPart(graphics, x, y, 1);
+			// debugPart(graphics, x, y, 1);
 			
 			/**
 			 * Compute Texture Width Area for Part 2
@@ -161,7 +161,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 			if(repeatX) {
 				getTexture().draw(graphics, deltaWidth, y, width, deltaHeight, srcX2, srcY, srcWidth2, srcHeight);
 				// TODO REMOVE IT
-				debugPart(graphics, deltaWidth, y, 2);
+				// debugPart(graphics, deltaWidth, y, 2);
 			}
 			
 			
@@ -177,7 +177,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 			if(repeatY) {
 				getTexture().draw(graphics, x, deltaHeight, deltaWidth, height, srcX, srcY3, srcWidth, srcHeight3);
 				// TODO REMOVE IT
-				debugPart(graphics, x, deltaHeight, 3);
+				// debugPart(graphics, x, deltaHeight, 3);
 			}
 			
 			/**
@@ -186,7 +186,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 			if(repeatX && repeatY) {
 				getTexture().draw(graphics, deltaWidth, deltaHeight, width, height, srcX2, srcY3, srcWidth2, srcHeight3);
 				// TODO REMOVE IT
-				debugPart(graphics, deltaWidth, deltaHeight, 4);
+				//debugPart(graphics, deltaWidth, deltaHeight, 4);
 			}
 			
 		} else {
@@ -216,14 +216,14 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	}
 
 	// TODO REMOVE IT
-	private void debugPart(Graphics2D graphics, int x, int y, int id) {
-		Color old = graphics.getColor();
-		Font font = graphics.getFont();
-		graphics.setFont(new Font("Arial", Font.BOLD, 15));
-		graphics.setColor(Color.BLUE);
-		graphics.drawString(String.valueOf(id), x, y+15);
-		graphics.setColor(old);
-		graphics.setFont(font);
-	}
+//	private void debugPart(Graphics2D graphics, int x, int y, int id) {
+//		Color old = graphics.getColor();
+//		Font font = graphics.getFont();
+//		graphics.setFont(new Font("Arial", Font.BOLD, 15));
+//		graphics.setColor(Color.BLUE);
+//		graphics.drawString(String.valueOf(id), x, y+15);
+//		graphics.setColor(old);
+//		graphics.setFont(font);
+//	}
 	
 }

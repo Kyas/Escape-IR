@@ -18,10 +18,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
-import fr.escape.game.entity.weapons.shot.MissileShot;
+import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
@@ -43,7 +46,8 @@ public class Splash implements Screen {
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
-	private final MissileShot[] msArray;
+	private final Shot one;
+	private final Shot two;
 	
 	public Splash(Escape game) throws IOException {
 		this.game = game;
@@ -56,16 +60,11 @@ public class Splash implements Screen {
 		stage = new Earth();
 		stage.start();
 		
-		msArray = new MissileShot[200];
+		one = ShotFactory.createMissileShot();
+		two = ShotFactory.createShiboleetShot();
 		
-		for(int i = 0; i < msArray.length; i++) {
-			msArray[i] = new MissileShot();
-			
-			msArray[i].setPosition(game.getGraphics().getWidth()/2, game.getGraphics().getHeight()/2);
-			msArray[i].setRotation(0);
-			
-		}
-		
+		one.setPosition(game.getGraphics().getWidth() / 2, 0);
+		two.setPosition(game.getGraphics().getWidth() / 2, 0);
 	}
 	
 	@Override
@@ -95,24 +94,21 @@ public class Splash implements Screen {
 		
 		game.getUser().setHighscore((int) time);
 		stage.update((int) (time / 1000));
-		
-		for(int i = 0; i < msArray.length; i++) {
+
+		game.getActivity().post(new Runnable() {
 			
-			final MissileShot ms = msArray[i];
-			final int msY = (int) percent;
-			final int rX = 5;
-			game.getActivity().post(new Runnable() {
-				
-				@Override
-				public void run() {
-					ms.moveBy(0, (int) msY);
-					ms.rotateBy(rX);
-				}
-			});
+			@Override
+			public void run() {
+				one.moveBy(0, 1);
+				two.moveBy(0, 1);
+				one.rotateBy(1);
+				two.rotateBy(-1);
+			}
 			
-			msArray[i].draw(game.getGraphics());
-		}
+		});
 		
+		one.draw(game.getGraphics());
+		two.draw(game.getGraphics());
 		
 	}
 

@@ -5,4 +5,6 @@ import fr.escape.game.entity.Moveable;
 
 public interface Shot extends Drawable, Moveable {
 	
+	
+	
 }

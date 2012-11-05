@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import fr.escape.app.Game;
 import fr.escape.game.message.Receiver;
+import fr.escape.resources.font.FontLoader;
 
 public class UIHighscore extends AbstractOverlay implements Receiver {
 
@@ -19,7 +20,7 @@ public class UIHighscore extends AbstractOverlay implements Receiver {
 	
 	public UIHighscore(Game game) {
 		this.game = game;
-		this.font = game.getResources().getFont("visitor");
+		this.font = game.getResources().getFont(FontLoader.VISITOR_ID);
 		this.color = Color.WHITE;
 		this.highscore = 0;
 	}

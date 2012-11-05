@@ -1,5 +1,7 @@
 package fr.escape.graphics;
 
+import java.awt.AlphaComposite;
+import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -24,6 +26,9 @@ public final class Texture implements Disposable {
 
 	private final BufferedImage image;
 	
+	//TODO DEBUG
+	private int alpha = 100;
+	
 	public Texture(File file) throws IOException {
 		Objects.requireNonNull(file);
 		image = ImageIO.read(file);
@@ -43,6 +48,10 @@ public final class Texture implements Disposable {
 	
 	private Image getImage() {
 		return image;
+	}
+	
+	public void setAlpha(int alpha) {
+		this.alpha = alpha;
 	}
 
 	public void draw(Graphics2D graphics, int x, int y, int width, int height,
@@ -73,7 +82,19 @@ public final class Texture implements Disposable {
 
 		}
 		
+		Composite oComposite = null;
+		
+		if(alpha != 100) {
+			Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) alpha / 100);
+			oComposite = graphics.getComposite();
+	        graphics.setComposite(comp);
+		}
+        
 		graphics.drawImage(getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
+		
+		if(alpha != 100) {
+			graphics.setComposite(oComposite);
+		}
 		
 		// Restore Previous Matrix
 		if(updateMatrix) {
