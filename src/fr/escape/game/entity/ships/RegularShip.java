@@ -15,9 +15,8 @@ public class RegularShip extends AbstractShip {
 	
 	@Override
 	public void setPosition(World world,Graphics graphics,float[] val) {
-		Body body = getBody();
-		if(body.isActive()) {
-			body.setLinearVelocity(new Vec2(val[0],val[1]));
+		if(!isDestroyed()) {
+			getBody().setLinearVelocity(new Vec2(val[0],val[1]));
 			draw(graphics);
 			world.step(1.0f/60.0f,6,2);
 		}

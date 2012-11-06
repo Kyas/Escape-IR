@@ -16,7 +16,6 @@ public class ShipFactory {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x,y);
 		bodyDef.type = type;
-		bodyDef.userData = shipName;
 		
 		CircleShape shape = new CircleShape();
 		shape.m_radius = radius;
@@ -29,8 +28,10 @@ public class ShipFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
+		RegularShip ship = new RegularShip(body,life);
+		body.setUserData(ship);
 		
-		return new RegularShip(body,life);
+		return ship;
 	}
 	
 }

@@ -24,6 +24,20 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
+	public boolean isDestroyed() {
+		return life <= 0;
+	}
+
+	@Override
+	public void damage(int taken) {
+		life -= taken;
+		if(life <= 0) {
+			body.setActive(false);
+		}
+		System.out.println("Life : " + life);
+	}
+	
+	@Override
 	public int getActiveWeapon() {
 		return activeWeapon;
 	}
