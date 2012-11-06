@@ -5,11 +5,43 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import fr.escape.game.entity.ships.Ship;
+import fr.escape.game.entity.weapons.shot.Shot;
+
 public class CollisionDetector implements ContactListener {
 
 	@Override
 	public void beginContact(Contact arg0) {
 		Object dataA = arg0.getFixtureA().getBody().getUserData();
+		Object dataB = arg0.getFixtureB().getBody().getUserData();
+		
+		Class<Ship> shipClass = Ship.class;
+		Class<Shot> shotClass = Shot.class;
+		
+		Ship ship1 = null, ship2 = null;
+		Shot shot1 = null, shot2 = null;
+		
+		if(shipClass.isInstance(dataA)) {
+			System.out.println("toto");
+			ship1 = (Ship)dataA;
+		} else {
+			shot1 = (Shot)dataA;
+		}
+		
+		if(shipClass.isInstance(dataB)) {
+			System.out.println("titi");
+			ship2 = (Ship)dataB;
+		} else {
+			shot1 = (Shot)dataA;
+		}
+		
+		if(ship1 != null && ship2 != null) {
+			System.out.println("Ship & Ship collision");
+			ship1.damage(1);
+			ship2.damage(1);
+		}
+		
+		/*Object dataA = arg0.getFixtureA().getBody().getUserData();
 		Object dataB = arg0.getFixtureB().getBody().getUserData();
 		
 		switch(dataA.toString()) {
@@ -22,7 +54,7 @@ public class CollisionDetector implements ContactListener {
 			case "PlayerShip" : System.out.println("Player."); break;
 			case "NPCShip" : System.out.println("NPC."); break;
 			default : System.out.println("another Object."); break;
-		}
+		}*/
 	}
 
 	@Override
