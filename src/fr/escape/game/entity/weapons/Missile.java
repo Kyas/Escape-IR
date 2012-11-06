@@ -9,7 +9,7 @@ public final class Missile implements Weapon {
 	private final Texture drawable;
 	
 	public Missile() {
-		drawable = Foundation.resources.getDrawable(TextureLoader.WEAPON_MISSILE);
+		drawable = Foundation.resources.getTexture(TextureLoader.WEAPON_MISSILE);
 	}
 
 	@Override

@@ -423,4 +423,9 @@ public final class Graphics {
 		g2d.setFont(f);
 	}
 	
+	//TODO r
+	public void drw(){
+		
+	}
+	
 }

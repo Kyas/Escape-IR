@@ -1,6 +1,7 @@
 package fr.escape.game;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.ships.Ship;
@@ -8,16 +9,21 @@ import fr.escape.game.message.Receiver;
 import fr.escape.game.message.Sender;
 import fr.escape.input.Gesture;
 
-public final class User implements Receiver, Sender {	
+public final class User implements Receiver, Sender {
+	
 	private Ship ship;
 	private int highscore;
 	private Receiver receiver;
 	private ArrayList<Gesture> gestures;
-
+	private int life;
+	private LifeListener listener;
+	
 	// TODO Ship
-	public User() {
+	User(LifeListener listener) {
 		highscore = 0;
 		ship = null;
+		life = 3;
+		this.listener = Objects.requireNonNull(listener);
 	}
 
 	public int getHighscore() {
@@ -85,5 +91,38 @@ public final class User implements Receiver, Sender {
 	
 	public void setGestures(ArrayList<Gesture> gestures) {
 		this.gestures = gestures;
+	}
+	
+	public void removeOneLife() {
+		
+		this.life -= 1;
+		
+		if(this.life <= 0) {
+			listener.stop();
+		} else {
+			listener.restart();
+		}
+	}
+	
+	/**
+	 * <p>
+	 * An interface for User's Life.
+	 * 
+	 * <p>
+	 * The Listener will receive restart and stop notification depending
+	 * on how many lives are left.
+	 */
+	// TODO Check English Grammar
+	public static interface LifeListener {
+		
+		/**
+		 * User lose but has remaining lives.
+		 */
+		public void restart();
+		
+		/**
+		 * User lose without extra lives.
+		 */
+		public void stop();
 	}
 }

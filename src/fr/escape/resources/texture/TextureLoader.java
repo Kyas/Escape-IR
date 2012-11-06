@@ -8,6 +8,8 @@ import fr.escape.resources.ResourcesLoader;
 public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	
 	public static final String BACKGROUND_ERROR = "berror.png";
+	public static final String BACKGROUND_LOST = "blost.png";
+	public static final String BACKGROUND_MENU = "bmenu.png";
 	
 	public static final String WEAPON_MISSILE = "wmissile.png";
 	public static final String WEAPON_FIREBALL = "wfireball.png";

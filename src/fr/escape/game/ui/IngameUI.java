@@ -60,25 +60,25 @@ public final class IngameUI extends AbstractOverlay {
 
 	@Override
 	public boolean touch(Input touch) {
-		
-		for(Overlay o : overlays) {
-			if(o.touch(touch)) {
-				return true;
+		if(isVisible()) {
+			for(Overlay o : overlays) {
+				if(o.touch(touch)) {
+					return true;
+				}
 			}
 		}
-		
 		return false;
 	}
 
 	@Override
 	public boolean move(Input move) {
-		
-		for(Overlay o : overlays) {
-			if(o.touch(move)) {
-				return true;
+		if(isVisible()) {
+			for(Overlay o : overlays) {
+				if(o.touch(move)) {
+					return true;
+				}
 			}
 		}
-		
 		return false;
 	}
 }

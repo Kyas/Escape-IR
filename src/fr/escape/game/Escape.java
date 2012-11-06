@@ -23,12 +23,15 @@ import fr.escape.app.CollisionDetector;
 import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
+import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.BlackHole;
 import fr.escape.game.entity.weapons.Missile;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
+import fr.escape.game.screen.Lost;
+import fr.escape.game.screen.Menu;
 import fr.escape.game.screen.Splash;
 import fr.escape.game.screen.Error;
 import fr.escape.game.ui.IngameUI;
@@ -40,10 +43,19 @@ import fr.escape.input.Gesture;
 import fr.escape.input.LeftLoop;
 import fr.escape.input.RightLoop;
 
-public class Escape extends Game {
+public class Escape extends Game implements LifeListener {
+	
+	private final User user;
+	
+	private Lost lost;
+	private Menu menu;
 	private Splash splash;
 	private Error error;
 	private IngameUI ingameUI;
+	
+	public Escape() {
+		user = new User(this);
+	}
 	
 	/**
 	 * @see Game#create()
@@ -51,6 +63,7 @@ public class Escape extends Game {
 	@Override
 	public void create() {
 		try {
+			
 			float coeff = Math.max(getGraphics().getWidth(),getGraphics().getHeight());
 			ShipFactory sf = new ShipFactory();
 			Vec2 gravity = new Vec2(0.0f,0.0f);
@@ -58,7 +71,10 @@ public class Escape extends Game {
 			setWorld(world);
 			ContactListener contactListener = new CollisionDetector();
 			world.setContactListener(contactListener);
+			
 			// Create Screen
+			lost = new Lost(this);
+			menu = new Menu(this);
 			splash = new Splash(this);
 			// Other Screen if any ...
 			
@@ -122,6 +138,7 @@ public class Escape extends Game {
 	 */
 	@Override
 	public boolean touch(Input i) {
+		System.out.println("Touch Event");
 		if(getOverlay().touch(i)) {
 			return true;
 		}
@@ -133,6 +150,7 @@ public class Escape extends Game {
 	 */
 	@Override
 	public boolean move(Input i) {
+		System.out.println("Move Event");
 		if(getOverlay().move(i)) {
 			return true;
 		}
@@ -147,6 +165,32 @@ public class Escape extends Game {
 	 */
 	public Overlay getOverlay() {
 		return ingameUI;
+	}
+	
+	/**
+	 * Retrieve the {@link User} in this Game.
+	 * 
+	 * @return {@link User}
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	@Override
+	public void restart() {
+		setScreen(splash);
+	}
+
+	@Override
+	public void stop() {
+		setScreen(lost);
+	}
+	
+	/**
+	 * Update the current Screen by using Menu
+	 */
+	public void setMenuScreen() {
+		setScreen(menu);
 	}
 	
 }

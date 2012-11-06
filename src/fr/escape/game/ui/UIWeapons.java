@@ -26,7 +26,6 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 	private final static Color FONT_COLOR = Color.WHITE;
 	
 	private final Game game;
-	//private final Texture background;
 	private final Font font;
 	private final List<Weapon> weapons;
 	private final List<Rectangle> touchArea;
@@ -35,25 +34,17 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 	private int x;
 	private int y;
 	private int width;
-	private int height;
 
 	public UIWeapons(Game game, Receiver receiver, List<Weapon> weapons) {
 		
-		Objects.requireNonNull(game);
-		Objects.requireNonNull(weapons);
-		Objects.requireNonNull(receiver);
-		
-		this.game = game;
-		//this.background = game.getResources().getDrawable("bui");
+		this.game = Objects.requireNonNull(game);
 		this.font = game.getResources().getFont(FontLoader.VISITOR_ID).deriveFont(FONT_SIZE);
-		this.weapons = weapons;
-		this.receiver = receiver;
+		this.weapons = Objects.requireNonNull(weapons);
+		this.receiver = Objects.requireNonNull(receiver);
 		
 		this.width = game.getGraphics().getWidth();
 		this.y = (int) (((double) 1 / 16) * game.getGraphics().getHeight());
-		
 		this.x = this.width - (Weapons.getDrawableWidth() + LEFT_MARGING + RIGHT_MARGING);
-		this.height = this.y + (this.weapons.size() * (Weapons.getDrawableHeight() + TOP_MARGING + BOTTOM_MARGING));
 		
 		this.touchArea = new LinkedList<>();
 		
@@ -76,8 +67,7 @@ public class UIWeapons extends AbstractOverlay implements Sender {
 
 	@Override
 	public void render(long delta) {
-		//this.game.getGraphics().draw(this.background, this.x, this.y, this.width, this.height);
-		
+
 		int offset = this.y;
 		for(Weapon w : weapons) {
 			

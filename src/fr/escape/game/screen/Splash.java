@@ -124,6 +124,10 @@ public class Splash implements Screen {
 		one.draw(game.getGraphics());
 		two.draw(game.getGraphics());
 		
+//		if(time > 1000) {
+//			game.getUser().removeOneLife();
+//		}
+		
 	}
 
 	@Override
