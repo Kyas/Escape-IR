@@ -2,6 +2,7 @@ package fr.escape.game.entity.weapons;
 
 import fr.escape.app.Foundation;
 import fr.escape.graphics.Texture;
+import fr.escape.resources.texture.TextureLoader;
 
 public final class BlackHole implements Weapon {
 	
@@ -9,7 +10,7 @@ public final class BlackHole implements Weapon {
 	
 	public BlackHole() {
 		
-		drawable = Foundation.resources.getDrawable("wblackhole");
+		drawable = Foundation.resources.getDrawable(TextureLoader.WEAPON_BLACKHOLE);
 		
 	}
 

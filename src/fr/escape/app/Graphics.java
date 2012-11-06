@@ -411,9 +411,16 @@ public final class Graphics {
 	 * @param color Color used for rendering
 	 */
 	public void draw(final String message, final int x, final int y, final Font font, final Color color) {
+		
+		Font f = g2d.getFont();
+		Color c = g2d.getColor();
+		
 		g2d.setPaint(color);
 		g2d.setFont(font);
 		g2d.drawString(message, x, y);
+		
+		g2d.setPaint(c);
+		g2d.setFont(f);
 	}
 	
 }

@@ -2,13 +2,14 @@ package fr.escape.game.entity.weapons;
 
 import fr.escape.app.Foundation;
 import fr.escape.graphics.Texture;
+import fr.escape.resources.texture.TextureLoader;
 
 public final class Missile implements Weapon {
 	
 	private final Texture drawable;
 	
 	public Missile() {
-		drawable = Foundation.resources.getDrawable("wmissile");
+		drawable = Foundation.resources.getDrawable(TextureLoader.WEAPON_MISSILE);
 	}
 
 	@Override

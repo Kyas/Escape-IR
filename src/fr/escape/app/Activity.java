@@ -53,6 +53,8 @@ public final class Activity {
 		Foundation.graphics = graphics;
 		Foundation.resources = new Resources();
 
+		Foundation.resources.load();
+		
 		game.create();
 		initialize();
 	}
