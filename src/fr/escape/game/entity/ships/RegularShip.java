@@ -9,15 +9,18 @@ import fr.escape.app.Graphics;
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body) {
-		super(body);
+	public RegularShip(Body body,int life) {
+		super(body,life);
 	}
 	
 	@Override
 	public void setPosition(World world,Graphics graphics,float[] val) {
-		getBody().setLinearVelocity(new Vec2(val[0],val[1]));
-		draw(graphics);
-		world.step(1.0f/60.0f,6,2);
+		Body body = getBody();
+		if(body.isActive()) {
+			body.setLinearVelocity(new Vec2(val[0],val[1]));
+			draw(graphics);
+			world.step(1.0f/60.0f,6,2);
+		}
 	}
 
 	@Override

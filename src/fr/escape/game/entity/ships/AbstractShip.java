@@ -13,11 +13,13 @@ public abstract class AbstractShip implements Ship {
 	private final Body body;
 	private final ArrayList<Weapon> weapons;
 	private int activeWeapon;
+	private int life;
 	
-	public AbstractShip(Body body) {
+	public AbstractShip(Body body,int life) {
 		this.weapons = new ArrayList<>(4);
 		this.activeWeapon = 0;
 		this.body = body;
+		this.life = life;
 	}
 	
 	@Override

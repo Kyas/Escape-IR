@@ -18,9 +18,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import org.jbox2d.dynamics.BodyType;
+
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.game.entity.ships.Ship;
+import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.shot.MissileShot;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
@@ -45,6 +49,9 @@ public class Splash implements Screen {
 	
 	private final MissileShot[] msArray;
 	
+	//TODO remove after test
+	private final ArrayList<Ship> s;
+	
 	public Splash(Escape game) throws IOException {
 		this.game = game;
 		this.time = 0;
@@ -66,6 +73,14 @@ public class Splash implements Screen {
 			
 		}
 		
+		//TODO remove after test
+		ShipFactory sf = new ShipFactory();
+		float coeff = Math.max(game.getGraphics().getWidth(),game.getGraphics().getHeight());
+		s = new ArrayList<>(10);
+		for(int i = 0; i < 5; i++) {
+			Ship tmp = sf.createRegularShip(game.getWorld(),"NPCShip",(i *100) / coeff * 10,50 / coeff * 10,BodyType.DYNAMIC,0.5f,1);
+			s.add(tmp);
+		}
 	}
 	
 	@Override
@@ -84,11 +99,10 @@ public class Splash implements Screen {
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics(),gestureVal);
-		//game.getGraphics().draw(game.getResources().getDrawable("wfireball"),game.getGraphics().getWidth()/2 - 20,game.getGraphics().getHeight() - 100);
-		//game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics());
-		/*Ship ship = game.getUser().getShip();
-		ship.setPosition(game.getWorld(),game.getGraphics(),Math.max(game.getGraphics().getHeight(),game.getGraphics().getWidth()));*/
-		//ship.draw(game.getGraphics(),(int)ship.getBody().getPosition().x - 0.1f,(int)ship.getBody().getPosition().y - 0.1f);
+
+		//TODO remove after test
+		float[] tmpF = {0,1.f};
+		for(Ship ship : s) ship.setPosition(game.getWorld(),game.getGraphics(),tmpF);
 		
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
@@ -112,8 +126,6 @@ public class Splash implements Screen {
 			
 			msArray[i].draw(game.getGraphics());
 		}
-		
-		
 	}
 
 	@Override

@@ -11,11 +11,12 @@ import org.jbox2d.dynamics.World;
 
 public class ShipFactory {
 	
-	public RegularShip createRegularShip(World world,float x,float y,BodyType type,float radius) {
+	public RegularShip createRegularShip(World world,String shipName,float x,float y,BodyType type,float radius,int life) {
 		Objects.requireNonNull(world);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x,y);
 		bodyDef.type = type;
+		bodyDef.userData = shipName;
 		
 		CircleShape shape = new CircleShape();
 		shape.m_radius = radius;
@@ -28,7 +29,8 @@ public class ShipFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		return new RegularShip(body);
+		
+		return new RegularShip(body,life);
 	}
 	
 }

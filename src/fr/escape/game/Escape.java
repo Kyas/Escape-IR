@@ -14,10 +14,12 @@ package fr.escape.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
+import fr.escape.app.CollisionDetector;
 import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
@@ -54,6 +56,8 @@ public class Escape extends Game {
 			Vec2 gravity = new Vec2(0.0f,0.0f);
 			World world = new World(gravity,true);
 			setWorld(world);
+			ContactListener contactListener = new CollisionDetector();
+			world.setContactListener(contactListener);
 			// Create Screen
 			splash = new Splash(this);
 			// Other Screen if any ...
@@ -64,7 +68,7 @@ public class Escape extends Game {
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			Ship ship = sf.createRegularShip(world,(getGraphics().getWidth()/2 - 20) / coeff * 10,(getGraphics().getHeight() - 50) / coeff * 10,BodyType.DYNAMIC,1);
+			Ship ship = sf.createRegularShip(world,"PlayerShip",(getGraphics().getWidth()/2 - 20) / coeff * 10,(getGraphics().getHeight() - 100) / coeff * 10,BodyType.DYNAMIC,0.5f,3);
 
 			getUser().register(uHighscore);
 			getUser().setShip(ship);
