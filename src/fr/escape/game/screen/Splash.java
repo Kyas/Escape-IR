@@ -23,6 +23,8 @@ import org.jbox2d.dynamics.BodyType;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.game.entity.Entity;
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 
@@ -49,8 +51,7 @@ public class Splash implements Screen {
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
-	private final Shot one;
-	private final Shot two;
+	private final EntityContainer eContainer;
 	
 	//TODO remove after test
 	private final ArrayList<Ship> s;
@@ -66,8 +67,17 @@ public class Splash implements Screen {
 		stage = new Earth();
 		stage.start();
 		
-		one = ShotFactory.createMissileShot();
-		two = ShotFactory.createShiboleetShot();
+		this.eContainer = new EntityContainer();
+		
+		Shot one = ShotFactory.createMissileShot(this.eContainer);
+		one.setPosition(game.getGraphics().getWidth() / 2, 0);
+		this.eContainer.push(one);
+		
+		Shot two = ShotFactory.createShiboleetShot(this.eContainer);
+		two.setPosition(game.getGraphics().getWidth() / 2, 0);
+		this.eContainer.push(two);
+		
+		Entity e = two;
 		
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
@@ -78,8 +88,8 @@ public class Splash implements Screen {
 			s.add(tmp);
 		}
 
-		one.setPosition(game.getGraphics().getWidth() / 2, 0);
-		two.setPosition(game.getGraphics().getWidth() / 2, 0);
+		
+		
 	}
 	
 	@Override
@@ -109,24 +119,11 @@ public class Splash implements Screen {
 		game.getUser().setHighscore((int) time);
 		stage.update((int) (time / 1000));
 
-		game.getActivity().post(new Runnable() {
-			
-			@Override
-			public void run() {
-				one.moveBy(0, 1);
-				two.moveBy(0, 1);
-				one.rotateBy(1);
-				two.rotateBy(-1);
-			}
-			//msArray[i].draw(game.getGraphics());
-		});
+		eContainer.update(game.getGraphics(), delta);
 		
-		one.draw(game.getGraphics());
-		two.draw(game.getGraphics());
-		
-//		if(time > 1000) {
-//			game.getUser().removeOneLife();
-//		}
+		if(time > 3000) {
+			game.getUser().removeOneLife();
+		}
 		
 	}
 

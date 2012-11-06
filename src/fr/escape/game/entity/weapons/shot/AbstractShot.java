@@ -1,6 +1,7 @@
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
+import java.util.Objects;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
@@ -16,13 +17,13 @@ public abstract class AbstractShot implements Shot {
 	private int angle;
 	
 	public AbstractShot(Texture drawable, EdgeNotifier edgeNotifier) {
-		this.drawable = drawable;
-		this.eNotifier = edgeNotifier;
+		this.drawable = Objects.requireNonNull(drawable);
+		this.eNotifier = Objects.requireNonNull(edgeNotifier);
 		this.x = 0;
 		this.y = 0;
 		this.angle = 0;
 	}
-	
+
 	@Override
 	public void moveBy(int x, int y) {
 		this.setPosition(this.x + x, this.y + y);
