@@ -10,7 +10,7 @@ public final class BlackHole implements Weapon {
 	
 	public BlackHole() {
 		
-		drawable = Foundation.resources.getDrawable(TextureLoader.WEAPON_BLACKHOLE);
+		drawable = Foundation.resources.getTexture(TextureLoader.WEAPON_BLACKHOLE);
 		
 	}
 

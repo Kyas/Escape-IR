@@ -53,6 +53,7 @@ public final class Activity {
 		Foundation.graphics = graphics;
 		Foundation.resources = new Resources();
 
+		//TODO Don't do this here
 		Foundation.resources.load();
 		
 		game.create();
@@ -289,7 +290,7 @@ public final class Activity {
 				break;
 			}
 			case ACTION_UP: {
-				if(event.getKind() == Kind.ACTION_DOWN) {
+				if(lastEvent.getKind() == Kind.ACTION_DOWN) {
 					
 					post(new Runnable() {
 						

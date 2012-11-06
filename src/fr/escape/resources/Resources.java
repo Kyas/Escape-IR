@@ -41,6 +41,8 @@ public final class Resources {
 			
 			// Load Texture
 			loadTexture(TextureLoader.BACKGROUND_ERROR);
+			loadTexture(TextureLoader.BACKGROUND_LOST);
+			loadTexture(TextureLoader.BACKGROUND_MENU);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE);
 			loadTexture(TextureLoader.WEAPON_FIREBALL);
 			loadTexture(TextureLoader.WEAPON_MISSILE);
@@ -70,7 +72,7 @@ public final class Resources {
 		}
 	}
 	
-	public Texture getDrawable(String name) throws NoSuchElementException {
+	public Texture getTexture(String name) throws NoSuchElementException {
 		Objects.requireNonNull(name);
 		checkIfLoaded();
 		try {
@@ -85,7 +87,7 @@ public final class Resources {
 		}
 	}
 	
-	private FontLoader createFontLoader(final String fontID, final float size) {
+	private static FontLoader createFontLoader(final String fontID, final float size) {
 		return new FontLoader() {
 
 			private Font font;
@@ -102,7 +104,7 @@ public final class Resources {
 		};
 	}
 	
-	private TextureLoader createTextureLoader(final String textureID) {
+	private static TextureLoader createTextureLoader(final String textureID) {
 		return new TextureLoader() {
 			
 			private Texture texture = null;

@@ -73,6 +73,6 @@ public abstract class AbstractShip implements Ship {
 		int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
 		int x = (int)(body.getPosition().x / 10 * coeff);
 		int y = (int)(body.getPosition().y  / 10 * coeff);
-		graphics.draw(Foundation.resources.getDrawable(TextureLoader.DEBUG_WIN),x,y);
+		graphics.draw(Foundation.resources.getTexture(TextureLoader.DEBUG_WIN),x,y);
 	}
 }

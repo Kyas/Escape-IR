@@ -26,13 +26,9 @@ import fr.escape.resources.Resources;
  * Allowing multiple screens for a Game.
  */
 public abstract class Game implements RenderListener, EventListener {
-	private Screen screen;	
-	private User user;
-	private World world;
 	
-	public Game() {
-		user = new User();
-	}
+	private Screen screen;
+	private World world;
 	
 	public abstract void create();
 	
@@ -126,15 +122,6 @@ public abstract class Game implements RenderListener, EventListener {
 	 */
 	public boolean move(Input i) {
 		return true;
-	}
-	
-	/**
-	 * Retrieve the {@link User} in this Game.
-	 * 
-	 * @return {@link User}
-	 */
-	public User getUser() {
-		return user;
 	}
 	
 	/**

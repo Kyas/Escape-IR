@@ -42,7 +42,7 @@ public class Error implements Screen {
 		}
 		
 		try {
-			background = new RepeatableScrollingTexture(game.getResources().getDrawable(TextureLoader.BACKGROUND_ERROR));
+			background = new RepeatableScrollingTexture(game.getResources().getTexture(TextureLoader.BACKGROUND_ERROR));
 			fallbackBackground = false;
 		} catch(NoSuchElementException e) {
 			fallbackBackground = true;
@@ -102,7 +102,9 @@ public class Error implements Screen {
 
 	@Override
 	public void show() {
-		game.getOverlay().hide();
+		if(game.getOverlay() != null) {
+			game.getOverlay().hide();
+		}
 	}
 
 	@Override
