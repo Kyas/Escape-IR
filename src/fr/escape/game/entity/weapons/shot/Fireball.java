@@ -13,6 +13,7 @@ import fr.escape.resources.texture.TextureLoader;
 public final class Fireball extends AbstractShot {
 
 	private static final int FIREBALL_SPEED = 4000;
+	private static final float MINIMAL_RADIUS = 0.3f;
 	
 	private final Texture coreBall;
 	private final Texture radiusEffect;
@@ -30,7 +31,7 @@ public final class Fireball extends AbstractShot {
 		
 		this.isVisible = false;
 		this.radiusGrown = false;
-		this.radiusSize = 0.5f;
+		this.radiusSize = MINIMAL_RADIUS;
 	}
 
 	@Override
@@ -124,7 +125,7 @@ public final class Fireball extends AbstractShot {
 			time = FIREBALL_SPEED;
 		}
 		
-		return (0.5f*(((float) time / FIREBALL_SPEED)))+0.5f;
+		return ((1.0f - MINIMAL_RADIUS) * (((float) time / FIREBALL_SPEED))) + MINIMAL_RADIUS;
 		
 	}
 }

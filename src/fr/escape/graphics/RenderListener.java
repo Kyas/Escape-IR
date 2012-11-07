@@ -21,7 +21,8 @@ import fr.escape.app.Graphics;
 public interface RenderListener {
 	
 	/**
-	 * // TODO Comment this interface function
+	 * <p>
+	 * Render a new content on the Screen.
 	 */
 	public void render();
 }

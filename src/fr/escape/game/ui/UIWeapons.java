@@ -20,7 +20,6 @@ import java.util.Objects;
 
 import fr.escape.app.Game;
 import fr.escape.app.Input;
-import fr.escape.game.User;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.message.Receiver;
@@ -142,9 +141,8 @@ public final class UIWeapons extends AbstractOverlay implements Sender {
 				if(!w.isEmpty()) {
 					activeWeapon = w;
 					send(i);
-					return true;
 				}
-				return false;
+				return true;
 			}
 			i++;
 		}

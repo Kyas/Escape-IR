@@ -23,38 +23,68 @@ import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.MotionEvent;
 import fr.umlv.zen2.MotionEvent.Kind;
 
-// TODO Comment
+/**
+ * <p>
+ * Core Engine for Escape-IR
+ * 
+ * <p>
+ */
+//TODO Finish this commment
 public final class Activity {
 
+	static final String TAG = Activity.class.getSimpleName();
+	
+	/**
+	 * Log Level
+	 */
 	public static final int LOG_NONE = 0;
 	public static final int LOG_DEBUG = 3;
 	public static final int LOG_INFO = 2;
 	public static final int LOG_ERROR = 1;
 	
-	private final EventListener listener;
+	private final Game game;
 	private final Graphics graphics;
 	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
 	private final String title;
 	private int logLevel;
 	
+	/**
+	 * Constructor with default Configuration and a given Game.
+	 * 
+	 * @param game The Game
+	 */
 	public Activity(Game game) {
 		this(game, new Configuration());
 	}
 	
+	/**
+	 * Default Constructor with a given Game and Configuration.
+	 * 
+	 * @param game The Game
+	 * @param configuration Configuration to use.
+	 */
 	public Activity(Game game, Configuration configuration) {
 		
-		graphics = new Graphics(game, configuration);
-		logLevel = LOG_INFO;
-		title = configuration.title;
-		listener = game;
+		this.graphics = new Graphics(game, configuration);
+		this.logLevel = LOG_INFO;
+		this.title = configuration.title;
+		this.game = game;
+
+		debug(TAG, "Graphics Engine created");
+	}
+	
+	/**
+	 * <p>
+	 * Create Activity Components (ie: {@link Foundation}) and launch it.
+	 */
+	public void create() {
 		
 		Foundation.activity = this;
 		Foundation.graphics = graphics;
 		Foundation.resources = new Resources();
-
-		//TODO Don't do this here
-		Foundation.resources.load();
 		
+		Foundation.resources.load();
+
 		game.create();
 		initialize();
 	}
@@ -73,7 +103,7 @@ public final class Activity {
 				
 				try {
 					
-					log("Activity", "Application started");
+					debug(TAG, "Application started");
 					Input lastEvent = null;
 					for(;;) {
 						
@@ -101,12 +131,12 @@ public final class Activity {
 									try {
 										next.run();
 									} catch(Throwable t) {
-										error("Activity - Runnable", "Error while executing a Runnable", t);
+										error(TAG, "Error while executing a Runnable", t);
 									}
 								}
 								
 								executionTime = (int) (System.currentTimeMillis() - start);
-								debug("Activity - Runnable", "Runnable(s) executed in "+executionTime+" ms");
+								debug(TAG, "Runnable(s) executed in "+executionTime+" ms");
 							}
 						}
 						
@@ -126,7 +156,7 @@ public final class Activity {
 					}
 					
 				} finally {
-					debug("Activity", "Application closed");			
+					debug(TAG, "Application closed");			
 				}
 				
 			}
@@ -250,7 +280,7 @@ public final class Activity {
 	 * @return Event Listener
 	 */
 	EventListener getEventListener() {
-		return listener;
+		return this.game;
 	}
 	
 	/**
@@ -289,6 +319,7 @@ public final class Activity {
 				break;
 			}
 			case ACTION_UP: {
+				
 				if(lastEvent.getKind() == Kind.ACTION_DOWN) {
 					
 					post(new Runnable() {

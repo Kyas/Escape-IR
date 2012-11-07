@@ -24,6 +24,8 @@ import fr.escape.resources.Resources;
  * <p>
  * Allowing multiple screens for a Game.
  */
+// TODO Comment
+// TODO Remove touch and move
 public abstract class Game implements RenderListener, EventListener {
 	
 	private Screen screen;
@@ -31,36 +33,18 @@ public abstract class Game implements RenderListener, EventListener {
 	
 	public abstract void create();
 	
-//	public void dispose() {
-//		if(screen != null) {
-//			screen.hide();
-//		}
-//	}
-//
-//	public void pause() {
-//		if(screen != null) {
-//			screen.pause();
-//		}
-//	}
-//
-//	public void resume() {
-//		if(screen != null) {
-//			screen.resume();
-//		}
-//	}
-
+	@Override
 	public void render() {
 		if(screen != null) {
 			screen.render(getGraphics().getDeltaTime());
 		}
 	}
-	
-//	public void resize(int width, int height) {
-//		if(screen != null) {
-//			screen.resize(width, height);
-//		}
-//	}
 
+	/**
+	 * Set a new active {@link Screen}.
+	 * 
+	 * @param screen {@link Screen} to display.
+	 */
 	public void setScreen(Screen screen) {
 		
 		if(this.screen != null) {
@@ -70,7 +54,6 @@ public abstract class Game implements RenderListener, EventListener {
 		this.screen = screen;
 		
 		screen.show();
-		//screen.resize(Foundation.graphics.getWidth(), Foundation.graphics.getHeight());
 	}
 
 	/**
@@ -109,19 +92,19 @@ public abstract class Game implements RenderListener, EventListener {
 		return Foundation.resources;
 	}
 	
-	/**
-	 * 
-	 */
-	public boolean touch(Input i) {
-		return true;
-	}
-	
-	/**
-	 * 
-	 */
-	public boolean move(Input i) {
-		return true;
-	}
+//	/**
+//	 * 
+//	 */
+//	public boolean touch(Input i) {
+//		return true;
+//	}
+//	
+//	/**
+//	 * 
+//	 */
+//	public boolean move(Input i) {
+//		return true;
+//	}
 	
 	/**
 	 * 

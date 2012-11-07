@@ -1,6 +1,7 @@
 package fr.escape.app;
 
 public class CoordinateConverter {
+	
 	private static final float COEFF = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
 	
 	public static float toMeter(int x) {

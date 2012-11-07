@@ -12,6 +12,8 @@ import fr.escape.resources.texture.TextureLoader;
 
 public final class Resources {
 	
+	static final String TAG = Resources.class.getSimpleName();
+	
 	private final HashMap<String, FontLoader> fontLoader;
 	private final HashMap<String, TextureLoader> drawableLoader;
 
@@ -103,6 +105,7 @@ public final class Resources {
 			@Override
 			public Font load() throws Exception {
 				if(font == null) {
+					Foundation.activity.debug(TAG, "Load Font: "+fontID);
 					font = Font.createFont(Font.TRUETYPE_FONT, getPath().resolve(fontID).toFile());
 					font = font.deriveFont(size);
 				}
@@ -120,7 +123,7 @@ public final class Resources {
 			@Override
 			public Texture load() throws Exception {
 				if(texture == null) {
-					Foundation.activity.debug(getClass().getSimpleName(), "Load Texture: "+textureID);
+					Foundation.activity.debug(TAG, "Load Texture: "+textureID);
 					texture = new Texture(getPath().resolve(textureID).toFile());
 				}
 				return texture;
