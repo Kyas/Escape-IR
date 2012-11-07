@@ -3,6 +3,8 @@ package fr.escape.game.entity.weapons.shot;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import org.jbox2d.dynamics.Body;
+
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
@@ -29,8 +31,8 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	private long timer;
 	
-	public BlackHoleShot(EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
-		super(edgeNotifier, killNotifier);
+	public BlackHoleShot(Body body,EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
+		super(body,edgeNotifier, killNotifier);
 		
 		this.isVisible = false;
 		this.drawCoreHelix = false;

@@ -24,7 +24,7 @@ public final class Fireball extends AbstractShot {
 	private long timer;
 	
 	public Fireball(EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
-		super(edgeNotifier, killNotifier);
+		super(null,edgeNotifier, killNotifier);
 		
 		this.coreBall = Foundation.resources.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
 		this.radiusEffect = Foundation.resources.getTexture(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
