@@ -20,16 +20,13 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.CollisionDetector;
+import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
 import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
-import fr.escape.game.entity.weapons.BlackHole;
-import fr.escape.game.entity.weapons.FireBall;
-import fr.escape.game.entity.weapons.Missile;
-import fr.escape.game.entity.weapons.Shiboleet;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.screen.Lost;
@@ -65,8 +62,6 @@ public class Escape extends Game implements LifeListener {
 	@Override
 	public void create() {
 		try {
-			
-			float coeff = Math.max(getGraphics().getWidth(),getGraphics().getHeight());
 			ShipFactory sf = new ShipFactory();
 			Vec2 gravity = new Vec2(0.0f,0.0f);
 			World world = new World(gravity,true);
@@ -86,7 +81,7 @@ public class Escape extends Game implements LifeListener {
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			Ship ship = sf.createRegularShip(world,"PlayerShip",(getGraphics().getWidth()/2 - 20) / coeff * 10,(getGraphics().getHeight() - 100) / coeff * 10,BodyType.DYNAMIC,0.5f,3,true);
+			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeter(getGraphics().getWidth()/2 - 20),CoordinateConverter.toMeter(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true);
 
 			getUser().register(uHighscore);
 			System.out.println("Ship set");

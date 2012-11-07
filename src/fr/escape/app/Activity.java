@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
-import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;
 import fr.umlv.zen2.Application;

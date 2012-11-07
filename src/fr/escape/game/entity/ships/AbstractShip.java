@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jbox2d.dynamics.Body;
 
+import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.weapons.Weapon;
@@ -15,32 +16,16 @@ public abstract class AbstractShip implements Ship {
 	private final ArrayList<Weapon> weapons;
 	private final boolean isPlayer;
 	private int activeWeapon;
-	private int life;
 	
-	public AbstractShip(Body body,int life,boolean isPlayer) {
+	public AbstractShip(Body body,boolean isPlayer) {
 		this.weapons = new ArrayList<>(4);
 		this.activeWeapon = 0;
 		this.body = body;
-		this.life = life;
 		this.isPlayer = isPlayer;
-	}
-	
-	@Override
-	public boolean isDestroyed() {
-		return life <= 0;
 	}
 	
 	public boolean isPlayer() {
 		return isPlayer;
-	}
-
-	@Override
-	public void damage(int taken) {
-		life -= taken;
-		if(life <= 0) {
-			body.setActive(false);
-		}
-		System.out.println("Life : " + life);
 	}
 	
 	@Override
@@ -76,9 +61,8 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void draw(Graphics graphics) {
-		int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
-		int x = (int)(body.getPosition().x / 10 * coeff);
-		int y = (int)(body.getPosition().y  / 10 * coeff);
+		int x = CoordinateConverter.toPixel(body.getPosition().x);
+		int y = CoordinateConverter.toPixel(body.getPosition().y);
 		graphics.draw(Foundation.resources.getTexture(TextureLoader.DEBUG_WIN),x,y);
 	}
 	
