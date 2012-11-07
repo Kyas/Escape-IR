@@ -50,6 +50,8 @@ public final class Resources {
 			loadTexture(TextureLoader.WEAPON_MISSILE);
 			loadTexture(TextureLoader.WEAPON_SHIBOLEET);
 			loadTexture(TextureLoader.WEAPON_MISSILE_SHOT);
+			loadTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
+			loadTexture(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
 			loadTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);

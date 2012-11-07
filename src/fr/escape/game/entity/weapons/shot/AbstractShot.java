@@ -25,8 +25,10 @@ public abstract class AbstractShot implements Shot {
 	private int angle;
 	
 	public AbstractShot(EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
+		
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
 		this.kNotifier = Objects.requireNonNull(killNotifier);
+		
 		this.x = 0;
 		this.y = 0;
 		this.angle = 0;
