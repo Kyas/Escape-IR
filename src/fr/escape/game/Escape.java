@@ -19,12 +19,12 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.app.CollisionDetector;
-import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
 import fr.escape.game.User.LifeListener;
+import fr.escape.game.entity.CollisionDetector;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.Weapon;

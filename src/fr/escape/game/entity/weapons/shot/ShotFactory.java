@@ -18,11 +18,12 @@ public final class ShotFactory {
 	//private static final Texture MISSILE_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 	//private static final Texture SHIBOLEET_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 
-	public static Shot createBlackholeShot(World world,float x,float y,EntityContainer ec) {
+	public static Shot createBlackholeShot(World world, float x, float y, EntityContainer ec) {
+		
 		Objects.requireNonNull(world);
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(x,y);
+		bodyDef.position.set(x, y);
 		bodyDef.type = BodyType.DYNAMIC;
 		bodyDef.userData = "BlackHole";
 		
@@ -37,7 +38,8 @@ public final class ShotFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		return new BlackHoleShot(body,ec,ec);
+		
+		return new BlackHoleShot(body, ec, ec);
 	}
 	
 	public static Shot createFireBallShot(EntityContainer ec) {

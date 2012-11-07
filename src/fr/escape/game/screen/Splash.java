@@ -21,10 +21,10 @@ import java.util.Objects;
 
 import org.jbox2d.dynamics.BodyType;
 
-import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;

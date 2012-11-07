@@ -4,8 +4,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CoordinateConverter;
 
 //TODO comment
 public class RegularShip extends AbstractShip {

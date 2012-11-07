@@ -1,4 +1,4 @@
-package fr.escape.app;
+package fr.escape.game.entity;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -6,7 +6,7 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 
-public class CollisionDetector implements ContactListener {
+public final class CollisionDetector implements ContactListener {
 
 	@Override
 	public void beginContact(Contact arg0) {		

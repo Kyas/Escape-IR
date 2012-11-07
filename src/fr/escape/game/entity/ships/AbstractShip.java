@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.jbox2d.dynamics.Body;
 
-import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.resources.texture.TextureLoader;
 

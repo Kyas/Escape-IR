@@ -1,6 +1,8 @@
-package fr.escape.app;
+package fr.escape.game.entity;
 
-public class CoordinateConverter {
+import fr.escape.app.Foundation;
+
+public final class CoordinateConverter {
 	
 	private static final float COEFF = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
 	
