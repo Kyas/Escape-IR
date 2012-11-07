@@ -3,6 +3,8 @@ package fr.escape.game.entity.weapons.shot;
 import java.awt.Rectangle;
 import java.util.Objects;
 
+import org.jbox2d.dynamics.Body;
+
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
@@ -20,11 +22,13 @@ public abstract class AbstractShot implements Shot {
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
 	
+	private final Body body;
 	private int x;
 	private int y;
 	private int angle;
 	
-	public AbstractShot(EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
+	public AbstractShot(Body body,EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
+		this.body = body;
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
 		this.kNotifier = Objects.requireNonNull(killNotifier);
 		this.x = 0;
@@ -81,10 +85,15 @@ public abstract class AbstractShot implements Shot {
 		this.angle = angle;
 	}
 	
+	
 //	@Override
 //	public void draw(Graphics graphics) {
 //		graphics.draw(drawable, (getX() - (drawable.getWidth() / 2)), (getY() - (drawable.getHeight() / 2)), getAngle());
 //	}
+	
+	public Body getBody() {
+		return body;
+	}
 	
 	protected int getX() {
 		return this.x;

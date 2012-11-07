@@ -86,8 +86,9 @@ public class Splash implements Screen {
 //		two.setPosition(game.getGraphics().getWidth() / 2, 0);
 //		this.eContainer.push(two);
 		
-		Shot three = ShotFactory.createBlackholeShot(this.eContainer);
-		three.setPosition(game.getGraphics().getWidth() / 2, game.getGraphics().getHeight() / 2);
+		int x = game.getGraphics().getWidth() / 2, y = game.getGraphics().getHeight() / 2;
+		Shot three = ShotFactory.createBlackholeShot(game.getWorld(),CoordinateConverter.toMeter(x),CoordinateConverter.toMeter(y),this.eContainer);
+		three.setPosition(x,y);
 		this.eContainer.push(three);
 		bw = three;
 		
