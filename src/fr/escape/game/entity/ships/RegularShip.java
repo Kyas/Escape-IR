@@ -19,8 +19,8 @@ public class RegularShip extends AbstractShip {
 		if(!isDestroyed()) {
 			int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
 			Body body = getBody();
-			int x = (int)(body.getPosition().x * coeff / 10);
-			int y = (int)(body.getPosition().y * coeff / 10);
+			int x = (int) ((body.getPosition().x * coeff) / 10);
+			int y = (int) ((body.getPosition().y * coeff) / 10);
 			if(velocity[0] > 0) {
 				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
 				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));

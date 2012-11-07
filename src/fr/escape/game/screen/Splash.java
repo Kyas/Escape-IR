@@ -29,6 +29,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 
+import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.game.scenario.Earth;
@@ -57,6 +58,10 @@ public class Splash implements Screen {
 	
 	private final EntityContainer eContainer;
 	
+	// DEBUG
+	private Shot bw;
+	private boolean hit = false;
+	
 	//TODO remove after test
 	private final ArrayList<Ship> s;
 	
@@ -73,17 +78,18 @@ public class Splash implements Screen {
 		
 		this.eContainer = new EntityContainer();
 		
-		Shot one = ShotFactory.createMissileShot(this.eContainer);
-		one.setPosition(game.getGraphics().getWidth() / 2, 0);
-		this.eContainer.push(one);
-		
-		Shot two = ShotFactory.createShiboleetShot(this.eContainer);
-		two.setPosition(game.getGraphics().getWidth() / 2, 0);
-		this.eContainer.push(two);
+//		Shot one = ShotFactory.createMissileShot(this.eContainer);
+//		one.setPosition(game.getGraphics().getWidth() / 2, 0);
+//		this.eContainer.push(one);
+//		
+//		Shot two = ShotFactory.createShiboleetShot(this.eContainer);
+//		two.setPosition(game.getGraphics().getWidth() / 2, 0);
+//		this.eContainer.push(two);
 		
 		Shot three = ShotFactory.createBlackholeShot(this.eContainer);
-		three.setPosition(game.getGraphics().getWidth() / 2, game.getGraphics().getHeight());
+		three.setPosition(game.getGraphics().getWidth() / 2, game.getGraphics().getHeight() / 2);
 		this.eContainer.push(three);
+		bw = three;
 		
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
@@ -130,6 +136,18 @@ public class Splash implements Screen {
 //		if(time > 3000) {
 //			game.getUser().removeOneLife();
 //		}
+		
+		if(time > 1000 && time <= 3000) {
+			bw.receive(AbstractShot.MESSAGE_LOAD);
+		} else if(time > 3000 && time <= 5000) {
+			bw.receive(AbstractShot.MESSAGE_FIRE);
+			bw.receive(AbstractShot.MESSAGE_CRUISE);
+		} else if(time > 5000 && time <= 7000 && !hit) {
+			bw.receive(AbstractShot.MESSAGE_HIT);
+			hit = true;
+		} else if(time > 13000){
+			bw.receive(AbstractShot.MESSAGE_DESTROY);
+		}
 		
 	}
 

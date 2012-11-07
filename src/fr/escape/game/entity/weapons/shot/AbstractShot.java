@@ -5,25 +5,55 @@ import java.util.Objects;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
+import fr.escape.game.entity.notifier.KillNotifier;
+import fr.escape.game.message.Receiver;
 import fr.escape.graphics.Texture;
 
 public abstract class AbstractShot implements Shot {
 	
-	private final Texture drawable;
+	public final static int MESSAGE_LOAD = 0;
+	public final static int MESSAGE_FIRE = 1;
+	public final static int MESSAGE_CRUISE = 2;
+	public final static int MESSAGE_HIT = 3;
+	public final static int MESSAGE_DESTROY = 4;
+	
 	private final EdgeNotifier eNotifier;
+	private final KillNotifier kNotifier;
 	
 	private int x;
 	private int y;
 	private int angle;
 	
-	public AbstractShot(Texture drawable, EdgeNotifier edgeNotifier) {
-		this.drawable = Objects.requireNonNull(drawable);
+	public AbstractShot(EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
+		this.kNotifier = Objects.requireNonNull(killNotifier);
 		this.x = 0;
 		this.y = 0;
 		this.angle = 0;
 	}
 
+	/**
+	 * <p>
+	 * Shot have different state depending on the situation.
+	 * 
+	 * <p>
+	 * If you need to change its state, use this method with the given protocol:
+	 * 
+	 * <ul>
+	 * <li>MESSAGE_LOADED: Shot loaded in Ship.</li>
+	 * <li>MESSAGE_FIRE: Shot just shoot from Ship.</li>
+	 * <li>MESSAGE_CRUISE: Shot in cruise state.</li>
+	 * <li>MESSAGE_HIT: Shot hit something.</li>
+	 * <li>MESSAGE_DESTROY: Shot need to be destroyed.</li>
+	 * </ul>
+	 * 
+	 * <b>By default:</b> state is 0.
+	 * 
+	 * @see Receiver#receive(int)
+	 */
+	@Override
+	public abstract void receive(int message);
+	
 	@Override
 	public void moveBy(int x, int y) {
 		this.setPosition(this.x + x, this.y + y);
@@ -51,32 +81,27 @@ public abstract class AbstractShot implements Shot {
 		this.angle = angle;
 	}
 	
-	@Override
-	public void draw(Graphics graphics) {
-		graphics.draw(drawable, (getX() - (drawable.getWidth() / 2)), (getY() - (drawable.getHeight() / 2)), getAngle());
-	}
+//	@Override
+//	public void draw(Graphics graphics) {
+//		graphics.draw(drawable, (getX() - (drawable.getWidth() / 2)), (getY() - (drawable.getHeight() / 2)), getAngle());
+//	}
 	
-	// TODO Remove ?
 	protected int getX() {
 		return this.x;
 	}
 	
-	// TODO Remove ?
 	protected int getY() {
 		return this.y;
 	}
 	
-	// TODO Remove ?
 	protected int getAngle() {
 		return this.angle;
 	}
 	
-	protected Rectangle getEdge() {
-		
-		int x = this.x - (drawable.getWidth() / 2);
-		int y = this.y - (drawable.getHeight() / 2);
-		
-		return new Rectangle(x, y, x + drawable.getWidth(), y + drawable.getHeight());
+	protected void destroy() {
+		kNotifier.destroy(this);
 	}
+	
+	protected abstract Rectangle getEdge(); 
 	
 }

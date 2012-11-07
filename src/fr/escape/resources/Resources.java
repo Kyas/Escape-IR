@@ -54,6 +54,7 @@ public final class Resources {
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
+			loadTexture(TextureLoader.WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT);
 			
 			loadTexture(TextureLoader.DEBUG_WIN);
 			

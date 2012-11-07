@@ -24,6 +24,7 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String WEAPON_BLACKHOLE_CORE_SHOT = "wsblackholecore.png";
 	public static final String WEAPON_BLACKHOLE_LEFT_SHOT = "wsblackholehl.png";
 	public static final String WEAPON_BLACKHOLE_RIGHT_SHOT = "wsblackholehr.png";
+	public static final String WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT = "wsblackholeeh.png";
 	
 	// TODO REMOVE
 	public static final String DEBUG_WIN = "swin.png";
