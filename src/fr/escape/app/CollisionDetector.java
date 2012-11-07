@@ -5,18 +5,19 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.contacts.Contact;
 
-import fr.escape.game.entity.ships.Ship;
-import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.Entity;
 
 public class CollisionDetector implements ContactListener {
 
 	@Override
 	public void beginContact(Contact arg0) {
-		Object dataA = arg0.getFixtureA().getBody().getUserData();
+		Entity ea = (Entity)arg0.getFixtureA().getBody().getUserData();
+		Entity eb = (Entity)arg0.getFixtureB().getBody().getUserData();
+		
+		/*Object dataA = arg0.getFixtureA().getBody().getUserData();
 		Object dataB = arg0.getFixtureB().getBody().getUserData();
 		
 		Class<Ship> shipClass = Ship.class;
-		Class<Shot> shotClass = Shot.class;
 		
 		Ship ship1 = null, ship2 = null;
 		Shot shot1 = null, shot2 = null;
@@ -32,14 +33,14 @@ public class CollisionDetector implements ContactListener {
 			System.out.println("titi");
 			ship2 = (Ship)dataB;
 		} else {
-			shot1 = (Shot)dataA;
+			shot2 = (Shot)dataB;
 		}
 		
 		if(ship1 != null && ship2 != null) {
 			System.out.println("Ship & Ship collision");
 			ship1.damage(1);
 			ship2.damage(1);
-		}
+		}*/
 		
 		/*Object dataA = arg0.getFixtureA().getBody().getUserData();
 		Object dataB = arg0.getFixtureB().getBody().getUserData();

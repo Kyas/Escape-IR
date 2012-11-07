@@ -4,19 +4,29 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body,int life) {
-		super(body,life);
+	public RegularShip(Body body,int life,boolean isPlayer) {
+		super(body,life,isPlayer);
 	}
 	
 	@Override
-	public void setPosition(World world,Graphics graphics,float[] val) {
+	public void setPosition(World world,Graphics graphics,float[] velocity) {
 		if(!isDestroyed()) {
-			getBody().setLinearVelocity(new Vec2(val[0],val[1]));
+			int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
+			Body body = getBody();
+			int x = (int)(body.getPosition().x * coeff / 10);
+			int y = (int)(body.getPosition().y * coeff / 10);
+			if(velocity[0] > 0) {
+				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
+				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));
+			} else {
+				body.setLinearVelocity(new Vec2(0,0));
+			}
 			draw(graphics);
 			world.step(1.0f/60.0f,6,2);
 		}

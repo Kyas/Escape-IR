@@ -7,8 +7,8 @@ import fr.escape.app.Input;
 public class Drift implements Gesture {
 
 	@Override
-	public double accept(Input start, List<Input> events,Input end) {
-		if(start.getY() <= end.getY()) return 0;
+	public boolean accept(Input start, List<Input> events,Input end,float[] velocity) {
+		if(start.getY() <= end.getY()) return false;
 		int faultTolerence = 20;
 		boolean isRight = start.getX() < end.getX();
 		
@@ -29,11 +29,21 @@ public class Drift implements Gesture {
       			double yUp = cd * event.getX() + pUp;
       			double yDown = cd * event.getX() + pDown;
       			System.out.println(yUp + " " + event.getY() + " " + yDown);
-      			if(yUp < event.getY() || yDown > event.getY()) return 0;
+      			if(yUp < event.getY() || yDown > event.getY()) return false;
       		}
-  		} else {
-  			return 0;
+      		
+      		velocity[2] = -0.5f;
+      		if(isRight) {
+      			velocity[0] = (end.getX() - start.getX()) / 10;
+      			velocity[1] = 0.5f;
+      		} else {
+      			velocity[0] = (start.getX() - end.getX()) / 10;
+      			velocity[1] = -0.5f;
+      		}
+      		
+      		return true;
   		}
-		return cd;
+  		
+		return false;
 	}	
 }

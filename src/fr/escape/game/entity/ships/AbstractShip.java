@@ -13,19 +13,25 @@ import fr.escape.resources.texture.TextureLoader;
 public abstract class AbstractShip implements Ship {
 	private final Body body;
 	private final ArrayList<Weapon> weapons;
+	private final boolean isPlayer;
 	private int activeWeapon;
 	private int life;
 	
-	public AbstractShip(Body body,int life) {
+	public AbstractShip(Body body,int life,boolean isPlayer) {
 		this.weapons = new ArrayList<>(4);
 		this.activeWeapon = 0;
 		this.body = body;
 		this.life = life;
+		this.isPlayer = isPlayer;
 	}
 	
 	@Override
 	public boolean isDestroyed() {
 		return life <= 0;
+	}
+	
+	public boolean isPlayer() {
+		return isPlayer;
 	}
 
 	@Override
@@ -74,5 +80,10 @@ public abstract class AbstractShip implements Ship {
 		int x = (int)(body.getPosition().x / 10 * coeff);
 		int y = (int)(body.getPosition().y  / 10 * coeff);
 		graphics.draw(Foundation.resources.getTexture(TextureLoader.DEBUG_WIN),x,y);
+	}
+	
+	@Override
+	public void update(Graphics graphics, long delta) {
+		draw(graphics);
 	}
 }

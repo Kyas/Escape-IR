@@ -7,7 +7,7 @@ import fr.escape.app.Input;
 public class LeftLoop implements Gesture {
 
 	@Override
-	public double accept(Input start, List<Input> events, Input end) {
+	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {
 		int faultTolerance = 90;
 		int coeff = 25;
 		Input minX = start;
@@ -16,9 +16,9 @@ public class LeftLoop implements Gesture {
 		}
 		
 		int diameter = start.getX() - minX.getX();
-		if(diameter < 75 || diameter > 125) return 0;
+		if(diameter < 75 || diameter > 125) return false;
 		if(end.getX() > start.getX() + coeff || end.getX() < start.getX() - coeff || end.getY() > start.getY() + coeff || end.getY() < start.getY() - coeff)
-			return 0;
+			return false;
 		
 		int radius = diameter / 2;
 		int cx = start.getX() - radius;
@@ -28,8 +28,13 @@ public class LeftLoop implements Gesture {
 		int bigRad = radius + (radius*faultTolerance/100);
 		for(Input event : events) {
 			double dist = Math.sqrt(Math.pow(event.getX()-cx, 2)+Math.pow(event.getY()-cy, 2));
-			if(dist < smallRad || dist > bigRad) return 0;
+			if(dist < smallRad || dist > bigRad) return false;
 		}
-		return diameter;
+		
+		velocity[0] = diameter;
+		velocity[1] = -0.5f;
+		velocity[2] = 0.0f;
+		
+		return true;
 	}
 }
