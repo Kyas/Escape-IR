@@ -11,10 +11,13 @@
 
 package fr.escape.app;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 
 import fr.escape.graphics.RenderListener;
@@ -29,7 +32,9 @@ public final class Graphics {
 	private final static int MINIMUM_WAKEUP_TIME = 0;
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
 	private final static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 14);
+	
 	private final static Color DEFAULT_COLOR = Color.BLACK;
+	private final static Stroke DEFAULT_STROKE = new BasicStroke(1);
 	
 	private final RenderListener listener;
 	private final int width;
@@ -257,7 +262,6 @@ public final class Graphics {
 	 */
 	public void draw(final Texture texture, final int x, final int y, final int width, final int height, final double angle) {
 		draw(texture, x, y, width, height, 0, 0, texture.getWidth(), texture.getHeight(), angle);
-		//draw(texture, x, y, width, height, 0, 0, ((texture.getWidth() < width)?texture.getWidth():width), ((texture.getHeight() < height)?texture.getHeight():height), angle);
 	}
 	
 	/**
@@ -415,7 +419,7 @@ public final class Graphics {
 		Font f = g2d.getFont();
 		Color c = g2d.getColor();
 		
-		g2d.setPaint(color);
+		g2d.setColor(color);
 		g2d.setFont(font);
 		g2d.drawString(message, x, y);
 		
@@ -423,9 +427,22 @@ public final class Graphics {
 		g2d.setFont(f);
 	}
 	
-	//TODO r
-	public void drw(){
+	
+	public void draw(final Shape shape, final Color color) {
+		draw(shape, color, DEFAULT_STROKE);
+	}
+	
+	public void draw(final Shape shape, final Color color, final Stroke stroke) {
+
+		Color c = g2d.getColor();
+		Stroke s = g2d.getStroke();
 		
+		g2d.setColor(color);
+		g2d.setStroke(stroke);
+		g2d.draw(shape);
+		
+		g2d.setColor(c);
+		g2d.setStroke(s);
 	}
 	
 }

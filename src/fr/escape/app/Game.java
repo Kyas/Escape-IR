@@ -13,7 +13,6 @@ package fr.escape.app;
 
 import org.jbox2d.dynamics.World;
 
-import fr.escape.game.User;
 import fr.escape.graphics.RenderListener;
 import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;

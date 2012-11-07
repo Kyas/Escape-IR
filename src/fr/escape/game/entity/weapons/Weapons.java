@@ -1,5 +1,8 @@
 package fr.escape.game.entity.weapons;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.escape.graphics.Texture;
 
 public class Weapons {
@@ -7,7 +10,31 @@ public class Weapons {
 	private static final int WIDTH = 40;
 	private static final int HEIGHT = 40;
 	
-	public static void validate(Weapon w) {
+	public static List<Weapon> createListOfWeapons() {
+		
+		List<Weapon> list = new ArrayList<>(4);
+		
+		Weapon wB = new BlackHole(0);
+		Weapons.validate(wB);
+		
+		Weapon wF = new FireBall(50);
+		Weapons.validate(wF);
+		
+		Weapon wS = new Shiboleet(0);
+		Weapons.validate(wS);
+		
+		Weapon wM = new Missile();
+		Weapons.validate(wM);
+		
+		list.add(wM);
+		list.add(wF);
+		list.add(wS);
+		list.add(wB);
+		
+		return list;
+	}
+	
+	private static void validate(Weapon w) {
 		checkDrawableFormat(w.getDrawable());
 	}
 	

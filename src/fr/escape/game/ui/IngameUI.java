@@ -17,18 +17,43 @@ import java.util.List;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
 
+/**
+ * <p>
+ * This Composite handle multiple Overlay.
+ * 
+ * <p>
+ * These Overlay are used for User Interface.
+ */
 public final class IngameUI extends AbstractOverlay {
 	
+	/**
+	 * List of Overlay
+	 */
 	private final List<Overlay> overlays;
 	
+	/**
+	 * Default Constructor
+	 */
 	public IngameUI() {
 		overlays = new ArrayList<>();
 	}
 	
+	/**
+	 * Add an {@link Overlay} on the Ingame Overlay.
+	 * 
+	 * @param overlay The Overlay
+	 * @return Is successful
+	 */
 	public boolean add(Overlay overlay) {
 		return overlays.add(overlay);
 	}
 	
+	/**
+	 * Remove an {@link Overlay} inside the Ingame Overlay.
+	 * 
+	 * @param overlay The Overlay
+	 * @return Is successful
+	 */
 	public boolean remove(Overlay overlay) {
 		return overlays.remove(overlay);
 	}

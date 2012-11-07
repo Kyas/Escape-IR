@@ -57,21 +57,21 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	// TODO Remove ?
-	private int getX() {
+	protected int getX() {
 		return this.x;
 	}
 	
 	// TODO Remove ?
-	private int getY() {
+	protected int getY() {
 		return this.y;
 	}
 	
 	// TODO Remove ?
-	private int getAngle() {
+	protected int getAngle() {
 		return this.angle;
 	}
 	
-	private Rectangle getEdge() {
+	protected Rectangle getEdge() {
 		
 		int x = this.x - (drawable.getWidth() / 2);
 		int y = this.y - (drawable.getHeight() / 2);

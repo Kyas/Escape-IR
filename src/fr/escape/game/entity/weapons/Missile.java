@@ -21,4 +21,9 @@ public final class Missile implements Weapon {
 		return 999;
 	}
 	
+	@Override
+	public boolean isEmpty() {
+		return getAmmunition() <= 0;
+	}
+	
 }

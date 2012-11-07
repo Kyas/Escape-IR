@@ -9,5 +9,5 @@ public interface Weapon {
 	
 	public Texture getDrawable();
 	public int getAmmunition();
-	
+	public boolean isEmpty();
 }

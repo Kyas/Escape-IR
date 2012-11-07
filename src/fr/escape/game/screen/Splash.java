@@ -11,6 +11,7 @@
 
 package fr.escape.game.screen;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import org.jbox2d.dynamics.BodyType;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
-import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
@@ -34,6 +34,7 @@ import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
+import fr.escape.graphics.Shapes;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
 
@@ -77,7 +78,9 @@ public class Splash implements Screen {
 		two.setPosition(game.getGraphics().getWidth() / 2, 0);
 		this.eContainer.push(two);
 		
-		Entity e = two;
+		Shot three = ShotFactory.createBlackholeShot(this.eContainer);
+		three.setPosition(game.getGraphics().getWidth() / 2, game.getGraphics().getHeight());
+		this.eContainer.push(three);
 		
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
@@ -119,11 +122,13 @@ public class Splash implements Screen {
 		game.getUser().setHighscore((int) time);
 		stage.update((int) (time / 1000));
 
+		game.getGraphics().draw(Shapes.createLine(0, game.getGraphics().getHeight(), game.getGraphics().getWidth(), 0), Color.CYAN);
+		
 		eContainer.update(game.getGraphics(), delta);
 		
-		if(time > 3000) {
-			game.getUser().removeOneLife();
-		}
+//		if(time > 3000) {
+//			game.getUser().removeOneLife();
+//		}
 		
 	}
 

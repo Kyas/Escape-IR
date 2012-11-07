@@ -27,7 +27,9 @@ import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.BlackHole;
+import fr.escape.game.entity.weapons.FireBall;
 import fr.escape.game.entity.weapons.Missile;
+import fr.escape.game.entity.weapons.Shiboleet;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.screen.Lost;
@@ -95,20 +97,10 @@ public class Escape extends Game implements LifeListener {
 			gestures.add(new RightLoop());
 			getUser().setGestures(gestures);
 			getUser().setShip(ship);
-			List<Weapon> lWeapons = new ArrayList<>();
 			
-			Weapon wB = new BlackHole();
-			Weapons.validate(wB);
+			List<Weapon> lWeapons = Weapons.createListOfWeapons();
 			
-			Weapon wM = new Missile();
-			Weapons.validate(wM);
-			
-			lWeapons.add(wM);
-			lWeapons.add(wB);
-			lWeapons.add(wB);
-			lWeapons.add(wB);
-			
-			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons);
+			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons, lWeapons.get(0));
 			
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);

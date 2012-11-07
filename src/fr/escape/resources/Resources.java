@@ -43,12 +43,17 @@ public final class Resources {
 			loadTexture(TextureLoader.BACKGROUND_ERROR);
 			loadTexture(TextureLoader.BACKGROUND_LOST);
 			loadTexture(TextureLoader.BACKGROUND_MENU);
+			loadTexture(TextureLoader.WEAPON_UI_ACTIVATED);
+			loadTexture(TextureLoader.WEAPON_UI_DISABLED);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE);
 			loadTexture(TextureLoader.WEAPON_FIREBALL);
 			loadTexture(TextureLoader.WEAPON_MISSILE);
 			loadTexture(TextureLoader.WEAPON_SHIBOLEET);
 			loadTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 			loadTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
+			loadTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
+			loadTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
+			loadTexture(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
 			
 			loadTexture(TextureLoader.DEBUG_WIN);
 			
