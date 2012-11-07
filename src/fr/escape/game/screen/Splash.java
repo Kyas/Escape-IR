@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import org.jbox2d.dynamics.BodyType;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -36,6 +37,7 @@ import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
+import fr.escape.input.WeaponGesture;
 
 public class Splash implements Screen {
 
@@ -47,7 +49,8 @@ public class Splash implements Screen {
 	private Texture logo;
 	private ScrollingTexture background;
 	private long time;
-	private float[] gestureVal = {0,0};
+	private float[] velocity = {0,0,0};
+	private boolean weaponLoaded = false;
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
@@ -84,12 +87,10 @@ public class Splash implements Screen {
 		float coeff = Math.max(game.getGraphics().getWidth(),game.getGraphics().getHeight());
 		s = new ArrayList<>(10);
 		for(int i = 0; i < 5; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),"NPCShip",(i *100) / coeff * 10,50 / coeff * 10,BodyType.DYNAMIC,0.5f,1);
+			Ship tmp = sf.createRegularShip(game.getWorld(),"NPCShip",(i *100) / coeff * 10,50 / coeff * 10,BodyType.DYNAMIC,0.5f,1,false);
 			s.add(tmp);
 		}
 
-		
-		
 	}
 	
 	@Override
@@ -107,22 +108,22 @@ public class Splash implements Screen {
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
-		game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics(),gestureVal);
+		game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics(),velocity);
 
 		//TODO remove after test
-		float[] tmpF = {0,1.f};
+		float[] tmpF = {s.size(),0,0.5f};
 		for(Ship ship : s) ship.setPosition(game.getWorld(),game.getGraphics(),tmpF);
 		
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
 		game.getUser().setHighscore((int) time);
-		stage.update((int) (time / 1000));
+		//stage.update((int) (time / 1000));
 
 		eContainer.update(game.getGraphics(), delta);
 		
 		if(time > 3000) {
-			game.getUser().removeOneLife();
+			//game.getUser().removeOneLife();
 		}
 		
 	}
@@ -139,6 +140,19 @@ public class Splash implements Screen {
 
 	@Override
 	public boolean touch(Input i) {
+		int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
+		float x = game.getUser().getShip().getX() * coeff / 10;
+		float y = game.getUser().getShip().getY() * coeff / 10;
+		int error = (int)(game.getUser().getShip().getBody().getFixtureList().getShape().m_radius * coeff / 10);
+		
+		System.out.println(x + "-" + y + " " + error + " " + i.getX() + "-" + i.getY());
+		
+		if((i.getX() > x && i.getX() < x + error) && (i.getY() > y && i.getY() < y + error)) {
+			//TODO load weapon
+			weaponLoaded = true;
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -147,24 +161,23 @@ public class Splash implements Screen {
 		Objects.requireNonNull(i);
 		LinkedList<Input> events = this.events;
 		ArrayList<Gesture> gestures = game.getUser().getGestures();
-		switch(i.getKind().name()) {
-			case "ACTION_UP" :
+		switch(i.getKind()) {
+			case ACTION_UP :
 				Iterator<Input> it = events.iterator();
 				if(it.hasNext()) {
 					Input start = it.next(); it.remove();
-					for(Gesture g : gestures) {
-						double val = g.accept(start,events,i);
-						if(val >= 0.3 && val <= 1.7) {
-							gestureVal[0] = -0.5f;
-							gestureVal[1] = -0.5f;
-						} else if(val <= -0.3 && val >= -1.7) {
-							gestureVal[0] = 0.5f;
-							gestureVal[1] = -0.5f;
-						} else if(val != 0) {
-							gestureVal[0] = 0.f;
-							gestureVal[1] = 1.5f;
+					if(touch(start) || weaponLoaded) {
+						WeaponGesture wg = new WeaponGesture();
+						if(wg.accept(start,events,i,velocity)) {
+							System.out.println("Weapon Gesture Accept : Fire");
+							//TODO weapon fire
 						}
-						
+						weaponLoaded = false;
+					} else {
+						for(Gesture g : gestures) {
+							if(g.accept(start,events,i,velocity))
+								break;
+						}
 					}
 					events.clear();
 				}

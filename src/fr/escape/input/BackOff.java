@@ -7,8 +7,8 @@ import fr.escape.app.Input;
 public class BackOff implements Gesture {
 
 	@Override
-	public double accept(Input start, List<Input> events, Input end) {
-		if(start.getY() >= end.getY()) return 0;
+	public boolean accept(Input start, List<Input> events, Input end,float[] velocity) {
+		if(start.getY() >= end.getY()) return false;
 		int height = 600;//Foundation.graphics.getHeight();
 		int coeff = 150;
 		int faultTolerence = 20;
@@ -25,12 +25,17 @@ public class BackOff implements Gesture {
       		for(Input event : events) {
       			double yUp = cd * event.getX() + pUp;
       			double yDown = cd * event.getX() + pDown;
-      			if(start.getX() <= end.getX() && (event.getY() < yUp || event.getY() > yDown)) return 0;
-      			else if(start.getX() > end.getX() && (event.getY() > yUp || event.getY() < yDown)) return 0;
+      			if(start.getX() <= end.getX() && (event.getY() < yUp || event.getY() > yDown)) return false;
+      			else if(start.getX() > end.getX() && (event.getY() > yUp || event.getY() < yDown)) return false;
       		}
-  		} else {
-  			return 0;
+      		
+      		velocity[0] = (end.getY() - start.getY()) / 10;
+      		velocity[1] = 0.0f;
+      		velocity[2] = 0.5f;
+      		
+      		return true;
   		}
-		return cd;
+  		
+		return false;
 	}
 }

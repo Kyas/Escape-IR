@@ -11,7 +11,7 @@ import org.jbox2d.dynamics.World;
 
 public class ShipFactory {
 	
-	public RegularShip createRegularShip(World world,String shipName,float x,float y,BodyType type,float radius,int life) {
+	public RegularShip createRegularShip(World world,String shipName,float x,float y,BodyType type,float radius,int life,boolean isPlayer) {
 		Objects.requireNonNull(world);
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x,y);
@@ -28,7 +28,7 @@ public class ShipFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		RegularShip ship = new RegularShip(body,life);
+		RegularShip ship = new RegularShip(body,life,isPlayer);
 		body.setUserData(ship);
 		
 		return ship;
