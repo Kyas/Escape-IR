@@ -4,29 +4,47 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.app.Foundation;
+import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Graphics;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body,int life,boolean isPlayer) {
-		super(body,life,isPlayer);
+	public RegularShip(Body body,boolean isPlayer) {
+		super(body,isPlayer);
 	}
 	
 	@Override
 	public void setPosition(World world,Graphics graphics,float[] velocity) {
-		if(!isDestroyed()) {
-			int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
-			Body body = getBody();
-			int x = (int) ((body.getPosition().x * coeff) / 10);
-			int y = (int) ((body.getPosition().y * coeff) / 10);
+
+		Body body = getBody();
+		
+		if(body.isActive()) {
+			
+			int x = CoordinateConverter.toPixel(body.getPosition().x);
+			int y = CoordinateConverter.toPixel(body.getPosition().y);
+			
+			if(isPlayer() && (x <= 0 || x >= graphics.getWidth() - 50 || y <= 0 || y >= graphics.getHeight() - 60)) {
+				System.out.println(x + " " + y);
+				velocity[0] = 0.1f;
+				velocity[1] *= -1;
+				velocity[2] *= -1;
+			}
+			
+			if(isPlayer()) {
+				System.out.println(velocity[1] + " " + velocity[2]);
+				System.out.println(velocity[0]);
+			}
+
 			if(velocity[0] > 0) {
+				
 				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
 				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));
+				
 			} else {
 				body.setLinearVelocity(new Vec2(0,0));
 			}
+			
 			draw(graphics);
 			world.step(1.0f/60.0f,6,2);
 		}

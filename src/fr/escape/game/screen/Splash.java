@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import org.jbox2d.dynamics.BodyType;
 
-import fr.escape.app.Foundation;
+import fr.escape.app.CoordinateConverter;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -93,10 +93,9 @@ public class Splash implements Screen {
 		
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
-		float coeff = Math.max(game.getGraphics().getWidth(),game.getGraphics().getHeight());
 		s = new ArrayList<>(10);
 		for(int i = 0; i < 5; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),"NPCShip",(i *100) / coeff * 10,50 / coeff * 10,BodyType.DYNAMIC,0.5f,1,false);
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeter(i *100),CoordinateConverter.toMeter(50),BodyType.DYNAMIC,0.5f,false);
 			s.add(tmp);
 		}
 
@@ -163,16 +162,17 @@ public class Splash implements Screen {
 
 	@Override
 	public boolean touch(Input i) {
-		int coeff = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
-		float x = game.getUser().getShip().getX() * coeff / 10;
-		float y = game.getUser().getShip().getY() * coeff / 10;
-		int error = (int)(game.getUser().getShip().getBody().getFixtureList().getShape().m_radius * coeff / 10);
-		
-		System.out.println(x + "-" + y + " " + error + " " + i.getX() + "-" + i.getY());
+		Ship ship = game.getUser().getShip();
+		int x = CoordinateConverter.toPixel(ship.getX());
+		int y = CoordinateConverter.toPixel(ship.getY());
+		int error = CoordinateConverter.toPixel(ship.getBody().getFixtureList().getShape().m_radius);
 		
 		if((i.getX() > x && i.getX() < x + error) && (i.getY() > y && i.getY() < y + error)) {
-			//TODO load weapon
-			weaponLoaded = true;
+			if(!weaponLoaded) {
+				//TODO load weapon
+				System.out.println("Weapon loading ...");
+				weaponLoaded = true;
+			}
 			return true;
 		}
 		
@@ -189,7 +189,7 @@ public class Splash implements Screen {
 				Iterator<Input> it = events.iterator();
 				if(it.hasNext()) {
 					Input start = it.next(); it.remove();
-					if(touch(start) || weaponLoaded) {
+					if(touch(start)) {
 						WeaponGesture wg = new WeaponGesture();
 						if(wg.accept(start,events,i,velocity)) {
 							System.out.println("Weapon Gesture Accept : Fire");

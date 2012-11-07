@@ -27,8 +27,4 @@ public interface Ship extends Moveable, Drawable, Entity {
 	public float getX();
 	
 	public float getY();
-	
-	public void damage(int taken);
-	
-	public boolean isDestroyed();
 }

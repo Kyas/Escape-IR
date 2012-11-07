@@ -45,7 +45,6 @@ public final class BlackHoleShot extends AbstractShot {
 
 	@Override
 	public void receive(int message) {
-		System.err.println(message);
 		switch(message) {
 			case MESSAGE_LOAD: {
 				isVisible = true;
@@ -90,6 +89,10 @@ public final class BlackHoleShot extends AbstractShot {
 		
 		timer += delta;
 		draw(graphics);
+		
+		if(drawEventHorizon && timer > ((EVENT_HORIZON_SPEED * 2) + EVENT_HORIZON_TIME)) {
+			receive(AbstractShot.MESSAGE_DESTROY);
+		}
 		
 	}
 	
