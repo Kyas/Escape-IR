@@ -12,6 +12,7 @@ import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+// TODO Finish
 public final class BlackHoleShot extends AbstractShot {
 
 	private static final int ROTATION_SPEED = 600;
@@ -140,12 +141,9 @@ public final class BlackHoleShot extends AbstractShot {
 	}
 	
 	private void drawEventHorizon(Graphics graphics) {
-		
-		
+
 		float size = getEventHorizonSize();
-		
-		System.out.println(size);
-		
+
 		int width = (int) (eventHorizon.getWidth() * size);
 		int height = (int) (eventHorizon.getHeight() * size);
 		int x = getX() - (width / 2);

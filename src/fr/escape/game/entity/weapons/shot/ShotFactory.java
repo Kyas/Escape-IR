@@ -40,6 +40,9 @@ public final class ShotFactory {
 		return new BlackHoleShot(body,ec,ec);
 	}
 	
+	public static Shot createFireBallShot(EntityContainer ec) {
+		return new Fireball(ec, ec);
+	}
 	
 //	public static Shot createMissileShot(EntityContainer ec) {
 //		return new AbstractShot(MISSILE_SHOT_TEXTURE, ec) {
