@@ -79,11 +79,11 @@ public final class Activity {
 	 */
 	public void create() {
 		
-		Foundation.activity = this;
-		Foundation.graphics = graphics;
-		Foundation.resources = new Resources();
+		Foundation.ACTIVITY = this;
+		Foundation.GRAPHICS = graphics;
+		Foundation.RESOURCES = new Resources();
 		
-		Foundation.resources.load();
+		Foundation.RESOURCES.load();
 
 		game.create();
 		initialize();

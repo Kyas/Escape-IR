@@ -10,7 +10,7 @@ public final class FireBall implements Weapon {
 	private int ammunition;
 	
 	public FireBall(int defaultAmmunition) {
-		drawable = Foundation.resources.getTexture(TextureLoader.WEAPON_FIREBALL);
+		drawable = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL);
 		ammunition = defaultAmmunition;
 	}
 	

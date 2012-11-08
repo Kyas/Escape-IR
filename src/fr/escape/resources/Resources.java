@@ -59,6 +59,10 @@ public final class Resources {
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
 			loadTexture(TextureLoader.WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT);
+			loadTexture(TextureLoader.BONUS_WEAPON_MISSILE);
+			loadTexture(TextureLoader.BONUS_WEAPON_FIREBALL);
+			loadTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET);
+			loadTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE);
 			
 			loadTexture(TextureLoader.DEBUG_WIN);
 			
@@ -105,7 +109,7 @@ public final class Resources {
 			@Override
 			public Font load() throws Exception {
 				if(font == null) {
-					Foundation.activity.debug(TAG, "Load Font: "+fontID);
+					Foundation.ACTIVITY.debug(TAG, "Load Font: "+fontID);
 					font = Font.createFont(Font.TRUETYPE_FONT, getPath().resolve(fontID).toFile());
 					font = font.deriveFont(size);
 				}
@@ -123,7 +127,7 @@ public final class Resources {
 			@Override
 			public Texture load() throws Exception {
 				if(texture == null) {
-					Foundation.activity.debug(TAG, "Load Texture: "+textureID);
+					Foundation.ACTIVITY.debug(TAG, "Load Texture: "+textureID);
 					texture = new Texture(getPath().resolve(textureID).toFile());
 				}
 				return texture;

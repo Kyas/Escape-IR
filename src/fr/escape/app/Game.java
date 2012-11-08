@@ -71,7 +71,7 @@ public abstract class Game implements RenderListener, EventListener {
 	 * @return {@link Activity}.
 	 */
 	public Activity getActivity() {
-		return Foundation.activity;
+		return Foundation.ACTIVITY;
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public abstract class Game implements RenderListener, EventListener {
 	 * @return {@link Graphics}
 	 */
 	public Graphics getGraphics() {
-		return Foundation.graphics;
+		return Foundation.GRAPHICS;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public abstract class Game implements RenderListener, EventListener {
 	 * @return {@link Resources}
 	 */
 	public Resources getResources() {
-		return Foundation.resources;
+		return Foundation.RESOURCES;
 	}
 	
 //	/**

@@ -26,8 +26,8 @@ public final class Fireball extends AbstractShot {
 	public Fireball(EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
 		super(null,edgeNotifier, killNotifier);
 		
-		this.coreBall = Foundation.resources.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
-		this.radiusEffect = Foundation.resources.getTexture(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
+		this.coreBall = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
+		this.radiusEffect = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
 		
 		this.isVisible = false;
 		this.radiusGrown = false;
@@ -80,7 +80,7 @@ public final class Fireball extends AbstractShot {
 			
 			isVisible = false;
 			
-			Foundation.activity.post(new Runnable() {
+			Foundation.ACTIVITY.post(new Runnable() {
 				
 				@Override
 				public void run() {
@@ -95,6 +95,7 @@ public final class Fireball extends AbstractShot {
 	}
 
 	@Override
+	// TODO Finish
 	protected Rectangle getEdge() {
 		return new Rectangle(getX() - (coreBall.getWidth() / 2), getY() - (coreBall.getHeight() / 2), coreBall.getWidth(), coreBall.getHeight());
 	}

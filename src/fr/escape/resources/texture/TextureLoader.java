@@ -20,13 +20,18 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String WEAPON_BLACKHOLE = "wblackhole.png";
 	
 	public static final String WEAPON_MISSILE_SHOT = "wsmissile.png";
-	public static final String WEAPON_SHIBOLEET_SHOT = "wsshiboleet.png";
 	public static final String WEAPON_FIREBALL_CORE_SHOT = "wsfireballcore.png";
 	public static final String WEAPON_FIREBALL_RADIUS_SHOT = "wsfireballradius.png";
+	public static final String WEAPON_SHIBOLEET_SHOT = "wsshiboleet.png";
 	public static final String WEAPON_BLACKHOLE_CORE_SHOT = "wsblackholecore.png";
 	public static final String WEAPON_BLACKHOLE_LEFT_SHOT = "wsblackholehl.png";
 	public static final String WEAPON_BLACKHOLE_RIGHT_SHOT = "wsblackholehr.png";
 	public static final String WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT = "wsblackholeeh.png";
+	
+	public static final String BONUS_WEAPON_MISSILE = "bwmissile.png";
+	public static final String BONUS_WEAPON_FIREBALL = "bwfireball.png";
+	public static final String BONUS_WEAPON_SHIBOLEET = "bwshiboleet.png";
+	public static final String BONUS_WEAPON_BLACKHOLE = "bwblackhole.png";
 	
 	// TODO REMOVE
 	public static final String DEBUG_WIN = "swin.png";

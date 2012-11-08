@@ -39,10 +39,10 @@ public final class BlackHoleShot extends AbstractShot {
 		this.drawLeftAndRightHelix = false;
 		this.drawEventHorizon = false;
 		
-		this.coreHelix = Foundation.resources.getTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
-		this.leftHelix = Foundation.resources.getTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
-		this.rightHelix = Foundation.resources.getTexture(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
-		this.eventHorizon = Foundation.resources.getTexture(TextureLoader.WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT);
+		this.coreHelix = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
+		this.leftHelix = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
+		this.rightHelix = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
+		this.eventHorizon = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT);
 		
 	}
 
@@ -63,8 +63,6 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 			case MESSAGE_HIT: {
-				drawLeftAndRightHelix = false;
-				drawCoreHelix = false;
 				drawEventHorizon = true;
 				timer = 0;
 				break;
@@ -73,7 +71,7 @@ public final class BlackHoleShot extends AbstractShot {
 				
 				isVisible = false;
 				
-				Foundation.activity.post(new Runnable() {
+				Foundation.ACTIVITY.post(new Runnable() {
 					
 					@Override
 					public void run() {
@@ -106,11 +104,11 @@ public final class BlackHoleShot extends AbstractShot {
 			if(drawLeftAndRightHelix) {
 				drawLeftAndRightHelix(graphics);
 			}
-			if(drawEventHorizon) {
-				drawEventHorizon(graphics);
-			}
 			if(drawCoreHelix) {
 				drawCoreHelix(graphics);
+			}
+			if(drawEventHorizon) {
+				drawEventHorizon(graphics);
 			}
 			
 			graphics.draw(getEdge(), Color.RED);
@@ -165,7 +163,10 @@ public final class BlackHoleShot extends AbstractShot {
 
 		if(time <= EVENT_HORIZON_SPEED) {
 			return ((float) time / EVENT_HORIZON_SPEED);
-		} 
+		}
+		
+		drawLeftAndRightHelix = false;
+		drawCoreHelix = false;
 		
 		return 1.0f;
 	}
@@ -173,7 +174,9 @@ public final class BlackHoleShot extends AbstractShot {
 	@Override
 	protected Rectangle getEdge() {
 		
-		if(drawLeftAndRightHelix) {
+		if(drawEventHorizon) {
+			return new Rectangle(getX() - (eventHorizon.getWidth() / 2), getY() - (eventHorizon.getHeight() / 2), eventHorizon.getWidth(), eventHorizon.getHeight());
+		} else if(drawLeftAndRightHelix) {
 			
 			int offset = leftHelix.getWidth();
 			offset = Math.max(leftHelix.getHeight(), offset);
@@ -182,8 +185,6 @@ public final class BlackHoleShot extends AbstractShot {
 			
 			return new Rectangle(getX() - (offset / 2), getY() - (offset / 2), offset, offset);
 			
-		} else if(drawEventHorizon) {
-			return new Rectangle(getX() - (eventHorizon.getWidth() / 2), getY() - (eventHorizon.getHeight() / 2), eventHorizon.getWidth(), eventHorizon.getHeight());
 		}
 		
 		return new Rectangle(getX() - (coreHelix.getWidth() / 2), getY() - (coreHelix.getHeight() / 2), coreHelix.getWidth(), coreHelix.getHeight());

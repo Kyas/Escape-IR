@@ -18,8 +18,8 @@ public final class EntityContainer implements KillNotifier, EdgeNotifier {
 	
 	public EntityContainer() {
 		
-		int margin = Math.max((int) (Foundation.graphics.getWidth() * 0.1f), (int) (Foundation.graphics.getHeight() * 0.1f));
-		this.edge = new Rectangle(-margin, -margin, Foundation.graphics.getWidth() + margin, Foundation.graphics.getHeight() + margin);
+		int margin = Math.max((int) (Foundation.GRAPHICS.getWidth() * 0.1f), (int) (Foundation.GRAPHICS.getHeight() * 0.1f));
+		this.edge = new Rectangle(-margin, -margin, Foundation.GRAPHICS.getWidth() + margin, Foundation.GRAPHICS.getHeight() + margin);
 		this.entities = new LinkedHashSet<>();
 		
 	}

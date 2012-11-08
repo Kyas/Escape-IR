@@ -28,7 +28,7 @@ public final class Configuration {
 	}
 	
 	public Configuration(int width, int height) {
-		this(width, height, 60);
+		this(width, height, 20);
 	}
 	
 	public Configuration(int width, int height, int fps) {

@@ -26,6 +26,8 @@ import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.bonus.Bonus;
+import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 
@@ -61,6 +63,7 @@ public class Splash implements Screen {
 	// DEBUG
 	private Shot bw;
 	private boolean hit = false;
+	private boolean spawn = false;
 	
 	//TODO remove after test
 	private final ArrayList<Ship> s;
@@ -90,7 +93,7 @@ public class Splash implements Screen {
 		Shot three = ShotFactory.createBlackholeShot(game.getWorld(),CoordinateConverter.toMeter(x),CoordinateConverter.toMeter(y),this.eContainer);
 		three.setPosition(x,y);*/
 
-		Shot three = ShotFactory.createFireBallShot(this.eContainer);
+		Shot three = ShotFactory.createBlackholeShot(game.getWorld(), 0, 0, eContainer);
 		three.setPosition(game.getGraphics().getWidth() / 2, game.getGraphics().getHeight() / 2);
 		this.eContainer.push(three);
 		bw = three;
@@ -149,7 +152,25 @@ public class Splash implements Screen {
 			bw.receive(AbstractShot.MESSAGE_HIT);
 			hit = true;
 		} else if(time > 13000){
-			bw.receive(AbstractShot.MESSAGE_DESTROY);
+			if(bw != null) {
+				bw.receive(AbstractShot.MESSAGE_DESTROY);
+				bw = null;
+			}
+		}
+		
+		if((time % 1000) > 0 && (time % 1000) < 100) {
+			
+			if(!spawn) {
+				Bonus bonus = BonusFactory.createBonus(eContainer);
+				if(bonus != null) {
+					bonus.setPosition(game.getGraphics().getWidth() / 2, 0);
+					eContainer.push(bonus);
+				}
+				spawn = true;
+			}
+			
+		} else {
+			spawn = false;
 		}
 		
 	}
@@ -185,33 +206,48 @@ public class Splash implements Screen {
 
 	@Override
 	public boolean move(final Input i) {
+		
 		Objects.requireNonNull(i);
 		LinkedList<Input> events = this.events;
 		ArrayList<Gesture> gestures = game.getUser().getGestures();
+		
 		switch(i.getKind()) {
-			case ACTION_UP :
+			case ACTION_UP: {
+				
 				Iterator<Input> it = events.iterator();
+				
 				if(it.hasNext()) {
+					
 					Input start = it.next(); it.remove();
+					
 					if(touch(start)) {
+						
 						WeaponGesture wg = new WeaponGesture();
-						if(wg.accept(start,events,i,velocity)) {
+						
+						if(wg.accept(start, events, i, velocity)) {
 							System.out.println("Weapon Gesture Accept : Fire");
 							//TODO weapon fire
 						}
+						
 						weaponLoaded = false;
+						
 					} else {
+						
 						for(Gesture g : gestures) {
 							if(g.accept(start,events,i,velocity))
 								break;
 						}
+						
 					}
 					events.clear();
 				}
 				break;
-			default :
+			}
+			default: {
 				events.add(i);
+			}
 		}
+		
 		return false;
 	}
 

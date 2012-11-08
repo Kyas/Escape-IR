@@ -4,7 +4,7 @@ import fr.escape.app.Foundation;
 
 public final class CoordinateConverter {
 	
-	private static final float COEFF = Math.max(Foundation.graphics.getHeight(),Foundation.graphics.getWidth());
+	private static final float COEFF = Math.max(Foundation.GRAPHICS.getHeight(),Foundation.GRAPHICS.getWidth());
 	
 	public static float toMeter(int x) {
 		return x / COEFF * 10;

@@ -20,8 +20,8 @@ import fr.escape.resources.Resources;
  */
 public class Foundation {
 	
-	public static Activity activity;
-	public static Graphics graphics;
-	public static Resources resources;
+	public static Activity ACTIVITY;
+	public static Graphics GRAPHICS;
+	public static Resources RESOURCES;
 	
 }

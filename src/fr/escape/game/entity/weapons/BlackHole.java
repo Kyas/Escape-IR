@@ -10,7 +10,7 @@ public final class BlackHole implements Weapon {
 	private int ammunition;
 	
 	public BlackHole(int defaultAmmunition) {
-		drawable = Foundation.resources.getTexture(TextureLoader.WEAPON_BLACKHOLE);
+		drawable = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE);
 		ammunition = defaultAmmunition;
 	}
 

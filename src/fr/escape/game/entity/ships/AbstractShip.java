@@ -63,7 +63,7 @@ public abstract class AbstractShip implements Ship {
 	public void draw(Graphics graphics) {
 		int x = CoordinateConverter.toPixel(body.getPosition().x);
 		int y = CoordinateConverter.toPixel(body.getPosition().y);
-		graphics.draw(Foundation.resources.getTexture(TextureLoader.DEBUG_WIN),x,y);
+		graphics.draw(Foundation.RESOURCES.getTexture(TextureLoader.DEBUG_WIN),x,y);
 	}
 	
 	@Override

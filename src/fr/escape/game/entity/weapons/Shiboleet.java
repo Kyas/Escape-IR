@@ -10,7 +10,7 @@ public final class Shiboleet implements Weapon {
 	private int ammunition;
 	
 	public Shiboleet(int defaultAmmunition) {
-		drawable = Foundation.resources.getTexture(TextureLoader.WEAPON_SHIBOLEET);
+		drawable = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET);
 		ammunition = defaultAmmunition;
 	}
 	
