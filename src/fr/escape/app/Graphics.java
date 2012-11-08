@@ -32,7 +32,6 @@ public final class Graphics {
 	private final static int MINIMUM_WAKEUP_TIME = 0;
 	private final static int MAXIMUM_WAKEUP_TIME = 32;
 	private final static Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 14);
-	
 	private final static Color DEFAULT_COLOR = Color.BLACK;
 	private final static Stroke DEFAULT_STROKE = new BasicStroke(1);
 	
@@ -427,6 +426,9 @@ public final class Graphics {
 		g2d.setFont(f);
 	}
 	
+	public void draw(final Shape shape) {
+		draw(shape, DEFAULT_COLOR, DEFAULT_STROKE);
+	}
 	
 	public void draw(final Shape shape, final Color color) {
 		draw(shape, color, DEFAULT_STROKE);

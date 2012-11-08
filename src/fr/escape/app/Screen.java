@@ -27,11 +27,6 @@ public interface Screen extends EventListener {
 	 */
 	public void render(long delta);
 
-	/**
-	 * @see Game#resize(int, int)
-	 */
-	//public void resize(int width, int height);
-
 	/** 
 	 * Called when this screen becomes the current screen for a {@link Game}.
 	 */
@@ -42,18 +37,4 @@ public interface Screen extends EventListener {
 	 */
 	public void hide();
 
-	/**
-	 * @see ApplicationListener#pause()
-	 */
-	//public void pause();
-
-	/** 
-	 * @see ApplicationListener#resume()
-	 */
-	//public void resume();
-
-	/** 
-	 * Called when this screen should release itself.
-	 */
-	//public void dispose();
 }

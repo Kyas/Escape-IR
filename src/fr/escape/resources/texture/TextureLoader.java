@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.resources.texture;
 
 import java.nio.file.Path;
@@ -5,6 +16,11 @@ import java.nio.file.Path;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.ResourcesLoader;
 
+/**
+ * <p>
+ * A {@link ResourcesLoader} for {@link Texture}.
+ * 
+ */
 public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	
 	public static final String BACKGROUND_ERROR = "berror.png";
@@ -36,6 +52,7 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	// TODO REMOVE
 	public static final String DEBUG_WIN = "swin.png";
 	
+	@Override
 	public Path getPath() {
 		return PATH.resolve("texture");
 	}

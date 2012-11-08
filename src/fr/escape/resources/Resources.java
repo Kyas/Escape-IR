@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.resources;
 
 import java.awt.Font;
@@ -10,12 +21,26 @@ import fr.escape.graphics.Texture;
 import fr.escape.resources.font.FontLoader;
 import fr.escape.resources.texture.TextureLoader;
 
+/**
+ * <p>
+ * Create a Index of available Resource and load them in memory if needed.
+ * 
+ * <p>
+ * You cannot unload them after that.
+ * 
+ * <p>
+ * For loading: simply use <i>get...(...)</i> 
+ * 
+ * <p>
+ * <b>Note:</b> After instantiate this Object; You <b>HAVE TO</b> call <b>load()</b>
+ *
+ */
 public final class Resources {
 	
 	static final String TAG = Resources.class.getSimpleName();
 	
 	private final HashMap<String, FontLoader> fontLoader;
-	private final HashMap<String, TextureLoader> drawableLoader;
+	private final HashMap<String, TextureLoader> textureLoader;
 
 	/**
 	 * Is all resources loaded in memory ?
@@ -31,15 +56,18 @@ public final class Resources {
 	 */
 	public Resources() {
 		fontLoader = new HashMap<String, FontLoader>();
-		drawableLoader = new HashMap<String, TextureLoader>();
+		textureLoader = new HashMap<String, TextureLoader>();
 		loaded = false;
 	}
 	
+	/**
+	 * Create and Load {@link ResourcesLoader} in List
+	 */
 	public void load() {
 		if(loaded == false) {
 			
 			// Load Font
-			fontLoader.put(FontLoader.VISITOR_ID, createFontLoader(FontLoader.VISITOR_ID, 18.0f));
+			loadFont(FontLoader.VISITOR_ID, 18.0f);
 			
 			// Load Texture
 			loadTexture(TextureLoader.BACKGROUND_ERROR);
@@ -64,6 +92,7 @@ public final class Resources {
 			loadTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET);
 			loadTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE);
 			
+			// TODO REMOVE ?
 			loadTexture(TextureLoader.DEBUG_WIN);
 			
 		}
@@ -71,6 +100,13 @@ public final class Resources {
 		loaded = true;
 	}
 	
+	/**
+	 * Load and return Font from {@link ResourcesLoader} 
+	 * 
+	 * @param name Font name
+	 * @return Font
+	 * @throws NoSuchElementException
+	 */
 	public Font getFont(String name) throws NoSuchElementException {
 		Objects.requireNonNull(name);
 		checkIfLoaded();
@@ -86,12 +122,19 @@ public final class Resources {
 		}
 	}
 	
+	/**
+	 * Load and return Texture from {@link ResourcesLoader}
+	 * 
+	 * @param name Texture name
+	 * @return Texture
+	 * @throws NoSuchElementException
+	 */
 	public Texture getTexture(String name) throws NoSuchElementException {
 		Objects.requireNonNull(name);
 		checkIfLoaded();
 		try {
 			
-			TextureLoader loader = drawableLoader.get(name);
+			TextureLoader loader = textureLoader.get(name);
 			return loader.load();
 			
 		} catch(Exception e) {
@@ -101,6 +144,13 @@ public final class Resources {
 		}
 	}
 	
+	/**
+	 * Create a FontLoader for the given Font name.
+	 * 
+	 * @param fontID Font name
+	 * @param size Font size
+	 * @return FontLoader which will load the Font
+	 */
 	private static FontLoader createFontLoader(final String fontID, final float size) {
 		return new FontLoader() {
 
@@ -119,6 +169,12 @@ public final class Resources {
 		};
 	}
 	
+	/**
+	 * Create a TextureLoader for the given Texture name.
+	 * 
+	 * @param textureID Texture name
+	 * @return TextureLoader which will load the Texture
+	 */
 	private static TextureLoader createTextureLoader(final String textureID) {
 		return new TextureLoader() {
 			
@@ -136,10 +192,33 @@ public final class Resources {
 		};
 	}
 	
+	/**
+	 * Create a TextureLoader and add it for a given Texture name.
+	 * 
+	 * @param textureID Texture name
+	 */
 	private void loadTexture(String textureID) {
-		drawableLoader.put(textureID, createTextureLoader(textureID));
+		textureLoader.put(textureID, createTextureLoader(textureID));
 	}
 	
+	/**
+	 * Create a FontLoader and add it for a given Font name and size.
+	 * 
+	 * @param fontID Font name
+	 * @param size Font size
+	 */
+	private void loadFont(String fontID, float size) {
+		fontLoader.put(fontID, createFontLoader(fontID, size));
+	}
+	
+	/**
+	 * <p>
+	 * Check if the {@link Resources} object is loaded.<br>
+	 * (ie: {@link Resources#load()} has been called once).
+	 * 
+	 * <p>
+	 * Otherwise, throw an {@link IllegalStateException}.
+	 */
 	private void checkIfLoaded() {
 		if(loaded == false) {
 			throw new IllegalStateException("You must load all resources before using them. Use load()");

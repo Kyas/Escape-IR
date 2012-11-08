@@ -21,13 +21,5 @@ package fr.escape.app;
  * @see Screen
  */
 public interface Overlay extends Screen {
-
-//	/**
-//	 * If the User touched the Overlay. 
-//	 * 
-//	 * @param touch A User Touch {@link Input}.
-//	 * @return If the User touched the Overlay
-//	 */
-//	public boolean contains(Input touch);
 	
 }

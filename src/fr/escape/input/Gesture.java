@@ -15,6 +15,22 @@ import java.util.List;
 
 import fr.escape.app.Input;
 
+/**
+ * <p>
+ * An interface which represent an User Gesture ingame.
+ * 
+ */
+// TODO Comment
 public interface Gesture {
-	public boolean accept(Input start, List<Input> events, Input end,float[] velocity);
+	
+	/**
+	 * 
+	 * 
+	 * @param start First Input for this Gesture
+	 * @param events
+	 * @param end
+	 * @param velocity
+	 * @return True if the Gesture is detected as successful.
+	 */
+	public boolean accept(Input start, List<Input> events, Input end, float[] velocity);
 }

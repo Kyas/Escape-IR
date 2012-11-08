@@ -192,15 +192,34 @@ public class ScrollingTexture implements TextureOperator {
 		return texture;
 	}
 	
+	/**
+	 * Check and return the minimum X or Y axis accepted. 
+	 * 
+	 * @param src Axis
+	 * @return Suggested Axis
+	 */
 	protected int checkMinimumBoundary(int src) {
 		return (src < 0)?0:src;
 	}
 	
+	/**
+	 * Check and return the maximum X or Y axis accepted.
+	 * 
+	 * @param src Axis
+	 * @param max Maximum Axis
+	 * @return Suggested Axis
+	 */
 	protected int checkMaximumBoundary(int src, int max) {
 		return (src > max)?max:src;
 	}
 	
+	/**
+	 * Is Scrolling Texture reversed ?
+	 * 
+	 * @return True if the {@link ScrollingTexture} is reversed.
+	 */
 	protected boolean isReversed() {
 		return reverse;
 	}
+	
 }

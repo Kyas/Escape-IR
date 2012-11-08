@@ -4,7 +4,8 @@ import java.util.List;
 
 import fr.escape.app.Input;
 
-public class LeftLoop implements Gesture {
+// TODO Comment
+public final class LeftLoop implements Gesture {
 
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {

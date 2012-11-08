@@ -28,7 +28,10 @@ public final class Launcher {
 	 */
 	public static void main(String[] args) {
 		
+		// Create Activity with a Game
 		Activity activity = new Activity(new Escape());
+		
+		// Launch Activity
 		activity.setLogLevel(Activity.LOG_DEBUG);
 		activity.debug(TAG, "Initialize Launcher");
 		activity.create();

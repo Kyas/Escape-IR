@@ -12,9 +12,11 @@ import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.resources.texture.TextureLoader;
 
 public abstract class AbstractShip implements Ship {
+	
 	private final Body body;
 	private final ArrayList<Weapon> weapons;
 	private final boolean isPlayer;
+	
 	private int activeWeapon;
 	
 	public AbstractShip(Body body,boolean isPlayer) {
@@ -40,7 +42,9 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void setActiveWeapon(int which) {
-		if(which < 0 || which >= weapons.size()) throw new IllegalArgumentException("Out of bound : index unknown");
+		if(which < 0 || which >= weapons.size()) {
+			throw new IndexOutOfBoundsException();
+		}
 		this.activeWeapon = which;
 	}
 	
@@ -63,7 +67,7 @@ public abstract class AbstractShip implements Ship {
 	public void draw(Graphics graphics) {
 		int x = CoordinateConverter.toPixel(body.getPosition().x);
 		int y = CoordinateConverter.toPixel(body.getPosition().y);
-		graphics.draw(Foundation.RESOURCES.getTexture(TextureLoader.DEBUG_WIN),x,y);
+		graphics.draw(Foundation.RESOURCES.getTexture(TextureLoader.DEBUG_WIN), x, y);
 	}
 	
 	@Override

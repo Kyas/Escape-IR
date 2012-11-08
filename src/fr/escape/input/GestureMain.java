@@ -13,6 +13,7 @@ import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 import fr.umlv.zen2.MotionEvent;
 
+// TODO REMOVE ?
 public class GestureMain {
 
 	public static void main(String[] args) {
