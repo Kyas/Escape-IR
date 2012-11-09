@@ -124,7 +124,7 @@ public final class BlackHoleShot extends AbstractShot {
 		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreHelix.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreHelix.getHeight() / 2;
 		
-		graphics.draw(coreHelix, x, y);
+		graphics.draw(coreHelix, x, y, getAngle());
 	}
 	
 	private void drawLeftAndRightHelix(Graphics graphics) {

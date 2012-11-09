@@ -21,7 +21,6 @@ public abstract class AbstractShip implements Ship {
 	private final List<Weapon> weapons;
 	private final boolean isPlayer;
 	
-	
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
 	
@@ -103,6 +102,6 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void loadWeapon(World w, EntityContainer ec) {
 		isWeaponLoaded = true;
-		getActiveWeapon().load(w, ec, getX(), getY() - CoordinateConverter.toMeterY(100));
+		getActiveWeapon().load(w, ec, getX(), getY() - CoordinateConverter.toMeterY(coreShip.getHeight() + 10));
 	}
 }

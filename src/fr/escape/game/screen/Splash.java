@@ -103,8 +103,8 @@ public class Splash implements Screen {
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
 		s = new ArrayList<>(10);
-		for(int i = 0; i < 3; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 100),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer,Weapons.createListOfWeapons());
+		for(int i = 0; i < 2; i++) {
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer,Weapons.createListOfWeapons());
 			s.add(tmp);
 		}
 
@@ -194,9 +194,6 @@ public class Splash implements Screen {
 		int x = CoordinateConverter.toPixelX(ship.getX());
 		int y = CoordinateConverter.toPixelY(ship.getY());
 		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
-		
-		System.out.println(x+"-"+y +" "+error);
-		System.out.println(CoordinateConverter.toMeterX(i.getX())+"-"+CoordinateConverter.toMeterY(i.getY()));
 		
 		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
 			if(!weaponLoaded) {

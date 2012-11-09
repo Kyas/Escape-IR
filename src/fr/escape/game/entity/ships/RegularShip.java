@@ -8,10 +8,10 @@ import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
-import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.shot.Shot;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
@@ -26,7 +26,7 @@ public class RegularShip extends AbstractShip {
 		Body body = getBody();
 		
 		if(body.isActive()) {
-			
+			Shot shot = getActiveWeapon().getShot();
 			int x = CoordinateConverter.toPixelX(body.getPosition().x);
 			int y = CoordinateConverter.toPixelY(body.getPosition().y);
 			int radius = getRadius();
@@ -37,14 +37,13 @@ public class RegularShip extends AbstractShip {
 				velocity[1] *= -1;
 				velocity[2] *= -1;
 			}
-			
+			float[] tmp = velocity;
 			/*if(isPlayer()) {
 				System.out.println(velocity[1] + " " + velocity[2]);
 				System.out.println(velocity[0]);
 			}*/
 
 			if(velocity[0] > 0) {
-				
 				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
 				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));
 				
@@ -52,8 +51,10 @@ public class RegularShip extends AbstractShip {
 				body.setLinearVelocity(new Vec2(0,0));
 			}
 			
+			if(shot != null) shot.setPosition(world,graphics,tmp);
+			
 			draw(graphics);
-			//world.step(1.0f/60.0f,6,2);
+			world.step(1.0f/60.0f,6,2);
 		}
 	}
 

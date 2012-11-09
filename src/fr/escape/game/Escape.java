@@ -150,8 +150,6 @@ public final class Escape extends Game implements LifeListener {
 	 */
 	@Override
 	public boolean touch(Input i) {
-		// TODO REMOVE ?
-		System.out.println("Touch Event");
 		if(getOverlay().touch(i)) {
 			return true;
 		}
@@ -163,8 +161,6 @@ public final class Escape extends Game implements LifeListener {
 	 */
 	@Override
 	public boolean move(Input i) {
-		// TODO REMOVE ?
-		System.out.println("Move Event");
 		if(getOverlay().move(i)) {
 			return true;
 		}
