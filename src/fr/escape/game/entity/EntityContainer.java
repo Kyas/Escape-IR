@@ -1,6 +1,6 @@
 /*****************************************************************************
  * 
- * Copyright 2012 See AUTHORS file.
+  * Copyright 2012 See AUTHORS file.
  * 
  * This file is part of Escape-IR.
  * 
@@ -12,8 +12,11 @@
 package fr.escape.game.entity;
 
 import java.awt.Rectangle;
+import java.rmi.activation.UnknownObjectException;
 import java.util.LinkedHashSet;
 import java.util.Objects;
+
+import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -68,6 +71,7 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	 * @return True if successful
 	 */
 	private boolean remove(Entity e) {
+		e.getBody().setActive(false);
 		return this.entities.remove(e);
 	}
 	
@@ -100,6 +104,11 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	@Override
 	public boolean isInside(Rectangle edge) {
 		return this.edge.intersects(Objects.requireNonNull(edge));
+	}
+
+	@Override
+	public Body getBody() {
+		throw new UnsupportedOperationException();
 	}
 
 }

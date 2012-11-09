@@ -8,7 +8,10 @@ import org.jbox2d.dynamics.Body;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.notifier.EdgeNotifier;
+import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 public abstract class AbstractShip implements Ship {
@@ -16,14 +19,22 @@ public abstract class AbstractShip implements Ship {
 	private final Body body;
 	private final ArrayList<Weapon> weapons;
 	private final boolean isPlayer;
-	
 	private int activeWeapon;
 	
-	public AbstractShip(Body body,boolean isPlayer) {
+	private final EdgeNotifier eNotifier;
+	private final KillNotifier kNotifier;
+	
+	private final Texture coreShip;
+	
+	public AbstractShip(Body body,boolean isPlayer,EdgeNotifier eNotifier,KillNotifier kNotifier) {
 		this.weapons = new ArrayList<>(4);
 		this.activeWeapon = 0;
 		this.body = body;
 		this.isPlayer = isPlayer;
+		this.eNotifier = eNotifier;
+		this.kNotifier = kNotifier;
+		
+		this.coreShip = Foundation.RESOURCES.getTexture(TextureLoader.DEBUG_WIN);
 	}
 	
 	public boolean isPlayer() {
@@ -31,8 +42,8 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public int getActiveWeapon() {
-		return activeWeapon;
+	public Weapon getActiveWeapon() {
+		return weapons.get(activeWeapon);
 	}
 	
 	@Override
@@ -53,6 +64,10 @@ public abstract class AbstractShip implements Ship {
 		return body;
 	}
 	
+	public int getRadius() {
+		return coreShip.getHeight() / 2;
+	}
+	
 	@Override
 	public float getX() {
 		return body.getPosition().x;
@@ -65,9 +80,9 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void draw(Graphics graphics) {
-		int x = CoordinateConverter.toPixel(body.getPosition().x);
-		int y = CoordinateConverter.toPixel(body.getPosition().y);
-		graphics.draw(Foundation.RESOURCES.getTexture(TextureLoader.DEBUG_WIN), x, y);
+		int x = CoordinateConverter.toPixel(body.getPosition().x) - coreShip.getWidth() / 2;
+		int y = CoordinateConverter.toPixel(body.getPosition().y) - coreShip.getHeight() / 2;
+		graphics.draw(coreShip, x, y);
 	}
 	
 	@Override

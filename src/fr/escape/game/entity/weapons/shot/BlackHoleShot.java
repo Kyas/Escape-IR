@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
@@ -50,19 +51,22 @@ public final class BlackHoleShot extends AbstractShot {
 	public void receive(int message) {
 		switch(message) {
 			case MESSAGE_LOAD: {
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(coreHelix.getHeight());
 				isVisible = true;
 				drawCoreHelix = true;
 				break;
 			}
 			case MESSAGE_FIRE: {
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(leftHelix.getHeight());
 				drawLeftAndRightHelix = true;
 				break;
 			}
 			case MESSAGE_CRUISE: {
-				
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(rightHelix.getHeight());
 				break;
 			}
 			case MESSAGE_HIT: {
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(eventHorizon.getHeight());
 				drawEventHorizon = true;
 				timer = 0;
 				break;
@@ -83,6 +87,7 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 		}
+		System.out.println("Radius : " + getBody().getFixtureList().getShape().m_radius);
 	}
 
 	@Override

@@ -64,9 +64,6 @@ public final class Input {
 	 * @return Mouse Kind
 	 */
 	public Kind getKind() {
-		if(event.getKind() == Kind.ACTION_DOWN) {
-			;
-		}
 		return event.getKind();
 	}
 	

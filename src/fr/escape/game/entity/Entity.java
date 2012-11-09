@@ -11,6 +11,7 @@
 
 package fr.escape.game.entity;
 
+import org.jbox2d.dynamics.Body;
 import java.awt.Graphics2D;
 
 import org.jbox2d.dynamics.World;
@@ -38,5 +39,7 @@ public interface Entity {
 	 * @param delta Time elapsed since the last update
 	 */
 	public void update(Graphics graphics, long delta);
+	
+	public Body getBody();
 	
 }

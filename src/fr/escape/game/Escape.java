@@ -102,7 +102,7 @@ public final class Escape extends Game implements LifeListener {
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeter(getGraphics().getWidth()/2 - 20),CoordinateConverter.toMeter(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true);
+			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeter(getGraphics().getWidth()/2),CoordinateConverter.toMeter(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true,null);
 
 			getUser().register(uHighscore);
 			System.out.println("Ship set");

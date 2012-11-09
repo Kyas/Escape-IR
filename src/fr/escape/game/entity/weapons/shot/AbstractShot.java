@@ -91,6 +91,7 @@ public abstract class AbstractShot implements Shot {
 //		graphics.draw(drawable, (getX() - (drawable.getWidth() / 2)), (getY() - (drawable.getHeight() / 2)), getAngle());
 //	}
 	
+	@Override
 	public Body getBody() {
 		return body;
 	}

@@ -3,6 +3,8 @@ package fr.escape.game.entity.bonus;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import org.jbox2d.dynamics.Body;
+
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
@@ -40,6 +42,12 @@ public final class BonusFactory {
 				public int getNumber() {
 					return BLACKHOLE_NUMBER;
 				}
+
+				@Override
+				public Body getBody() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 			};
 			
 		} else if(isFireballBonus()) {
@@ -54,6 +62,12 @@ public final class BonusFactory {
 				@Override
 				public int getNumber() {
 					return FIREBALL_NUMBER;
+				}
+
+				@Override
+				public Body getBody() {
+					// TODO Auto-generated method stub
+					return null;
 				}
 				
 			};
@@ -71,6 +85,12 @@ public final class BonusFactory {
 				public int getNumber() {
 					return SHIBOLEET_NUMBER;
 				}
+
+				@Override
+				public Body getBody() {
+					// TODO Auto-generated method stub
+					return null;
+				}
 				
 			};
 			
@@ -86,6 +106,12 @@ public final class BonusFactory {
 				@Override
 				public int getNumber() {
 					return MISSILE_NUMBER;
+				}
+
+				@Override
+				public Body getBody() {
+					// TODO Auto-generated method stub
+					return null;
 				}
 				
 			};
