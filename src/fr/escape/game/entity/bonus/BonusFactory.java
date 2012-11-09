@@ -158,7 +158,7 @@ public final class BonusFactory {
 			this.x = x;
 			this.y = y;
 			
-			if(!notifier.getEdge().intersects(getEdge())) {
+			if(!notifier.isInside(getEdge())) {
 				notifier.edgeReached(this);
 			}
 		}

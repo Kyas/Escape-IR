@@ -15,8 +15,11 @@ import fr.escape.app.Graphics;
 
 /**
  * <p>
- * An interface for Entity which can draw/render themselves without external help.
- *
+ * An interface for {@link Entity} which can draw/render themselves without external help.
+ * 
+ * <p>
+ * Kind of Flag for {@link Entity}
+ * 
  * @see Graphics
  */
 public interface Drawable {

@@ -6,6 +6,7 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
 
+// TODO Comment
 public final class CollisionDetector implements ContactListener {
 
 	@Override
