@@ -6,12 +6,14 @@ import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.notifier.EdgeNotifier;
+import fr.escape.game.entity.notifier.KillNotifier;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body,boolean isPlayer) {
-		super(body,isPlayer);
+	public RegularShip(Body body,boolean isPlayer,EdgeNotifier edgeNotifier,KillNotifier killNotifier) {
+		super(body,isPlayer,edgeNotifier,killNotifier);
 	}
 	
 	@Override
@@ -23,18 +25,19 @@ public class RegularShip extends AbstractShip {
 			
 			int x = CoordinateConverter.toPixel(body.getPosition().x);
 			int y = CoordinateConverter.toPixel(body.getPosition().y);
+			int radius = getRadius();
 			
-			if(isPlayer() && (x <= 0 || x >= graphics.getWidth() - 50 || y <= 0 || y >= graphics.getHeight() - 60)) {
-				System.out.println(x + " " + y);
+			if(isPlayer() && (x <= radius || x >= graphics.getWidth() - radius || y <= (graphics.getHeight() * 2) / 3 + radius || y >= graphics.getHeight() - radius)) {
+				//System.out.println(x + " " + y);
 				velocity[0] = 0.1f;
 				velocity[1] *= -1;
 				velocity[2] *= -1;
 			}
 			
-			if(isPlayer()) {
+			/*if(isPlayer()) {
 				System.out.println(velocity[1] + " " + velocity[2]);
 				System.out.println(velocity[0]);
-			}
+			}*/
 
 			if(velocity[0] > 0) {
 				
@@ -46,7 +49,7 @@ public class RegularShip extends AbstractShip {
 			}
 			
 			draw(graphics);
-			world.step(1.0f/60.0f,6,2);
+			//world.step(1.0f/60.0f,6,2);
 		}
 	}
 

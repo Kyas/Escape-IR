@@ -1,7 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
-import java.awt.Rectangle;
 import java.util.Objects;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -19,7 +17,6 @@ public final class ShotFactory {
 	//private static final Texture SHIBOLEET_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 
 	public static Shot createBlackholeShot(World world, float x, float y, EntityContainer ec) {
-		
 		Objects.requireNonNull(world);
 		
 		BodyDef bodyDef = new BodyDef();

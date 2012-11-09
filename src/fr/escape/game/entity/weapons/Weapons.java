@@ -19,13 +19,13 @@ public class Weapons {
 		
 		List<Weapon> list = new ArrayList<>(4);
 		
-		Weapon wB = new BlackHole(0);
+		Weapon wB = new BlackHole(4);
 		Weapons.validate(wB);
 		
 		Weapon wF = new FireBall(50);
 		Weapons.validate(wF);
 		
-		Weapon wS = new Shiboleet(0);
+		Weapon wS = new Shiboleet(10);
 		Weapons.validate(wS);
 		
 		Weapon wM = new Missile();

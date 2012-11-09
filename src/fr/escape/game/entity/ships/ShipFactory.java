@@ -9,9 +9,11 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import fr.escape.game.entity.EntityContainer;
+
 public class ShipFactory {
 	
-	public RegularShip createRegularShip(World world, float x, float y, BodyType type, float radius, boolean isPlayer) {
+	public RegularShip createRegularShip(World world, float x, float y, BodyType type, float radius, boolean isPlayer, EntityContainer ec) {
 		
 		Objects.requireNonNull(world);
 		
@@ -30,7 +32,7 @@ public class ShipFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		RegularShip ship = new RegularShip(body,isPlayer);
+		RegularShip ship = new RegularShip(body,isPlayer,ec,ec);
 		body.setUserData((isPlayer)?"PlayerShip":"NPCShip");
 		
 		return ship;

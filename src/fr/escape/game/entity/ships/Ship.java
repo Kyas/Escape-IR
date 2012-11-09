@@ -20,7 +20,7 @@ public interface Ship extends Moveable, Drawable, Entity {
 	
 	public void setActiveWeapon(int which);
 	
-	public int getActiveWeapon();
+	public Weapon getActiveWeapon();
 	
 	public Body getBody();
 	
