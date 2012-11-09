@@ -40,16 +40,21 @@ public final class BlackHole implements Weapon {
 	}
 
 	@Override
-	public void load(World world,float x,float y,EntityContainer ec) {
-		shot = ShotFactory.createBlackholeShot(world,x,y,ec);
+	public void load(World world, EntityContainer ec, float x, float y) {
+		shot = ShotFactory.createBlackholeShot(world, x, y, ec);
 		shot.receive(AbstractShot.MESSAGE_LOAD);
 	}
 	
 	@Override
-	public void fire(World world,float[] velocity) {
-		Objects.requireNonNull(world);
-		shot.setPosition((int)velocity[0],(int)velocity[1]);
-		world.step(1.0f/60.0f,6,2);
+	public void fire(World world, EntityContainer ec, float[] velocity) {
+
+		// TODO
+		shot.setPosition((int) velocity[0], (int) velocity[1]);
+		
+		Objects.requireNonNull(world).step(1.0f/60.0f, 6, 2);
+		
+		ec.push(shot);
+		shot = null;
 	}
 	
 	@Override
