@@ -10,7 +10,6 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
-import fr.escape.game.message.Receiver;
 
 public abstract class AbstractShot implements Shot {
 	
@@ -56,7 +55,6 @@ public abstract class AbstractShot implements Shot {
 	
 	public void setPosition(World world,Graphics graphics,float[] velocity) {
 		if(body.isActive()) {
-			System.out.println("Set Shot Position : " + velocity[0]);
 			if(velocity[0] > 0) {
 				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
 				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));

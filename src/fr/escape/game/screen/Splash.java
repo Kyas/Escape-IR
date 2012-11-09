@@ -27,15 +27,11 @@ import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.bonus.Bonus;
-import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 
 import fr.escape.game.entity.weapons.Weapons;
-import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
-import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
@@ -103,9 +99,10 @@ public class Splash implements Screen {
 		ShipFactory sf = new ShipFactory();
 		s = new ArrayList<>(10);
 		for(int i = 0; i < 2; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer,Weapons.createListOfWeapons());
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.58f,false,eContainer,Weapons.createListOfWeapons());
 			s.add(tmp);
 		}
+		s.add(sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),BodyType.STATIC,0.58f,false,eContainer,Weapons.createListOfWeapons()));
 
 	}
 	
@@ -229,9 +226,10 @@ public class Splash implements Screen {
 						WeaponGesture wg = new WeaponGesture();
 						Ship ship = game.getUser().getShip();
 						
-						if(wg.accept(start, events, i, velocity) && ship.isWeaponLoaded()) {
+						float[] weaponVelocity = new float[3];
+						if(wg.accept(start, events, i, weaponVelocity) && ship.isWeaponLoaded()) {
 							game.getActivity().debug(TAG, "Weapon Gesture Accept : Fire");
-							ship.fireWeapon(game.getWorld(), eContainer, velocity);
+							ship.fireWeapon(game.getWorld(), eContainer, weaponVelocity);
 						}
 						
 					} else {

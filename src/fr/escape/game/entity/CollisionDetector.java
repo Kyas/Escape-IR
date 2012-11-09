@@ -1,27 +1,75 @@
 package fr.escape.game.entity;
 
+import java.util.ArrayList;
+
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.contacts.Contact;
+
+import fr.escape.game.entity.weapons.shot.AbstractShot;
+import fr.escape.game.entity.weapons.shot.Shot;
 
 // TODO Comment
 public final class CollisionDetector implements ContactListener {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void beginContact(Contact arg0) {
-		
 		Body a = arg0.getFixtureA().getBody();
 		Body b = arg0.getFixtureB().getBody();
 		
-		if(a.getUserData().equals("PlayerShip") || b.getUserData().equals("PlayerShip")) {
+		ArrayList<Object> lA = (ArrayList<Object>) a.getUserData();
+		ArrayList<Object> lB = (ArrayList<Object>) b.getUserData();
+		
+		String oaType = (String) lA.get(0);
+		String obType = (String) lB.get(0);
+		
+		switch (oaType) {
+			case "PlayerShip" :
+				System.out.println("Player lost a life");
+				break;
+			case "Shot" : 
+				System.out.println("Shot Hit");
+				Shot shot = (Shot) lA.get(1);
+				shot.receive(AbstractShot.MESSAGE_HIT);
+				a.setLinearVelocity(new Vec2(0.f,0.f));
+				b.setActive(false);
+				break;
+			case "Bonus" :
+				System.out.println("Bonus Time");
+				break;
+			default:
+				break;
+		}
+		
+		switch (obType) {
+			case "PlayerShip" :
+				System.out.println("Player lost a life");
+				break;
+			case "Shot" : 
+				System.out.println("Shot Hit");
+				Shot shot = (Shot) lB.get(1);
+				shot.receive(AbstractShot.MESSAGE_HIT);
+				b.setLinearVelocity(new Vec2(0.f,0.f));
+				a.setActive(false);
+				break;
+			case "Bonus" :
+				System.out.println("Bonus Time");
+				break;
+			default:
+				break;
+		}
+		
+		/*if(a.getUserData().equals("PlayerShip") || b.getUserData().equals("PlayerShip")) {
 			//TODO player lost a life
 			System.out.println("Player lost a life");
 		}
 		
 		a.setActive(false);
-		b.setActive(false);
+		b.setActive(false);*/
 	}
 
 	@Override

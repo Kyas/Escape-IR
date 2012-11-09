@@ -51,22 +51,22 @@ public final class BlackHoleShot extends AbstractShot {
 	public void receive(int message) {
 		switch(message) { 
 			case Shot.MESSAGE_LOAD: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(coreHelix.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(coreHelix.getHeight() / 2);
 				isVisible = true;
 				drawCoreHelix = true;
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(leftHelix.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(leftHelix.getHeight() / 2);
 				drawLeftAndRightHelix = true;
 				break;
 			}
 			case Shot.MESSAGE_CRUISE: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(rightHelix.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(rightHelix.getHeight() / 2);
 				break;
 			}
 			case Shot.MESSAGE_HIT: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(eventHorizon.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(eventHorizon.getHeight() / 2);
 				drawEventHorizon = true;
 				timer = 0;
 				break;
@@ -104,6 +104,8 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	@Override
 	public void draw(Graphics graphics) {
+		/*System.out.println("Position : " + CoordinateConverter.toPixelX(getBody().getPosition().x) + "-" + CoordinateConverter.toPixelY(getBody().getPosition().y));
+		System.out.println("Radius : " + CoordinateConverter.toPixelX(getBody().getFixtureList().getShape().m_radius));*/
 		if(isVisible) {
 
 			if(drawLeftAndRightHelix) {
