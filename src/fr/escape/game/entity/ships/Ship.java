@@ -31,6 +31,8 @@ public interface Ship extends Moveable, Drawable, Entity {
 	
 	public boolean isWeaponLoaded();
 	
-	public void loadWeapon(World w, EntityContainer ec);
+	public boolean loadWeapon(World w, EntityContainer ec);
+	
+	public boolean fireWeapon(World world, EntityContainer ec, float[] velocity);
 	
 }

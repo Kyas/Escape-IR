@@ -102,8 +102,29 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void loadWeapon(World w, EntityContainer ec) {
-		isWeaponLoaded = true;
-		getActiveWeapon().load(w, ec, getX(), getY() - CoordinateConverter.toMeterY(100));
+	public boolean loadWeapon(World w, EntityContainer ec) {
+		
+		Weapon activeWeapon = getActiveWeapon();
+		
+		if(activeWeapon.load(w, ec, getX(), getY() - CoordinateConverter.toMeterY(100))) {
+			isWeaponLoaded = true;
+			return true;
+		}
+		
+		return false;
 	}
+	
+	@Override
+	public boolean fireWeapon(World world, EntityContainer ec, float[] velocity) {
+		
+		Weapon activeWeapon = getActiveWeapon();
+		
+		if(activeWeapon.fire(world, ec, velocity)) {
+			isWeaponLoaded = false;
+			return true;
+		}
+		
+		return false;
+	}
+	
 }
