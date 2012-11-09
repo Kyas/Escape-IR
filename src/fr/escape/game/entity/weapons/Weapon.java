@@ -12,6 +12,6 @@ public interface Weapon extends Drawable {
 	public int getAmmunition();
 	public boolean isEmpty();
 	public Shot getShot();
-	public void load(World world,float x,float y,EntityContainer ec);
-	public void fire(World world,float[] velocity);
+	public void load(World world, EntityContainer ec, float x, float y);
+	public void fire(World world, EntityContainer ec, float[] velocity);
 }

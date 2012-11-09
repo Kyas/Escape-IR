@@ -3,10 +3,12 @@ package fr.escape.game.entity.ships;
 import java.util.List;
 
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
@@ -18,12 +20,15 @@ public abstract class AbstractShip implements Ship {
 	private final Body body;
 	private final List<Weapon> weapons;
 	private final boolean isPlayer;
-	private int activeWeapon;
+	
 	
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
 	
 	private final Texture coreShip;
+	
+	private int activeWeapon;
+	private boolean isWeaponLoaded;
 	
 	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer,EdgeNotifier eNotifier,KillNotifier kNotifier) {
 		this.weapons = weapons;
@@ -88,5 +93,16 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void update(Graphics graphics, long delta) {
 		draw(graphics);
+	}
+	
+	@Override
+	public boolean isWeaponLoaded() {
+		return isWeaponLoaded;
+	}
+	
+	@Override
+	public void loadWeapon(World w, EntityContainer ec) {
+		isWeaponLoaded = true;
+		getActiveWeapon().load(w, ec, getX(), getY() - CoordinateConverter.toMeterY(100));
 	}
 }

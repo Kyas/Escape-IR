@@ -189,6 +189,7 @@ public class Splash implements Screen {
 
 	@Override
 	public boolean touch(Input i) {
+		
 		Ship ship = game.getUser().getShip();
 		int x = CoordinateConverter.toPixelX(ship.getX());
 		int y = CoordinateConverter.toPixelY(ship.getY());
@@ -200,7 +201,7 @@ public class Splash implements Screen {
 		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
 			if(!weaponLoaded) {
 				//TODO debug
-				game.getUser().getShip().getActiveWeapon().load(game.getWorld(),x,y - CoordinateConverter.toMeterY(100),eContainer);
+				game.getUser().getShip().loadWeapon(game.getWorld(), eContainer);
 				System.out.println("Weapon loading ...");
 				weaponLoaded = true;
 			}

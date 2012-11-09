@@ -37,20 +37,21 @@ public final class Missile implements Weapon {
 		return null;
 	}
 
-	@Override
-	public void load(World world, float x, float y, EntityContainer ec) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void fire(World world, float[] velocity) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void draw(Graphics graphics) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load(World world, EntityContainer ec, float x, float y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fire(World world, EntityContainer ec, float[] velocity) {
 		// TODO Auto-generated method stub
 		
 	}
