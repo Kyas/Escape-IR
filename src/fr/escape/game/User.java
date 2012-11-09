@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game;
 
 import java.util.ArrayList;
@@ -9,7 +20,10 @@ import fr.escape.game.message.Receiver;
 import fr.escape.game.message.Sender;
 import fr.escape.input.Gesture;
 
+// TODO Finish
 public final class User implements Receiver, Sender {
+	
+	private static final int INITIAL_LIFE = 3;
 	
 	private Ship ship;
 	private int highscore;
@@ -20,10 +34,10 @@ public final class User implements Receiver, Sender {
 	
 	// TODO Ship
 	User(LifeListener listener) {
-		highscore = 0;
-		ship = null;
-		life = 3;
 		this.listener = Objects.requireNonNull(listener);
+		this.highscore = 0;
+		this.ship = null;
+		this.life = INITIAL_LIFE;
 	}
 
 	public int getHighscore() {

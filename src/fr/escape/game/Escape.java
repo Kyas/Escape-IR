@@ -14,7 +14,6 @@ package fr.escape.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
@@ -42,16 +41,37 @@ import fr.escape.input.Gesture;
 import fr.escape.input.LeftLoop;
 import fr.escape.input.RightLoop;
 
-public class Escape extends Game implements LifeListener {
+/**
+ * <p>
+ * Escape Game
+ * 
+ * <p>
+ * This class is a huge Controller that link many components together.
+ * 
+ */
+public final class Escape extends Game implements LifeListener {
 	
+	/**
+	 * Player Model
+	 */
 	private final User user;
 	
+	/**
+	 * Screen
+	 */
 	private Lost lost;
 	private Menu menu;
 	private Splash splash;
 	private Error error;
+	
+	/**
+	 * Overlay used ingame
+	 */
 	private IngameUI ingameUI;
 	
+	/**
+	 * Default Constructor for the Game.
+	 */
 	public Escape() {
 		user = new User(this);
 	}
@@ -62,12 +82,13 @@ public class Escape extends Game implements LifeListener {
 	@Override
 	public void create() {
 		try {
+			
 			ShipFactory sf = new ShipFactory();
-			Vec2 gravity = new Vec2(0.0f,0.0f);
-			World world = new World(gravity,true);
+			
+			// Create World
+			World world = new World(new Vec2(0.0f,0.0f), true);
+			world.setContactListener(new CollisionDetector());
 			setWorld(world);
-			ContactListener contactListener = new CollisionDetector();
-			world.setContactListener(contactListener);
 			
 			// Create Screen
 			lost = new Lost(this);
@@ -101,7 +122,9 @@ public class Escape extends Game implements LifeListener {
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);
 			
+			// Attach Start Screen
 			setScreen(splash);
+			
 		} catch(Exception e) {
 			error = new Error(this);
 			getActivity().error("Escape", "Exception raised during create()", e);
@@ -126,6 +149,7 @@ public class Escape extends Game implements LifeListener {
 	 */
 	@Override
 	public boolean touch(Input i) {
+		// TODO REMOVE ?
 		System.out.println("Touch Event");
 		if(getOverlay().touch(i)) {
 			return true;
@@ -138,6 +162,7 @@ public class Escape extends Game implements LifeListener {
 	 */
 	@Override
 	public boolean move(Input i) {
+		// TODO REMOVE ?
 		System.out.println("Move Event");
 		if(getOverlay().move(i)) {
 			return true;
@@ -166,6 +191,7 @@ public class Escape extends Game implements LifeListener {
 
 	@Override
 	public void restart() {
+		// TODO Finish
 		setScreen(splash);
 	}
 
