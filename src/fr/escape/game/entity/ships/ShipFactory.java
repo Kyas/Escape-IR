@@ -21,7 +21,7 @@ public class ShipFactory {
 		Objects.requireNonNull(world);
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(x,y);
+		bodyDef.position.set(x, y);
 		bodyDef.type = type;
 		
 		CircleShape shape = new CircleShape();

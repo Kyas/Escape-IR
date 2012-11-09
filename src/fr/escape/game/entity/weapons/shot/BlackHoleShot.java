@@ -50,28 +50,28 @@ public final class BlackHoleShot extends AbstractShot {
 	@Override
 	public void receive(int message) {
 		switch(message) { 
-			case MESSAGE_LOAD: {
+			case Shot.MESSAGE_LOAD: {
 				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(coreHelix.getHeight());
 				isVisible = true;
 				drawCoreHelix = true;
 				break;
 			}
-			case MESSAGE_FIRE: {
+			case Shot.MESSAGE_FIRE: {
 				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(leftHelix.getHeight());
 				drawLeftAndRightHelix = true;
 				break;
 			}
-			case MESSAGE_CRUISE: {
+			case Shot.MESSAGE_CRUISE: {
 				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(rightHelix.getHeight());
 				break;
 			}
-			case MESSAGE_HIT: {
+			case Shot.MESSAGE_HIT: {
 				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(eventHorizon.getHeight());
 				drawEventHorizon = true;
 				timer = 0;
 				break;
 			}
-			case MESSAGE_DESTROY: {
+			case Shot.MESSAGE_DESTROY: {
 				
 				isVisible = false;
 				
@@ -97,7 +97,7 @@ public final class BlackHoleShot extends AbstractShot {
 		draw(graphics);
 		
 		if(drawEventHorizon && timer > ((EVENT_HORIZON_SPEED * 2) + EVENT_HORIZON_TIME)) {
-			receive(AbstractShot.MESSAGE_DESTROY);
+			receive(Shot.MESSAGE_DESTROY);
 		}
 		
 	}
@@ -121,6 +121,7 @@ public final class BlackHoleShot extends AbstractShot {
 	}
 
 	private void drawCoreHelix(Graphics graphics) {
+		
 		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreHelix.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreHelix.getHeight() / 2;
 		
@@ -129,14 +130,17 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	private void drawLeftAndRightHelix(Graphics graphics) {
 		
-		int x = getX() - (leftHelix.getWidth() / 2);
-		int y = getY() - (leftHelix.getHeight() / 2);
+		int centerX = CoordinateConverter.toPixelX(getBody().getPosition().x);
+		int centerY = CoordinateConverter.toPixelY(getBody().getPosition().y);
+		
+		int x = centerX - (leftHelix.getWidth() / 2);
+		int y = centerY - (leftHelix.getHeight() / 2);
 		int angle = (int) (((float) timer / ROTATION_SPEED) * 360);
 		
 		graphics.draw(leftHelix, x, y, angle);
 		
-		x = getX() - (rightHelix.getWidth() / 2);
-		y = getY() - (rightHelix.getHeight() / 2);
+		x = centerX - (rightHelix.getWidth() / 2);
+		y = centerY - (rightHelix.getHeight() / 2);
 		angle = 360 - angle;
 		
 		graphics.draw(rightHelix, x, y, angle);
@@ -145,11 +149,14 @@ public final class BlackHoleShot extends AbstractShot {
 	private void drawEventHorizon(Graphics graphics) {
 
 		float size = getEventHorizonSize();
+		
+		int centerX = CoordinateConverter.toPixelX(getBody().getPosition().x);
+		int centerY = CoordinateConverter.toPixelY(getBody().getPosition().y);
 
 		int width = (int) (eventHorizon.getWidth() * size);
 		int height = (int) (eventHorizon.getHeight() * size);
-		int x = getX() - (width / 2);
-		int y = getY() - (height / 2);
+		int x = centerX - (width / 2);
+		int y = centerY - (height / 2);
 		
 		graphics.draw(eventHorizon, x, y, x + width, y + height);
 	}

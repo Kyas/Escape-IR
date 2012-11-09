@@ -21,7 +21,7 @@ public class Weapons {
 		
 		List<Weapon> list = new ArrayList<>(4);
 		
-		Weapon wB = new BlackHole(4);
+		Weapon wB = new BlackHole(Integer.MAX_VALUE);
 		Weapons.validate(wB);
 		
 		Weapon wF = new FireBall(50);

@@ -159,20 +159,20 @@ public class Splash implements Screen {
 			}
 		}*/
 		
-		if((time % 1000) > 0 && (time % 1000) < 100) {
-			
-			if(!spawn) {
-				Bonus bonus = BonusFactory.createBonus(eContainer);
-				if(bonus != null) {
-					bonus.setPosition(game.getGraphics().getWidth() / 2, 0);
-					eContainer.push(bonus);
-				}
-				spawn = true;
-			}
-			
-		} else {
-			spawn = false;
-		}
+//		if((time % 1000) > 0 && (time % 1000) < 100) {
+//			
+//			if(!spawn) {
+//				Bonus bonus = BonusFactory.createBonus(eContainer);
+//				if(bonus != null) {
+//					bonus.setPosition(game.getGraphics().getWidth() / 2, 0);
+//					eContainer.push(bonus);
+//				}
+//				spawn = true;
+//			}
+//			
+//		} else {
+//			spawn = false;
+//		}
 		//world.step(1.0f/60.0f,6,2);
 	}
 

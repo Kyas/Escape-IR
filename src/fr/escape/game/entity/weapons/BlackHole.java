@@ -7,7 +7,6 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
@@ -44,7 +43,7 @@ public final class BlackHole implements Weapon {
 		if(!isEmpty() && shot == null) {
 			
 			shot = ShotFactory.createBlackholeShot(world, x, y, ec);
-			shot.receive(AbstractShot.MESSAGE_LOAD);
+			shot.receive(Shot.MESSAGE_LOAD);
 			
 			return true;
 		}
@@ -63,6 +62,10 @@ public final class BlackHole implements Weapon {
 			Objects.requireNonNull(world).step(1.0f/60.0f, 6, 2);
 			
 			Objects.requireNonNull(ec).push(shot);
+			shot.receive(Shot.MESSAGE_FIRE);
+			
+			// TODO Apply Speed and Angle
+			shot.receive(Shot.MESSAGE_CRUISE);
 			
 			shot = null;
 			ammunition--;

@@ -59,24 +59,24 @@ public final class Fireball extends AbstractShot {
 	@Override
 	public void receive(int message) {
 		switch(message) {
-		case MESSAGE_LOAD: {
+		case Shot.MESSAGE_LOAD: {
 			isVisible = true;
 			radiusGrown = true;
 			break;
 		}
-		case MESSAGE_FIRE: {
+		case Shot.MESSAGE_FIRE: {
 			radiusGrown = false;
 			break;
 		}
-		case MESSAGE_CRUISE: {
+		case Shot.MESSAGE_CRUISE: {
 			
 			break;
 		}
-		case MESSAGE_HIT: {
+		case Shot.MESSAGE_HIT: {
 
 			break;
 		}
-		case MESSAGE_DESTROY: {
+		case Shot.MESSAGE_DESTROY: {
 			
 			isVisible = false;
 			
