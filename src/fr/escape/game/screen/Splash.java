@@ -188,6 +188,7 @@ public class Splash implements Screen {
 
 	@Override
 	public boolean touch(Input i) {
+		
 		Ship ship = game.getUser().getShip();
 		int x = CoordinateConverter.toPixelX(ship.getX());
 		int y = CoordinateConverter.toPixelY(ship.getY());
