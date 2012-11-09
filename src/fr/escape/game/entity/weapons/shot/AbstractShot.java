@@ -92,7 +92,7 @@ public abstract class AbstractShot implements Shot {
 				body.setLinearVelocity(new Vec2(0,0));
 			}
 			draw(graphics);
-			world.step(1.0f/60.0f,6,2);
+			Objects.requireNonNull(world).step(1.0f/60.0f,6,2);
 		}
 	}
 	

@@ -45,15 +45,15 @@ public final class Missile implements Weapon {
 	}
 
 	@Override
-	public void load(World world, EntityContainer ec, float x, float y) {
+	public boolean load(World world, EntityContainer ec, float x, float y) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void fire(World world, EntityContainer ec, float[] velocity) {
+	public boolean fire(World world, EntityContainer ec, float[] velocity) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 	
 }

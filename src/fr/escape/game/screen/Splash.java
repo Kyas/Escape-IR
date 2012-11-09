@@ -56,7 +56,6 @@ public class Splash implements Screen {
 	private ScrollingTexture background;
 	private long time;
 	private float[] velocity = {0,0,0};
-	private boolean weaponLoaded = false;
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
@@ -191,17 +190,18 @@ public class Splash implements Screen {
 	public boolean touch(Input i) {
 		
 		Ship ship = game.getUser().getShip();
+		
 		int x = CoordinateConverter.toPixelX(ship.getX());
 		int y = CoordinateConverter.toPixelY(ship.getY());
 		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
 		
 		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
-			if(!weaponLoaded) {
-				//TODO debug
-				game.getUser().getShip().loadWeapon(game.getWorld(), eContainer);
-				System.out.println("Weapon loading ...");
-				weaponLoaded = true;
+			
+			//TODO debug
+			if(ship.loadWeapon(game.getWorld(), eContainer)) {
+				game.getActivity().debug(TAG, "Weapon Gesture Accept : Load");
 			}
+			
 			return true;
 		}
 		
@@ -227,13 +227,12 @@ public class Splash implements Screen {
 					if(touch(start)) {
 						
 						WeaponGesture wg = new WeaponGesture();
+						Ship ship = game.getUser().getShip();
 						
-						if(wg.accept(start, events, i, velocity)) {
-							System.out.println("Weapon Gesture Accept : Fire");
-							//TODO weapon fire
+						if(wg.accept(start, events, i, velocity) && ship.isWeaponLoaded()) {
+							game.getActivity().debug(TAG, "Weapon Gesture Accept : Fire");
+							ship.fireWeapon(game.getWorld(), eContainer, velocity);
 						}
-						
-						weaponLoaded = false;
 						
 					} else {
 						
