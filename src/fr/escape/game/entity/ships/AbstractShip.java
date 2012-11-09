@@ -17,7 +17,7 @@ import fr.escape.resources.texture.TextureLoader;
 public abstract class AbstractShip implements Ship {
 	
 	private final Body body;
-	private final ArrayList<Weapon> weapons;
+	private final List<Weapon> weapons;
 	private final boolean isPlayer;
 	private int activeWeapon;
 	
@@ -26,8 +26,8 @@ public abstract class AbstractShip implements Ship {
 	
 	private final Texture coreShip;
 	
-	public AbstractShip(Body body,boolean isPlayer,EdgeNotifier eNotifier,KillNotifier kNotifier) {
-		this.weapons = new ArrayList<>(4);
+	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer,EdgeNotifier eNotifier,KillNotifier kNotifier) {
+		this.weapons = weapons;
 		this.activeWeapon = 0;
 		this.body = body;
 		this.isPlayer = isPlayer;
@@ -83,6 +83,7 @@ public abstract class AbstractShip implements Ship {
 		int x = CoordinateConverter.toPixelX(body.getPosition().x) - coreShip.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(body.getPosition().y) - coreShip.getHeight() / 2;
 		graphics.draw(coreShip, x, y);
+		getActiveWeapon().draw(graphics);
 	}
 	
 	@Override

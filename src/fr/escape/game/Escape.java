@@ -102,9 +102,18 @@ public final class Escape extends Game implements LifeListener {
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeterX(getGraphics().getWidth()/2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true,null);
+			
+			List<Weapon> lWeapons = Weapons.createListOfWeapons();
+			
+			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons, lWeapons.get(0));
+			
+			ingameUI.add(uHighscore);
+			ingameUI.add(uWeapons);
+			
+			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeterX(getGraphics().getWidth()/2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true,null,lWeapons);
 
 			getUser().register(uHighscore);
+			
 			System.out.println("Ship set");
 			getUser().setShip(ship);
 			
@@ -115,14 +124,6 @@ public final class Escape extends Game implements LifeListener {
 			getUser().setGestures(gestures);
 			getUser().setShip(ship);
 			
-			List<Weapon> lWeapons = Weapons.createListOfWeapons();
-			
-			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons, lWeapons.get(0));
-			
-			ingameUI.add(uHighscore);
-			ingameUI.add(uWeapons);
-			
-			// Attach Start Screen
 			setScreen(splash);
 			
 		} catch(Exception e) {

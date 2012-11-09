@@ -5,7 +5,9 @@ import java.util.Objects;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
@@ -40,6 +42,7 @@ public final class BlackHole implements Weapon {
 	@Override
 	public void load(World world,float x,float y,EntityContainer ec) {
 		shot = ShotFactory.createBlackholeShot(world,x,y,ec);
+		shot.receive(AbstractShot.MESSAGE_LOAD);
 	}
 	
 	@Override
@@ -52,5 +55,12 @@ public final class BlackHole implements Weapon {
 	@Override
 	public Shot getShot() {
 		return shot;
+	}
+
+	@Override
+	public void draw(Graphics graphics) {
+		if(shot != null) {
+			shot.draw(graphics);
+		}
 	}
 }

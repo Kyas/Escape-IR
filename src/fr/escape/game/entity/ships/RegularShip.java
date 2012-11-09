@@ -1,5 +1,8 @@
 package fr.escape.game.entity.ships;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
@@ -8,12 +11,13 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
+import fr.escape.game.entity.weapons.Weapon;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body,boolean isPlayer,EdgeNotifier edgeNotifier,KillNotifier killNotifier) {
-		super(body,isPlayer,edgeNotifier,killNotifier);
+	public RegularShip(Body body, List<Weapon> weapons,boolean isPlayer,EdgeNotifier edgeNotifier,KillNotifier killNotifier) {
+		super(body,weapons,isPlayer,edgeNotifier,killNotifier);
 	}
 	
 	@Override

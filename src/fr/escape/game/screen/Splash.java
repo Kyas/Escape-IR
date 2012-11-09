@@ -32,6 +32,7 @@ import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 
+import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
@@ -90,20 +91,20 @@ public class Splash implements Screen {
 //		two.setPosition(game.getGraphics().getWidth() / 2, 0);
 //		this.eContainer.push(two);
 		
-		int x = game.getGraphics().getWidth() / 2, y = game.getGraphics().getHeight() / 2;
-		Shot three = ShotFactory.createBlackholeShot(game.getWorld(),CoordinateConverter.toMeterX(x),CoordinateConverter.toMeterY(y),this.eContainer);
-		three.setPosition(x,y);
+		/*int x = game.getGraphics().getWidth() / 2, y = game.getGraphics().getHeight() / 2;
+		Shot three = ShotFactory.createBlackholeShot(game.getWorld(),CoordinateConverter.toMeter(x),CoordinateConverter.toMeter(y),this.eContainer);
+		three.setPosition(x,y);*/
 		
 		/*Shot three = ShotFactory.createBlackholeShot(game.getWorld(), 0, 0, eContainer);
 		three.setPosition(game.getGraphics().getWidth() / 2, game.getGraphics().getHeight() / 2);*/
-		this.eContainer.push(three);
-		bw = three;
+		/*this.eContainer.push(three);
+		bw = three;*/
 		
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
 		s = new ArrayList<>(10);
 		for(int i = 0; i < 3; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 100),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer);
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 100),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer,Weapons.createListOfWeapons());
 			s.add(tmp);
 		}
 
@@ -144,7 +145,7 @@ public class Splash implements Screen {
 //			game.getUser().removeOneLife();
 //		}
 		
-		if(time > 1000 && time <= 3000) {
+		/*if(time > 1000 && time <= 3000) {
 			bw.receive(AbstractShot.MESSAGE_LOAD);
 		} else if(time > 3000 && time <= 5000) {
 			bw.receive(AbstractShot.MESSAGE_FIRE);
@@ -157,7 +158,7 @@ public class Splash implements Screen {
 				bw.receive(AbstractShot.MESSAGE_DESTROY);
 				bw = null;
 			}
-		}
+		}*/
 		
 		if((time % 1000) > 0 && (time % 1000) < 100) {
 			
@@ -194,10 +195,13 @@ public class Splash implements Screen {
 		int y = CoordinateConverter.toPixelY(ship.getY());
 		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
 		
-		if((i.getX() > x && i.getX() < x + error) && (i.getY() > y && i.getY() < y + error)) {
+		System.out.println(x+"-"+y +" "+error);
+		System.out.println(CoordinateConverter.toMeterX(i.getX())+"-"+CoordinateConverter.toMeterY(i.getY()));
+		
+		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
 			if(!weaponLoaded) {
-				//TODO load weapon
-				game.getUser().getShip().getActiveWeapon().load(game.getWorld(),ship.getX(),ship.getY(),eContainer);
+				//TODO debug
+				game.getUser().getShip().getActiveWeapon().load(game.getWorld(),x,y - CoordinateConverter.toMeterY(100),eContainer);
 				System.out.println("Weapon loading ...");
 				weaponLoaded = true;
 			}

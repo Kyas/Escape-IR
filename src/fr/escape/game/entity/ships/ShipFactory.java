@@ -1,5 +1,7 @@
 package fr.escape.game.entity.ships;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -10,10 +12,11 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.weapons.Weapon;
 
 public class ShipFactory {
 	
-	public RegularShip createRegularShip(World world, float x, float y, BodyType type, float radius, boolean isPlayer, EntityContainer ec) {
+	public RegularShip createRegularShip(World world, float x, float y, BodyType type, float radius, boolean isPlayer, EntityContainer ec, List<Weapon> weapons) {
 		
 		Objects.requireNonNull(world);
 		
@@ -32,7 +35,7 @@ public class ShipFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		RegularShip ship = new RegularShip(body,isPlayer,ec,ec);
+		RegularShip ship = new RegularShip(body,weapons,isPlayer,ec,ec);
 		body.setUserData((isPlayer)?"PlayerShip":"NPCShip");
 		
 		return ship;
