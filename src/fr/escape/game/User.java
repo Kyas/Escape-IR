@@ -64,7 +64,8 @@ public final class User implements Receiver, Sender {
 	@Override
 	public void receive(int weaponID) {
 		Foundation.ACTIVITY.debug("User", "Weapons: "+weaponID);
-		//ship.setActiveWeapon(weaponID);
+		assert ship != null;
+		ship.setActiveWeapon(weaponID);
 	}
 
 	/**

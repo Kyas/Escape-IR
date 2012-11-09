@@ -3,6 +3,7 @@ package fr.escape.game.entity.weapons;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.Texture;
@@ -47,6 +48,12 @@ public final class Shiboleet implements Weapon {
 
 	@Override
 	public void fire(World world, float[] velocity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void draw(Graphics graphics) {
 		// TODO Auto-generated method stub
 		
 	}

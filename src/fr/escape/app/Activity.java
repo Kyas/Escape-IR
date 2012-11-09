@@ -136,7 +136,8 @@ public final class Activity {
 								}
 								
 								executionTime = (int) (System.currentTimeMillis() - start);
-								debug(TAG, "Runnable(s) executed in "+executionTime+" ms");
+								//TODO remove ?
+								//debug(TAG, "Runnable(s) executed in "+executionTime+" ms");
 							}
 						}
 						

@@ -87,7 +87,7 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 		}
-		System.out.println("Radius : " + getBody().getFixtureList().getShape().m_radius);
+		//System.out.println("Radius : " + getBody().getFixtureList().getShape().m_radius);
 	}
 
 	@Override

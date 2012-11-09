@@ -71,7 +71,7 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	 * @return True if successful
 	 */
 	private boolean remove(Entity e) {
-		e.getBody().setActive(false);
+		//e.getBody().setActive(false);
 		return this.entities.remove(e);
 	}
 	

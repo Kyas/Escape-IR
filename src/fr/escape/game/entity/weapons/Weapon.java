@@ -2,11 +2,12 @@ package fr.escape.game.entity.weapons;
 
 import org.jbox2d.dynamics.World;
 
+import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.Texture;
 
-public interface Weapon {	
+public interface Weapon extends Drawable {	
 	public Texture getDrawable();
 	public int getAmmunition();
 	public boolean isEmpty();
