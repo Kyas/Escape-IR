@@ -17,7 +17,7 @@ import fr.escape.resources.texture.TextureLoader;
 // TODO Finish
 public class Error implements Screen {
 
-	private final static String TAG = "Error Screen Handler";
+	private final static String TAG = Error.class.getSimpleName();
 	
 	private final Escape game;
 	private final Random random;
@@ -39,6 +39,7 @@ public class Error implements Screen {
 			fallbackFont = false;
 		} catch(NoSuchElementException e) {
 			fallbackFont = true;
+			game.getActivity().error(TAG, "Cannot create Font", e);
 		}
 		
 		try {
@@ -49,7 +50,7 @@ public class Error implements Screen {
 			game.getActivity().error(TAG, "Cannot create RepeatableScrollingTexture", e);
 		}
 		
-		this.message = new ArrayList<String>();
+		this.message = new ArrayList<String>(4);
 		
 		message.add("An error has occurred :");
 		message.add("");
@@ -75,27 +76,11 @@ public class Error implements Screen {
 		}
 		
 		if(!fallbackFont) {
-			
-			int space = 20;
-			int y = (game.getGraphics().getHeight() / 2) - (message.size() / 2 * space);
-			int x = 20;
 
-			for(String info: message) {
-				game.getGraphics().draw(info, x, y, font, color);
-				y += space;
-			}
+			draw(25, (game.getGraphics().getHeight() / 2) - (message.size() / 2 * 20), 20, true, color);
 			
 		} else {
-			
-			int y = 25;
-			int x = 20;
-			int space = 20;
-			
-			for(String info: message) {
-				game.getGraphics().draw(info, x, y, color);
-				y += space;
-			}
-			
+			draw(25, 20, 20, false, color);
 		}
 
 	}
@@ -118,6 +103,19 @@ public class Error implements Screen {
 	@Override
 	public boolean move(Input i) {
 		return false;
+	}
+	
+	private void draw(int x, int y, int space, boolean useFont, Color color) {
+		for(String info: message) {
+			
+			if(useFont) {
+				game.getGraphics().draw(info, x, y, font, color);
+			} else {
+				game.getGraphics().draw(info, x, y, color);
+			}
+			
+			y += space;
+		}
 	}
 
 }

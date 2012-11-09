@@ -104,7 +104,7 @@ public class Splash implements Screen {
 		ShipFactory sf = new ShipFactory();
 		s = new ArrayList<>(10);
 		for(int i = 0; i < 3; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeter(i * 100),CoordinateConverter.toMeter(50),BodyType.DYNAMIC,0.5f,false,eContainer, Weapons.createListOfWeapons());
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 100),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer,Weapons.createListOfWeapons());
 			s.add(tmp);
 		}
 
@@ -190,17 +190,17 @@ public class Splash implements Screen {
 	@Override
 	public boolean touch(Input i) {
 		Ship ship = game.getUser().getShip();
-		int x = CoordinateConverter.toPixel(ship.getX());
-		int y = CoordinateConverter.toPixel(ship.getY());
-		int error = CoordinateConverter.toPixel(ship.getBody().getFixtureList().getShape().m_radius);
+		int x = CoordinateConverter.toPixelX(ship.getX());
+		int y = CoordinateConverter.toPixelY(ship.getY());
+		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
 		
 		System.out.println(x+"-"+y +" "+error);
-		System.out.println(CoordinateConverter.toMeter(i.getX())+"-"+CoordinateConverter.toMeter(i.getY()));
+		System.out.println(CoordinateConverter.toMeterX(i.getX())+"-"+CoordinateConverter.toMeterY(i.getY()));
 		
 		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
 			if(!weaponLoaded) {
 				//TODO debug
-				game.getUser().getShip().getActiveWeapon().load(game.getWorld(),x,y - CoordinateConverter.toMeter(100),eContainer);
+				game.getUser().getShip().getActiveWeapon().load(game.getWorld(),x,y - CoordinateConverter.toMeterY(100),eContainer);
 				System.out.println("Weapon loading ...");
 				weaponLoaded = true;
 			}

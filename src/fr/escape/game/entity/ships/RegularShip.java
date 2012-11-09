@@ -27,8 +27,8 @@ public class RegularShip extends AbstractShip {
 		
 		if(body.isActive()) {
 			
-			int x = CoordinateConverter.toPixel(body.getPosition().x);
-			int y = CoordinateConverter.toPixel(body.getPosition().y);
+			int x = CoordinateConverter.toPixelX(body.getPosition().x);
+			int y = CoordinateConverter.toPixelY(body.getPosition().y);
 			int radius = getRadius();
 			
 			if(isPlayer() && (x <= radius || x >= graphics.getWidth() - radius || y <= (graphics.getHeight() * 2) / 3 + radius || y >= graphics.getHeight() - radius)) {
