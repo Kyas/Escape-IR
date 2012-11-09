@@ -49,24 +49,24 @@ public final class BlackHoleShot extends AbstractShot {
 
 	@Override
 	public void receive(int message) {
-		switch(message) {
+		switch(message) { 
 			case MESSAGE_LOAD: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(coreHelix.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(coreHelix.getHeight());
 				isVisible = true;
 				drawCoreHelix = true;
 				break;
 			}
 			case MESSAGE_FIRE: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(leftHelix.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(leftHelix.getHeight());
 				drawLeftAndRightHelix = true;
 				break;
 			}
 			case MESSAGE_CRUISE: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(rightHelix.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(rightHelix.getHeight());
 				break;
 			}
 			case MESSAGE_HIT: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeter(eventHorizon.getHeight());
+				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(eventHorizon.getHeight());
 				drawEventHorizon = true;
 				timer = 0;
 				break;

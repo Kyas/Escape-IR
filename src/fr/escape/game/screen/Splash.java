@@ -91,7 +91,7 @@ public class Splash implements Screen {
 //		this.eContainer.push(two);
 		
 		int x = game.getGraphics().getWidth() / 2, y = game.getGraphics().getHeight() / 2;
-		Shot three = ShotFactory.createBlackholeShot(game.getWorld(),CoordinateConverter.toMeter(x),CoordinateConverter.toMeter(y),this.eContainer);
+		Shot three = ShotFactory.createBlackholeShot(game.getWorld(),CoordinateConverter.toMeterX(x),CoordinateConverter.toMeterY(y),this.eContainer);
 		three.setPosition(x,y);
 		
 		/*Shot three = ShotFactory.createBlackholeShot(game.getWorld(), 0, 0, eContainer);
@@ -103,7 +103,7 @@ public class Splash implements Screen {
 		ShipFactory sf = new ShipFactory();
 		s = new ArrayList<>(10);
 		for(int i = 0; i < 3; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeter(i * 100),CoordinateConverter.toMeter(50),BodyType.DYNAMIC,0.5f,false,eContainer);
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 100),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.5f,false,eContainer);
 			s.add(tmp);
 		}
 
@@ -189,9 +189,9 @@ public class Splash implements Screen {
 	@Override
 	public boolean touch(Input i) {
 		Ship ship = game.getUser().getShip();
-		int x = CoordinateConverter.toPixel(ship.getX());
-		int y = CoordinateConverter.toPixel(ship.getY());
-		int error = CoordinateConverter.toPixel(ship.getBody().getFixtureList().getShape().m_radius);
+		int x = CoordinateConverter.toPixelX(ship.getX());
+		int y = CoordinateConverter.toPixelY(ship.getY());
+		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
 		
 		if((i.getX() > x && i.getX() < x + error) && (i.getY() > y && i.getY() < y + error)) {
 			if(!weaponLoaded) {

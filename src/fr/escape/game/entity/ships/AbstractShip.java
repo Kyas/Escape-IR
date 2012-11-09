@@ -80,8 +80,8 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void draw(Graphics graphics) {
-		int x = CoordinateConverter.toPixel(body.getPosition().x) - coreShip.getWidth() / 2;
-		int y = CoordinateConverter.toPixel(body.getPosition().y) - coreShip.getHeight() / 2;
+		int x = CoordinateConverter.toPixelX(body.getPosition().x) - coreShip.getWidth() / 2;
+		int y = CoordinateConverter.toPixelY(body.getPosition().y) - coreShip.getHeight() / 2;
 		graphics.draw(coreShip, x, y);
 	}
 	

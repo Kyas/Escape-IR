@@ -10,7 +10,8 @@ import org.jbox2d.dynamics.contacts.Contact;
 public final class CollisionDetector implements ContactListener {
 
 	@Override
-	public void beginContact(Contact arg0) {		
+	public void beginContact(Contact arg0) {
+		
 		Body a = arg0.getFixtureA().getBody();
 		Body b = arg0.getFixtureB().getBody();
 		

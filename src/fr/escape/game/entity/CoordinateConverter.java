@@ -23,7 +23,9 @@ import fr.escape.app.Graphics;
  */
 public final class CoordinateConverter {
 	
-	private static final float COEFF = Math.max(Foundation.GRAPHICS.getHeight(), Foundation.GRAPHICS.getWidth());
+	private static final float X_COEFF = Foundation.GRAPHICS.getWidth();
+	private static final float Y_COEFF = Foundation.GRAPHICS.getHeight();
+	private static final float W_COEFF = 10;
 	
 	/**
 	 * You cannot instantiate this Class
@@ -31,13 +33,17 @@ public final class CoordinateConverter {
 	private CoordinateConverter() {}
 	
 	/**
-	 * Convert a {@link Graphics} Coordinate to {@link World} Coordinate. 
+	 * Convert a {@link Graphics} Coordinate to {@link World} Coordinate for X axis. 
 	 * 
 	 * @param x Graphics Coordinate
 	 * @return World Coordinate
 	 */
-	public static float toMeter(int x) {
-		return x / COEFF * 10;
+	public static float toMeterX(int x) {
+		return (x / X_COEFF) * W_COEFF;
+	}
+	
+	public static float toMeterY(int y) {
+		return (y / Y_COEFF) * W_COEFF;
 	}
 	
 	/**
@@ -46,8 +52,11 @@ public final class CoordinateConverter {
 	 * @param x World Coordinate
 	 * @return Graphics Coordinate
 	 */
-	public static int toPixel(float x) {
-		return (int)(x /10 * COEFF);
+	public static int toPixelX(float x) {
+		return (int) ((x / W_COEFF) * X_COEFF);
 	}
 	
+	public static int toPixelY(float y) {
+		return (int) ((y / W_COEFF) * Y_COEFF);
+	}
 }
