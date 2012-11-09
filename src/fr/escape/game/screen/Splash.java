@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import org.jbox2d.dynamics.BodyType;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -79,7 +80,7 @@ public class Splash implements Screen {
 		stage = new Earth();
 		stage.start();
 		
-		this.eContainer = new EntityContainer();
+		this.eContainer = new EntityContainer(Math.max((int) (Foundation.GRAPHICS.getWidth() * 0.1f), (int) (Foundation.GRAPHICS.getHeight() * 0.1f)));
 		
 //		Shot one = ShotFactory.createMissileShot(this.eContainer);
 //		one.setPosition(game.getGraphics().getWidth() / 2, 0);

@@ -74,7 +74,7 @@ public abstract class AbstractShot implements Shot {
 		this.x = x;
 		this.y = y;
 		
-		if(!eNotifier.getEdge().intersects(getEdge())) {
+		if(!eNotifier.isInside(getEdge())) {
 			eNotifier.edgeReached(this);
 		}
 	}

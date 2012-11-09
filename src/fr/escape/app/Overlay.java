@@ -16,7 +16,7 @@ package fr.escape.app;
  * A common Overlay between each Game Screen.
  * 
  * <p>
- * Can be used as an UI.
+ * This interface is used as a flag. This can be used ad an User Interface.
  * 
  * @see Screen
  */

@@ -33,29 +33,98 @@ public final class Texture {
 
 	private final BufferedImage image;
 	
+	/**
+	 * Default Constructor for a Texture
+	 * 
+	 * @param file Texture file
+	 * @throws IOException If we cannot create a Texture from this {@link File}
+	 */
 	public Texture(File file) throws IOException {
 		Objects.requireNonNull(file);
 		image = ImageIO.read(file);
 	}
 	
+	/**
+	 * Get Texture Width
+	 * 
+	 * @return Texture Width
+	 */
 	public int getWidth() {
 		return image.getWidth();
 	}
 	
+	/**
+	 * Get Texture Height
+	 * 
+	 * @return Texture Height
+	 */
 	public int getHeight() {
 		return image.getHeight();
 	}
 	
+	/**
+	 * Return the Image used as Texture
+	 * 
+	 * @return Image used as Texture
+	 */
 	private Image getImage() {
 		return image;
 	}
 
+	/**
+	 * <p>
+	 * Draw this Texture on the given {@link Graphics2D}.
+	 * 
+	 * <p>
+	 * Draw from the top left corner at x,y to the bottom right corner at width,height in
+	 * the {@link Graphics2D}.
+	 * 
+	 * <p>
+	 * We use the rectangle in the Texture located from the top left corner at srcX,srcY to
+	 * the bottom right corner at srcWidth,srcHeight.
+	 * 
+	 * @param graphics {@link Graphics2D} used for drawing.
+	 * @param x Starting Position X in {@link Graphics2D}
+	 * @param y Starting Position Y in {@link Graphics2D}
+	 * @param width Ending Position X in {@link Graphics2D}
+	 * @param height Ending Position Y in {@link Graphics2D}
+	 * @param srcX Starting Position X in {@link Texture}
+	 * @param srcY Starting Position Y in {@link Texture}
+	 * @param srcWidth Ending Position X in {@link Texture}
+	 * @param srcHeight Ending Position Y in {@link Texture}
+	 */
 	public void draw(Graphics2D graphics, int x, int y, int width, int height,
 			int srcX, int srcY, int srcWidth, int srcHeight) {
 		
 		draw(graphics, x, y, width, height, srcX, srcY, srcWidth, srcHeight, 0.);
 	}
 	
+	/**
+	 * <p>
+	 * Draw this Texture on the given {@link Graphics2D}.
+	 * 
+	 * <p>
+	 * Draw from the top left corner at x,y to the bottom right corner at width,height in
+	 * the {@link Graphics2D}.
+	 * 
+	 * <p>
+	 * We use the rectangle in the Texture located from the top left corner at srcX,srcY to
+	 * the bottom right corner at srcWidth,srcHeight.
+	 * 
+	 * <p>
+	 * Apply a rotation with the given Angle in Degree.
+	 * 
+	 * @param graphics {@link Graphics2D} used for drawing.
+	 * @param x Starting Position X in {@link Graphics2D}
+	 * @param y Starting Position Y in {@link Graphics2D}
+	 * @param width Ending Position X in {@link Graphics2D}
+	 * @param height Ending Position Y in {@link Graphics2D}
+	 * @param srcX Starting Position X in {@link Texture}
+	 * @param srcY Starting Position Y in {@link Texture}
+	 * @param srcWidth Ending Position X in {@link Texture}
+	 * @param srcHeight Ending Position Y in {@link Texture}
+	 * @param angle Rotation to apply on Texture in Degree.
+	 */
 	public void draw(Graphics2D graphics, int x, int y, int width, int height,
 			int srcX, int srcY, int srcWidth, int srcHeight, double angle) {
 
@@ -78,6 +147,7 @@ public final class Texture {
 
 		}
         
+		// Draw Texture on Graphics
 		graphics.drawImage(getImage(), x, y, width, height, srcX, srcY, srcWidth, srcHeight, null);
 		
 		// Restore Previous Matrix

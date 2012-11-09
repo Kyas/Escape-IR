@@ -15,6 +15,8 @@ public class Weapons {
 	private static final int WIDTH = 40;
 	private static final int HEIGHT = 40;
 	
+	private Weapons() {}
+	
 	public static List<Weapon> createListOfWeapons() {
 		
 		List<Weapon> list = new ArrayList<>(4);
