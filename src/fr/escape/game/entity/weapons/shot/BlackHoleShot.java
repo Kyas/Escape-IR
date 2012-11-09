@@ -121,11 +121,10 @@ public final class BlackHoleShot extends AbstractShot {
 	}
 
 	private void drawCoreHelix(Graphics graphics) {
+		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreHelix.getWidth() / 2;
+		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreHelix.getHeight() / 2;
 		
-		int x = getX() - (coreHelix.getWidth() / 2);
-		int y = getY() - (coreHelix.getHeight() / 2);
-		
-		graphics.draw(coreHelix, x, y, getAngle());
+		graphics.draw(coreHelix, x, y);
 	}
 	
 	private void drawLeftAndRightHelix(Graphics graphics) {

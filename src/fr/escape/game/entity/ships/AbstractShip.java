@@ -1,6 +1,5 @@
 package fr.escape.game.entity.ships;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.dynamics.Body;
