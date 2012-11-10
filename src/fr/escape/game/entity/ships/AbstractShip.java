@@ -16,6 +16,7 @@ import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
+import fr.escape.graphics.Shapes;
 
 public abstract class AbstractShip implements Ship {
 	
@@ -103,6 +104,8 @@ public abstract class AbstractShip implements Ship {
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight());
 		getActiveWeapon().draw(graphics);
 		graphics.draw(getEdge(), Color.RED);
+		
+		graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)),Color.CYAN);
 	}
 	
 	@Override
@@ -224,6 +227,7 @@ public abstract class AbstractShip implements Ship {
 		
 	}
 	
+	@Override
 	public Rectangle getEdge() {
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());

@@ -19,15 +19,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyType;
-
 import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.bonus.Bonus;
+import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 
@@ -97,14 +96,32 @@ public class Splash implements Screen {
 		bw = three;*/
 		
 		//TODO remove after test
-		ShipFactory sf = new ShipFactory();
-		for(int i = 0; i < 2; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.58f,false,eContainer,Weapons.createListOfWeapons());
-			tmp.getBody().setLinearVelocity(new Vec2(0.0f,5.0f));
+		ShipFactory sf = new ShipFactory(game.getWorld(),eContainer,Weapons.createListOfWeapons());
+		
+		Ship s1 = sf.createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(0),false);
+		s1.setPosition(game.getGraphics(), new float[]{1000.0f,0.0f,0.2f});
+		Ship s2 = sf.createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(600),false);
+		s2.setPosition(game.getGraphics(), new float[]{1000.0f,0.0f,-0.2f});
+		Ship s3 = sf.createRegularShip(CoordinateConverter.toMeterX(0),CoordinateConverter.toMeterY(300),false);
+		s3.setPosition(game.getGraphics(), new float[]{1000.0f,0.2f,0.0f});
+		Ship s4 = sf.createRegularShip(CoordinateConverter.toMeterX(400),CoordinateConverter.toMeterY(300),false);
+		s4.setPosition(game.getGraphics(), new float[]{1000.0f,-0.2f,0.0f});
+		
+		eContainer.push(s1); eContainer.push(s2); eContainer.push(s3); eContainer.push(s4);
+		/*for(int i = 0; i < 2; i++) {
+			Ship tmp = sf.createRegularShip(CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),false);
+			tmp.getBody().setLinearVelocity(new Vec2(0.0f,1.0f));
 			eContainer.push(tmp);
 		}
-		eContainer.push(sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),BodyType.STATIC,0.58f,false,eContainer,Weapons.createListOfWeapons()));
+		eContainer.push(sf.createRegularShip(CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),false));*/
 
+		/*Bonus bonus = null;
+		while(bonus == null) {
+			bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(150),eContainer);
+		}
+		float[] bV = {0.0f,0.0f,1.0f};
+		bonus.setPosition(game.getGraphics(),bV);
+		eContainer.push(bonus);*/
 	}
 	
 	@Override
@@ -168,7 +185,7 @@ public class Splash implements Screen {
 //			spawn = false;
 //		}
 
-		eContainer.flush();
+		eContainer.flush(game.getWorld());
 		game.getWorld().step(1.0f/60.0f,6,2);
 	}
 
@@ -189,11 +206,13 @@ public class Splash implements Screen {
 		
 		int x = CoordinateConverter.toPixelX(ship.getX());
 		int y = CoordinateConverter.toPixelY(ship.getY());
-		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
+		int errorX = ship.getEdge().width / 2;
+		int errorY = ship.getEdge().height / 2;
 		
-		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
+		if((i.getX() > x - errorX && i.getX() < x + errorX) && (i.getY() > y - errorY && i.getY() < y + errorY)) {
 			
 			ship.receive(Ship.MESSAGE_EXECUTE_LEFT_LOOP);
+			game.getActivity().debug(TAG, "User Click on Ship");
 			
 			//TODO debug
 			if(ship.loadWeapon(game.getWorld(), eContainer)) {

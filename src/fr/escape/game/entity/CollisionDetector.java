@@ -19,7 +19,7 @@ public final class CollisionDetector implements ContactListener {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void beginContact(Contact arg0) {
-		Body a = arg0.getFixtureA().getBody();
+		/*Body a = arg0.getFixtureA().getBody();
 		Body b = arg0.getFixtureB().getBody();
 		
 		ArrayList<Object> lA = (ArrayList<Object>) a.getUserData();
@@ -30,7 +30,10 @@ public final class CollisionDetector implements ContactListener {
 		String oaType = (String) lA.get(0);
 		String obType = (String) lB.get(0);
 		
-		switch (oaType) {
+		int typeA = arg0.getFixtureA().getFilterData().categoryBits;
+		int typeB = arg0.getFixtureB().getFilterData().categoryBits;*/
+		
+		/*switch (oaType) {
 			case "Ship" : 
 				Ship ship = (Ship) e1;
 				if(ship.isPlayer()) System.out.println("Player lost a life");
@@ -66,7 +69,7 @@ public final class CollisionDetector implements ContactListener {
 				break;
 			default:
 				break;
-		}
+		}*/
 		
 	}
 

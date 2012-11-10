@@ -3,6 +3,7 @@ package fr.escape.game.entity.weapons.shot;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
@@ -51,24 +52,23 @@ public final class BlackHoleShot extends AbstractShot {
 	public void receive(int message) {
 		switch(message) { 
 			case MESSAGE_LOAD: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(coreHelix.getHeight() / 2);
 				isVisible = true;
 				drawCoreHelix = true;
+				setShapeRadius();
 				break;
 			}
 			case MESSAGE_FIRE: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(leftHelix.getHeight() / 2);
 				drawLeftAndRightHelix = true;
+				setShapeRadius();
 				break;
 			}
 			case MESSAGE_CRUISE: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(rightHelix.getHeight() / 2);
 				break;
 			}
 			case MESSAGE_HIT: {
-				getBody().getFixtureList().getShape().m_radius = CoordinateConverter.toMeterX(eventHorizon.getHeight() / 2);
 				drawEventHorizon = true;
 				timer = 0;
+				setShapeRadius();
 				break;
 			}
 			case MESSAGE_DESTROY: {
@@ -88,6 +88,32 @@ public final class BlackHoleShot extends AbstractShot {
 			}
 		}
 		setState(message);
+	}
+
+	private void setShapeRadius() {
+		float shapeX,shapeY,radius;
+		
+		System.out.println(getBody().getFixtureList().getShape().m_radius);
+		
+		if(drawEventHorizon) {
+			shapeX = CoordinateConverter.toMeterX(eventHorizon.getWidth() / 2);
+			shapeY = CoordinateConverter.toMeterY(eventHorizon.getHeight() / 2);
+		} else if(drawLeftAndRightHelix) {
+			shapeX = CoordinateConverter.toMeterX(leftHelix.getWidth() / 2);
+			shapeY = CoordinateConverter.toMeterY(leftHelix.getHeight() / 2);
+		} else {
+			shapeX = CoordinateConverter.toMeterX(coreHelix.getWidth() / 2);
+			shapeY = CoordinateConverter.toMeterY(coreHelix.getHeight() / 2);
+		}
+		
+		radius = Math.max(shapeX,shapeY);
+		CircleShape shape = new CircleShape();
+		shape.m_p.set(shapeX, shapeY);
+		shape.m_radius = radius;
+		
+		
+		getBody().getFixtureList().m_shape = shape;
+		System.out.println(getBody().getFixtureList().getShape().m_radius);
 	}
 
 	@Override
@@ -188,6 +214,7 @@ public final class BlackHoleShot extends AbstractShot {
 
 	@Override
 	protected Rectangle getEdge() {
+		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
@@ -206,6 +233,5 @@ public final class BlackHoleShot extends AbstractShot {
 		
 		return new Rectangle(x - (coreHelix.getWidth() / 2), y - (coreHelix.getHeight() / 2), coreHelix.getWidth(), coreHelix.getHeight());
 	}
-
 	
 }

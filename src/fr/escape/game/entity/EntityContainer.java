@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -114,9 +115,10 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 		this.destroyed.add(e);
 	}
 	
-	public boolean flush() {
+	public boolean flush(World world) {
 		for(Entity e : destroyed) {
 			remove(e);
+			world.destroyBody(e.getBody());
 		}
 		return true;
 	}

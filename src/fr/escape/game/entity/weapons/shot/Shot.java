@@ -39,4 +39,5 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	public void receive(int message);
 		
 	public int getState();
+	
 }

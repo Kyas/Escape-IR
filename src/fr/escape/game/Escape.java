@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Game;
@@ -83,8 +82,6 @@ public final class Escape extends Game implements LifeListener {
 	public void create() {
 		try {
 			
-			ShipFactory sf = new ShipFactory();
-			
 			// Create World
 			World world = new World(new Vec2(0.0f,0.0f), true);
 			world.setContactListener(new CollisionDetector());
@@ -110,7 +107,8 @@ public final class Escape extends Game implements LifeListener {
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);
 			
-			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeterX(getGraphics().getWidth()/2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true,null,lWeapons);
+			ShipFactory sf = new ShipFactory(world,null,lWeapons);
+			Ship ship = sf.createRegularShip(CoordinateConverter.toMeterX(getGraphics().getWidth()/2 ), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),true);
 
 			getUser().register(uHighscore);
 			
