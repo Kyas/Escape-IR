@@ -3,5 +3,4 @@ Refactoring fr.escape.game.entity.weapons.shot : éviter la duplication de Code
 
 BONUS
 
-Faire le weaponLoaded dans le Ship
 Modifier le EdgeNotifier pour render en compte les coordonées World plutôt que Graphics

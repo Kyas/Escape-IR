@@ -55,5 +55,11 @@ public final class Missile implements Weapon {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean unload() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

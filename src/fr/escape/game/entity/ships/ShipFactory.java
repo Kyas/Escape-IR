@@ -21,7 +21,7 @@ public class ShipFactory {
 		Objects.requireNonNull(world);
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(x,y);
+		bodyDef.position.set(x, y);
 		bodyDef.type = type;
 		
 		CircleShape shape = new CircleShape();
@@ -36,7 +36,11 @@ public class ShipFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		RegularShip ship = new RegularShip(body,weapons,isPlayer,ec,ec);
-		body.setUserData((isPlayer)?"PlayerShip":"NPCShip");
+		
+		ArrayList<Object> userData = new ArrayList<>(2);
+		userData.add(0,(isPlayer)?"PlayerShip":"NPCShip");
+		userData.add(1,ship);
+		body.setUserData(userData);
 		
 		return ship;
 	}
