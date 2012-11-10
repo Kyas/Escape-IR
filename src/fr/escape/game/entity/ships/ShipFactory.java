@@ -52,7 +52,7 @@ public class ShipFactory {
 		));
 		
 		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0,(isPlayer)?"PlayerShip":"Ship");
+		userData.add(0,"Ship");
 		userData.add(1,ship);
 		body.setUserData(userData);
 		

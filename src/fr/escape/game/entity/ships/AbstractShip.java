@@ -48,6 +48,7 @@ public abstract class AbstractShip implements Ship {
 		this.executeRightLoop = false;
 	}
 	
+	@Override
 	public boolean isPlayer() {
 		return isPlayer;
 	}

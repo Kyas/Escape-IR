@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 
@@ -32,11 +33,9 @@ public final class CollisionDetector implements ContactListener {
 		String obType = (String) lB.get(0);
 		
 		switch (oaType) {
-			case "PlayerShip" :
-				System.out.println("Player lost a life");
-				e1.toDestroy();
-				break;
 			case "Ship" : 
+				Ship ship = (Ship) e1;
+				if(ship.isPlayer()) System.out.println("Player lost a life");
 				System.out.println("Ship destroy");
 				e1.toDestroy();
 				break;
@@ -53,11 +52,9 @@ public final class CollisionDetector implements ContactListener {
 		}
 		
 		switch (obType) {
-			case "PlayerShip" :
-				System.out.println("Player lost a life");
-				e2.toDestroy();
-				break;
 			case "Ship" : 
+				Ship ship = (Ship) e2;
+				if(ship.isPlayer()) System.out.println("Player lost a life");
 				System.out.println("Ship destroy");
 				e2.toDestroy();
 				break;
