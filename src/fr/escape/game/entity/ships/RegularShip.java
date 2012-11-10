@@ -12,16 +12,21 @@ import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.message.Receiver;
+import fr.escape.graphics.AnimationTexture;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body, List<Weapon> weapons,boolean isPlayer,EdgeNotifier edgeNotifier,KillNotifier killNotifier) {
-		super(body,weapons,isPlayer,edgeNotifier,killNotifier);
+	public RegularShip(Body body, List<Weapon> weapons, boolean isPlayer,
+			EdgeNotifier eNotifier, KillNotifier kNotifier,
+			AnimationTexture textures) {
+		
+		super(body, weapons, isPlayer, eNotifier, kNotifier, textures);
 	}
-	
+
 	@Override
-	public void setPosition(World world,Graphics graphics,float[] velocity) {
+	public void setPosition(World world, Graphics graphics, float[] velocity) {
 
 		Body body = getBody();
 		

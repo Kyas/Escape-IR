@@ -12,7 +12,10 @@ public final class WeaponGesture implements Gesture {
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {
 		if(start.getY() <= end.getY()) return false;
 		
-		float cd = (end.getY() - start.getY()) / (end.getX() - start.getX());
+		float cd = (end.getX() == start.getX())
+				?((end.getY() - start.getY()) / 1.0f)
+				:((end.getY() - start.getY()) / (end.getX() - start.getX()));
+		
 		System.out.println(cd);
 		
 		float distanceX = CoordinateConverter.toMeterX(end.getX() - start.getX()) / 10;

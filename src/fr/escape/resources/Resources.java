@@ -92,8 +92,16 @@ public final class Resources {
 			loadTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET);
 			loadTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE);
 			
-			// TODO REMOVE ?
-			loadTexture(TextureLoader.DEBUG_WIN);
+			loadTexture(TextureLoader.SHIP_SWING);
+			loadTexture(TextureLoader.SHIP_SWING_1);
+			loadTexture(TextureLoader.SHIP_SWING_2);
+			loadTexture(TextureLoader.SHIP_SWING_3);
+			loadTexture(TextureLoader.SHIP_SWING_4);
+			loadTexture(TextureLoader.SHIP_SWING_5);
+			loadTexture(TextureLoader.SHIP_SWING_6);
+			loadTexture(TextureLoader.SHIP_SWING_7);
+			loadTexture(TextureLoader.SHIP_SWING_8);
+			loadTexture(TextureLoader.SHIP_SWING_9);
 			
 		}
 		

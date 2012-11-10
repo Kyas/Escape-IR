@@ -42,9 +42,9 @@ public final class Drift implements Gesture {
 				int yDown = Math.min(tmpUp, tmpDown);
 
 				// TODO Remove ?
-//				if(yUp < event.getY() || yDown > event.getY()) {
-//					return false;
-//				}
+				if(yUp < event.getY() || yDown > event.getY()) {
+					return false;
+				}
 
 			}
 

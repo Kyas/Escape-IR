@@ -34,12 +34,14 @@ import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
+import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Shapes;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
 import fr.escape.input.WeaponGesture;
+import fr.escape.resources.texture.TextureLoader;
 
 public class Splash implements Screen {
 
@@ -61,6 +63,8 @@ public class Splash implements Screen {
 	private Shot bw;
 	private boolean hit = false;
 	private boolean spawn = false;
+	
+	private AnimationTexture at;
 	
 	//TODO remove after test
 	private final ArrayList<Ship> s;
@@ -171,6 +175,7 @@ public class Splash implements Screen {
 //			spawn = false;
 //		}
 		//world.step(1.0f/60.0f,6,2);
+		
 	}
 
 	@Override
@@ -193,6 +198,8 @@ public class Splash implements Screen {
 		int error = CoordinateConverter.toPixelX(ship.getBody().getFixtureList().getShape().m_radius);
 		
 		if((i.getX() > x - error && i.getX() < x + error) && (i.getY() > y - error && i.getY() < y + error)) {
+			
+			ship.receive(Ship.MESSAGE_EXECUTE_LEFT_LOOP);
 			
 			//TODO debug
 			if(ship.loadWeapon(game.getWorld(), eContainer)) {
