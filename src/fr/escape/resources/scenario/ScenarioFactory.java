@@ -101,8 +101,8 @@ final class ScenarioFactory {
 			private void move(String... args) {
 				
 				int shipID = Integer.parseInt(args[0]);
-				int shipX = Integer.parseInt(args[1]);
-				int shipY = Integer.parseInt(args[2]);
+				float shipX = Float.parseFloat(args[1]);
+				float shipY = Float.parseFloat(args[2]);
 				
 			}
 			
