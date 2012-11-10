@@ -1,5 +1,7 @@
 package fr.escape.game.entity.ships;
 
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
@@ -8,7 +10,6 @@ import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
-import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
@@ -48,6 +49,7 @@ public abstract class AbstractShip implements Ship {
 		this.executeRightLoop = false;
 	}
 	
+	@Override
 	public boolean isPlayer() {
 		return isPlayer;
 	}
@@ -99,6 +101,7 @@ public abstract class AbstractShip implements Ship {
 		
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight());
 		getActiveWeapon().draw(graphics);
+		graphics.draw(getEdge(), Color.RED);
 	}
 	
 	@Override
@@ -122,6 +125,10 @@ public abstract class AbstractShip implements Ship {
 		}
 		
 		draw(graphics);
+		
+		if(!eNotifier.isInside(getEdge())) {
+			eNotifier.edgeReached(this);
+		}
 	}
 	
 	@Override
@@ -157,7 +164,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void toDestroy() {
-		if(kNotifier != null) kNotifier.toDestroy(this);
+		if(kNotifier != null) kNotifier.destroy(this);
 	}
 	
 	@Override
@@ -181,5 +188,11 @@ public abstract class AbstractShip implements Ship {
 			}
 		}
 		
+	}
+	
+	public Rectangle getEdge() {
+		int x = CoordinateConverter.toPixelX(getX());
+		int y = CoordinateConverter.toPixelY(getY());
+		return new Rectangle(x - (coreShip.getWidth() / 2), y - (coreShip.getHeight() / 2), coreShip.getWidth(), coreShip.getHeight());
 	}
 }

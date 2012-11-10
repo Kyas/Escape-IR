@@ -8,7 +8,6 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
-import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 
@@ -17,6 +16,7 @@ public abstract class AbstractShot implements Shot {
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
 	private final Body body;
+	private int state;
 	
 	private int x;
 	private int y;
@@ -31,6 +31,8 @@ public abstract class AbstractShot implements Shot {
 		this.x = 0;
 		this.y = 0;
 		this.angle = 0;
+		
+		this.state = Shot.MESSAGE_LOAD;
 	}
 	
 	@Override
@@ -63,7 +65,6 @@ public abstract class AbstractShot implements Shot {
 				body.setLinearVelocity(new Vec2(0, 0));
 			}
 			draw(graphics);
-			Objects.requireNonNull(world).step(1.0f/60.0f,6 , 2);
 		}
 	}
 	
@@ -84,27 +85,36 @@ public abstract class AbstractShot implements Shot {
 		return body;
 	}
 	
-	protected int getX() {
-		return this.x;
+	protected float getX() {
+		return getBody().getPosition().x;
 	}
 	
-	protected int getY() {
-		return this.y;
+	protected float getY() {
+		return getBody().getPosition().y;
 	}
 	
 	protected int getAngle() {
 		return this.angle;
 	}
 	
-	protected void destroy() {
-		kNotifier.destroy(this);
+	@Override
+	public void toDestroy() {
+		kNotifier.destroy(this);		
 	}
 	
 	@Override
-	public void toDestroy() {
-		kNotifier.toDestroy(this);		
+	public int getState() {
+		return state;
 	}
 	
-	protected abstract Rectangle getEdge(); 
+	public  void setState(int state) {
+		this.state = state;
+	}
+	
+	protected abstract Rectangle getEdge();
+
+	public EdgeNotifier getEdgeNotifier() {
+		return eNotifier;
+	} 
 	
 }

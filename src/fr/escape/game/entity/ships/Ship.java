@@ -33,6 +33,8 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	
 	public float getY();
 	
+	public boolean isPlayer();
+	
 	public boolean isWeaponLoaded();
 	
 	public boolean loadWeapon(World w, EntityContainer ec);

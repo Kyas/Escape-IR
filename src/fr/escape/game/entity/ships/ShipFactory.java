@@ -33,7 +33,7 @@ public class ShipFactory {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 0.5f;
-		fixture.friction = 1.0f;       
+		fixture.friction = 0.0f;      
 		fixture.restitution = 0.0f;
 		
 		Body body = world.createBody(bodyDef);
@@ -52,7 +52,7 @@ public class ShipFactory {
 		));
 		
 		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0,(isPlayer)?"PlayerShip":"NPCShip");
+		userData.add(0,"Ship");
 		userData.add(1,ship);
 		body.setUserData(userData);
 		

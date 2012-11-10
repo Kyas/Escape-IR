@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
@@ -41,7 +42,6 @@ import fr.escape.graphics.Shapes;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
 import fr.escape.input.WeaponGesture;
-import fr.escape.resources.texture.TextureLoader;
 
 public class Splash implements Screen {
 
@@ -65,9 +65,6 @@ public class Splash implements Screen {
 	private boolean spawn = false;
 	
 	private AnimationTexture at;
-	
-	//TODO remove after test
-	private final ArrayList<Ship> s;
 	
 	public Splash(Escape game) throws IOException {
 		this.game = game;
@@ -101,12 +98,12 @@ public class Splash implements Screen {
 		
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
-		s = new ArrayList<>(10);
 		for(int i = 0; i < 2; i++) {
 			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.58f,false,eContainer,Weapons.createListOfWeapons());
-			s.add(tmp);
+			tmp.getBody().setLinearVelocity(new Vec2(0.0f,5.0f));
+			eContainer.push(tmp);
 		}
-		s.add(sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),BodyType.STATIC,0.58f,false,eContainer,Weapons.createListOfWeapons()));
+		eContainer.push(sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),BodyType.STATIC,0.58f,false,eContainer,Weapons.createListOfWeapons()));
 
 	}
 	
@@ -127,10 +124,6 @@ public class Splash implements Screen {
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		game.getUser().getShip().setPosition(game.getWorld(),game.getGraphics(),velocity);
 
-		//TODO remove after test
-		float[] tmpF = {s.size(),0,0.5f};
-		for(Ship ship : s) ship.setPosition(game.getWorld(),game.getGraphics(),tmpF);
-		
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
@@ -175,7 +168,7 @@ public class Splash implements Screen {
 //			spawn = false;
 //		}
 
-		eContainer.multipleDestruction();
+		eContainer.flush();
 		game.getWorld().step(1.0f/60.0f,6,2);
 	}
 

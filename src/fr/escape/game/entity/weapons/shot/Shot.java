@@ -42,4 +42,6 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	public void receive(int message);
 	
 	public void setPosition(World world,Graphics graphics,float[] velocity);
+	
+	public int getState();
 }

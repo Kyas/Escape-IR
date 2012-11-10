@@ -79,12 +79,15 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	
 	@Override
 	public boolean edgeReached(Entity e) {
-		return remove(Objects.requireNonNull(e));
+		System.out.println(e);
+		toDestroy(Objects.requireNonNull(e));
+		return true;
 	}
 
 	@Override
 	public boolean destroy(Entity e) {
-		return remove(Objects.requireNonNull(e));
+		toDestroy(Objects.requireNonNull(e));
+		return true;
 	}
 	
 	public void update(Graphics graphics, long delta) {
@@ -107,12 +110,11 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 		return this.edge.intersects(Objects.requireNonNull(edge));
 	}
 
-	@Override
 	public void toDestroy(Entity e) {
 		this.destroyed.add(e);
 	}
 	
-	public boolean multipleDestruction() {
+	public boolean flush() {
 		for(Entity e : destroyed) {
 			remove(e);
 		}
