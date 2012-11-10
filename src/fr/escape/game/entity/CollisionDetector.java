@@ -19,6 +19,7 @@ public final class CollisionDetector implements ContactListener {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void beginContact(Contact arg0) {
+		System.out.println("2");
 		Body a = arg0.getFixtureA().getBody();
 		Body b = arg0.getFixtureB().getBody();
 		
@@ -33,14 +34,16 @@ public final class CollisionDetector implements ContactListener {
 		switch (oaType) {
 			case "PlayerShip" :
 				System.out.println("Player lost a life");
+				e1.toDestroy();
+				break;
+			case "Ship" : 
+				System.out.println("Ship destroy");
+				e1.toDestroy();
 				break;
 			case "Shot" : 
 				System.out.println("Shot Hit");
 				Shot shot = (Shot) e1;
 				shot.receive(AbstractShot.MESSAGE_HIT);
-				//a.setLinearVelocity(new Vec2(0.f,0.f));
-				a.setType(BodyType.STATIC);
-				if(!obType.equals(oaType)) e2.toDestroy();
 				break;
 			case "Bonus" :
 				System.out.println("Bonus Time");
@@ -52,13 +55,16 @@ public final class CollisionDetector implements ContactListener {
 		switch (obType) {
 			case "PlayerShip" :
 				System.out.println("Player lost a life");
+				e2.toDestroy();
+				break;
+			case "Ship" : 
+				System.out.println("Ship destroy");
+				e2.toDestroy();
 				break;
 			case "Shot" : 
 				System.out.println("Shot Hit");
 				Shot shot = (Shot) e2;
 				shot.receive(AbstractShot.MESSAGE_HIT);
-				b.setType(BodyType.STATIC);
-				if(!oaType.equals(obType)) e1.toDestroy();
 				break;
 			case "Bonus" :
 				System.out.println("Bonus Time");
@@ -67,13 +73,6 @@ public final class CollisionDetector implements ContactListener {
 				break;
 		}
 		
-		/*if(a.getUserData().equals("PlayerShip") || b.getUserData().equals("PlayerShip")) {
-			//TODO player lost a life
-			System.out.println("Player lost a life");
-		}
-		
-		a.setActive(false);
-		b.setActive(false);*/
 	}
 
 	@Override
@@ -91,7 +90,8 @@ public final class CollisionDetector implements ContactListener {
 	@Override
 	public void preSolve(Contact arg0, Manifold arg1) {
 		// TODO Auto-generated method stub
-		
+		arg0.getFixtureA().getBody().setType(BodyType.STATIC);
+		arg0.getFixtureB().getBody().setType(BodyType.STATIC);
 	}
 
 }

@@ -79,7 +79,7 @@ public final class BlackHoleShot extends AbstractShot {
 					
 					@Override
 					public void run() {
-						destroy();
+						toDestroy();
 					}
 					
 				});
@@ -103,8 +103,6 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	@Override
 	public void draw(Graphics graphics) {
-		/*System.out.println("Position : " + CoordinateConverter.toPixelX(getBody().getPosition().x) + "-" + CoordinateConverter.toPixelY(getBody().getPosition().y));
-		System.out.println("Radius : " + CoordinateConverter.toPixelX(getBody().getFixtureList().getShape().m_radius));*/
 		if(isVisible) {
 
 			if(drawLeftAndRightHelix) {

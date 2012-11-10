@@ -12,13 +12,12 @@ import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
-import fr.escape.game.message.Receiver;
 import fr.escape.graphics.AnimationTexture;
 
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	public RegularShip(Body body, List<Weapon> weapons, boolean isPlayer,
+	RegularShip(Body body, List<Weapon> weapons, boolean isPlayer,
 			EdgeNotifier eNotifier, KillNotifier kNotifier,
 			AnimationTexture textures) {
 		
