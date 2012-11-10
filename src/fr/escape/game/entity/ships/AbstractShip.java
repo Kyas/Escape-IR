@@ -2,11 +2,13 @@ package fr.escape.game.entity.ships;
 
 import java.util.List;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
@@ -154,6 +156,15 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
+	public void toDestroy() {
+		if(kNotifier != null) kNotifier.toDestroy(this);
+	}
+	
+	@Override
+	public void setPosition(float x, float y) {
+		body.setLinearVelocity(new Vec2(x - getX(),y - getY()));
+	}
+	
 	public void receive(int message) {
 		switch(message) {
 			case MESSAGE_EXECUTE_LEFT_LOOP: {

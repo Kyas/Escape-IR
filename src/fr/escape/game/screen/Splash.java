@@ -174,8 +174,9 @@ public class Splash implements Screen {
 //		} else {
 //			spawn = false;
 //		}
-		//world.step(1.0f/60.0f,6,2);
-		
+
+		eContainer.multipleDestruction();
+		game.getWorld().step(1.0f/60.0f,6,2);
 	}
 
 	@Override

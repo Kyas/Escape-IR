@@ -65,7 +65,7 @@ public class RegularShip extends AbstractShip {
 			}
 			
 			draw(graphics);
-			world.step(1.0f/60.0f,6,2);
+			//world.step(1.0f/60.0f,6,2);
 		}
 	}
 
@@ -77,12 +77,6 @@ public class RegularShip extends AbstractShip {
 
 	@Override
 	public void rotateBy(int angle) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setPosition(int x, int y) {
 		// TODO Auto-generated method stub
 		
 	}

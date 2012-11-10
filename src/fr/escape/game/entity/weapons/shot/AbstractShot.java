@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 
@@ -43,14 +44,14 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
-	public void setPosition(int x, int y) {
+	public void setPosition(float x, float y) {
 		
-		this.x = x;
+		/*this.x = x;
 		this.y = y;
 		
 		if(!eNotifier.isInside(getEdge())) {
 			eNotifier.edgeReached(this);
-		}
+		}*/
 	}
 	
 	public void setPosition(World world, Graphics graphics, float[] velocity) {
@@ -97,6 +98,11 @@ public abstract class AbstractShot implements Shot {
 	
 	protected void destroy() {
 		kNotifier.destroy(this);
+	}
+	
+	@Override
+	public void toDestroy() {
+		kNotifier.toDestroy(this);		
 	}
 	
 	protected abstract Rectangle getEdge(); 

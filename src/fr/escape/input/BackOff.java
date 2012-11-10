@@ -32,7 +32,7 @@ public final class BackOff implements Gesture {
       		
       		velocity[0] = (end.getY() - start.getY()) / 10;
       		velocity[1] = 0.0f;
-      		velocity[2] = 0.5f;
+      		velocity[2] = 1.5f;
       		
       		return true;
   		}
