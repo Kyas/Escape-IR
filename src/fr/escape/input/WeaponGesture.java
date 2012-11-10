@@ -15,8 +15,8 @@ public final class WeaponGesture implements Gesture {
 		float cd = (end.getY() - start.getY()) / (end.getX() - start.getX());
 		System.out.println(cd);
 		
-		float distanceX = CoordinateConverter.toMeterX(end.getX() - start.getX()) / 10;
-		float distanceY = CoordinateConverter.toMeterX(end.getY() - start.getY()) / 10;
+		float distanceX = CoordinateConverter.toMeterX(end.getX() - start.getX());
+		float distanceY = CoordinateConverter.toMeterX(end.getY() - start.getY());
 				
   		//TODO calcul velocity
   		velocity[0] = 1000.f;

@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.weapons.Weapons;
@@ -48,6 +49,13 @@ public final class BonusFactory {
 					// TODO Auto-generated method stub
 					return null;
 				}
+
+				@Override
+				public void toDestroy() {
+					// TODO Auto-generated method stub
+					
+				}
+
 			};
 			
 		} else if(isFireballBonus()) {
@@ -68,6 +76,12 @@ public final class BonusFactory {
 				public Body getBody() {
 					// TODO Auto-generated method stub
 					return null;
+				}
+
+				@Override
+				public void toDestroy() {
+					// TODO Auto-generated method stub
+					
 				}
 				
 			};
@@ -91,6 +105,12 @@ public final class BonusFactory {
 					// TODO Auto-generated method stub
 					return null;
 				}
+
+				@Override
+				public void toDestroy() {
+					// TODO Auto-generated method stub
+					
+				}
 				
 			};
 			
@@ -112,6 +132,12 @@ public final class BonusFactory {
 				public Body getBody() {
 					// TODO Auto-generated method stub
 					return null;
+				}
+
+				@Override
+				public void toDestroy() {
+					// TODO Auto-generated method stub
+					
 				}
 				
 			};
@@ -179,14 +205,14 @@ public final class BonusFactory {
 		}
 		
 		@Override
-		public void setPosition(int x, int y) {
+		public void setPosition(float x, float y) {
 			
-			this.x = x;
+			/*this.x = x;
 			this.y = y;
 			
 			if(!notifier.isInside(getEdge())) {
 				notifier.edgeReached(this);
-			}
+			}*/
 		}
 		
 		@Override

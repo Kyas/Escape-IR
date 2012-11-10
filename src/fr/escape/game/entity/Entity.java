@@ -11,13 +11,12 @@
 
 package fr.escape.game.entity;
 
-import org.jbox2d.dynamics.Body;
 import java.awt.Graphics2D;
 
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Graphics;
-
 /**
  * <p>
  * An Entity is a Components in the {@link World}.
@@ -41,5 +40,7 @@ public interface Entity {
 	public void update(Graphics graphics, long delta);
 	
 	public Body getBody();
+	
+	public void toDestroy();
 	
 }

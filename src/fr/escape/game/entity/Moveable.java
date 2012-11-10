@@ -39,7 +39,7 @@ public interface Moveable {
 	 * @param x X Position on axis.
 	 * @param y Y Position on axis.
 	 */
-	public void setPosition(int x, int y);
+	public void setPosition(float x, float y);
 	
 	/**
 	 * Set the Rotation of the Entity in degree.
