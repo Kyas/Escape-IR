@@ -58,7 +58,7 @@ public final class BlackHole implements Weapon {
 		if(shot != null) {
 			
 			// TODO
-			shot.setPosition(world,Foundation.GRAPHICS,velocity);
+			shot.setPosition(Foundation.GRAPHICS,velocity);
 			
 			Objects.requireNonNull(world).step(1.0f/60.0f, 6, 2);
 			

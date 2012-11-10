@@ -5,7 +5,6 @@ import java.util.List;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.app.Graphics;
 import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
@@ -18,9 +17,7 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	
 	public static final int MESSAGE_EXECUTE_LEFT_LOOP = 0;
 	public static final int MESSAGE_EXECUTE_RIGHT_LOOP = MESSAGE_EXECUTE_LEFT_LOOP + 1;
-	
-	public void setPosition(World world,Graphics graphics,float[] val);
-	
+		
 	public List<Weapon> getAllWeapons();
 	
 	public void setActiveWeapon(int which);

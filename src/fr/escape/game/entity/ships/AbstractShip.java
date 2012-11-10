@@ -14,6 +14,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 
 public abstract class AbstractShip implements Ship {
@@ -170,6 +171,39 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void setPosition(float x, float y) {
 		body.setLinearVelocity(new Vec2(x - getX(),y - getY()));
+	}
+	
+	@Override
+	public void setPosition(Graphics graphics, float[] velocity) {
+		if(body.isActive()) {			
+			Shot shot = getActiveWeapon().getShot();
+			
+			int x = CoordinateConverter.toPixelX(body.getPosition().x);
+			int y = CoordinateConverter.toPixelY(body.getPosition().y);
+			int radius = getRadius();
+			
+			if(isPlayer() && (x <= radius || x >= graphics.getWidth() - radius || y <= (graphics.getHeight() * 2) / 3 + radius || y >= graphics.getHeight() - radius)) {
+				velocity[0] = 0.1f;
+				velocity[1] *= -1;
+				velocity[2] *= -1;
+			}
+			
+			float[] tmp = velocity;
+			
+			if(velocity[0] > 0) {
+				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
+				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));
+				
+			} else {
+				body.setLinearVelocity(new Vec2(0,0));
+			}
+			
+			if(shot != null) {
+				shot.setPosition(graphics,tmp);
+			}
+			
+			draw(graphics);
+		}
 	}
 	
 	public void receive(int message) {

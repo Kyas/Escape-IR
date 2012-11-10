@@ -11,6 +11,8 @@
 
 package fr.escape.game.entity;
 
+import fr.escape.app.Graphics;
+
 /**
  * <p>
  * An interface for Moveable Entity.
@@ -47,4 +49,6 @@ public interface Moveable {
 	 * @param angle Angle in Degree.
 	 */
 	public void setRotation(int angle);
+	
+	public void setPosition(Graphics graphics, float[] velocity);
 }

@@ -1,8 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import org.jbox2d.dynamics.World;
-
-import fr.escape.app.Graphics;
 import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.Moveable;
@@ -40,8 +37,6 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	 */
 	@Override
 	public void receive(int message);
-	
-	public void setPosition(World world,Graphics graphics,float[] velocity);
-	
+		
 	public int getState();
 }

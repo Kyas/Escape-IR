@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
@@ -56,14 +55,10 @@ public abstract class AbstractShot implements Shot {
 		}*/
 	}
 	
-	public void setPosition(World world, Graphics graphics, float[] velocity) {
+	@Override
+	public void setPosition(Graphics graphics, float[] velocity) {
 		if(body.isActive()) {
-			if(velocity[0] > 0) {
-				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
-				velocity[0] -= Math.abs(Math.max(velocity[1], velocity[2]));
-			} else {
-				body.setLinearVelocity(new Vec2(0, 0));
-			}
+			body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
 			draw(graphics);
 		}
 	}
