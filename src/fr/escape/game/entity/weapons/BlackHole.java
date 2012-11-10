@@ -87,4 +87,15 @@ public final class BlackHole implements Weapon {
 			shot.draw(graphics);
 		}
 	}
+
+	@Override
+	public boolean unload() {
+		
+		if(shot != null) {
+			shot.receive(Shot.MESSAGE_DESTROY);
+			shot = null;
+		}
+		
+		return false;
+	}
 }

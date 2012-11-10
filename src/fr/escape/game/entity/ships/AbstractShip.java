@@ -59,6 +59,8 @@ public abstract class AbstractShip implements Ship {
 		if(which < 0 || which >= weapons.size()) {
 			throw new IndexOutOfBoundsException();
 		}
+		getActiveWeapon().unload();
+		this.isWeaponLoaded = false;
 		this.activeWeapon = which;
 	}
 	
@@ -85,7 +87,7 @@ public abstract class AbstractShip implements Ship {
 	public void draw(Graphics graphics) {
 		int x = CoordinateConverter.toPixelX(body.getPosition().x) - coreShip.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(body.getPosition().y) - coreShip.getHeight() / 2;
-		graphics.draw(coreShip, x, y);
+		graphics.draw(coreShip, x, y, 180);
 		getActiveWeapon().draw(graphics);
 	}
 	

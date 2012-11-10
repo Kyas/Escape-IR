@@ -58,4 +58,10 @@ public final class FireBall implements Weapon {
 		return false;
 	}
 
+	@Override
+	public boolean unload() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

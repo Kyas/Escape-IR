@@ -26,7 +26,9 @@ public class RegularShip extends AbstractShip {
 		Body body = getBody();
 		
 		if(body.isActive()) {
+			
 			Shot shot = getActiveWeapon().getShot();
+			
 			int x = CoordinateConverter.toPixelX(body.getPosition().x);
 			int y = CoordinateConverter.toPixelY(body.getPosition().y);
 			int radius = getRadius();
@@ -37,7 +39,9 @@ public class RegularShip extends AbstractShip {
 				velocity[1] *= -1;
 				velocity[2] *= -1;
 			}
+			
 			float[] tmp = velocity;
+			
 			/*if(isPlayer()) {
 				System.out.println(velocity[1] + " " + velocity[2]);
 				System.out.println(velocity[0]);
@@ -51,7 +55,9 @@ public class RegularShip extends AbstractShip {
 				body.setLinearVelocity(new Vec2(0,0));
 			}
 			
-			if(shot != null) shot.setPosition(world,graphics,tmp);
+			if(shot != null) {
+				shot.setPosition(world,graphics,tmp);
+			}
 			
 			draw(graphics);
 			world.step(1.0f/60.0f,6,2);

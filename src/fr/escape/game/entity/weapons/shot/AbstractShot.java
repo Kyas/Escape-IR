@@ -54,9 +54,9 @@ public abstract class AbstractShot implements Shot {
 		}
 	}
 	
-	public void setPosition(World world,Graphics graphics,float[] velocity) {
+	public void setPosition(World world, Graphics graphics, float[] velocity) {
 		if(body.isActive()) {
-			System.out.println("Set Shot Position : " + velocity[0]);
+			System.out.println("Set Shot Position : " + velocity[0] + " " + velocity[1] + " " + velocity[2] );
 			if(velocity[0] > 0) {
 				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
 				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));

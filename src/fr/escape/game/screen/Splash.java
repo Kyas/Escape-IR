@@ -230,6 +230,7 @@ public class Splash implements Screen {
 						Ship ship = game.getUser().getShip();
 						
 						if(wg.accept(start, events, i, velocity) && ship.isWeaponLoaded()) {
+							// TODO
 							game.getActivity().debug(TAG, "Weapon Gesture Accept : Fire");
 							ship.fireWeapon(game.getWorld(), eContainer, velocity);
 						}
