@@ -59,4 +59,25 @@ public class ShipFactory {
 		return ship;
 	}
 	
+	// TODO
+	public Ship createShipForScenario(int type, float x, float y) {
+		
+		switch(type) {
+			case 0: {
+				break;
+			}
+			case 1: {
+				break;
+			}
+			case 2: {
+				break;
+			}
+			default: {
+				throw new IllegalArgumentException("Unknown Ship Type");
+			}
+		}
+		
+		return null;
+	}
+	
 }

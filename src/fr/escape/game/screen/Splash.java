@@ -53,7 +53,7 @@ public class Splash implements Screen {
 	private Texture logo;
 	private ScrollingTexture background;
 	private long time;
-	private float[] velocity = {0,0,0};
+	private float[] velocity = {0, 0, 0};
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
@@ -135,7 +135,7 @@ public class Splash implements Screen {
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
 		game.getUser().setHighscore((int) time);
-		//stage.update((int) (time / 1000));
+		stage.update((int) (time / 1000));
 
 		game.getGraphics().draw(Shapes.createLine(0, game.getGraphics().getHeight(), game.getGraphics().getWidth(), 0), Color.CYAN);
 		

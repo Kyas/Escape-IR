@@ -14,7 +14,6 @@ package fr.escape.resources.scenario;
 import java.nio.file.Path;
 
 import fr.escape.game.scenario.Scenario;
-import fr.escape.graphics.Texture;
 import fr.escape.resources.ResourcesLoader;
 
 /**
@@ -22,7 +21,7 @@ import fr.escape.resources.ResourcesLoader;
  * A {@link ResourcesLoader} for {@link Stage} and {@link Scenario}.
  * 
  */
-public abstract class ScenarioLoader implements ResourcesLoader<Texture> {
+public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	
 	public static final String EARTH_1 = "earth_1.scn";
 	
