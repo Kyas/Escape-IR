@@ -49,8 +49,16 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String BONUS_WEAPON_SHIBOLEET = "bwshiboleet.png";
 	public static final String BONUS_WEAPON_BLACKHOLE = "bwblackhole.png";
 	
-	// TODO REMOVE
-	public static final String DEBUG_WIN = "swin.png";
+	public static final String SHIP_SWING = "sswing.png";
+	public static final String SHIP_SWING_1 = "sswing_1.png";
+	public static final String SHIP_SWING_2 = "sswing_2.png";
+	public static final String SHIP_SWING_3 = "sswing_3.png";
+	public static final String SHIP_SWING_4 = "sswing_4.png";
+	public static final String SHIP_SWING_5 = "sswing_5.png";
+	public static final String SHIP_SWING_6 = "sswing_6.png";
+	public static final String SHIP_SWING_7 = "sswing_7.png";
+	public static final String SHIP_SWING_8 = "sswing_8.png";
+	public static final String SHIP_SWING_9 = "sswing_9.png";
 	
 	@Override
 	public Path getPath() {

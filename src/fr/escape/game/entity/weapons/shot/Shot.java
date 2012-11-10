@@ -34,7 +34,7 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	 * <li>MESSAGE_DESTROY: Shot need to be destroyed.</li>
 	 * </ul>
 	 * 
-	 * <b>By default:</b> state is 0.
+	 * <b>By default:</b> none of the above. Kind of void, null, empty.
 	 * 
 	 * @see Receiver#receive(int)
 	 */

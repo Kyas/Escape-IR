@@ -11,9 +11,13 @@ import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.Moveable;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.message.Receiver;
 
 // TODO Comment
-public interface Ship extends Moveable, Drawable, Entity {
+public interface Ship extends Moveable, Drawable, Entity, Receiver {
+	
+	public static final int MESSAGE_EXECUTE_LEFT_LOOP = 0;
+	public static final int MESSAGE_EXECUTE_RIGHT_LOOP = MESSAGE_EXECUTE_LEFT_LOOP + 1;
 	
 	public void setPosition(World world,Graphics graphics,float[] val);
 	
@@ -35,4 +39,21 @@ public interface Ship extends Moveable, Drawable, Entity {
 	
 	public boolean fireWeapon(World world, EntityContainer ec, float[] velocity);
 	
+	/**
+	 * <p>
+	 * Send an action to the Ship.
+	 * 
+	 * <p>
+	 * If you need to execute an action, use this method with the given protocol:
+	 * 
+	 * <ul>
+	 * <li>MESSAGE_EXECUTE_LEFT_LOOP: Execute a Left Loop to the Ship.</li>
+	 * <li>MESSAGE_EXECUTE_RIGHT_LOOP: Execute a Right Loop to the Ship.</li>
+	 * </ul>
+	 * 
+	 * @see Receiver#receive(int)
+	 */
+	@Override
+	public void receive(int message);
+
 }

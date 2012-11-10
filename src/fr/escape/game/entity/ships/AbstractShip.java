@@ -6,7 +6,6 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.Entity;
@@ -14,8 +13,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
-import fr.escape.graphics.Texture;
-import fr.escape.resources.texture.TextureLoader;
+import fr.escape.graphics.AnimationTexture;
 
 public abstract class AbstractShip implements Ship {
 	
@@ -26,20 +24,28 @@ public abstract class AbstractShip implements Ship {
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
 	
-	private final Texture coreShip;
+	private final AnimationTexture coreShip;
 	
 	private int activeWeapon;
 	private boolean isWeaponLoaded;
+	private boolean executeLeftLoop;
+	private boolean executeRightLoop;
 	
-	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer,EdgeNotifier eNotifier,KillNotifier kNotifier) {
-		this.weapons = weapons;
-		this.activeWeapon = 0;
+	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EdgeNotifier eNotifier, KillNotifier kNotifier, AnimationTexture textures) {
+		
 		this.body = body;
+		this.weapons = weapons;
 		this.isPlayer = isPlayer;
+		
 		this.eNotifier = eNotifier;
 		this.kNotifier = kNotifier;
 		
-		this.coreShip = Foundation.RESOURCES.getTexture(TextureLoader.DEBUG_WIN);
+		this.coreShip = textures;
+		
+		this.activeWeapon = 0;
+		this.isWeaponLoaded = false;
+		this.executeLeftLoop = false;
+		this.executeRightLoop = false;
 	}
 	
 	public boolean isPlayer() {
@@ -88,15 +94,33 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void draw(Graphics graphics) {
 		
-		int x = CoordinateConverter.toPixelX(body.getPosition().x) - coreShip.getWidth() / 2;
-		int y = CoordinateConverter.toPixelY(body.getPosition().y) - coreShip.getHeight() / 2;
+		int x = CoordinateConverter.toPixelX(body.getPosition().x) - (coreShip.getWidth() / 2);
+		int y = CoordinateConverter.toPixelY(body.getPosition().y) - (coreShip.getHeight() / 2);
 		
-		graphics.draw(coreShip, x, y);
+		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight());
 		getActiveWeapon().draw(graphics);
 	}
 	
 	@Override
 	public void update(Graphics graphics, long delta) {
+		
+		if(executeRightLoop || executeLeftLoop) {
+			
+			if(executeRightLoop) {
+				coreShip.forward();
+			} else {
+				coreShip.reverse();
+			}
+			
+			if(coreShip.hasNext()) {
+				coreShip.next();
+			} else {
+				coreShip.rewind();
+				executeLeftLoop = false;
+				executeRightLoop = false;
+			}
+		}
+		
 		draw(graphics);
 	}
 	
@@ -141,4 +165,21 @@ public abstract class AbstractShip implements Ship {
 		body.setLinearVelocity(new Vec2(x - getX(),y - getY()));
 	}
 	
+	public void receive(int message) {
+		switch(message) {
+			case MESSAGE_EXECUTE_LEFT_LOOP: {
+				
+				System.err.println("TODO: Execute Left Loop");
+				
+				break;
+			}
+			case MESSAGE_EXECUTE_RIGHT_LOOP: {
+				
+				System.err.println("TODO: Execute Right Loop");
+				
+				break;
+			}
+		}
+		
+	}
 }
