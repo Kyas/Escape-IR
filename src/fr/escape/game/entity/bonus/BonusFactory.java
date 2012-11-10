@@ -7,7 +7,6 @@ import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
-import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.weapons.Weapons;

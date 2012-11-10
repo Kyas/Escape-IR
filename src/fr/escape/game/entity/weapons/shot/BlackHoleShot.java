@@ -87,6 +87,7 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 		}
+		setState(message);
 	}
 
 	@Override
@@ -94,6 +95,10 @@ public final class BlackHoleShot extends AbstractShot {
 		
 		timer += delta;
 		draw(graphics);
+		
+		if(!getEdgeNotifier().isInside(getEdge())) {
+			getEdgeNotifier().edgeReached(this);
+		}
 		
 		if(drawEventHorizon && timer > ((EVENT_HORIZON_SPEED * 2) + EVENT_HORIZON_TIME)) {
 			receive(Shot.MESSAGE_DESTROY);
@@ -183,9 +188,11 @@ public final class BlackHoleShot extends AbstractShot {
 
 	@Override
 	protected Rectangle getEdge() {
+		int x = CoordinateConverter.toPixelX(getX());
+		int y = CoordinateConverter.toPixelY(getY());
 		
 		if(drawEventHorizon) {
-			return new Rectangle(getX() - (eventHorizon.getWidth() / 2), getY() - (eventHorizon.getHeight() / 2), eventHorizon.getWidth(), eventHorizon.getHeight());
+			return new Rectangle(x - (eventHorizon.getWidth() / 2), y - (eventHorizon.getHeight() / 2), eventHorizon.getWidth(), eventHorizon.getHeight());
 		} else if(drawLeftAndRightHelix) {
 			
 			int offset = leftHelix.getWidth();
@@ -193,11 +200,11 @@ public final class BlackHoleShot extends AbstractShot {
 			offset = Math.max(rightHelix.getWidth(), offset);
 			offset = Math.max(rightHelix.getHeight(), offset);
 			
-			return new Rectangle(getX() - (offset / 2), getY() - (offset / 2), offset, offset);
+			return new Rectangle(x - (offset / 2), y - (offset / 2), offset, offset);
 			
 		}
 		
-		return new Rectangle(getX() - (coreHelix.getWidth() / 2), getY() - (coreHelix.getHeight() / 2), coreHelix.getWidth(), coreHelix.getHeight());
+		return new Rectangle(x - (coreHelix.getWidth() / 2), y - (coreHelix.getHeight() / 2), coreHelix.getWidth(), coreHelix.getHeight());
 	}
 
 	

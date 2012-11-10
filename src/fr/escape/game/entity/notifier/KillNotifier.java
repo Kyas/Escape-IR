@@ -28,6 +28,5 @@ public interface KillNotifier {
 	 * @return True if removing is successful
 	 */
 	public boolean destroy(Entity e);
-	public void toDestroy(Entity e);
 	
 }

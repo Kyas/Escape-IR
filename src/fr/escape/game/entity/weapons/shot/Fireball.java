@@ -87,7 +87,7 @@ public final class Fireball extends AbstractShot {
 				
 				@Override
 				public void run() {
-					destroy();
+					toDestroy();
 				}
 				
 			});
@@ -100,7 +100,10 @@ public final class Fireball extends AbstractShot {
 	@Override
 	// TODO Finish
 	protected Rectangle getEdge() {
-		return new Rectangle(getX() - (coreBall.getWidth() / 2), getY() - (coreBall.getHeight() / 2), coreBall.getWidth(), coreBall.getHeight());
+		int x = CoordinateConverter.toPixelX(getX());
+		int y = CoordinateConverter.toPixelY(getY());
+		
+		return new Rectangle(x - (coreBall.getWidth() / 2), y - (coreBall.getHeight() / 2), coreBall.getWidth(), coreBall.getHeight());
 	}
 
 	private void drawCoreBall(Graphics graphics) {

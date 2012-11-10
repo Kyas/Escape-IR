@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.contacts.Contact;
@@ -20,7 +19,6 @@ public final class CollisionDetector implements ContactListener {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void beginContact(Contact arg0) {
-		System.out.println("2");
 		Body a = arg0.getFixtureA().getBody();
 		Body b = arg0.getFixtureB().getBody();
 		
@@ -42,7 +40,7 @@ public final class CollisionDetector implements ContactListener {
 			case "Shot" : 
 				System.out.println("Shot Hit");
 				Shot shot = (Shot) e1;
-				shot.receive(AbstractShot.MESSAGE_HIT);
+				if(shot.getState() != AbstractShot.MESSAGE_HIT) shot.receive(AbstractShot.MESSAGE_HIT);
 				break;
 			case "Bonus" :
 				System.out.println("Bonus Time");
@@ -61,7 +59,7 @@ public final class CollisionDetector implements ContactListener {
 			case "Shot" : 
 				System.out.println("Shot Hit");
 				Shot shot = (Shot) e2;
-				shot.receive(AbstractShot.MESSAGE_HIT);
+				if(shot.getState() != AbstractShot.MESSAGE_HIT) shot.receive(AbstractShot.MESSAGE_HIT);
 				break;
 			case "Bonus" :
 				System.out.println("Bonus Time");
