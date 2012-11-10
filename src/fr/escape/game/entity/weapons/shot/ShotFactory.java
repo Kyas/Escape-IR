@@ -1,5 +1,6 @@
 package fr.escape.game.entity.weapons.shot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -16,16 +17,15 @@ public final class ShotFactory {
 	//private static final Texture MISSILE_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 	//private static final Texture SHIBOLEET_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 
-	public static Shot createBlackholeShot(World world, float x, float y, EntityContainer ec) {
+	public static Shot createBlackholeShot(World world, float x, float y, float radius, EntityContainer ec) {
 		Objects.requireNonNull(world);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
 		bodyDef.type = BodyType.DYNAMIC;
-		bodyDef.userData = "BlackHole";
 		
 		CircleShape shape = new CircleShape();
-		shape.m_radius = 0.2f;
+		shape.m_radius = radius;
 		
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
@@ -36,11 +36,44 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		
-		return new BlackHoleShot(body, ec, ec);
+		Shot shot = new BlackHoleShot(body, ec, ec);
+		
+		ArrayList<Object> userData = new ArrayList<>(2);
+		userData.add(0,"Shot");
+		userData.add(1,shot);
+		body.setUserData(userData);
+		
+		return shot;
 	}
 	
-	public static Shot createFireBallShot(EntityContainer ec) {
-		return new Fireball(ec, ec);
+	public static Shot createFireBallShot(World world, float x, float y, float radius, EntityContainer ec) {
+		Objects.requireNonNull(world);
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(x, y);
+		bodyDef.type = BodyType.DYNAMIC;
+		bodyDef.userData = "FireBall";
+		
+		CircleShape shape = new CircleShape();
+		shape.m_radius = radius;
+		
+		FixtureDef fixture = new FixtureDef();
+		fixture.shape = shape;
+		fixture.density = 0.5f;
+		fixture.friction = 0.3f;       
+		fixture.restitution = 0.5f;
+		
+		Body body = world.createBody(bodyDef);
+		body.createFixture(fixture);
+
+		Shot shot = new BlackHoleShot(body, ec, ec);
+		
+		ArrayList<Object> userData = new ArrayList<>(2);
+		userData.add(0,"Shot");
+		userData.add(1,shot);
+		body.setUserData(userData);
+		
+		return shot;
 	}
 	
 //	public static Shot createMissileShot(EntityContainer ec) {

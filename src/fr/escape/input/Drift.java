@@ -7,7 +7,7 @@ import fr.escape.app.Input;
 //TODO Comment
 public final class Drift implements Gesture {
 
-	private static int DEFAULT_FAULT_TOLERANCE = 40;
+	private static int DEFAULT_FAULT_TOLERANCE = 30;
 	private static double COEFFICIENT_A = 0.3;
 	private static double COEFFICIENT_B = 1.7;
 	private static float VELOCITY = -0.5f;
@@ -33,15 +33,18 @@ public final class Drift implements Gesture {
 
 			double pUp = (end.getY() + faultTolerance) - (cd * (end.getX() + faultTolerance));
 			double pDown = (end.getY() - faultTolerance) - (cd * (end.getX() - faultTolerance));
-
+			
 			for(Input event : events) {
+				int tmpUp = (int) ((cd * event.getX()) + pUp);
+				int tmpDown = (int) ((cd * event.getX()) + pDown);
+				
+				int yUp = Math.max(tmpUp, tmpDown);
+				int yDown = Math.min(tmpUp, tmpDown);
 
-				double yUp = (cd * event.getX()) + pUp;
-				double yDown = (cd * event.getX()) + pDown;
-
-				if(yUp < event.getY() || yDown > event.getY()) {
-					return false;
-				}
+				// TODO Remove ?
+//				if(yUp < event.getY() || yDown > event.getY()) {
+//					return false;
+//				}
 
 			}
 
