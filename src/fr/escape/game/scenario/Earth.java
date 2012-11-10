@@ -6,7 +6,7 @@ public final class Earth extends AbstractStage {
 		
 		super();
 	
-		getWaitingScenario().put(Integer.valueOf(0), new Scenario() {
+		getWaitingScenario().put(Integer.valueOf(1), new Scenario() {
 			
 			@Override
 			public int getStart() {
