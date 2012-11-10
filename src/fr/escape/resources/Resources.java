@@ -17,8 +17,11 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.scenario.Scenario;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.font.FontLoader;
+import fr.escape.resources.scenario.ScenarioLoader;
+import fr.escape.resources.scenario.ScenarioParser;
 import fr.escape.resources.texture.TextureLoader;
 
 /**
@@ -41,7 +44,8 @@ public final class Resources {
 	
 	private final HashMap<String, FontLoader> fontLoader;
 	private final HashMap<String, TextureLoader> textureLoader;
-
+	private final HashMap<String, ScenarioLoader> scenarioLoader;
+	
 	/**
 	 * Is all resources loaded in memory ?
 	 */
@@ -57,6 +61,7 @@ public final class Resources {
 	public Resources() {
 		fontLoader = new HashMap<String, FontLoader>();
 		textureLoader = new HashMap<String, TextureLoader>();
+		scenarioLoader = new HashMap<String, ScenarioLoader>();
 		loaded = false;
 	}
 	
@@ -68,6 +73,9 @@ public final class Resources {
 			
 			// Load Font
 			loadFont(FontLoader.VISITOR_ID, 18.0f);
+			
+			// Load Scenario
+			loadScenario(ScenarioLoader.EARTH_1);
 			
 			// Load Texture
 			loadTexture(TextureLoader.BACKGROUND_ERROR);
@@ -153,6 +161,28 @@ public final class Resources {
 	}
 	
 	/**
+	 * Load and return Scenario from {@link ResourcesLoader}
+	 * 
+	 * @param name Scenario name
+	 * @return Scenario
+	 * @throws NoSuchElementException
+	 */
+	public Scenario getScenario(String name) {
+		Objects.requireNonNull(name);
+		checkIfLoaded();
+		try {
+			
+			ScenarioLoader loader = scenarioLoader.get(name);
+			return loader.load();
+			
+		} catch(Exception e) {
+			NoSuchElementException exception = new NoSuchElementException("Cannot load the given Texture: "+name);
+			exception.initCause(e);
+			throw exception;
+		}
+	}
+	
+	/**
 	 * Create a FontLoader for the given Font name.
 	 * 
 	 * @param fontID Font name
@@ -201,6 +231,29 @@ public final class Resources {
 	}
 	
 	/**
+	 * Create a ScenarioLoader for the given Scenario name.
+	 * 
+	 * @param scenarioID Scenario name
+	 * @return ScenarioLoader which will load the Scenario
+	 */
+	private static ScenarioLoader createScenarioLoader(final String scenarioID) {
+		return new ScenarioLoader() {
+			
+			private Scenario scenario = null;
+			
+			@Override
+			public Scenario load() throws Exception {
+				if(scenario == null) {
+					Foundation.ACTIVITY.debug(TAG, "Load Scenario: "+scenarioID);
+					scenario = ScenarioParser.parse(getPath().resolve(scenarioID).toFile());
+				}
+				return scenario;
+			}
+			
+		};
+	}
+	
+	/**
 	 * Create a TextureLoader and add it for a given Texture name.
 	 * 
 	 * @param textureID Texture name
@@ -217,6 +270,15 @@ public final class Resources {
 	 */
 	private void loadFont(String fontID, float size) {
 		fontLoader.put(fontID, createFontLoader(fontID, size));
+	}
+	
+	/**
+	 * Create a ScenarioLoader and add it for a given Scenario name.
+	 * 
+	 * @param scenarioID Scenario name
+	 */
+	private void loadScenario(String scenarioID) {
+		scenarioLoader.put(scenarioID, createScenarioLoader(scenarioID));
 	}
 	
 	/**
