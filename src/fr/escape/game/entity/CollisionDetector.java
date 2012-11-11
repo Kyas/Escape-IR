@@ -33,11 +33,12 @@ public final class CollisionDetector implements ContactListener {
 					case 0x000F : 
 						/*Bonus bonus = (Bonus) entityB;
 						Ship ship = (Ship) entityA;*/
+						entityB.toDestroy();
 						System.out.println("Add ammunitions + desactivate bonus");
 						break;
 					default : 
-						/*entityA.toDestroy();
-						entityB.toDestroy();*/
+						/*entityA.toDestroy();*/
+						entityB.toDestroy();
 						System.out.println("Hit by something, you lost a life");
 						break;
 				}
@@ -49,20 +50,28 @@ public final class CollisionDetector implements ContactListener {
 					shot.receive(AbstractShot.MESSAGE_HIT);
 				}
 				System.out.println("Destroy both entity");
-				/*entityA.toDestroy();*/
-				if(typeB == 0x0002) System.out.println("Player lost a life");
-				/*entityB.toDestroy();*/
+				entityA.toDestroy();
+				if(typeB == 0x0002) {
+					System.out.println("Player lost a life");
+				} else {
+					entityB.toDestroy();
+				}
 				break;
 			//Shot
 			case 0x0008 :
 				Shot shot = (Shot) entityA;
 				shot.receive(AbstractShot.MESSAGE_HIT);
 				System.out.println("Shot hit & destroy the other entity");
-				if(typeB == 0x0002) System.out.println("Player lost a life");
+				if(typeB == 0x0002) {
+					System.out.println("Player lost a life");
+				} else {
+					entityB.toDestroy();
+				}
 				break;
 			//Bonus
 			case 0x000F :
 				System.out.println("Touch player - desactivate + add ammo");
+				entityA.toDestroy();
 				break;
 		}
 		

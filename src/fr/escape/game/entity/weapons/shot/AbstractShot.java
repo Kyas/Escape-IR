@@ -16,8 +16,6 @@ public abstract class AbstractShot implements Shot {
 	private final Body body;
 	private int state;
 	
-	private int x;
-	private int y;
 	private int angle;
 	
 	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
@@ -40,12 +38,6 @@ public abstract class AbstractShot implements Shot {
 	@Override
 	public void moveTo(float x, float y) {
 		
-		/*this.x = x;
-		this.y = y;
-		
-		if(!eNotifier.isInside(getEdge())) {
-			eNotifier.edgeReached(this);
-		}*/
 	}
 	
 	@Override
