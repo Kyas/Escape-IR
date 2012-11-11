@@ -18,13 +18,7 @@ public class RegularShip extends AbstractShip {
 		
 		super(body, weapons, isPlayer, eNotifier, kNotifier, textures);
 	}
-
-	@Override
-	public void moveBy(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void rotateBy(int angle) {
 		// TODO Auto-generated method stub

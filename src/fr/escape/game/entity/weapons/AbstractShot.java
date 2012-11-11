@@ -64,7 +64,7 @@ public abstract class AbstractShot implements Weapon {
 		if(shot != null) {
 			
 			// TODO
-			shot.setPosition(Foundation.GRAPHICS, velocity);
+			shot.moveBy(velocity);
 			
 			container.push(shot);
 			shot.receive(Shot.MESSAGE_FIRE);

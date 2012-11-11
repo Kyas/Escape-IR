@@ -32,11 +32,6 @@ public abstract class AbstractShot implements Shot {
 		this.state = MESSAGE_LOAD;
 		
 	}
-	
-	@Override
-	public void moveBy(int x, int y) {
-		this.setPosition(this.x + x, this.y + y);
-	}
 
 	@Override
 	public void rotateBy(int angle) {
@@ -44,7 +39,7 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
-	public void setPosition(float x, float y) {
+	public void moveTo(float x, float y) {
 		
 		/*this.x = x;
 		this.y = y;
@@ -55,11 +50,9 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
-	public void setPosition(Graphics graphics, float[] velocity) {
+	public void moveBy(float[] velocity) {
 		if(body.isActive()) {
 			body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
-			// TODO REMOVE NEED TO BE ON UPDATE
-			draw(graphics);
 		}
 	}
 	

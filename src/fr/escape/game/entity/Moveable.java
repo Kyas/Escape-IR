@@ -26,7 +26,7 @@ public interface Moveable {
 	 * @param x Move the Entity on X-Axis.
 	 * @param y Move the Entity on Y-Axis.
 	 */
-	public void moveBy(int x, int y);
+	//public void moveBy(int x, int y);
 	
 	/**
 	 * Rotate the Entity with the given angle. 
@@ -41,7 +41,13 @@ public interface Moveable {
 	 * @param x X Position on axis.
 	 * @param y Y Position on axis.
 	 */
-	public void setPosition(float x, float y);
+	public void moveTo(float x, float y);
+	
+	/**
+	 * 
+	 * @param velocity
+	 */
+	public void moveBy(float[] velocity);
 	
 	/**
 	 * Set the Rotation of the Entity in degree.
@@ -50,5 +56,4 @@ public interface Moveable {
 	 */
 	public void setRotation(int angle);
 	
-	public void setPosition(Graphics graphics, float[] velocity);
 }

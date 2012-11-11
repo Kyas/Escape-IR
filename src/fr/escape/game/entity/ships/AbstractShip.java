@@ -183,14 +183,19 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void setPosition(float x, float y) {
-		body.setLinearVelocity(new Vec2(x - getX(),y - getY()));
+	public void moveTo(float x, float y) {
+		if(body.isActive()) {
+			body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
+		}
 	}
 	
 	@Override
-	public void setPosition(Graphics graphics, float[] velocity) {
+	public void moveBy(float[] velocity) {
+		
 		if(body.isActive()) {			
+			
 			Shot shot = getActiveWeapon().getShot();
+			Graphics graphics = Foundation.GRAPHICS;
 			
 			int x = CoordinateConverter.toPixelX(body.getPosition().x);
 			int y = CoordinateConverter.toPixelY(body.getPosition().y);
@@ -205,15 +210,16 @@ public abstract class AbstractShip implements Ship {
 			float[] tmp = velocity;
 			
 			if(velocity[0] > 0) {
-				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
-				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));
+				
+				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
+				velocity[0] -= Math.abs(Math.max(velocity[1], velocity[2]));
 				
 			} else {
-				body.setLinearVelocity(new Vec2(0,0));
+				body.setLinearVelocity(new Vec2(0, 0));
 			}
 			
 			if(shot != null) {
-				shot.setPosition(graphics,tmp);
+				shot.moveBy(tmp);
 			}
 			
 			draw(graphics);
