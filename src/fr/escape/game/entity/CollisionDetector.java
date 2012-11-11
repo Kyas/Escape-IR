@@ -55,7 +55,7 @@ public final class CollisionDetector implements ContactListener {
 				break;
 			//Shot
 			case 0x0008 :
-				Shot shot = (Shot) entityB;
+				Shot shot = (Shot) entityA;
 				shot.receive(AbstractShot.MESSAGE_HIT);
 				System.out.println("Shot hit & destroy the other entity");
 				if(typeB == 0x0002) System.out.println("Player lost a life");

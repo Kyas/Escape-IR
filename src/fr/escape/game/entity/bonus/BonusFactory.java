@@ -23,6 +23,7 @@ import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 public final class BonusFactory {
+	private static final int MASK = 0x0002;
 
 	private static final int BLACKHOLE_CHANCE_PERCENT = 98;
 	private static final int FIREBALL_CHANCE_PERCENT = 70;
@@ -55,7 +56,7 @@ public final class BonusFactory {
 		fixture.friction = 0.0f;
 		fixture.restitution = 0.0f;
 		fixture.filter.categoryBits = 0x000F;
-		fixture.filter.maskBits = 0x0002;
+		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
