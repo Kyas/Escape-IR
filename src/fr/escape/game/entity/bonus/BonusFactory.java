@@ -1,11 +1,10 @@
 package fr.escape.game.entity.bonus;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -38,13 +37,15 @@ public final class BonusFactory {
 	
 	public static Bonus createBonus(World world, float x, float y, EntityContainer ec) {
 		Objects.requireNonNull(world);
+		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight() / 2);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
 		bodyDef.type = BodyType.DYNAMIC;
 		
-		CircleShape shape = new CircleShape();
-		shape.m_radius = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight() / 2);
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
 		
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
@@ -126,10 +127,7 @@ public final class BonusFactory {
 			bonus = null;
 		}
 		
-		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0,"Bonus");
-		userData.add(1,bonus);
-		body.setUserData(userData);
+		body.setUserData(bonus);
 		
 		return bonus;
 	}

@@ -4,11 +4,9 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.World;
 
 import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
-import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.Moveable;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.message.Receiver;

@@ -1,15 +1,11 @@
 package fr.escape.game.entity;
 
-import java.util.ArrayList;
-
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.contacts.Contact;
 
-import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 
@@ -17,59 +13,52 @@ import fr.escape.game.entity.weapons.shot.Shot;
 public final class CollisionDetector implements ContactListener {
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void beginContact(Contact arg0) {
-		/*Body a = arg0.getFixtureA().getBody();
-		Body b = arg0.getFixtureB().getBody();
-		
-		ArrayList<Object> lA = (ArrayList<Object>) a.getUserData();
-		ArrayList<Object> lB = (ArrayList<Object>) b.getUserData();
-		Entity e1 = (Entity) lA.get(1);
-		Entity e2 = (Entity) lB.get(1);
-		
-		String oaType = (String) lA.get(0);
-		String obType = (String) lB.get(0);
+		Entity entityA = (Entity) arg0.getFixtureA().getBody().getUserData();
+		Entity entityB = (Entity) arg0.getFixtureB().getBody().getUserData();
 		
 		int typeA = arg0.getFixtureA().getFilterData().categoryBits;
-		int typeB = arg0.getFixtureB().getFilterData().categoryBits;*/
+		int typeB = arg0.getFixtureB().getFilterData().categoryBits;
 		
-		/*switch (oaType) {
-			case "Ship" : 
-				Ship ship = (Ship) e1;
-				if(ship.isPlayer()) System.out.println("Player lost a life");
-				System.out.println("Ship destroy");
-				e1.toDestroy();
+		switch (typeA) {
+			//PlayerShip
+			case 0x0002 :
+				switch(typeB) {
+					case 0x0008 : 
+						Shot shot = (Shot) entityB;
+						shot.receive(AbstractShot.MESSAGE_HIT);
+						System.out.println("Hit by shot, you lost a life");
+						/*entityA.toDestroy();*/
+						break;
+					case 0x000F : 
+						/*Bonus bonus = (Bonus) entityB;
+						Ship ship = (Ship) entityA;*/
+						System.out.println("Add ammunitions + desactivate bonus");
+						break;
+					default : 
+						/*entityA.toDestroy();
+						entityB.toDestroy();*/
+						System.out.println("Hit by something, you lost a life");
+						break;
+				}
 				break;
-			case "Shot" : 
-				System.out.println("Shot Hit");
-				Shot shot = (Shot) e1;
-				if(shot.getState() != AbstractShot.MESSAGE_HIT) shot.receive(AbstractShot.MESSAGE_HIT);
+			//NPCShip
+			case 0x0004 :
+				System.out.println("Destroy both entity");
+				/*entityA.toDestroy();*/
+				if(typeB == 0x0002) System.out.println("Player lost a life");
+				/*entityB.toDestroy();*/
 				break;
-			case "Bonus" :
-				System.out.println("Bonus Time");
+			//Shot
+			case 0x0008 :
+				System.out.println("Shot hit & destroy the other entity");
+				if(typeB == 0x0002) System.out.println("Player lost a life");
 				break;
-			default:
+			//Bonus
+			case 0x000F :
+				System.out.println("Touch player - desactivate + add ammo");
 				break;
 		}
-		
-		switch (obType) {
-			case "Ship" : 
-				Ship ship = (Ship) e2;
-				if(ship.isPlayer()) System.out.println("Player lost a life");
-				System.out.println("Ship destroy");
-				e2.toDestroy();
-				break;
-			case "Shot" : 
-				System.out.println("Shot Hit");
-				Shot shot = (Shot) e2;
-				if(shot.getState() != AbstractShot.MESSAGE_HIT) shot.receive(AbstractShot.MESSAGE_HIT);
-				break;
-			case "Bonus" :
-				System.out.println("Bonus Time");
-				break;
-			default:
-				break;
-		}*/
 		
 	}
 
