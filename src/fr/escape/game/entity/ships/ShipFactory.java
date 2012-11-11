@@ -18,6 +18,9 @@ import fr.escape.graphics.AnimationTexture;
 import fr.escape.resources.texture.TextureLoader;
 
 public class ShipFactory {
+	private static final int PLAYERMASK = 0x0004 | 0x0008 | 0x000F;
+	private static final int NPCMASK = 0x0002 | 0x0008;
+	
 	private final World world;
 	private final EntityContainer ec;
 	private final List<Weapon> weapons;
@@ -47,8 +50,13 @@ public class ShipFactory {
 		fixture.density = 0.5f;
 		fixture.friction = 0.0f;      
 		fixture.restitution = 0.0f;
-		if(isPlayer) fixture.filter.categoryBits = 0x0002;
-		else fixture.filter.categoryBits = 0x0004;
+		if(isPlayer) {
+			fixture.filter.categoryBits = 0x0002;
+			fixture.filter.maskBits = PLAYERMASK;
+		} else {
+			fixture.filter.categoryBits = 0x0004;
+			fixture.filter.maskBits = NPCMASK;
+		}
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);

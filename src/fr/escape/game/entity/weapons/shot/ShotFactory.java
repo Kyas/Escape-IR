@@ -16,6 +16,8 @@ import fr.escape.resources.texture.TextureLoader;
 
 public final class ShotFactory {
 	
+	private static final int MASK = 0x0002 | 0x0004 | 0x000F;
+	
 	private final World world;
 	private final EntityContainer entityContainer;
 	
@@ -43,6 +45,7 @@ public final class ShotFactory {
 		fixture.friction = 0.0f;       
 		fixture.restitution = 0.0f;
 		fixture.filter.categoryBits = 0x0008;
+		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
@@ -70,8 +73,10 @@ public final class ShotFactory {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 0.5f;
-		fixture.friction = 1.0f;       
+		fixture.friction = 1.0f;
 		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = 0x0008;
+		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
@@ -101,6 +106,8 @@ public final class ShotFactory {
 		fixture.density = 0.5f;
 		fixture.friction = 1.0f;       
 		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = 0x0008;
+		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
@@ -130,6 +137,8 @@ public final class ShotFactory {
 		fixture.density = 0.5f;
 		fixture.friction = 1.0f;       
 		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = 0x0008;
+		fixture.filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);

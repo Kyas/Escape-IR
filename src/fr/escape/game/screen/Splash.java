@@ -23,6 +23,8 @@ import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.bonus.Bonus;
+import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 
 import fr.escape.game.entity.weapons.shot.Shot;
@@ -91,13 +93,13 @@ public class Splash implements Screen {
 		//TODO remove after test
         
         Ship s1 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(0),false);
-        s1.moveBy(new float[]{1000.0f,0.0f,0.5f});
+        s1.moveBy(new float[]{1000.0f,0.0f,1.5f});
         Ship s2 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(600),false);
-        s2.moveBy(new float[]{1000.0f,0.0f,-1.0f});
+        s2.moveBy(new float[]{1000.0f,0.0f,-2.0f});
         Ship s3 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(0),CoordinateConverter.toMeterY(300),false);
-        s3.moveBy(new float[]{1000.0f,1.0f,0.0f});
+        s3.moveBy(new float[]{1000.0f,2.0f,0.0f});
         Ship s4 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(400),CoordinateConverter.toMeterY(300),false);
-        s4.moveBy(new float[]{1000.0f,-1.0f,0.0f});
+        s4.moveBy(new float[]{1000.0f,-2.0f,0.0f});
         
         game.getEntityContainer().push(s1); game.getEntityContainer().push(s2); game.getEntityContainer().push(s3); game.getEntityContainer().push(s4);
         /*for(int i = 0; i < 2; i++) {
@@ -107,13 +109,13 @@ public class Splash implements Screen {
         }
         eContainer.push(sf.createRegularShip(CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),false));*/
 
-        /*Bonus bonus = null;
+        Bonus bonus = null;
         while(bonus == null) {
-                bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(150),eContainer);
+                bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(-50),game.getEntityContainer());
         }
         float[] bV = {0.0f,0.0f,1.0f};
-        bonus.setPosition(game.getGraphics(),bV);
-        eContainer.push(bonus);*/
+        bonus.moveBy(bV);
+        game.getEntityContainer().push(bonus);
 	}
 	
 	@Override
