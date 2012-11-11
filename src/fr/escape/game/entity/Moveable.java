@@ -11,8 +11,6 @@
 
 package fr.escape.game.entity;
 
-import fr.escape.app.Graphics;
-
 /**
  * <p>
  * An interface for Moveable Entity.

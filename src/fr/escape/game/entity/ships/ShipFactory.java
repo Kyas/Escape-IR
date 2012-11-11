@@ -1,6 +1,5 @@
 package fr.escape.game.entity.ships;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,11 +64,8 @@ public class ShipFactory {
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_8),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_9)
 		));
-		
-		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0,"Ship");
-		userData.add(1,ship);
-		body.setUserData(userData);
+
+		body.setUserData(ship);
 		
 		return ship;
 	}

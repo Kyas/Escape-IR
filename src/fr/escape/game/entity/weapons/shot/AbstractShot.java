@@ -6,7 +6,6 @@ import java.util.Objects;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import fr.escape.app.Graphics;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 

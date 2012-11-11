@@ -19,18 +19,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
-import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
-import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.bonus.Bonus;
-import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
-import fr.escape.game.entity.ships.ShipFactory;
 
-import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;

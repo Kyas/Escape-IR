@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -50,10 +49,7 @@ public final class ShotFactory {
 		
 		Shot shot = new BlackHoleShot(body, entityContainer, entityContainer);
 		
-		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0, "Shot");
-		userData.add(1, shot);
-		body.setUserData(userData);
+		body.setUserData(shot);
 		
 		return shot;
 	}
@@ -82,10 +78,7 @@ public final class ShotFactory {
 
 		Shot shot = new FireBallShot(body, entityContainer, entityContainer);
 		
-		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0, "Shot");
-		userData.add(1, shot);
-		body.setUserData(userData);
+		body.setUserData(shot);
 		
 		return shot;
 	}
@@ -114,10 +107,7 @@ public final class ShotFactory {
 
 		Shot shot = new MissileShot(body, entityContainer, entityContainer);
 		
-		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0, "Shot");
-		userData.add(1, shot);
-		body.setUserData(userData);
+		body.setUserData(shot);
 		
 		return shot;
 	}
@@ -147,10 +137,7 @@ public final class ShotFactory {
 
 		Shot shot = new ShiboleetShot(body, entityContainer, entityContainer);
 		
-		ArrayList<Object> userData = new ArrayList<>(2);
-		userData.add(0, "Shot");
-		userData.add(1, shot);
-		body.setUserData(userData);
+		body.setUserData(shot);
 		
 		return shot;
 	}
