@@ -2,7 +2,6 @@ package fr.escape.game.entity.weapons;
 
 import java.util.Objects;
 
-import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.shot.Shot;
