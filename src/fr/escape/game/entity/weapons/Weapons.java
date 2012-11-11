@@ -3,8 +3,12 @@ package fr.escape.game.entity.weapons;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.escape.app.Foundation;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
+import fr.escape.resources.texture.TextureLoader;
 
 public class Weapons {
 
@@ -16,22 +20,63 @@ public class Weapons {
 	private static final int WIDTH = 40;
 	private static final int HEIGHT = 40;
 	
+	private static final int MISSILE_DEFAULT_AMMUNITION = 100;
+	private static final int FIREBALL_DEFAULT_AMMUNITION = 50;
+	private static final int SHIBOLEET_DEFAULT_AMMUNITION = 10;
+	private static final int BLACKHOLE_DEFAULT_AMMUNITION = 4;
+	
 	private Weapons() {}
 	
-	public static List<Weapon> createListOfWeapons(EntityContainer entityContainer) {
+	public static List<Weapon> createListOfWeapons(EntityContainer entityContainer, ShotFactory shotFactory) {
 		
 		List<Weapon> list = new ArrayList<>(4);
 		
-		Weapon wB = new BlackHole(entityContainer, Integer.MAX_VALUE);
+		Weapon wB = new AbstractShot(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE), 
+				entityContainer, shotFactory, BLACKHOLE_DEFAULT_AMMUNITION) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createBlackholeShot(x, y);
+			}
+			
+		};
 		Weapons.validate(wB);
 		
-		Weapon wF = new FireBall(50);
+		Weapon wF = new AbstractShot(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL), 
+				entityContainer, shotFactory, FIREBALL_DEFAULT_AMMUNITION) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createFireBallShot(x, y);
+			}
+			
+		};
 		Weapons.validate(wF);
 		
-		Weapon wS = new Shiboleet(10);
+		Weapon wS = new AbstractShot(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET), 
+				entityContainer, shotFactory, SHIBOLEET_DEFAULT_AMMUNITION) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createShiboleetShot(x, y);
+			}
+			
+		};
 		Weapons.validate(wS);
 		
-		Weapon wM = new Missile();
+		Weapon wM = new AbstractShot(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE), 
+				entityContainer, shotFactory, MISSILE_DEFAULT_AMMUNITION) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createMissileShot(x, y);
+			}
+			
+		};
 		Weapons.validate(wM);
 		
 		list.add(wM);

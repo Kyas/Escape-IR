@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -12,29 +12,44 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.resources.texture.TextureLoader;
 
 public class ShipFactory {
+	private final World world;
+	private final EntityContainer ec;
+	private final List<Weapon> weapons;
 	
-	public RegularShip createRegularShip(World world, float x, float y, BodyType type, float radius, boolean isPlayer, EntityContainer ec, List<Weapon> weapons) {
+	public ShipFactory(World world, EntityContainer ec, List<Weapon> weapons) {
+		this.world = world;
+		this.ec = ec;
+		this.weapons = weapons;
+	}
+	
+	public RegularShip createRegularShip(float x, float y, boolean isPlayer) {
 		
 		Objects.requireNonNull(world);
 		
+		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight() / 2);
+		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
-		bodyDef.type = type;
+		bodyDef.type = BodyType.DYNAMIC;
 		
-		CircleShape shape = new CircleShape();
-		shape.m_radius = radius;
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
 		
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 0.5f;
 		fixture.friction = 0.0f;      
 		fixture.restitution = 0.0f;
+		if(isPlayer) fixture.filter.categoryBits = 0x0002;
+		else fixture.filter.categoryBits = 0x0004;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);

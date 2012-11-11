@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Game;
@@ -24,10 +23,12 @@ import fr.escape.app.Overlay;
 import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.CollisionDetector;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
+import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.game.screen.Lost;
 import fr.escape.game.screen.Menu;
 import fr.escape.game.screen.Splash;
@@ -70,6 +71,17 @@ public final class Escape extends Game implements LifeListener {
 	private IngameUI ingameUI;
 	
 	/**
+	 * Game Factory
+	 */
+	private ShipFactory shipFactory;
+	private ShotFactory shotFactory;
+	
+	/**
+	 * Game Entity Container
+	 */
+	private EntityContainer entityContainer;
+	
+	/**
 	 * Default Constructor for the Game.
 	 */
 	public Escape() {
@@ -83,46 +95,46 @@ public final class Escape extends Game implements LifeListener {
 	public void create() {
 		try {
 			
-			ShipFactory sf = new ShipFactory();
-			
 			// Create World
 			World world = new World(new Vec2(0.0f,0.0f), true);
 			world.setContactListener(new CollisionDetector());
 			setWorld(world);
 			
-			// Create Screen
-			lost = new Lost(this);
-			menu = new Menu(this);
-			splash = new Splash(this);
-			// Other Screen if any ...
+			// Create Entity Container
+			entityContainer = new EntityContainer(getWorld(), Math.max((int) (getGraphics().getWidth() * 0.1f), 
+					(int) (getGraphics().getHeight() * 0.1f)));
 			
 			// Create Game Components
 			ingameUI = new IngameUI();
+			shotFactory = new ShotFactory(getWorld(), getEntityContainer());
+			List<Weapon> lWeapons = Weapons.createListOfWeapons(getEntityContainer(), getShotFactory());
+			shipFactory = new ShipFactory(getWorld(), getEntityContainer(), lWeapons);
 
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			
 			UIHighscore uHighscore = new UIHighscore(this);
-			
-			List<Weapon> lWeapons = Weapons.createListOfWeapons();
 			
 			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons, lWeapons.get(0));
 			
 			ingameUI.add(uHighscore);
 			ingameUI.add(uWeapons);
 			
-			Ship ship = sf.createRegularShip(world,CoordinateConverter.toMeterX(getGraphics().getWidth()/2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),BodyType.DYNAMIC,0.5f,true,null,lWeapons);
+			Ship ship = getShipFactory().createRegularShip(CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),true);
 
-			getUser().register(uHighscore);
-			
-			System.out.println("Ship set");
-			getUser().setShip(ship);
-			
 			gestures.add(new Drift());
 			gestures.add(new BackOff());
 			gestures.add(new LeftLoop());
 			gestures.add(new RightLoop());
+			
+			getUser().register(uHighscore);
 			getUser().setGestures(gestures);
 			getUser().setShip(ship);
+			
+			// Create Screen
+			lost = new Lost(this);
+			menu = new Menu(this);
+			splash = new Splash(this);
+			// Other Screen if any ...
 			
 			setScreen(splash);
 			
@@ -202,6 +214,33 @@ public final class Escape extends Game implements LifeListener {
 	 */
 	public void setMenuScreen() {
 		setScreen(menu);
+	}
+	
+	/**
+	 * Get the {@link ShipFactory}
+	 * 
+	 * @return {@link ShipFactory}
+	 */
+	public ShipFactory getShipFactory() {
+		return shipFactory;
+	}
+	
+	/**
+	 * Get the {@link ShotFactory}
+	 * 
+	 * @return {@link ShotFactory}
+	 */
+	public ShotFactory getShotFactory() {
+		return shotFactory;
+	}
+
+	/**
+	 * Get the {@link EntityContainer}
+	 * 
+	 * @return {@link EntityContainer}
+	 */
+	public EntityContainer getEntityContainer() {
+		return entityContainer;
 	}
 	
 }

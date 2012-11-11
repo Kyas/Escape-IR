@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.dynamics.Body;
@@ -13,7 +12,7 @@ import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-public final class Fireball extends AbstractShot {
+public final class FireBallShot extends AbstractShot {
 
 	private static final int FIREBALL_SPEED = 4000;
 	private static final float MINIMAL_RADIUS = 0.3f;
@@ -26,7 +25,7 @@ public final class Fireball extends AbstractShot {
 	private float radiusSize;
 	private long timer;
 	
-	public Fireball(Body body,EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
+	public FireBallShot(Body body,EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
 		super(body,edgeNotifier, killNotifier);
 		
 		this.coreBall = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
@@ -39,13 +38,11 @@ public final class Fireball extends AbstractShot {
 
 	@Override
 	public void draw(Graphics graphics) {
-		
 		if(isVisible) {
 			drawCoreBall(graphics);
 			drawRadiusEffect(graphics, (int) (timer % 100)*10);
-			graphics.draw(getEdge(), Color.RED);
+			//graphics.draw(getEdge(), Color.RED);
 		}
-		
 	}
 
 	@Override
@@ -53,6 +50,10 @@ public final class Fireball extends AbstractShot {
 		
 		timer += delta;
 		draw(graphics);
+		
+		if(!getEdgeNotifier().isInside(getEdge())) {
+			getEdgeNotifier().edgeReached(this);
+		}
 		
 		if(radiusGrown) {
 			radiusSize = getRadiusEffectSize();
@@ -62,39 +63,39 @@ public final class Fireball extends AbstractShot {
 	@Override
 	public void receive(int message) {
 		switch(message) {
-		case Shot.MESSAGE_LOAD: {
-			isVisible = true;
-			radiusGrown = true;
-			break;
-		}
-		case Shot.MESSAGE_FIRE: {
-			radiusGrown = false;
-			break;
-		}
-		case Shot.MESSAGE_CRUISE: {
-			
-			break;
-		}
-		case Shot.MESSAGE_HIT: {
-
-			break;
-		}
-		case Shot.MESSAGE_DESTROY: {
-			
-			isVisible = false;
-			
-			Foundation.ACTIVITY.post(new Runnable() {
+			case Shot.MESSAGE_LOAD: {
+				isVisible = true;
+				radiusGrown = true;
+				break;
+			}
+			case Shot.MESSAGE_FIRE: {
+				radiusGrown = false;
+				break;
+			}
+			case Shot.MESSAGE_CRUISE: {
 				
-				@Override
-				public void run() {
-					toDestroy();
-				}
+				break;
+			}
+			case Shot.MESSAGE_HIT: {
+	
+				break;
+			}
+			case Shot.MESSAGE_DESTROY: {
 				
-			});
-
-			break;
+				isVisible = false;
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						toDestroy();
+					}
+					
+				});
+	
+				break;
+			}
 		}
-	}
 	}
 
 	@Override

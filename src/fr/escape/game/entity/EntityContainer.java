@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -32,10 +33,12 @@ import fr.escape.game.entity.notifier.KillNotifier;
  * {@link Entity}.
  * 
  */
+// TODO Comment
 public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier {
 
 	private static final String TAG = EntityContainer.class.getSimpleName();
 	
+	private final World world;
 	private final Rectangle edge;
 	private final LinkedHashSet<Entity> entities;
 	private final LinkedList<Entity> destroyed;
@@ -43,10 +46,12 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	/**
 	 * Default Constructor
 	 * 
+	 * @param world World used
 	 * @param margin Margin used for Edge World
 	 */
-	public EntityContainer(int margin) {
+	public EntityContainer(World world, int margin) {
 		
+		this.world = world;
 		this.edge = new Rectangle(-margin, -margin, Foundation.GRAPHICS.getWidth() + margin, Foundation.GRAPHICS.getHeight() + margin);
 		this.entities = new LinkedHashSet<>();
 		this.destroyed = new LinkedList<>();
@@ -79,7 +84,6 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	
 	@Override
 	public boolean edgeReached(Entity e) {
-		System.out.println(e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
@@ -116,7 +120,9 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	
 	public boolean flush() {
 		for(Entity e : destroyed) {
+			System.out.println("Remove: "+e);
 			remove(e);
+			world.destroyBody(e.getBody());
 		}
 		return true;
 	}
@@ -131,4 +137,18 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 		throw new UnsupportedOperationException();
 	}
 
+	public boolean reset() {
+		
+		if(!flush()) {
+			return false;
+		}
+		
+		for(Entity e : entities) {
+			remove(e);
+			world.destroyBody(e.getBody());
+		}
+		
+		return true;
+	}
+	
 }

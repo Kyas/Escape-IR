@@ -2,28 +2,26 @@ package fr.escape.game.entity.weapons;
 
 import java.util.Objects;
 
-import org.jbox2d.dynamics.World;
-
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
-import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
-import fr.escape.resources.texture.TextureLoader;
 
-public final class BlackHole implements Weapon {
+public abstract class AbstractShot implements Weapon {
 	
 	private final Texture drawable;
 	private final EntityContainer container;
-	private int ammunition;
+	private final ShotFactory factory;
 	
+	private int ammunition;
 	private Shot shot;
 	
-	public BlackHole(EntityContainer eContainer, int defaultAmmunition) {
-		drawable = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE);
+	public AbstractShot(Texture texture, EntityContainer eContainer, ShotFactory sFactory, int defaultAmmunition) {
+		drawable = Objects.requireNonNull(texture);
 		container = Objects.requireNonNull(eContainer);
+		factory = Objects.requireNonNull(sFactory);
 		ammunition = defaultAmmunition;
 	}
 
@@ -40,12 +38,18 @@ public final class BlackHole implements Weapon {
 	public boolean isEmpty() {
 		return getAmmunition() <= 0;
 	}
+	
+	protected abstract Shot createShot(float x, float y);
 
+	protected ShotFactory getFactory() {
+		return factory;
+	}
+	
 	@Override
-	public boolean load(World world, EntityContainer ec, float x, float y) {
+	public boolean load(float x, float y) {
 		if(!isEmpty() && shot == null) {
 			
-			shot = ShotFactory.createBlackholeShot(world, x, y, CoordinateConverter.toMeterX(drawable.getHeight()), ec);
+			shot = Objects.requireNonNull(createShot(x, y));
 			shot.receive(Shot.MESSAGE_LOAD);
 			
 			return true;
@@ -62,7 +66,7 @@ public final class BlackHole implements Weapon {
 			// TODO
 			shot.setPosition(Foundation.GRAPHICS, velocity);
 			
-			Objects.requireNonNull(container).push(shot);
+			container.push(shot);
 			shot.receive(Shot.MESSAGE_FIRE);
 			
 			// TODO Apply Speed and Angle
@@ -91,12 +95,10 @@ public final class BlackHole implements Weapon {
 
 	@Override
 	public boolean unload() {
-		
 		if(shot != null) {
 			shot.receive(Shot.MESSAGE_DESTROY);
 			shot = null;
 		}
-		
 		return false;
 	}
 	

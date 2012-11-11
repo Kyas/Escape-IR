@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.weapons.Weapons;
@@ -43,13 +44,15 @@ public final class BonusFactory {
 		bodyDef.type = BodyType.DYNAMIC;
 		
 		CircleShape shape = new CircleShape();
-		shape.m_radius = Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight();
+		shape.m_radius = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight() / 2);
 		
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 0.5f;
-		fixture.friction = 0.0f;       
+		fixture.friction = 0.0f;
 		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = 0x000F;
+		fixture.filter.maskBits = 0x0002;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
@@ -221,8 +224,8 @@ public final class BonusFactory {
 		@Override
 		public void draw(Graphics graphics) {
 			
-			int x = this.x - (drawable.getWidth() / 2);
-			int y = this.y - (drawable.getHeight() / 2);
+			int x = CoordinateConverter.toPixelX(body.getPosition().x) - (drawable.getWidth() / 2);
+			int y = CoordinateConverter.toPixelY(body.getPosition().y) - (drawable.getHeight() / 2);
 			
 			graphics.draw(drawable, x, y);
 		}

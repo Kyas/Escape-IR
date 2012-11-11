@@ -1,5 +1,6 @@
 package fr.escape.game.entity.ships;
 
+import java.awt.Rectangle;
 import java.util.List;
 
 import org.jbox2d.dynamics.Body;
@@ -57,4 +58,5 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	@Override
 	public void receive(int message);
 
+	public Rectangle getEdge();
 }
