@@ -12,7 +12,9 @@
 package fr.escape.resources.scenario;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
+import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.scenario.Scenario;
 import fr.escape.resources.ResourcesLoader;
 
@@ -25,9 +27,29 @@ public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	
 	public static final String EARTH_1 = "earth_1.scn";
 	
+	private ShipFactory factory;
+	
 	@Override
 	public Path getPath() {
 		return PATH.resolve("scenario");
+	}
+	
+	/**
+	 * Add a Ship Factory for this Scenario.
+	 * 
+	 * @param sf Ship Factory
+	 */
+	public void addShipCreator(ShipFactory sf) {
+		factory = Objects.requireNonNull(sf);
+	}
+	
+	/**
+	 * Get the Ship Factory for this Scenario.
+	 * 
+	 * @return Ship Factory
+	 */
+	protected ShipFactory getShipCreator() {
+		return factory;
 	}
 	
 }

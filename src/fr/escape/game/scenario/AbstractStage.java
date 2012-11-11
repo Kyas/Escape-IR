@@ -6,17 +6,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
+import fr.escape.game.entity.EntityContainer;
+
 public abstract class AbstractStage implements Stage {
 
 	private final List<Scenario> active;
 	private final TreeMap<Integer, Scenario> waiting;
+	private final EntityContainer container;
 	
 	private int lastTime;
 	
-	public AbstractStage() {
-		active = new LinkedList<>();
-		waiting = new TreeMap<>();
-		lastTime = -1;
+	public AbstractStage(EntityContainer container) {
+		this.container = container;
+		this.active = new LinkedList<>();
+		this.waiting = new TreeMap<>();
+		this.lastTime = -1;
 	}
 	
 	public List<Scenario> getActiveScenario() {
@@ -73,9 +77,11 @@ public abstract class AbstractStage implements Stage {
 		
 		while(it.hasNext()) {
 			Scenario scenario = it.next();
+			scenario.setContainer(container);
 			active.add(scenario);
 			it.remove();
 		}
 		
 	}
+	
 }

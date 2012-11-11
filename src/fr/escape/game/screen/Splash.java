@@ -74,7 +74,7 @@ public class Splash implements Screen {
 		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		//this.background = new ScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		
-		stage = new Earth();
+		stage = new Earth(game.getShipFactory(), game.getEntityContainer());
 		stage.start();
 		
 //		Shot one = ShotFactory.createMissileShot(this.eContainer);

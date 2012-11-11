@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.scenario.Scenario;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.font.FontLoader;
@@ -164,15 +165,18 @@ public final class Resources {
 	 * Load and return Scenario from {@link ResourcesLoader}
 	 * 
 	 * @param name Scenario name
+	 * @param factory Ship Factory for Scenario
 	 * @return Scenario
 	 * @throws NoSuchElementException
 	 */
-	public Scenario getScenario(String name) {
+	public Scenario getScenario(String name, ShipFactory factory) {
 		Objects.requireNonNull(name);
+		Objects.requireNonNull(factory);
 		checkIfLoaded();
 		try {
 			
 			ScenarioLoader loader = scenarioLoader.get(name);
+			loader.addShipCreator(factory);
 			return loader.load();
 			
 		} catch(Exception e) {
@@ -245,7 +249,7 @@ public final class Resources {
 			public Scenario load() throws Exception {
 				if(scenario == null) {
 					Foundation.ACTIVITY.debug(TAG, "Load Scenario: "+scenarioID);
-					scenario = ScenarioParser.parse(getPath().resolve(scenarioID).toFile());
+					scenario = ScenarioParser.parse(getShipCreator(), getPath().resolve(scenarioID).toFile());
 				}
 				return scenario;
 			}

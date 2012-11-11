@@ -39,12 +39,13 @@ public final class ScenarioParser {
 	 * <p>
 	 * Parse the given file and return a {@link Scenario}.
 	 * 
+	 * @param factory Ship Factory for Scenario
 	 * @param file File to parse
 	 * @return Scenario
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static Scenario parse(File file) throws FileNotFoundException, IOException {
+	public static Scenario parse(ShipFactory factory, File file) throws FileNotFoundException, IOException {
 
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		
@@ -66,8 +67,6 @@ public final class ScenarioParser {
 					
 				} else {
 					
-					System.out.println(section);
-					
 					switch(section) {
 						case 1: {
 							section1(line, config);
@@ -78,7 +77,7 @@ public final class ScenarioParser {
 							break;
 						}
 						case 3: {
-							section3(line, config);
+							section3(line, config, factory);
 							break;
 						}
 						case 4: {
@@ -117,7 +116,7 @@ public final class ScenarioParser {
 		}
 	}
 	
-	private static void section3(String line, ScenarioConfiguration configuration) throws IOException {
+	private static void section3(String line, ScenarioConfiguration configuration, ShipFactory factory) throws IOException {
 		try {
 			
 			String[] inputConfig = line.split("\\s+");
@@ -127,7 +126,9 @@ public final class ScenarioParser {
 			float shipX = Float.parseFloat(inputConfig[SECTION_2_SHIP_X]);
 			float shipY = Float.parseFloat(inputConfig[SECTION_2_SHIP_Y]);
 			
-			// ShipFactory sf;
+			Ship ship = factory.createShipForScenario(shipType, shipX, shipY);
+			
+			configuration.addShip(shipID, ship);
 			
 		} catch(Exception e) {
 			throw new IOException(EXCEPTION_MESSAGE, e);

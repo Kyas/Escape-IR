@@ -1,10 +1,14 @@
 package fr.escape.game.scenario;
 
+import fr.escape.game.entity.EntityContainer;
+
 public interface Scenario {
 	
 	public int getID();
 	
 	public int getStart();
+	
+	public boolean setContainer(EntityContainer container);
 	
 	public boolean hasFinished();
 	
@@ -14,6 +18,5 @@ public interface Scenario {
 	 * @param time Seconds elapsed since beginning of the Game.
 	 */
 	public void action(int time);
-	// TODO Destroy / Move / Fire
 	
 }
