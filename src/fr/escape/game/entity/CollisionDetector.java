@@ -44,6 +44,10 @@ public final class CollisionDetector implements ContactListener {
 				break;
 			//NPCShip
 			case 0x0004 :
+				if(typeB == 0x0008) {
+					Shot shot = (Shot) entityB;
+					shot.receive(AbstractShot.MESSAGE_HIT);
+				}
 				System.out.println("Destroy both entity");
 				/*entityA.toDestroy();*/
 				if(typeB == 0x0002) System.out.println("Player lost a life");
@@ -51,6 +55,8 @@ public final class CollisionDetector implements ContactListener {
 				break;
 			//Shot
 			case 0x0008 :
+				Shot shot = (Shot) entityB;
+				shot.receive(AbstractShot.MESSAGE_HIT);
 				System.out.println("Shot hit & destroy the other entity");
 				if(typeB == 0x0002) System.out.println("Player lost a life");
 				break;

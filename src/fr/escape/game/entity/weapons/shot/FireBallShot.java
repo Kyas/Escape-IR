@@ -76,10 +76,7 @@ public final class FireBallShot extends AbstractShot {
 				
 				break;
 			}
-			case Shot.MESSAGE_HIT: {
-	
-				break;
-			}
+			case Shot.MESSAGE_HIT:
 			case Shot.MESSAGE_DESTROY: {
 				
 				isVisible = false;

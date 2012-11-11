@@ -41,10 +41,7 @@ public class MissileShot extends AbstractShot {
 				
 				break;
 			}
-			case Shot.MESSAGE_HIT: {
-	
-				break;
-			}
+			case Shot.MESSAGE_HIT:
 			case Shot.MESSAGE_DESTROY: {
 				
 				isVisible = false;
