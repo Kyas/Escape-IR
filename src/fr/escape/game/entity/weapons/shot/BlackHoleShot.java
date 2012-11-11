@@ -57,6 +57,7 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 			case MESSAGE_FIRE: {
+				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 				drawLeftAndRightHelix = true;
 				setShapeRadius();
 				break;

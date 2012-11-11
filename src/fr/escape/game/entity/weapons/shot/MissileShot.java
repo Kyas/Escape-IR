@@ -17,7 +17,6 @@ public class MissileShot extends AbstractShot {
 	private final Texture coreMissile;
 	
 	private boolean isVisible;
-	private long timer;
 
 	public MissileShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
 		super(body, edgeNotifier, killNotifier);
@@ -34,7 +33,7 @@ public class MissileShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
-				
+				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 				break;
 			}
 			case Shot.MESSAGE_CRUISE: {
@@ -77,7 +76,7 @@ public class MissileShot extends AbstractShot {
 
 	@Override
 	public void update(Graphics graphics, long delta) {
-		timer += delta;
+		
 		draw(graphics);
 		
 		if(!getEdgeNotifier().isInside(getEdge())) {

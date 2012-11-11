@@ -8,7 +8,6 @@ import org.jbox2d.dynamics.Body;
 import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.Moveable;
-import fr.escape.game.entity.Updateable;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.message.Receiver;
 

@@ -16,7 +16,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Objects;
 
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;

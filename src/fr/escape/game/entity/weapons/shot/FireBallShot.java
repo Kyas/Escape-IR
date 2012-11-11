@@ -57,8 +57,8 @@ public final class FireBallShot extends AbstractShot {
 			radiusSize = getRadiusEffectSize();
 			PolygonShape shape = new PolygonShape();
 			shape.setAsBox(radiusSize, radiusSize);
-			System.out.println(shape);
 			getBody().getFixtureList().m_shape = shape;
+			//if(radiusSize < 1) getBody().getPosition().y -= 0.0025f;
 		}
 		
 		if(!getEdgeNotifier().isInside(getEdge())) {
@@ -76,6 +76,7 @@ public final class FireBallShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
+				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 				radiusGrown = false;
 				break;
 			}
