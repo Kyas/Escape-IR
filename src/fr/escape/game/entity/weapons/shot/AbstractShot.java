@@ -43,6 +43,8 @@ public abstract class AbstractShot implements Shot {
 	@Override
 	public void moveBy(float[] velocity) {
 		if(body.isActive()) {
+			System.out.println("Velocity : " + velocity[0]);
+			setRotation((int)velocity[0]);
 			body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
 		}
 	}

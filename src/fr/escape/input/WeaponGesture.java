@@ -16,7 +16,10 @@ public final class WeaponGesture implements Gesture {
 		float distanceX = CoordinateConverter.toMeterX(end.getX() - start.getX());
 		float distanceY = CoordinateConverter.toMeterX(end.getY() - start.getY());
 		
-		velocity[0] = 1000.f;
+		double cd = (double) (end.getY() - start.getY()) / (end.getX() - start.getX());
+		float angle = - (float) (180 * (Math.atan(cd) - Math.atan(0)) / Math.PI);
+		
+		velocity[0] = (angle < 0)?270-angle:90-angle;
 		float max = Math.max(Math.abs(distanceX), Math.abs(distanceY));
 		float coeff = COEFFICIENT / max;
 		
