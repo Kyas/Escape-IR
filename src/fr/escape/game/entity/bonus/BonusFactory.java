@@ -17,6 +17,7 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
+import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
@@ -62,7 +63,7 @@ public final class BonusFactory {
 		Bonus bonus;
 		if(isBlackHoleBonus()) {
 		
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec, ec) {
 				
 				@Override
 				public int getWeapon() {
@@ -78,7 +79,7 @@ public final class BonusFactory {
 			
 		} else if(isFireballBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_FIREBALL), ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_FIREBALL), ec, ec) {
 				
 				@Override
 				public int getWeapon() {
@@ -94,7 +95,7 @@ public final class BonusFactory {
 			
 		} else if(isShiboleetBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET), ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET), ec, ec) {
 				
 				@Override
 				public int getWeapon() {
@@ -110,7 +111,7 @@ public final class BonusFactory {
 			
 		} else if(isMissileBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE), ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE), ec, ec) {
 				
 				@Override
 				public int getWeapon() {
@@ -160,22 +161,20 @@ public final class BonusFactory {
 	}
 	
 	private static abstract class AbstractBonus implements Bonus {
+		private static int COEFFICIENT = 3;
 		
 		private final Texture drawable;
-		private final EdgeNotifier notifier;
+		private final EdgeNotifier eNotifier;
+		private final KillNotifier kNotifier;
 		
 		private final Body body;
 		
-		private int x;
-		private int y;
-		
-		public AbstractBonus(Body body,Texture drawable, EdgeNotifier notifier) {
+		public AbstractBonus(Body body,Texture drawable, EdgeNotifier eNotifier, KillNotifier kNotifier) {
 			
 			this.body = body;
 			this.drawable = drawable;
-			this.notifier = notifier;
-			this.x = 0;
-			this.y = 0;
+			this.eNotifier = eNotifier;
+			this.kNotifier = kNotifier;
 			
 		}
 
@@ -193,13 +192,13 @@ public final class BonusFactory {
 		
 		@Override
 		public void moveTo(float x, float y) {
-			// TODO
-			/*this.x = x;
-			this.y = y;
+			float distanceX = x - getX();
+			float distanceY = y - getY();
 			
-			if(!notifier.isInside(getEdge())) {
-				notifier.edgeReached(this);
-			}*/
+			float max = Math.max(Math.abs(distanceX), Math.abs(distanceY));
+			float coeff = COEFFICIENT / max;
+			
+			body.setLinearVelocity(new Vec2(distanceX * coeff, distanceY * coeff));
 		}
 		
 		@Override
@@ -208,9 +207,20 @@ public final class BonusFactory {
 		}
 		
 		public Rectangle getEdge() {
+			int x = CoordinateConverter.toPixelX(getX());
+			int y = CoordinateConverter.toPixelY(getY());
+			
 			return new Rectangle(x - (drawable.getWidth() / 2), y - (drawable.getHeight() / 2), drawable.getWidth(), drawable.getHeight());
 		}
 		
+		private float getX() {
+			return body.getPosition().x;
+		}
+
+		private float getY() {
+			return body.getPosition().y;
+		}
+
 		@Override
 		public void draw(Graphics graphics) {
 			
@@ -223,8 +233,8 @@ public final class BonusFactory {
 		@Override
 		public void update(Graphics graphics, long delta) {
 			draw(graphics);
-			if(!notifier.isInside(getEdge())) {
-				notifier.edgeReached(this);
+			if(!eNotifier.isInside(getEdge())) {
+				eNotifier.edgeReached(this);
 			}
 		}
 		
@@ -235,7 +245,7 @@ public final class BonusFactory {
 
 		@Override
 		public void toDestroy() {
-			// TODO 
+			kNotifier.destroy(this);
 		}
 	}
 	
