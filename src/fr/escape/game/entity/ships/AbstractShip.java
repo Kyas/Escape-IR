@@ -107,7 +107,6 @@ public abstract class AbstractShip implements Ship {
 		int y = CoordinateConverter.toPixelY(body.getPosition().y) - (coreShip.getHeight() / 2);
 		
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight());
-		getActiveWeapon().draw(graphics);
 		//graphics.draw(getEdge(), Color.RED);
 		
 		graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)),Color.CYAN);
@@ -134,6 +133,7 @@ public abstract class AbstractShip implements Ship {
 		}
 		
 		draw(graphics);
+		getActiveWeapon().update(graphics, delta);
 		
 		if(!eNotifier.isInside(getEdge())) {
 			eNotifier.edgeReached(this);
@@ -221,8 +221,7 @@ public abstract class AbstractShip implements Ship {
 			if(shot != null) {
 				shot.moveBy(tmp);
 			}
-			
-			draw(graphics);
+
 		}
 	}
 	

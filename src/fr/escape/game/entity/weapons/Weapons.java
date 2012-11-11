@@ -31,7 +31,7 @@ public class Weapons {
 		
 		List<Weapon> list = new ArrayList<>(4);
 		
-		Weapon wB = new AbstractShot(
+		Weapon wB = new AbstractWeapon(
 				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE), 
 				entityContainer, shotFactory, BLACKHOLE_DEFAULT_AMMUNITION) {
 			
@@ -43,7 +43,7 @@ public class Weapons {
 		};
 		Weapons.validate(wB);
 		
-		Weapon wF = new AbstractShot(
+		Weapon wF = new AbstractWeapon(
 				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL), 
 				entityContainer, shotFactory, FIREBALL_DEFAULT_AMMUNITION) {
 			
@@ -55,7 +55,7 @@ public class Weapons {
 		};
 		Weapons.validate(wF);
 		
-		Weapon wS = new AbstractShot(
+		Weapon wS = new AbstractWeapon(
 				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET), 
 				entityContainer, shotFactory, SHIBOLEET_DEFAULT_AMMUNITION) {
 			
@@ -67,7 +67,7 @@ public class Weapons {
 		};
 		Weapons.validate(wS);
 		
-		Weapon wM = new AbstractShot(
+		Weapon wM = new AbstractWeapon(
 				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE), 
 				entityContainer, shotFactory, MISSILE_DEFAULT_AMMUNITION) {
 			

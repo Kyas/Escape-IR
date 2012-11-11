@@ -9,7 +9,7 @@ import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
 
-public abstract class AbstractShot implements Weapon {
+public abstract class AbstractWeapon implements Weapon {
 	
 	private final Texture drawable;
 	private final EntityContainer container;
@@ -18,7 +18,7 @@ public abstract class AbstractShot implements Weapon {
 	private int ammunition;
 	private Shot shot;
 	
-	public AbstractShot(Texture texture, EntityContainer eContainer, ShotFactory sFactory, int defaultAmmunition) {
+	public AbstractWeapon(Texture texture, EntityContainer eContainer, ShotFactory sFactory, int defaultAmmunition) {
 		drawable = Objects.requireNonNull(texture);
 		container = Objects.requireNonNull(eContainer);
 		factory = Objects.requireNonNull(sFactory);
@@ -85,14 +85,14 @@ public abstract class AbstractShot implements Weapon {
 	public Shot getShot() {
 		return shot;
 	}
-
+	
 	@Override
-	public void draw(Graphics graphics) {
+	public void update(Graphics graphics, long delta) {
 		if(shot != null) {
-			shot.draw(graphics);
+			shot.update(graphics, delta);
 		}
 	}
-
+	
 	@Override
 	public boolean unload() {
 		if(shot != null) {

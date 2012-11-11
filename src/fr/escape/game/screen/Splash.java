@@ -133,6 +133,10 @@ public class Splash implements Screen {
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		
+		game.getUser().getShip().update(game.getGraphics(), delta);
+		
+		// TODO THOMAS ?
 		game.getUser().getShip().moveBy(velocity);
 
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);

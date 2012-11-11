@@ -34,7 +34,7 @@ import fr.escape.game.entity.notifier.KillNotifier;
  * 
  */
 // TODO Comment
-public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier {
+public final class EntityContainer implements Updateable, KillNotifier, EdgeNotifier {
 
 	private static final String TAG = EntityContainer.class.getSimpleName();
 	
@@ -125,16 +125,6 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 		}
 		destroyed.clear();
 		return true;
-	}
-
-	@Override
-	public Body getBody() {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
-	public void toDestroy() {
-		throw new UnsupportedOperationException();
 	}
 
 	public boolean reset() {

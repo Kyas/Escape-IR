@@ -1,5 +1,6 @@
 package fr.escape.game.entity.weapons.shot;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.dynamics.Body;
@@ -15,7 +16,7 @@ import fr.escape.resources.texture.TextureLoader;
 public final class FireBallShot extends AbstractShot {
 
 	private static final int FIREBALL_SPEED = 4000;
-	private static final float MINIMAL_RADIUS = 0.3f;
+	private static final float MINIMAL_RADIUS = 0.4f;
 	
 	private final Texture coreBall;
 	private final Texture radiusEffect;
@@ -41,7 +42,7 @@ public final class FireBallShot extends AbstractShot {
 		if(isVisible) {
 			drawCoreBall(graphics);
 			drawRadiusEffect(graphics, (int) (timer % 100)*10);
-			//graphics.draw(getEdge(), Color.RED);
+			graphics.draw(getEdge(), Color.RED);
 		}
 	}
 
@@ -51,13 +52,14 @@ public final class FireBallShot extends AbstractShot {
 		timer += delta;
 		draw(graphics);
 		
+		if(radiusGrown) {
+			radiusSize = getRadiusEffectSize();
+		}
+		
 		if(!getEdgeNotifier().isInside(getEdge())) {
 			getEdgeNotifier().edgeReached(this);
 		}
 		
-		if(radiusGrown) {
-			radiusSize = getRadiusEffectSize();
-		}
 	}
 
 	@Override
@@ -81,6 +83,7 @@ public final class FireBallShot extends AbstractShot {
 				
 				isVisible = false;
 				
+				// TODO Remove ?
 				Foundation.ACTIVITY.post(new Runnable() {
 					
 					@Override
@@ -98,6 +101,7 @@ public final class FireBallShot extends AbstractShot {
 	@Override
 	// TODO Finish
 	protected Rectangle getEdge() {
+		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
@@ -105,6 +109,7 @@ public final class FireBallShot extends AbstractShot {
 	}
 
 	private void drawCoreBall(Graphics graphics) {
+		
 		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreBall.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreBall.getHeight() / 2;
 		
@@ -112,11 +117,12 @@ public final class FireBallShot extends AbstractShot {
 	}
 	
 	private void drawRadiusEffect(Graphics graphics, int random) {
+		
 		int width = (int) (radiusEffect.getWidth() * radiusSize);
 		int height = (int) (radiusEffect.getHeight() * radiusSize);
 		
-		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreBall.getWidth() / 2;
-		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreBall.getHeight() / 2;
+		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - (width / 2);
+		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (height / 2);
 		
 		graphics.draw(radiusEffect, x, y, x + width, y + height, random);
 	}

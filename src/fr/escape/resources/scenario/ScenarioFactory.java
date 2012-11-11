@@ -26,12 +26,14 @@ final class ScenarioFactory {
 	static Scenario create(final ScenarioConfiguration scenario) {
 		return new Scenario() {
 			
+			private final String tag = "Scenario#"+scenario.getID();
+			
 			private final int id = scenario.getID();
 			private final int start = scenario.getTime();
 			private final HashMap<Integer, Ship> ships = scenario.getShip();
 			private final HashSet<Integer> spawns = new HashSet<Integer>();
 			private final String[] script = scenario.getScript();
-
+			
 			private EntityContainer container;
 			private int cursor = 0;
 
@@ -49,14 +51,14 @@ final class ScenarioFactory {
 					return true;
 				}
 
+				// Check if we need to remove some Ship from Scenario
 				Iterator<Entry<Integer, Ship>> it = ships.entrySet().iterator();
-
 				while (it.hasNext()) {
 
 					Entry<Integer, Ship> row = it.next();
 
 					if(spawns.contains(row.getKey()) && !getContainer().contains(row.getValue())) {
-						Foundation.ACTIVITY.debug("Scenario#"+getID(), "Remove "+row.getValue());
+						Foundation.ACTIVITY.debug(tag, "Remove "+row.getValue());
 						spawns.remove(row.getKey());
 						it.remove();
 					}
@@ -83,8 +85,6 @@ final class ScenarioFactory {
 			@Override
 			public void action(int time) {
 
-				System.out.println(ships.toString());
-
 				while(!endOfScript() && execute(script[cursor], time)) {
 					cursor++;
 				}
@@ -109,26 +109,27 @@ final class ScenarioFactory {
 					String[] commandArgs = commandArray[COMMAND_ARGS].split("\\s+");
 
 					switch(commandArray[COMMAND_ACTION]) {
-					case "spawn": {
-						spawn(commandArgs);
-						break;
-					}
-					case "move": {
-						move(commandArgs);
-						break;
-					}
-					case "fire":  {
-						fire(commandArgs);
-						break;
-					}
-					default: {
-						throw new IllegalArgumentException("Unknwon Command");
-					}
+						case "spawn": {
+							spawn(commandArgs);
+							break;
+						}
+						case "move": {
+							move(commandArgs);
+							break;
+						}
+						case "fire":  {
+							fire(commandArgs);
+							break;
+						}
+						default: {
+							throw new IllegalArgumentException("Unknwon Command");
+						}
 					}
 
 				} catch(Exception e) {
 					Foundation.ACTIVITY.error("Scenario - "+getID(), "An error has occurred", e);
 				}
+				
 				return true;
 			}
 
@@ -164,7 +165,7 @@ final class ScenarioFactory {
 
 				Ship ship = Objects.requireNonNull(ships.get(shipID));
 				
-				System.out.println(ship);
+				Foundation.ACTIVITY.debug(tag, "Spawn "+ship);
 				spawns.add(shipID);
 				
 				ship.getBody().setActive(true);
