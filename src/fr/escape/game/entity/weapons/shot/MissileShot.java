@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Body;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
@@ -19,8 +20,8 @@ public class MissileShot extends AbstractShot {
 	private boolean isVisible;
 	private long timer;
 
-	public MissileShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
-		super(body, edgeNotifier, killNotifier);
+	public MissileShot(Body body, EntityContainer container) {
+		super(body, container, container);
 		
 		this.coreMissile = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 		this.isVisible = false;

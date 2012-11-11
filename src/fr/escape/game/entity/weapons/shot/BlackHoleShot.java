@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.Body;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
@@ -32,8 +33,8 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	private long timer;
 	
-	public BlackHoleShot(Body body,EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
-		super(body,edgeNotifier, killNotifier);
+	public BlackHoleShot(Body body, EntityContainer container) {
+		super(body, container, container);
 		
 		this.isVisible = false;
 		this.drawCoreHelix = false;
