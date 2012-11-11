@@ -3,6 +3,7 @@ package fr.escape.game.entity.weapons.shot;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
@@ -54,6 +55,10 @@ public final class FireBallShot extends AbstractShot {
 		
 		if(radiusGrown) {
 			radiusSize = getRadiusEffectSize();
+			PolygonShape shape = new PolygonShape();
+			shape.setAsBox(radiusSize, radiusSize);
+			System.out.println(shape);
+			getBody().getFixtureList().m_shape = shape;
 		}
 		
 		if(!getEdgeNotifier().isInside(getEdge())) {
