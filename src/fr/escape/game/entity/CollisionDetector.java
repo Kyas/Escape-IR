@@ -6,44 +6,61 @@ import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.contacts.Contact;
 
+import fr.escape.app.Foundation;
 import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 
 // TODO Comment
 public final class CollisionDetector implements ContactListener {
 
+	public static final int BONUS_TYPE = 0x000F;
+	public static final int PLAYER_TYPE = 0x0002;
+	public static final int SHOT_TYPE = 0x0008;
+	
+	private static final String TAG = CollisionDetector.class.getSimpleName();
+	
 	@Override
 	public void beginContact(Contact arg0) {
+		
 		Entity entityA = (Entity) arg0.getFixtureA().getBody().getUserData();
 		Entity entityB = (Entity) arg0.getFixtureB().getBody().getUserData();
 		
 		int typeA = arg0.getFixtureA().getFilterData().categoryBits;
 		int typeB = arg0.getFixtureB().getFilterData().categoryBits;
 		
+		// TODO Remove it and use an Interface instead.
 		switch (typeA) {
-			//PlayerShip
-			case 0x0002 :
+			/**
+			 * Player Ship
+			 */
+			case PLAYER_TYPE: {
 				switch(typeB) {
-					case 0x0008 : 
+					case SHOT_TYPE: {
 						Shot shot = (Shot) entityB;
 						shot.receive(AbstractShot.MESSAGE_HIT);
 						System.out.println("Hit by shot, you lost a life");
 						/*entityA.toDestroy();*/
 						break;
-					case 0x000F : 
+					}
+					case BONUS_TYPE: {
 						/*Bonus bonus = (Bonus) entityB;
 						Ship ship = (Ship) entityA;*/
 						entityB.toDestroy();
 						System.out.println("Add ammunitions + desactivate bonus");
 						break;
-					default : 
+					}
+					default: {
 						/*entityA.toDestroy();*/
 						entityB.toDestroy();
-						System.out.println("Hit by something, you lost a life");
+						error("Hit by unknown contact, player lost a life anyway");
 						break;
+					}
 				}
 				break;
-			//NPCShip
+			}
+			/**
+			 * NPC Ship
+			 */
 			case 0x0004 :
 				if(typeB == 0x0008) {
 					Shot shot = (Shot) entityB;
@@ -57,7 +74,9 @@ public final class CollisionDetector implements ContactListener {
 					entityB.toDestroy();
 				}
 				break;
-			//Shot
+			/**
+			 * Shot
+			 */
 			case 0x0008 :
 				Shot shot = (Shot) entityA;
 				shot.receive(AbstractShot.MESSAGE_HIT);
@@ -68,13 +87,33 @@ public final class CollisionDetector implements ContactListener {
 					entityB.toDestroy();
 				}
 				break;
-			//Bonus
-			case 0x000F :
-				System.out.println("Touch player - desactivate + add ammo");
-				entityA.toDestroy();
-				break;
+			/**
+			 * Bonus
+			 */
+			case BONUS_TYPE: {
+				switch(typeB) {
+					case PLAYER_TYPE: {
+						debug("Touch player - desactivate + add ammo");
+						entityA.toDestroy();
+						break;
+					}
+					default: {
+						error("Unknown touch contact {"+entityA+", "+entityB+"}");
+						entityA.toDestroy();
+						break;
+					}
+				}
+			}
 		}
 		
+	}
+
+	private void debug(String message) {
+		Foundation.ACTIVITY.debug(TAG, message);
+	}
+	
+	private void error(String message) {
+		Foundation.ACTIVITY.error(TAG, message);
 	}
 
 	@Override
