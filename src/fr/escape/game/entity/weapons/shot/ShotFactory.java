@@ -145,7 +145,7 @@ public final class ShotFactory {
 		body.createFixture(fixture);
 		body.setActive(false);
 
-		Shot shot = new ShiboleetShot(body, entityContainer);
+		Shot shot = new ShiboleetShot(body, entityContainer, this);
 		
 		body.setUserData(shot);
 		
