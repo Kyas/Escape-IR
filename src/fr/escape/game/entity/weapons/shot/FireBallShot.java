@@ -110,7 +110,15 @@ public final class FireBallShot extends AbstractShot {
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
-		return new Rectangle(x - (coreBall.getWidth() / 2), y - (coreBall.getHeight() / 2), coreBall.getWidth(), coreBall.getHeight());
+		int width = (int) (radiusEffect.getWidth() * radiusSize);
+		int height = (int) (radiusEffect.getHeight() * radiusSize);
+		
+		// In case of Fire Radius is lower than CoreBall
+		width = Math.max(width, coreBall.getWidth());
+		height = Math.max(height, coreBall.getHeight());
+		
+		
+		return new Rectangle(x - (width / 2), y - (height / 2), width, height);
 	}
 
 	private void drawCoreBall(Graphics graphics) {
@@ -130,6 +138,7 @@ public final class FireBallShot extends AbstractShot {
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (height / 2);
 		
 		graphics.draw(radiusEffect, x, y, x + width, y + height, random);
+		
 	}
 	
 	private float getRadiusEffectSize() {
