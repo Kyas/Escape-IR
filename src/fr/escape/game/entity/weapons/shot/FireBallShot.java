@@ -2,18 +2,14 @@ package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.Fixture;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.notifier.EdgeNotifier;
-import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
@@ -60,13 +56,7 @@ public final class FireBallShot extends AbstractShot {
 			radiusSize = getRadiusEffectSize();
 			PolygonShape shape = new PolygonShape();
 			shape.setAsBox(radiusSize, radiusSize);
-			
-			Fixture f = getBody().getFixtureList();
-			
-			// TODO Fixture qui plante et renvoie null
-			Objects.requireNonNull(f);
-			Objects.requireNonNull(shape);
-			
+
 			getBody().getFixtureList().m_shape = shape;
 		}
 		
@@ -85,6 +75,7 @@ public final class FireBallShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
+				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 				radiusGrown = false;
 				break;
 			}

@@ -8,8 +8,6 @@ import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.notifier.EdgeNotifier;
-import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
@@ -18,7 +16,6 @@ public class MissileShot extends AbstractShot {
 	private final Texture coreMissile;
 	
 	private boolean isVisible;
-	private long timer;
 
 	public MissileShot(Body body, EntityContainer container) {
 		super(body, container, container);
@@ -35,7 +32,7 @@ public class MissileShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
-				
+				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 				break;
 			}
 			case Shot.MESSAGE_CRUISE: {
@@ -78,7 +75,7 @@ public class MissileShot extends AbstractShot {
 
 	@Override
 	public void update(Graphics graphics, long delta) {
-		timer += delta;
+		
 		draw(graphics);
 		
 		if(!getEdgeNotifier().isInside(getEdge())) {

@@ -6,6 +6,7 @@ import fr.escape.app.Input;
 
 // TODO Comment
 public final class BackOff implements Gesture {
+	private final static int COEFFICIENT = 3;
 
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end,float[] velocity) {
@@ -30,9 +31,9 @@ public final class BackOff implements Gesture {
       			else if(start.getX() > end.getX() && (event.getY() > yUp || event.getY() < yDown)) return false;
       		}
       		
-      		velocity[0] = (end.getY() - start.getY()) / 10;
+      		velocity[0] = (end.getY() - start.getY()) / COEFFICIENT;
       		velocity[1] = 0.0f;
-      		velocity[2] = 1.5f;
+      		velocity[2] = 2.0f;
       		
       		return true;
   		}

@@ -8,9 +8,10 @@ import fr.escape.app.Input;
 public final class Drift implements Gesture {
 
 	private static int DEFAULT_FAULT_TOLERANCE = 30;
+	private final static int COEFFICIENT = 3;
 	private static double COEFFICIENT_A = 0.3;
 	private static double COEFFICIENT_B = 1.7;
-	private static float VELOCITY = -0.5f;
+	private static float VELOCITY = -2.0f;
 	
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {
@@ -48,7 +49,7 @@ public final class Drift implements Gesture {
 
 			}
 
-			velocity[0] = ((isRight)?((end.getX() - start.getX()) / 10):((start.getX() - end.getX()) / 10));
+			velocity[0] = ((isRight)?((end.getX() - start.getX()) / COEFFICIENT):((start.getX() - end.getX()) / COEFFICIENT));
 			velocity[1] = ((isRight)?(-VELOCITY):(VELOCITY));
 			velocity[2] = VELOCITY;
 

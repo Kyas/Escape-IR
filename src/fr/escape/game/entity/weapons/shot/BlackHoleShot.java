@@ -9,8 +9,6 @@ import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.notifier.EdgeNotifier;
-import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
@@ -58,6 +56,7 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 			case MESSAGE_FIRE: {
+				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
 				drawLeftAndRightHelix = true;
 				setShapeRadius();
 				break;

@@ -17,7 +17,7 @@ import fr.escape.resources.texture.TextureLoader;
 // TODO Comment
 public final class ShotFactory {
 	
-	private static final int MASK = 0x0002 | 0x0004 | 0x000F;
+	private static final int MASK = 0x0001;
 	
 	private final World world;
 	private final EntityContainer entityContainer;

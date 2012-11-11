@@ -1,9 +1,6 @@
 package fr.escape.game.entity.weapons;
 
 import fr.escape.app.Graphics;
-import fr.escape.game.entity.Drawable;
-import fr.escape.game.entity.Entity;
-import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.Updateable;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.Texture;
