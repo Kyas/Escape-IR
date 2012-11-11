@@ -10,8 +10,9 @@
 5 spawn 1
 5 move 1 9.0 0.2
 5 fire 1
-6 spawn 0
-6 move 1 9.0 2.2
-6 spawn 2
-6 move 1 0.1 2.2
+6 move 1 5.0 0.7
+8 spawn 0
+8 move 1 9.0 2.2
+8 spawn 2
+8 move 1 0.1 2.2
 %%

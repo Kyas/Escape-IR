@@ -97,13 +97,13 @@ public class Splash implements Screen {
 		//TODO remove after test
         
         Ship s1 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(0),false);
-        s1.moveTo(game.getGraphics(), new float[]{1000.0f,0.0f,0.5f});
+        s1.moveBy(new float[]{1000.0f,0.0f,0.5f});
         Ship s2 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(600),false);
-        s2.moveTo(game.getGraphics(), new float[]{1000.0f,0.0f,-1.0f});
+        s2.moveBy(new float[]{1000.0f,0.0f,-1.0f});
         Ship s3 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(0),CoordinateConverter.toMeterY(300),false);
-        s3.moveTo(game.getGraphics(), new float[]{1000.0f,1.0f,0.0f});
+        s3.moveBy(new float[]{1000.0f,1.0f,0.0f});
         Ship s4 = game.getShipFactory().createRegularShip(CoordinateConverter.toMeterX(400),CoordinateConverter.toMeterY(300),false);
-        s4.moveTo(game.getGraphics(), new float[]{1000.0f,-1.0f,0.0f});
+        s4.moveBy(new float[]{1000.0f,-1.0f,0.0f});
         
         game.getEntityContainer().push(s1); game.getEntityContainer().push(s2); game.getEntityContainer().push(s3); game.getEntityContainer().push(s4);
         /*for(int i = 0; i < 2; i++) {
@@ -137,7 +137,7 @@ public class Splash implements Screen {
 		background.setYPercent(percent);
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
-		game.getUser().getShip().moveTo(game.getGraphics(),velocity);
+		game.getUser().getShip().moveBy(velocity);
 
 		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
 		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
