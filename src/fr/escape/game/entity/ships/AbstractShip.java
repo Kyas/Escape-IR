@@ -103,7 +103,7 @@ public abstract class AbstractShip implements Ship {
 		
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight());
 		getActiveWeapon().draw(graphics);
-		graphics.draw(getEdge(), Color.RED);
+		//graphics.draw(getEdge(), Color.RED);
 		
 		graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)),Color.CYAN);
 	}

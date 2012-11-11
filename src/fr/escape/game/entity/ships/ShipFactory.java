@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -40,11 +40,8 @@ public class ShipFactory {
 		bodyDef.position.set(x, y);
 		bodyDef.type = BodyType.DYNAMIC;
 		
-		/*PolygonShape shape = new PolygonShape();
-		shape.setAsBox(shapeX, shapeY);*/
-		CircleShape shape = new CircleShape();
-		shape.m_p.set(shapeX, shapeY);
-		shape.m_radius = shapeY;
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
 		
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;

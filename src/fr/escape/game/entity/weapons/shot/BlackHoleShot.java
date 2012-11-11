@@ -1,9 +1,8 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
-import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
@@ -91,9 +90,7 @@ public final class BlackHoleShot extends AbstractShot {
 	}
 
 	private void setShapeRadius() {
-		float shapeX,shapeY,radius;
-		
-		System.out.println(getBody().getFixtureList().getShape().m_radius);
+		float shapeX, shapeY;
 		
 		if(drawEventHorizon) {
 			shapeX = CoordinateConverter.toMeterX(eventHorizon.getWidth() / 2);
@@ -105,15 +102,11 @@ public final class BlackHoleShot extends AbstractShot {
 			shapeX = CoordinateConverter.toMeterX(coreHelix.getWidth() / 2);
 			shapeY = CoordinateConverter.toMeterY(coreHelix.getHeight() / 2);
 		}
-		
-		radius = Math.max(shapeX,shapeY);
-		CircleShape shape = new CircleShape();
-		shape.m_p.set(shapeX, shapeY);
-		shape.m_radius = radius;
-		
+
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
 		
 		getBody().getFixtureList().m_shape = shape;
-		System.out.println(getBody().getFixtureList().getShape().m_radius);
 	}
 
 	@Override
@@ -146,7 +139,7 @@ public final class BlackHoleShot extends AbstractShot {
 				drawEventHorizon(graphics);
 			}
 			
-			graphics.draw(getEdge(), Color.RED);
+			//graphics.draw(getEdge(), Color.RED);
 		}
 	}
 

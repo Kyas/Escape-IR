@@ -1,5 +1,7 @@
 package fr.escape.game.entity.weapons;
 
+import java.util.Objects;
+
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
@@ -39,14 +41,14 @@ public final class FireBall implements Weapon {
 
 	@Override
 	public Shot getShot() {
-		// TODO Auto-generated method stub
-		return null;
+		return shot;
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
-		// TODO Auto-generated method stub
-		
+		if(shot != null) {
+			shot.draw(graphics);
+		}
 	}
 
 	@Override
@@ -64,13 +66,37 @@ public final class FireBall implements Weapon {
 
 	@Override
 	public boolean fire(World world, EntityContainer ec, float[] velocity) {
-		// TODO Auto-generated method stub
+		
+		if(shot != null) {
+			
+			// TODO
+			shot.setPosition(Foundation.GRAPHICS,velocity);
+			
+			Objects.requireNonNull(world).step(1.0f/60.0f, 6, 2);
+			
+			Objects.requireNonNull(ec).push(shot);
+			shot.receive(Shot.MESSAGE_FIRE);
+			
+			// TODO Apply Speed and Angle
+			shot.receive(Shot.MESSAGE_CRUISE);
+			
+			shot = null;
+			ammunition--;
+			
+			return true;
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean unload() {
-		// TODO Auto-generated method stub
+		
+		if(shot != null) {
+			shot.receive(Shot.MESSAGE_DESTROY);
+			shot = null;
+		}
+		
 		return false;
 	}
 

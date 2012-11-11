@@ -99,13 +99,13 @@ public class Splash implements Screen {
 		ShipFactory sf = new ShipFactory(game.getWorld(),eContainer,Weapons.createListOfWeapons());
 		
 		Ship s1 = sf.createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(0),false);
-		s1.setPosition(game.getGraphics(), new float[]{1000.0f,0.0f,0.2f});
+		s1.setPosition(game.getGraphics(), new float[]{1000.0f,0.0f,0.5f});
 		Ship s2 = sf.createRegularShip(CoordinateConverter.toMeterX(200),CoordinateConverter.toMeterY(600),false);
-		s2.setPosition(game.getGraphics(), new float[]{1000.0f,0.0f,-0.2f});
+		s2.setPosition(game.getGraphics(), new float[]{1000.0f,0.0f,-1.0f});
 		Ship s3 = sf.createRegularShip(CoordinateConverter.toMeterX(0),CoordinateConverter.toMeterY(300),false);
-		s3.setPosition(game.getGraphics(), new float[]{1000.0f,0.2f,0.0f});
+		s3.setPosition(game.getGraphics(), new float[]{1000.0f,1.0f,0.0f});
 		Ship s4 = sf.createRegularShip(CoordinateConverter.toMeterX(400),CoordinateConverter.toMeterY(300),false);
-		s4.setPosition(game.getGraphics(), new float[]{1000.0f,-0.2f,0.0f});
+		s4.setPosition(game.getGraphics(), new float[]{1000.0f,-1.0f,0.0f});
 		
 		eContainer.push(s1); eContainer.push(s2); eContainer.push(s3); eContainer.push(s4);
 		/*for(int i = 0; i < 2; i++) {

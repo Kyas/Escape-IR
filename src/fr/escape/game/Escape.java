@@ -108,7 +108,7 @@ public final class Escape extends Game implements LifeListener {
 			ingameUI.add(uWeapons);
 			
 			ShipFactory sf = new ShipFactory(world,null,lWeapons);
-			Ship ship = sf.createRegularShip(CoordinateConverter.toMeterX(getGraphics().getWidth()/2 ), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),true);
+			Ship ship = sf.createRegularShip(CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),true);
 
 			getUser().register(uHighscore);
 			
