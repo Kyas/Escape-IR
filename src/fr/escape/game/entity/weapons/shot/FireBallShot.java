@@ -2,9 +2,11 @@ package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.Fixture;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -58,7 +60,13 @@ public final class FireBallShot extends AbstractShot {
 			radiusSize = getRadiusEffectSize();
 			PolygonShape shape = new PolygonShape();
 			shape.setAsBox(radiusSize, radiusSize);
-			System.out.println(shape);
+			
+			Fixture f = getBody().getFixtureList();
+			
+			// TODO Fixture qui plante et renvoie null
+			Objects.requireNonNull(f);
+			Objects.requireNonNull(shape);
+			
 			getBody().getFixtureList().m_shape = shape;
 		}
 		
