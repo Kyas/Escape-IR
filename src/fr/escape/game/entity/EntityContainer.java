@@ -120,10 +120,10 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 	
 	public boolean flush() {
 		for(Entity e : destroyed) {
-			System.out.println("Remove: "+e);
-			remove(e);
+			Foundation.ACTIVITY.debug(TAG, "Remove Entity: "+e+" "+((remove(e)?"[DONE]":"[FAIL]")));
 			world.destroyBody(e.getBody());
 		}
+		destroyed.clear();
 		return true;
 	}
 

@@ -25,7 +25,7 @@ final class ScenarioFactory {
 
 	static Scenario create(final ScenarioConfiguration scenario) {
 		return new Scenario() {
-
+			
 			private final int id = scenario.getID();
 			private final int start = scenario.getTime();
 			private final HashMap<Integer, Ship> ships = scenario.getShip();
@@ -56,6 +56,7 @@ final class ScenarioFactory {
 					Entry<Integer, Ship> row = it.next();
 
 					if(spawns.contains(row.getKey()) && !getContainer().contains(row.getValue())) {
+						Foundation.ACTIVITY.debug("Scenario#"+getID(), "Remove "+row.getValue());
 						spawns.remove(row.getKey());
 						it.remove();
 					}
@@ -135,9 +136,11 @@ final class ScenarioFactory {
 
 				Integer shipID = Integer.parseInt(args[0]);
 				
-				Ship ship = Objects.requireNonNull(ships.get(shipID));
+				Ship ship = ships.get(shipID);
 				
-				ship.fireWeapon();
+				if(ship != null) {
+					ship.fireWeapon();
+				}
 
 			}
 
@@ -147,10 +150,12 @@ final class ScenarioFactory {
 				float shipX = Float.parseFloat(args[1]);
 				float shipY = Float.parseFloat(args[2]);
 				
-				Ship ship = Objects.requireNonNull(ships.get(shipID));
+				Ship ship = ships.get(shipID);
 				
-				ship.moveTo(shipX, shipY);
-
+				if(ship != null) {
+					ship.moveTo(shipX, shipY);
+				}
+				
 			}
 
 			private void spawn(String[] args) {
