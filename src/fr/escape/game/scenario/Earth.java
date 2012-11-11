@@ -1,15 +1,17 @@
 package fr.escape.game.scenario;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.resources.scenario.ScenarioLoader;
 
 public final class Earth extends AbstractStage {
 
-	public Earth() {
+	public Earth(ShipFactory factory, EntityContainer container) {
 		
-		super();
+		super(container);
 	
-		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1);
+		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
 		
 		getWaitingScenario().put(e1.getStart(), e1);
 		

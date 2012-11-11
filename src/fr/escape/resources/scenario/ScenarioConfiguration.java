@@ -1,6 +1,7 @@
 package fr.escape.resources.scenario;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -11,13 +12,13 @@ class ScenarioConfiguration {
 	
 	private int id;
 	private int time;
-	private List<Ship> ships;
+	private HashMap<Integer, Ship> ships;
 	private List<String> script;
 	
 	ScenarioConfiguration() {
 		id = 0;
 		time = 0;
-		ships = new ArrayList<>();
+		ships = new HashMap<>();
 		script = new LinkedList<>();
 	}
 	
@@ -37,8 +38,8 @@ class ScenarioConfiguration {
 		this.id = id;
 	}
 	
-	public void addShip(Ship ship) {
-		ships.add(Objects.requireNonNull(ship));
+	public void addShip(int shipID, Ship ship) {
+		ships.put(shipID, Objects.requireNonNull(ship));
 	}
 	
 	public void addScript(String line) {
@@ -47,6 +48,12 @@ class ScenarioConfiguration {
 	
 	public String[] getScript() {
 		return script.toArray(new String[0]);
+	}
+
+	public HashMap<Integer, Ship> getShip() {
+		HashMap<Integer, Ship> map = ships;
+		ships = null;
+		return map;
 	}
 	
 }

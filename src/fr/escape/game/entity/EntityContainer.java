@@ -151,4 +151,14 @@ public final class EntityContainer implements Entity, KillNotifier, EdgeNotifier
 		return true;
 	}
 	
+	/**
+	 * Return true if this container contains the specified {@link Entity}
+	 *  
+	 * @param e Entity
+	 * @return True if this container contains the given {@link Entity}
+	 */
+	public boolean contains(Entity e) {
+		return entities.contains(e);
+	}
+	
 }

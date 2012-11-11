@@ -75,7 +75,9 @@ public class ShipFactory {
 		
 		switch(type) {
 			case 0: {
-				break;
+				Ship ship = createRegularShip(x, y, false);
+				ship.getBody().setActive(false);
+				return ship;
 			}
 			case 1: {
 				break;

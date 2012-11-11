@@ -3,10 +3,12 @@ package fr.escape.game.entity.ships;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.List;
+import java.util.Objects;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.notifier.EdgeNotifier;
@@ -17,6 +19,8 @@ import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Shapes;
 
 public abstract class AbstractShip implements Ship {
+	
+	private static final String TAG = AbstractShip.class.getSimpleName();
 	
 	private final Body body;
 	private final List<Weapon> weapons;
@@ -34,14 +38,14 @@ public abstract class AbstractShip implements Ship {
 	
 	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EdgeNotifier eNotifier, KillNotifier kNotifier, AnimationTexture textures) {
 		
-		this.body = body;
-		this.weapons = weapons;
+		this.body = Objects.requireNonNull(body);
+		this.weapons = Objects.requireNonNull(weapons);
 		this.isPlayer = isPlayer;
 		
-		this.eNotifier = eNotifier;
-		this.kNotifier = kNotifier;
+		this.eNotifier = Objects.requireNonNull(eNotifier);
+		this.kNotifier = Objects.requireNonNull(kNotifier);
 		
-		this.coreShip = textures;
+		this.coreShip = Objects.requireNonNull(textures);
 		
 		this.activeWeapon = 0;
 		this.isWeaponLoaded = false;
@@ -66,10 +70,13 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void setActiveWeapon(int which) {
+		
 		if(which < 0 || which >= weapons.size()) {
 			throw new IndexOutOfBoundsException();
 		}
+		
 		getActiveWeapon().unload();
+		
 		this.isWeaponLoaded = false;
 		this.activeWeapon = which;
 	}
@@ -153,6 +160,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean fireWeapon() {
+		Foundation.ACTIVITY.debug(TAG, "Fire Weapon Requested");
 		return fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
 	}
 	
@@ -175,14 +183,19 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void setPosition(float x, float y) {
-		body.setLinearVelocity(new Vec2(x - getX(),y - getY()));
+	public void moveTo(float x, float y) {
+		if(body.isActive()) {
+			body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
+		}
 	}
 	
 	@Override
-	public void setPosition(Graphics graphics, float[] velocity) {
+	public void moveBy(float[] velocity) {
+		
 		if(body.isActive()) {			
+			
 			Shot shot = getActiveWeapon().getShot();
+			Graphics graphics = Foundation.GRAPHICS;
 			
 			int x = CoordinateConverter.toPixelX(body.getPosition().x);
 			int y = CoordinateConverter.toPixelY(body.getPosition().y);
@@ -197,15 +210,16 @@ public abstract class AbstractShip implements Ship {
 			float[] tmp = velocity;
 			
 			if(velocity[0] > 0) {
-				body.setLinearVelocity(new Vec2(velocity[1],velocity[2]));
-				velocity[0] -= Math.abs(Math.max(velocity[1],velocity[2]));
+				
+				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
+				velocity[0] -= Math.abs(Math.max(velocity[1], velocity[2]));
 				
 			} else {
-				body.setLinearVelocity(new Vec2(0,0));
+				body.setLinearVelocity(new Vec2(0, 0));
 			}
 			
 			if(shot != null) {
-				shot.setPosition(graphics,tmp);
+				shot.moveBy(tmp);
 			}
 			
 			draw(graphics);
@@ -236,4 +250,5 @@ public abstract class AbstractShip implements Ship {
 		int y = CoordinateConverter.toPixelY(getY());
 		return new Rectangle(x - (coreShip.getWidth() / 2), y - (coreShip.getHeight() / 2), coreShip.getWidth(), coreShip.getHeight());
 	}
+	
 }

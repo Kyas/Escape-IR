@@ -36,6 +36,7 @@ public final class BonusFactory {
 	private static final Random RANDOM = new Random();
 	
 	public static Bonus createBonus(World world, float x, float y, EntityContainer ec) {
+		
 		Objects.requireNonNull(world);
 		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getWidth() / 2);
 		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight() / 2);
@@ -61,7 +62,7 @@ public final class BonusFactory {
 		Bonus bonus;
 		if(isBlackHoleBonus()) {
 		
-			bonus = new AbstractBonus(body,Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec) {
 				
 				@Override
 				public int getWeapon() {
@@ -125,9 +126,15 @@ public final class BonusFactory {
 			
 		} else {
 			bonus = null;
+			world.destroyBody(body);
 		}
-		
-		body.setUserData(bonus);
+
+		if(bonus != null) {
+			
+			bonus.moveBy(new float[]{0.0f, 0.0f, 2.0f});
+			
+			body.setUserData(bonus);
+		}
 		
 		return bonus;
 	}
@@ -156,7 +163,6 @@ public final class BonusFactory {
 		
 		private final Texture drawable;
 		private final EdgeNotifier notifier;
-		private final Runnable runnable;
 		
 		private final Body body;
 		
@@ -164,26 +170,13 @@ public final class BonusFactory {
 		private int y;
 		
 		public AbstractBonus(Body body,Texture drawable, EdgeNotifier notifier) {
+			
 			this.body = body;
 			this.drawable = drawable;
 			this.notifier = notifier;
-			
-			this.runnable = new Runnable() {
-				
-				@Override
-				public void run() {
-					moveBy(0, 1);
-				}
-				
-			};
-			
 			this.x = 0;
 			this.y = 0;
-		}
-		
-		@Override
-		public void moveBy(int x, int y) {
-			this.setPosition(this.x + x, this.y + y);
+			
 		}
 
 		@Override
@@ -192,16 +185,15 @@ public final class BonusFactory {
 		}
 		
 		@Override
-		public void setPosition(Graphics graphics, float[] velocity) {
+		public void moveBy(float[] velocity) {
 			if(body.isActive()) {
 				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
-				draw(graphics);
 			}
 		}
 		
 		@Override
-		public void setPosition(float x, float y) {
-			
+		public void moveTo(float x, float y) {
+			// TODO
 			/*this.x = x;
 			this.y = y;
 			
@@ -231,7 +223,6 @@ public final class BonusFactory {
 		@Override
 		public void update(Graphics graphics, long delta) {
 			draw(graphics);
-			Foundation.ACTIVITY.post(runnable);
 			if(!notifier.isInside(getEdge())) {
 				notifier.edgeReached(this);
 			}
