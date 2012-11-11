@@ -11,6 +11,7 @@ public final class WeaponGesture implements Gesture {
 	
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {
+		
 		if(start.getY() <= end.getY()) return false;
 				
 		float distanceX = CoordinateConverter.toMeterX(end.getX() - start.getX());

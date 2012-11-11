@@ -14,6 +14,7 @@ import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.resources.texture.TextureLoader;
 
+// TODO Comment
 public final class ShotFactory {
 	
 	private static final int MASK = 0x0001;
@@ -50,7 +51,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		
-		Shot shot = new BlackHoleShot(body, entityContainer, entityContainer);
+		Shot shot = new BlackHoleShot(body, entityContainer);
 		
 		body.setUserData(shot);
 		
@@ -81,7 +82,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new FireBallShot(body, entityContainer, entityContainer);
+		Shot shot = new FireBallShot(body, entityContainer);
 		
 		body.setUserData(shot);
 		
@@ -112,7 +113,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new MissileShot(body, entityContainer, entityContainer);
+		Shot shot = new MissileShot(body, entityContainer);
 		
 		body.setUserData(shot);
 		
@@ -144,7 +145,7 @@ public final class ShotFactory {
 		body.createFixture(fixture);
 		body.setActive(false);
 
-		Shot shot = new ShiboleetShot(body, entityContainer, entityContainer);
+		Shot shot = new ShiboleetShot(body, entityContainer, this);
 		
 		body.setUserData(shot);
 		
