@@ -135,9 +135,11 @@ final class ScenarioFactory {
 
 				Integer shipID = Integer.parseInt(args[0]);
 				
-				Ship ship = Objects.requireNonNull(ships.get(shipID));
+				Ship ship = ships.get(shipID);
 				
-				ship.fireWeapon();
+				if(ship != null) {
+					ship.fireWeapon();
+				}
 
 			}
 
@@ -147,10 +149,12 @@ final class ScenarioFactory {
 				float shipX = Float.parseFloat(args[1]);
 				float shipY = Float.parseFloat(args[2]);
 				
-				Ship ship = Objects.requireNonNull(ships.get(shipID));
+				Ship ship = ships.get(shipID);
 				
-				ship.moveTo(shipX, shipY);
-
+				if(ship != null) {
+					ship.moveTo(shipX, shipY);
+				}
+				
 			}
 
 			private void spawn(String[] args) {
