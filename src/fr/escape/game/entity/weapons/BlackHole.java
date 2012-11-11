@@ -16,12 +16,14 @@ import fr.escape.resources.texture.TextureLoader;
 public final class BlackHole implements Weapon {
 	
 	private final Texture drawable;
+	private final EntityContainer container;
 	private int ammunition;
 	
 	private Shot shot;
 	
-	public BlackHole(int defaultAmmunition) {
+	public BlackHole(EntityContainer eContainer, int defaultAmmunition) {
 		drawable = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE);
+		container = Objects.requireNonNull(eContainer);
 		ammunition = defaultAmmunition;
 	}
 
@@ -53,16 +55,14 @@ public final class BlackHole implements Weapon {
 	}
 	
 	@Override
-	public boolean fire(World world, EntityContainer ec, float[] velocity) {
+	public boolean fire(float[] velocity) {
 
 		if(shot != null) {
 			
 			// TODO
-			shot.setPosition(Foundation.GRAPHICS,velocity);
+			shot.setPosition(Foundation.GRAPHICS, velocity);
 			
-			Objects.requireNonNull(world).step(1.0f/60.0f, 6, 2);
-			
-			Objects.requireNonNull(ec).push(shot);
+			Objects.requireNonNull(container).push(shot);
 			shot.receive(Shot.MESSAGE_FIRE);
 			
 			// TODO Apply Speed and Angle
@@ -99,4 +99,5 @@ public final class BlackHole implements Weapon {
 		
 		return false;
 	}
+	
 }

@@ -14,11 +14,15 @@ import fr.escape.game.entity.EntityContainer;
 
 public final class ShotFactory {
 	
-	//private static final Texture MISSILE_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
-	//private static final Texture SHIBOLEET_SHOT_TEXTURE = Foundation.resources.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
+	private final World world;
+	private final EntityContainer entityContainer;
+	
+	public ShotFactory(World world, EntityContainer entityContainer) {
+		this.world = Objects.requireNonNull(world);
+		this.entityContainer = Objects.requireNonNull(entityContainer);
+	}
 
-	public static Shot createBlackholeShot(World world, float x, float y, float radius, EntityContainer ec) {
-		Objects.requireNonNull(world);
+	public Shot createBlackholeShot(float x, float y, float radius) {
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
@@ -36,7 +40,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		
-		Shot shot = new BlackHoleShot(body, ec, ec);
+		Shot shot = new BlackHoleShot(body, entityContainer, entityContainer);
 		
 		ArrayList<Object> userData = new ArrayList<>(2);
 		userData.add(0,"Shot");
@@ -46,8 +50,7 @@ public final class ShotFactory {
 		return shot;
 	}
 	
-	public static Shot createFireBallShot(World world, float x, float y, float radius, EntityContainer ec) {
-		Objects.requireNonNull(world);
+	public Shot createFireBallShot(float x, float y, float radius) {
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
@@ -66,7 +69,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new BlackHoleShot(body, ec, ec);
+		Shot shot = new BlackHoleShot(body, entityContainer, entityContainer);
 		
 		ArrayList<Object> userData = new ArrayList<>(2);
 		userData.add(0,"Shot");

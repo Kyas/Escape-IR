@@ -23,15 +23,14 @@ public abstract class AbstractShot implements Shot {
 	
 	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
 		
-		this.body = body;
+		this.body = Objects.requireNonNull(body);
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
 		this.kNotifier = Objects.requireNonNull(killNotifier);
 		
-		this.x = 0;
-		this.y = 0;
 		this.angle = 0;
 		
-		this.state = Shot.MESSAGE_LOAD;
+		this.state = MESSAGE_LOAD;
+		
 	}
 	
 	@Override
@@ -59,6 +58,7 @@ public abstract class AbstractShot implements Shot {
 	public void setPosition(Graphics graphics, float[] velocity) {
 		if(body.isActive()) {
 			body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
+			// TODO REMOVE NEED TO BE ON UPDATE
 			draw(graphics);
 		}
 	}
@@ -68,12 +68,6 @@ public abstract class AbstractShot implements Shot {
 		angle = angle % 360;
 		this.angle = angle;
 	}
-	
-	
-//	@Override
-//	public void draw(Graphics graphics) {
-//		graphics.draw(drawable, (getX() - (drawable.getWidth() / 2)), (getY() - (drawable.getHeight() / 2)), getAngle());
-//	}
 	
 	@Override
 	public Body getBody() {

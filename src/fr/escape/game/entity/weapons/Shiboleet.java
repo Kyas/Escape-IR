@@ -53,13 +53,13 @@ public final class Shiboleet implements Weapon {
 	}
 
 	@Override
-	public boolean fire(World world, EntityContainer ec, float[] velocity) {
+	public boolean unload() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean unload() {
+	public boolean fire(float[] velocity) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -64,6 +64,9 @@ public class Splash implements Screen {
 	private boolean hit = false;
 	private boolean spawn = false;
 	
+	private Ship s2;
+	private Ship s3;
+	
 	private AnimationTexture at;
 	
 	public Splash(Escape game) throws IOException {
@@ -99,9 +102,15 @@ public class Splash implements Screen {
 		//TODO remove after test
 		ShipFactory sf = new ShipFactory();
 		for(int i = 0; i < 2; i++) {
-			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50),CoordinateConverter.toMeterY(50),BodyType.DYNAMIC,0.58f,false,eContainer,Weapons.createListOfWeapons());
-			tmp.getBody().setLinearVelocity(new Vec2(0.0f,5.0f));
+			Ship tmp = sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(i * 75 + 50), -0.001f,BodyType.DYNAMIC,0.58f,false,eContainer,Weapons.createListOfWeapons());
+			tmp.getBody().setLinearVelocity(new Vec2(0.0f,0.05f));
 			eContainer.push(tmp);
+			
+			if(i==0) {
+				s2 = tmp;
+			} else {
+				s3 = tmp;
+			}
 		}
 		eContainer.push(sf.createRegularShip(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),BodyType.STATIC,0.58f,false,eContainer,Weapons.createListOfWeapons()));
 
@@ -168,6 +177,12 @@ public class Splash implements Screen {
 //			spawn = false;
 //		}
 
+		if((time % 1000) > 0 && (time % 1000) < 100) {
+			
+			//s2.fireWeapon(world, ec, velocity);
+			
+		}
+		
 		eContainer.flush();
 		game.getWorld().step(1.0f/60.0f,6,2);
 	}

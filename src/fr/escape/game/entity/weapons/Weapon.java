@@ -14,5 +14,5 @@ public interface Weapon extends Drawable {
 	public Shot getShot();
 	public boolean load(World world, EntityContainer ec, float x, float y);
 	public boolean unload();
-	public boolean fire(World world, EntityContainer ec, float[] velocity);
+	public boolean fire(float[] velocity);
 }

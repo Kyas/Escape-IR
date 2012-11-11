@@ -138,7 +138,7 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public boolean loadWeapon(World w, EntityContainer ec) {
+	public boolean loadWeapon() {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
@@ -151,11 +151,16 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public boolean fireWeapon(World world, EntityContainer ec, float[] velocity) {
+	public boolean fireWeapon() {
+		return fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+	}
+	
+	@Override
+	public boolean fireWeapon(float[] velocity) {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(world, ec, velocity)) {
+		if(activeWeapon.fire(velocity)) {
 			isWeaponLoaded = false;
 			return true;
 		}

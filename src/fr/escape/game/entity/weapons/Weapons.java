@@ -3,6 +3,7 @@ package fr.escape.game.entity.weapons;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 
 public class Weapons {
@@ -17,11 +18,11 @@ public class Weapons {
 	
 	private Weapons() {}
 	
-	public static List<Weapon> createListOfWeapons() {
+	public static List<Weapon> createListOfWeapons(EntityContainer entityContainer) {
 		
 		List<Weapon> list = new ArrayList<>(4);
 		
-		Weapon wB = new BlackHole(Integer.MAX_VALUE);
+		Weapon wB = new BlackHole(entityContainer, Integer.MAX_VALUE);
 		Weapons.validate(wB);
 		
 		Weapon wF = new FireBall(50);
