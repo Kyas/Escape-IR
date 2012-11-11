@@ -25,7 +25,7 @@ final class ScenarioFactory {
 
 	static Scenario create(final ScenarioConfiguration scenario) {
 		return new Scenario() {
-
+			
 			private final int id = scenario.getID();
 			private final int start = scenario.getTime();
 			private final HashMap<Integer, Ship> ships = scenario.getShip();
@@ -56,6 +56,7 @@ final class ScenarioFactory {
 					Entry<Integer, Ship> row = it.next();
 
 					if(spawns.contains(row.getKey()) && !getContainer().contains(row.getValue())) {
+						Foundation.ACTIVITY.debug("Scenario#"+getID(), "Remove "+row.getValue());
 						spawns.remove(row.getKey());
 						it.remove();
 					}
