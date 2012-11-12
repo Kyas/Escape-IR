@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Objects;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
@@ -37,17 +38,17 @@ public class ShiboleetShot extends AbstractShot {
 		switch(message) {
 			case Shot.MESSAGE_LOAD: {
 				isVisible = true;
-				getBody().setActive(false);
+				System.err.println("m:"+this);
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
 				explode();
-				// TODO
-				//receive(MESSAGE_DESTROY);
+				receive(MESSAGE_DESTROY);
 				break;
 			}
 			case Shot.MESSAGE_CRUISE: {
-				getBody().setActive(true);
+				isVisible = true;
+				setFireMask();
 				break;
 			}
 			case Shot.MESSAGE_HIT: {
@@ -56,7 +57,7 @@ public class ShiboleetShot extends AbstractShot {
 			}
 			case Shot.MESSAGE_DESTROY: {
 				
-				isVisible = false;
+				isVisible = true;
 				
 				Foundation.ACTIVITY.post(new Runnable() {
 					
@@ -77,11 +78,13 @@ public class ShiboleetShot extends AbstractShot {
 		System.err.println("Explode Motherfucker");
 		
 		Shot s1 = createChild();
+		System.err.println("s1:"+s1);
 //		Shot s2 = createChild();
 //		Shot s3 = createChild();
 //		Shot s4 = createChild();
 		
-		s1.moveTo(2.0f, 0.0f);
+		// TODO Compute Angle
+		s1.getBody().setLinearVelocity(new Vec2(0.0f, -1.0f));
 //		s2.moveTo(4.0f, 0.0f);
 //		s3.moveTo(6.0f, 0.0f);
 //		s4.moveTo(8.0f, 0.0f);

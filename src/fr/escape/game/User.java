@@ -23,6 +23,7 @@ import fr.escape.input.Gesture;
 // TODO Finish
 public final class User implements Receiver, Sender {
 	
+	private static final String TAG = User.class.getSimpleName();
 	private static final int INITIAL_LIFE = 3;
 	
 	private Ship ship;
@@ -119,6 +120,11 @@ public final class User implements Receiver, Sender {
 		}
 	}
 	
+	public void addBonus(int weapon, int number) {
+		Foundation.ACTIVITY.debug(TAG, "Bonus loaded in Player {"+weapon+", "+number+"}");
+		getShip().reloadWeapon(weapon, number);
+	}
+	
 	/**
 	 * <p>
 	 * An interface for User's Life.
@@ -127,7 +133,6 @@ public final class User implements Receiver, Sender {
 	 * The Listener will receive restart and stop notification depending
 	 * on how many lives are left.
 	 */
-	// TODO Check English Grammar
 	public static interface LifeListener {
 		
 		/**
@@ -140,4 +145,5 @@ public final class User implements Receiver, Sender {
 		 */
 		public void stop();
 	}
+	
 }

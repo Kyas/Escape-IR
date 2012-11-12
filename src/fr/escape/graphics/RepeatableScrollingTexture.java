@@ -60,10 +60,10 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	 * Part 3 Beginning of the Texture in Y-axis 
 	 * Part 4 The leftover.
 	 * 
-	 * @see TextureOperator#draw(Graphics2D, int, int, int, int);
+	 * @see TextureOperator#draw(Graphics2D, int, int, int, int, double);
 	 */
 	@Override
-	public void draw(Graphics2D graphics, int x, int y, int width, int height) {
+	public void draw(Graphics2D graphics, int x, int y, int width, int height, double angle) {
 		
 		boolean repeatX = true;
 		boolean repeatY = true;
@@ -180,7 +180,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 			}
 			
 		} else {
-			super.draw(graphics, x, y, width, height);
+			super.draw(graphics, x, y, width, height, 0);
 		}
 		
 	}

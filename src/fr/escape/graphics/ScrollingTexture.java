@@ -72,10 +72,10 @@ public class ScrollingTexture implements TextureOperator {
 	 * Draw a Scrollable Texture defined by {@link ScrollingTexture#setXPercent(float)} 
 	 * and {@link ScrollingTexture#setYPercent(float)}
 	 * 
-	 * @see TextureOperator#draw(Graphics2D, int, int, int, int);
+	 * @see TextureOperator#draw(Graphics2D, int, int, int, int, double);
 	 */
 	@Override
-	public void draw(Graphics2D graphics, int x, int y, int width, int height) {
+	public void draw(Graphics2D graphics, int x, int y, int width, int height, double angle) {
 		
 		/**
 		 * Compute and Check Drawing Area

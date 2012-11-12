@@ -17,6 +17,8 @@ public interface Weapon extends Updateable {
 	
 	public boolean load(float x, float y);
 	
+	public boolean reload(int number);
+	
 	public boolean unload();
 	
 	public boolean fire(float[] velocity);

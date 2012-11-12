@@ -14,6 +14,8 @@ import fr.escape.app.Foundation;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.Weapons;
+import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.resources.texture.TextureLoader;
 
@@ -22,13 +24,15 @@ public class ShipFactory {
 	private static final int NPCMASK = 0x0002 | 0x0008;
 	
 	private final World world;
-	private final EntityContainer ec;
+	private final EntityContainer econtainer;
 	private final List<Weapon> weapons;
+	private final List<Weapon> npcweapons;
 	
-	public ShipFactory(World world, EntityContainer ec, List<Weapon> weapons) {
+	public ShipFactory(World world, EntityContainer ec, List<Weapon> weapons, ShotFactory factory) {
 		this.world = world;
-		this.ec = ec;
+		this.econtainer = ec;
 		this.weapons = weapons;
+		this.npcweapons = Weapons.createListOfUnlimitedWeapons(this.econtainer, factory);
 	}
 	
 	public RegularShip createRegularShip(float x, float y, boolean isPlayer) {
@@ -50,6 +54,7 @@ public class ShipFactory {
 		fixture.density = 0.5f;
 		fixture.friction = 0.0f;      
 		fixture.restitution = 0.0f;
+		
 		if(isPlayer) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.maskBits = PLAYERMASK;
@@ -60,7 +65,16 @@ public class ShipFactory {
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		RegularShip ship = new RegularShip(body, weapons, isPlayer, ec, ec, new AnimationTexture( 
+		
+		List<Weapon> lWeapons;
+		
+		if(isPlayer) {
+			lWeapons = weapons;
+		} else {
+			lWeapons = npcweapons;
+		}
+		
+		RegularShip ship = new RegularShip(body, lWeapons, isPlayer, econtainer, new AnimationTexture( 
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_1),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_2),
@@ -72,6 +86,10 @@ public class ShipFactory {
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_8),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_9)
 		));
+		
+		if(!isPlayer) {
+			ship.setRotation(180);
+		}
 
 		body.setUserData(ship);
 		

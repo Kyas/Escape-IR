@@ -139,11 +139,10 @@ public final class ShotFactory {
 		fixture.friction = 1.0f;       
 		fixture.restitution = 0.0f;
 		fixture.filter.categoryBits = 0x0008;
-		fixture.filter.maskBits = 0x0002 | 0x0004 | 0x000F;
+		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
-		body.setActive(false);
 
 		Shot shot = new ShiboleetShot(body, entityContainer, this);
 		
