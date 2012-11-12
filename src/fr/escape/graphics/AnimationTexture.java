@@ -77,7 +77,6 @@ public final class AnimationTexture implements TextureOperator {
 	@Override
 	public void draw(Graphics2D graphics, int x, int y, int width, int height, double angle) {
 	
-		System.out.println("Index : " + index);
 		Texture texture = textures[index];
 		texture.draw(graphics, x, y, width, height, 0, 0, texture.getWidth(), texture.getHeight(), angle);
 		

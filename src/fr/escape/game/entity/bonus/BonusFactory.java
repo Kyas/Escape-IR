@@ -60,7 +60,7 @@ public final class BonusFactory {
 		fixture.filter.categoryBits = 0x000F;
 		fixture.filter.maskBits = MASK;
 		
-		Body body = world.createBody(bodyDef);
+		Body body = world.createBody(bodyDef);//new Body(bodyDef, world);
 		body.createFixture(fixture);
 		
 		Bonus bonus;

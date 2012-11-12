@@ -21,6 +21,8 @@ import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Shapes;
 
 public abstract class AbstractShip implements Ship {
+	private static final int PLAYER_MASK = 0x0004 | 0x0008 | 0x000F;
+	private static final int INVULNERABILITY_MASK = 0x0001 | 0x000F;
 	
 	private static final String TAG = AbstractShip.class.getSimpleName();
 	
@@ -205,7 +207,7 @@ public abstract class AbstractShip implements Ship {
 	public void toDestroy() {
 		if(!isPlayer) {
 			// TODO Fix it
-			//econtainer.pushBonus(getX(), getY());
+			econtainer.pushBonus(getX(), getY());
 		}
 		econtainer.destroy(this);
 	}
@@ -218,7 +220,7 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	private void setInvulnerable(boolean invulnerable) {
-		//getBody().getFixtureList().m_filter.maskBits = (invulnerable)?IMASK:PLAYERMASK;
+		getBody().getFixtureList().m_filter.maskBits = (invulnerable)?INVULNERABILITY_MASK:PLAYER_MASK;
 	}
 	
 	private void doLooping(float[] velocity) {
