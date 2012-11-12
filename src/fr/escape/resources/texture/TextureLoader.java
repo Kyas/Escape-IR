@@ -61,6 +61,8 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String SHIP_SWING_8 = "sswing_8.png";
 	public static final String SHIP_SWING_9 = "sswing_9.png";
 	
+	public static final String MENU_UI_GRID = "muigrid.png";
+	
 	@Override
 	public Path getPath() {
 		return PATH.resolve("texture");

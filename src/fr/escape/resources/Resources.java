@@ -113,6 +113,8 @@ public final class Resources {
 			postTextureLoader(TextureLoader.SHIP_SWING_8);
 			postTextureLoader(TextureLoader.SHIP_SWING_9);
 			
+			postTextureLoader(TextureLoader.MENU_UI_GRID);
+			
 		}
 		
 		loaded = true;
