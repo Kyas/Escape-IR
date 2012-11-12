@@ -26,6 +26,7 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String BACKGROUND_ERROR = "berror.png";
 	public static final String BACKGROUND_LOST = "blost.png";
 	public static final String BACKGROUND_MENU = "bmenu.png";
+	public static final String BACKGROUND_VICTORY = "bvictory.png";
 	
 	public static final String WEAPON_UI_DISABLED = "wuidisabled.png";
 	public static final String WEAPON_UI_ACTIVATED = "wuiactivated.png";

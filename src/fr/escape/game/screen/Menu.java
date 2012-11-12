@@ -1,5 +1,6 @@
 package fr.escape.game.screen;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.util.Objects;
 
@@ -16,6 +17,9 @@ import fr.escape.resources.texture.TextureLoader;
  */
 public final class Menu implements Screen {
 
+	private static final String TITLE = "Escape";
+	private static final String FOOTER = "Insert Coin";
+	
 	private final Font font;
 	private final Escape game;
 	private final Texture background;
@@ -39,7 +43,19 @@ public final class Menu implements Screen {
 
 	@Override
 	public void render(long delta) {
+		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		
+		Screens.drawStringInCenterPosition(
+				game.getGraphics(), TITLE, 
+				(game.getGraphics().getWidth() / 2), 200, 
+				font, Color.WHITE);
+		
+		Screens.drawStringInCenterPosition(
+				game.getGraphics(), FOOTER, 
+				(game.getGraphics().getWidth() / 2),
+				game.getGraphics().getHeight() - 30, 
+				font, Color.WHITE);
 	}
 
 	@Override

@@ -42,10 +42,11 @@ public final class Lost implements Screen {
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
-		int fx = (game.getGraphics().getWidth() / 2) - ((MESSAGE.length() / 2) * 10);
-		int fy = (game.getGraphics().getHeight() / 2) - (font.getSize() / 2);
-		
-		game.getGraphics().draw(MESSAGE, fx, fy, font, Color.WHITE);
+		Screens.drawStringInCenterPosition(
+				game.getGraphics(), MESSAGE, 
+				(game.getGraphics().getWidth() / 2), 
+				(game.getGraphics().getHeight() / 2), 
+				font, Color.WHITE);
 	}
 
 	@Override

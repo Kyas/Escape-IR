@@ -33,6 +33,7 @@ import fr.escape.game.screen.Lost;
 import fr.escape.game.screen.Menu;
 import fr.escape.game.screen.Splash;
 import fr.escape.game.screen.Error;
+import fr.escape.game.screen.Victory;
 import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
 import fr.escape.game.ui.UIWeapons;
@@ -60,6 +61,7 @@ public final class Escape extends Game implements LifeListener {
 	/**
 	 * Screen
 	 */
+	private Victory victory;
 	private Lost lost;
 	private Menu menu;
 	private Splash splash;
@@ -134,9 +136,10 @@ public final class Escape extends Game implements LifeListener {
 			lost = new Lost(this);
 			menu = new Menu(this);
 			splash = new Splash(this);
+			victory = new Victory(this);
 			// Other Screen if any ...
 			
-			setScreen(splash);
+			setScreen(victory);
 			
 		} catch(Exception e) {
 			error = new Error(this);
