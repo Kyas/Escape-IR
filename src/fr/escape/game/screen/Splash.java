@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -118,6 +119,22 @@ public class Splash implements Screen {
         game.getEntityContainer().push(bonus);
 	}
 	
+	public void drawEvents() {
+		Iterator<Input> it = events.iterator();
+		Input lastInput = null;
+		Graphics graphics = game.getGraphics();
+		
+		if(it.hasNext()) {
+			lastInput = it.next();
+		}
+		
+		while(it.hasNext()) {
+			Input input = it.next();
+			graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), Color.WHITE);
+			lastInput = input;
+		}
+	}
+	
 	@Override
 	public void render(long delta) {
 
@@ -188,6 +205,8 @@ public class Splash implements Screen {
 			//s2.fireWeapon(world, ec, velocity);
 			
 		}
+		
+		drawEvents();
 		
 		game.getEntityContainer().flush();
 		game.getWorld().step(delta / 1000.0f, 6, 2);
