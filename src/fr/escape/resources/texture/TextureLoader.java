@@ -26,6 +26,7 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String BACKGROUND_ERROR = "berror.png";
 	public static final String BACKGROUND_LOST = "blost.png";
 	public static final String BACKGROUND_MENU = "bmenu.png";
+	public static final String BACKGROUND_VICTORY = "bvictory.png";
 	
 	public static final String WEAPON_UI_DISABLED = "wuidisabled.png";
 	public static final String WEAPON_UI_ACTIVATED = "wuiactivated.png";
@@ -59,6 +60,8 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String SHIP_SWING_7 = "sswing_7.png";
 	public static final String SHIP_SWING_8 = "sswing_8.png";
 	public static final String SHIP_SWING_9 = "sswing_9.png";
+	
+	public static final String MENU_UI_GRID = "muigrid.png";
 	
 	@Override
 	public Path getPath() {

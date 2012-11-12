@@ -73,44 +73,47 @@ public final class Resources {
 		if(loaded == false) {
 			
 			// Load Font
-			loadFont(FontLoader.VISITOR_ID, 18.0f);
+			postFontLoader(FontLoader.VISITOR_ID, 18.0f);
 			
 			// Load Scenario
-			loadScenario(ScenarioLoader.EARTH_1);
+			postScenarioLoader(ScenarioLoader.EARTH_1);
 			
 			// Load Texture
-			loadTexture(TextureLoader.BACKGROUND_ERROR);
-			loadTexture(TextureLoader.BACKGROUND_LOST);
-			loadTexture(TextureLoader.BACKGROUND_MENU);
-			loadTexture(TextureLoader.WEAPON_UI_ACTIVATED);
-			loadTexture(TextureLoader.WEAPON_UI_DISABLED);
-			loadTexture(TextureLoader.WEAPON_BLACKHOLE);
-			loadTexture(TextureLoader.WEAPON_FIREBALL);
-			loadTexture(TextureLoader.WEAPON_MISSILE);
-			loadTexture(TextureLoader.WEAPON_SHIBOLEET);
-			loadTexture(TextureLoader.WEAPON_MISSILE_SHOT);
-			loadTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
-			loadTexture(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
-			loadTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
-			loadTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
-			loadTexture(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
-			loadTexture(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
-			loadTexture(TextureLoader.WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT);
-			loadTexture(TextureLoader.BONUS_WEAPON_MISSILE);
-			loadTexture(TextureLoader.BONUS_WEAPON_FIREBALL);
-			loadTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET);
-			loadTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE);
+			postTextureLoader(TextureLoader.BACKGROUND_ERROR);
+			postTextureLoader(TextureLoader.BACKGROUND_LOST);
+			postTextureLoader(TextureLoader.BACKGROUND_MENU);
+			postTextureLoader(TextureLoader.BACKGROUND_VICTORY);
+			postTextureLoader(TextureLoader.WEAPON_UI_ACTIVATED);
+			postTextureLoader(TextureLoader.WEAPON_UI_DISABLED);
+			postTextureLoader(TextureLoader.WEAPON_BLACKHOLE);
+			postTextureLoader(TextureLoader.WEAPON_FIREBALL);
+			postTextureLoader(TextureLoader.WEAPON_MISSILE);
+			postTextureLoader(TextureLoader.WEAPON_SHIBOLEET);
+			postTextureLoader(TextureLoader.WEAPON_MISSILE_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_SHIBOLEET_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_BLACKHOLE_LEFT_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_BLACKHOLE_RIGHT_SHOT);
+			postTextureLoader(TextureLoader.WEAPON_BLACKHOLE_EVENT_HORIZON_SHOT);
+			postTextureLoader(TextureLoader.BONUS_WEAPON_MISSILE);
+			postTextureLoader(TextureLoader.BONUS_WEAPON_FIREBALL);
+			postTextureLoader(TextureLoader.BONUS_WEAPON_SHIBOLEET);
+			postTextureLoader(TextureLoader.BONUS_WEAPON_BLACKHOLE);
 			
-			loadTexture(TextureLoader.SHIP_SWING);
-			loadTexture(TextureLoader.SHIP_SWING_1);
-			loadTexture(TextureLoader.SHIP_SWING_2);
-			loadTexture(TextureLoader.SHIP_SWING_3);
-			loadTexture(TextureLoader.SHIP_SWING_4);
-			loadTexture(TextureLoader.SHIP_SWING_5);
-			loadTexture(TextureLoader.SHIP_SWING_6);
-			loadTexture(TextureLoader.SHIP_SWING_7);
-			loadTexture(TextureLoader.SHIP_SWING_8);
-			loadTexture(TextureLoader.SHIP_SWING_9);
+			postTextureLoader(TextureLoader.SHIP_SWING);
+			postTextureLoader(TextureLoader.SHIP_SWING_1);
+			postTextureLoader(TextureLoader.SHIP_SWING_2);
+			postTextureLoader(TextureLoader.SHIP_SWING_3);
+			postTextureLoader(TextureLoader.SHIP_SWING_4);
+			postTextureLoader(TextureLoader.SHIP_SWING_5);
+			postTextureLoader(TextureLoader.SHIP_SWING_6);
+			postTextureLoader(TextureLoader.SHIP_SWING_7);
+			postTextureLoader(TextureLoader.SHIP_SWING_8);
+			postTextureLoader(TextureLoader.SHIP_SWING_9);
+			
+			postTextureLoader(TextureLoader.MENU_UI_GRID);
 			
 		}
 		
@@ -262,7 +265,7 @@ public final class Resources {
 	 * 
 	 * @param textureID Texture name
 	 */
-	private void loadTexture(String textureID) {
+	private void postTextureLoader(String textureID) {
 		textureLoader.put(textureID, createTextureLoader(textureID));
 	}
 	
@@ -272,7 +275,7 @@ public final class Resources {
 	 * @param fontID Font name
 	 * @param size Font size
 	 */
-	private void loadFont(String fontID, float size) {
+	private void postFontLoader(String fontID, float size) {
 		fontLoader.put(fontID, createFontLoader(fontID, size));
 	}
 	
@@ -281,7 +284,7 @@ public final class Resources {
 	 * 
 	 * @param scenarioID Scenario name
 	 */
-	private void loadScenario(String scenarioID) {
+	private void postScenarioLoader(String scenarioID) {
 		scenarioLoader.put(scenarioID, createScenarioLoader(scenarioID));
 	}
 	
