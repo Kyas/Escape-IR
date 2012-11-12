@@ -49,7 +49,8 @@ public class Splash implements Screen {
 	private Texture logo;
 	private ScrollingTexture background;
 	private long time;
-	private float[] velocity = {0, 0, 0};
+	private float[] velocity = {0, 0, 0, 0};
+	private Color color = Color.WHITE;
 
 	private final LinkedList<Input> events = new LinkedList<>();
 	
@@ -130,7 +131,7 @@ public class Splash implements Screen {
 		
 		while(it.hasNext()) {
 			Input input = it.next();
-			graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), Color.WHITE);
+			graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), color);
 			lastInput = input;
 		}
 	}
@@ -206,7 +207,9 @@ public class Splash implements Screen {
 			
 		}
 		
-		drawEvents();
+		if(!game.getUser().getShip().isWeaponLoaded()) {
+			drawEvents();
+		}
 		
 		game.getEntityContainer().flush();
 		game.getWorld().step(1.0f/60.0f,6,2);
@@ -279,8 +282,11 @@ public class Splash implements Screen {
 					} else {
 						
 						for(Gesture g : gestures) {
-							if(g.accept(start,events,i,velocity))
+							if(g.accept(start,events,i,velocity)) {
+								System.out.println("Gesture ok");
+								color = Color.GREEN;
 								break;
+							}
 						}
 						
 					}

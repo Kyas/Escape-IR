@@ -35,6 +35,7 @@ public abstract class AbstractShip implements Ship {
 	private boolean isWeaponLoaded;
 	private boolean executeLeftLoop;
 	private boolean executeRightLoop;
+	private float loopValue;
 	
 	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EdgeNotifier eNotifier, KillNotifier kNotifier, AnimationTexture textures) {
 		
@@ -189,6 +190,42 @@ public abstract class AbstractShip implements Ship {
 		}
 	}
 	
+	private void setInvulnerable(boolean invulnerable) {
+		//getBody().getFixtureList().m_filter.maskBits = (invulnerable)?IMASK:PLAYERMASK;
+	}
+	
+	private void doLooping(float[] velocity) {
+		int mode = (int) velocity[3];
+		switch(mode) {
+			case 0 :
+				if(velocity[0] <= 0) {
+					coreShip.rewind();
+					executeLeftLoop = false;
+					executeRightLoop = false;
+					setInvulnerable(false);
+				}
+				break;
+			case 1 :
+				if(velocity[0] <= 0) {
+					coreShip.rewind();
+					executeLeftLoop = executeRightLoop;
+					executeRightLoop = !executeLeftLoop;
+					velocity[0] = loopValue;
+					velocity[1] *= -1;
+					velocity[3] = 0.0f;
+					System.out.println(executeLeftLoop + " " + executeRightLoop);
+				}
+				break;
+			case 2 :
+				setInvulnerable(true);
+				executeRightLoop = velocity[1] > 0;
+				executeLeftLoop = !executeRightLoop;
+				loopValue = velocity[0];
+				velocity[3] = 1.0f;
+				break;
+		}
+	}
+	
 	@Override
 	public void moveBy(float[] velocity) {
 		
@@ -209,10 +246,12 @@ public abstract class AbstractShip implements Ship {
 			
 			float[] tmp = velocity;
 			
+			doLooping(velocity);
+			
 			if(velocity[0] > 0) {
 				
 				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
-				velocity[0] -= Math.abs(Math.max(velocity[1], velocity[2]));
+				velocity[0] -= Math.abs(Math.max(Math.abs(velocity[1]), Math.abs(velocity[2])));
 				
 			} else {
 				body.setLinearVelocity(new Vec2(0, 0));

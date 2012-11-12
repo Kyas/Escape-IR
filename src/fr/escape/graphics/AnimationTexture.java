@@ -22,10 +22,7 @@ public final class AnimationTexture implements TextureOperator {
 	}
 	
 	public boolean hasNext() {
-		if(reverse) {
-			return ((index == 0)?(textures.length - 1):(index - 1)) != 0;
-		}
-		return index < textures.length;
+		return index < textures.length | index >= 0;
 	}
 	
 	public void rewind() {
@@ -45,12 +42,14 @@ public final class AnimationTexture implements TextureOperator {
 		if(!hasNext()) {
 			throw new NoSuchElementException();
 		}
-		
+				
 		if(reverse) {
 			index--;
+			if(index < 0) index += textures.length;
 		} else {
-			index++;
+			index = (index + 1) % textures.length;
 		}
+		
 	}
 	
 	public int getWidth() {
@@ -78,6 +77,7 @@ public final class AnimationTexture implements TextureOperator {
 	@Override
 	public void draw(Graphics2D graphics, int x, int y, int width, int height) {
 	
+		System.out.println("Index : " + index);
 		Texture texture = textures[index];
 		texture.draw(graphics, x, y, width, height, 0, 0, texture.getWidth(), texture.getHeight());
 		
