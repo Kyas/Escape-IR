@@ -32,6 +32,7 @@ public interface TextureOperator {
 	 * @param y Starting Position Y in Display Screen.
 	 * @param width Ending Position X in Display Screen.
 	 * @param height Ending Position Y in Display Screen.
+	 * @param angle Rotation to apply on Texture in Degree (Optional)
 	 */
-	public void draw(final Graphics2D graphics, final int x, final int y, final int width, final int height);
+	public void draw(final Graphics2D graphics, final int x, final int y, final int width, final int height, final double angle);
 }

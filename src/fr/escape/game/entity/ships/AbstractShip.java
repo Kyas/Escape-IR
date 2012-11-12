@@ -1,6 +1,7 @@
 package fr.escape.game.entity.ships;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.Objects;
@@ -10,10 +11,16 @@ import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.User;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.Entity;
+import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.bonus.Bonus;
+import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Shapes;
@@ -26,8 +33,7 @@ public abstract class AbstractShip implements Ship {
 	private final List<Weapon> weapons;
 	private final boolean isPlayer;
 	
-	private final EdgeNotifier eNotifier;
-	private final KillNotifier kNotifier;
+	private final EntityContainer econtainer;
 	
 	private final AnimationTexture coreShip;
 	
@@ -35,15 +41,15 @@ public abstract class AbstractShip implements Ship {
 	private boolean isWeaponLoaded;
 	private boolean executeLeftLoop;
 	private boolean executeRightLoop;
+	private int angle;
 	
-	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EdgeNotifier eNotifier, KillNotifier kNotifier, AnimationTexture textures) {
+	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EntityContainer container, AnimationTexture textures) {
 		
 		this.body = Objects.requireNonNull(body);
 		this.weapons = Objects.requireNonNull(weapons);
 		this.isPlayer = isPlayer;
 		
-		this.eNotifier = Objects.requireNonNull(eNotifier);
-		this.kNotifier = Objects.requireNonNull(kNotifier);
+		this.econtainer = Objects.requireNonNull(container);
 		
 		this.coreShip = Objects.requireNonNull(textures);
 		
@@ -106,10 +112,10 @@ public abstract class AbstractShip implements Ship {
 		int x = CoordinateConverter.toPixelX(body.getPosition().x) - (coreShip.getWidth() / 2);
 		int y = CoordinateConverter.toPixelY(body.getPosition().y) - (coreShip.getHeight() / 2);
 		
-		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight());
+		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight(), angle);
 		//graphics.draw(getEdge(), Color.RED);
 		
-		graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)),Color.CYAN);
+		graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)), Color.CYAN);
 	}
 	
 	@Override
@@ -135,9 +141,24 @@ public abstract class AbstractShip implements Ship {
 		draw(graphics);
 		getActiveWeapon().update(graphics, delta);
 		
-		if(!eNotifier.isInside(getEdge())) {
-			eNotifier.edgeReached(this);
+		if(!econtainer.isInside(getEdge())) {
+			econtainer.edgeReached(this);
 		}
+	}
+	
+	@Override
+	public void rotateBy(int angle) {
+		this.setRotation(this.angle + angle);
+	}
+	
+	@Override
+	public void setRotation(int angle) {
+		angle = angle % 360;
+		this.angle = angle;
+	}
+	
+	public int getAngle() {
+		return this.angle;
 	}
 	
 	@Override
@@ -159,9 +180,15 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
+	public boolean reloadWeapon(int which, int number) {
+		return Objects.requireNonNull(weapons.get(which)).reload(number);
+	}
+	
+	@Override
 	public boolean fireWeapon() {
-		Foundation.ACTIVITY.debug(TAG, "Fire Weapon Requested");
-		return fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+		// TODO Debug
+		//return loadWeapon() && fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+		return false;
 	}
 	
 	@Override
@@ -179,7 +206,11 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void toDestroy() {
-		if(kNotifier != null) kNotifier.destroy(this);
+		if(!isPlayer) {
+			// TODO Fix it
+			//econtainer.pushBonus(getX(), getY());
+		}
+		econtainer.destroy(this);
 	}
 	
 	@Override
@@ -248,6 +279,68 @@ public abstract class AbstractShip implements Ship {
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		return new Rectangle(x - (coreShip.getWidth() / 2), y - (coreShip.getHeight() / 2), coreShip.getWidth(), coreShip.getHeight());
+	}
+	
+	@Override
+	public void collision(User user, int whoami, Entity e, int whois) {
+		
+		// TODO Clean this shit!
+		
+		switch(whoami) {
+			case PLAYER_TYPE: {
+				switch(whois) {
+					case SHOT_TYPE: {
+						
+						Shot shot = (Shot) e;
+						shot.receive(Shot.MESSAGE_HIT);
+						
+						// TODO
+						System.err.println("Hit by shot, you lost a life");
+						/*entityA.toDestroy();*/
+						
+						break;
+					}
+					case BONUS_TYPE: {
+						Bonus bonus = (Bonus) e;
+						user.addBonus(bonus.getWeapon(), bonus.getNumber());
+						e.toDestroy();
+						break;
+					}
+					default: {
+						
+						Foundation.ACTIVITY.error(TAG, "Hit by unknown contact, player lost a life anyway");
+						
+						// TODO
+						/*entityA.toDestroy();*/
+						e.toDestroy();
+						
+						break;
+					}
+				}
+				break;
+			}
+			case NPC_TYPE: {
+				
+				if(whois == SHOT_TYPE) {
+					
+					Shot s = (Shot) e;
+					s.receive(Shot.MESSAGE_HIT);
+					
+				} else if(whois == PLAYER_TYPE) {
+					// TODO
+					System.err.println("Player lost a life");
+				} else {
+					e.toDestroy();			
+				}
+				
+				this.toDestroy();
+				
+				break;
+			}
+			default: {
+				throw new IllegalArgumentException("Unknwon Entity Collision Type \"whoami\": "+whoami);
+			}
+		}
 	}
 	
 }

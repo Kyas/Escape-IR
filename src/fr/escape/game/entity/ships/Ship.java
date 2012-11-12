@@ -35,6 +35,8 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	
 	public boolean loadWeapon();
 	
+	public boolean reloadWeapon(int which, int number);
+	
 	public boolean fireWeapon();
 	
 	public boolean fireWeapon(float[] velocity);

@@ -32,7 +32,7 @@ public class MissileShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
-				getBody().getFixtureList().m_filter.maskBits = 0x0002 | 0x0004 | 0x000F;
+				setFireMask();
 				break;
 			}
 			case Shot.MESSAGE_CRUISE: {

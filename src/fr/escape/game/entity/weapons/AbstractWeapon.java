@@ -10,6 +10,8 @@ import fr.escape.graphics.Texture;
 
 public abstract class AbstractWeapon implements Weapon {
 	
+	private static final int MAX_AMMUNITION = 250;
+	
 	private final Texture drawable;
 	private final EntityContainer container;
 	private final ShotFactory factory;
@@ -58,6 +60,33 @@ public abstract class AbstractWeapon implements Weapon {
 	}
 	
 	@Override
+	public boolean reload(int number) {
+		
+		if(number <= 0) {
+			return false;
+		}
+		
+		int ammunition = number + this.ammunition;
+		
+		if(ammunition > MAX_AMMUNITION) {
+			ammunition = MAX_AMMUNITION;
+		}
+		
+		this.ammunition = ammunition;
+		
+		return true;
+	}
+	
+	@Override
+	public boolean unload() {
+		if(shot != null) {
+			shot.receive(Shot.MESSAGE_DESTROY);
+			shot = null;
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean fire(float[] velocity) {
 
 		if(shot != null) {
@@ -90,15 +119,6 @@ public abstract class AbstractWeapon implements Weapon {
 		if(shot != null) {
 			shot.update(graphics, delta);
 		}
-	}
-	
-	@Override
-	public boolean unload() {
-		if(shot != null) {
-			shot.receive(Shot.MESSAGE_DESTROY);
-			shot = null;
-		}
-		return false;
 	}
 	
 }

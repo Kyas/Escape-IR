@@ -97,7 +97,7 @@ public final class Escape extends Game implements LifeListener {
 			
 			// Create World
 			World world = new World(new Vec2(0.0f,0.0f), true);
-			world.setContactListener(new CollisionDetector());
+			world.setContactListener(new CollisionDetector(getUser()));
 			setWorld(world);
 			
 			// Create Entity Container
@@ -108,7 +108,7 @@ public final class Escape extends Game implements LifeListener {
 			ingameUI = new IngameUI();
 			shotFactory = new ShotFactory(getWorld(), getEntityContainer());
 			List<Weapon> lWeapons = Weapons.createListOfWeapons(getEntityContainer(), getShotFactory());
-			shipFactory = new ShipFactory(getWorld(), getEntityContainer(), lWeapons);
+			shipFactory = new ShipFactory(getWorld(), getEntityContainer(), lWeapons, getShotFactory());
 
 			ArrayList<Gesture> gestures = new ArrayList<>();
 			

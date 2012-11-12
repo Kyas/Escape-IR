@@ -20,6 +20,8 @@ import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.bonus.Bonus;
+import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 
@@ -150,4 +152,21 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		return entities.contains(e);
 	}
 	
+	/**
+	 * Push a Bonus in World
+	 * 
+	 * @param x Bonus X Position
+	 * @param y Bonus Y Position
+	 * @return True if Successful.
+	 */
+	public boolean pushBonus(float x, float y) {
+		
+		Bonus bonus = BonusFactory.createBonus(world, x, y, this);
+		
+		if(bonus != null) {
+			return push(bonus);
+		}
+		
+		return true;
+	}
 }

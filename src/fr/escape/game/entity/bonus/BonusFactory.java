@@ -14,7 +14,9 @@ import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.User;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
@@ -162,7 +164,9 @@ public final class BonusFactory {
 	}
 	
 	private static abstract class AbstractBonus implements Bonus {
+		
 		private static int COEFFICIENT = 3;
+		private static String TAG = AbstractBonus.class.getSimpleName();
 		
 		private final Texture drawable;
 		private final EdgeNotifier eNotifier;
@@ -248,6 +252,23 @@ public final class BonusFactory {
 		public void toDestroy() {
 			kNotifier.destroy(this);
 		}
+		
+		@Override
+		public void collision(User user, int whoami, Entity e, int whois) {
+			switch(whois) {
+				case PLAYER_TYPE: {
+					user.addBonus(getWeapon(), getNumber());
+					this.toDestroy();
+					break;
+				}
+				default: {
+					Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
+					this.toDestroy();
+					break;
+				}
+		}
+		}
+		
 	}
 	
 }

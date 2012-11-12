@@ -6,10 +6,18 @@ import java.util.Objects;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import fr.escape.app.Foundation;
+import fr.escape.game.User;
+import fr.escape.game.entity.CollisionDetector;
+import fr.escape.game.entity.Collisionable;
+import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 
 public abstract class AbstractShot implements Shot {
+	
+	private static final int MASK = PLAYER_TYPE | NPC_TYPE;
+	private static final String TAG = AbstractShot.class.getSimpleName();
 	
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
@@ -37,7 +45,7 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		
+		// TODO
 	}
 	
 	@Override
@@ -87,8 +95,34 @@ public abstract class AbstractShot implements Shot {
 	
 	protected abstract Rectangle getEdge();
 
-	public EdgeNotifier getEdgeNotifier() {
+	protected EdgeNotifier getEdgeNotifier() {
 		return eNotifier;
-	} 
+	}
+	
+	@Override
+	public void collision(User user, int whoami, Entity e, int whois) {
+		this.receive(MESSAGE_HIT);
+		switch(whois) {
+			case PLAYER_TYPE: {
+				// TODO
+				Foundation.ACTIVITY.debug(TAG, "Shot touch Player");
+				System.err.println("Player lost a life");
+				break;
+			}
+			case NPC_TYPE: {
+				e.toDestroy();
+				Foundation.ACTIVITY.debug(TAG, "Shot touch NPC");
+				break;
+			}
+			default: {
+				Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
+				break;
+			}
+		}
+	}
+	
+	protected void setFireMask() {
+		Objects.requireNonNull(getBody().getFixtureList()).m_filter.maskBits = MASK;
+	}
 	
 }

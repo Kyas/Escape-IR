@@ -10,6 +10,7 @@ import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+// TODO Comment
 public class Weapons {
 
 	public static final int MISSILE_ID = 0;
@@ -108,6 +109,68 @@ public class Weapons {
 	
 	public static int getDrawableHeight() {
 		return HEIGHT;
+	}
+
+	public static List<Weapon> createListOfUnlimitedWeapons(EntityContainer entityContainer, ShotFactory shotFactory) {
+
+		List<Weapon> list = new ArrayList<>(3);
+		
+		Weapon wF = new AbstractWeapon(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL), 
+				entityContainer, shotFactory, 1) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createFireBallShot(x, y);
+			}
+			
+			@Override
+			public int getAmmunition() {
+				return 1;
+			}
+			
+		};
+		Weapons.validate(wF);
+		
+		Weapon wS = new AbstractWeapon(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET), 
+				entityContainer, shotFactory, 1) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createShiboleetShot(x, y);
+			}
+			
+			@Override
+			public int getAmmunition() {
+				return 1;
+			}
+			
+		};
+		Weapons.validate(wS);
+		
+		Weapon wM = new AbstractWeapon(
+				Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE), 
+				entityContainer, shotFactory, 1) {
+			
+			@Override
+			protected Shot createShot(float x, float y) {
+				return getFactory().createMissileShot(x, y);
+			}
+			
+			@Override
+			public int getAmmunition() {
+				return 1;
+			}
+			
+		};
+		Weapons.validate(wM);
+		
+		list.add(wM);
+		list.add(wF);
+		list.add(wS);
+		
+		return list;
 	}
 	
 }

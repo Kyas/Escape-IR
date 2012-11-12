@@ -106,6 +106,13 @@ public final class Graphics {
 	}
 	
 	/**
+	 * @return Frequency of rendering
+	 */
+	public float getFrequency() {
+		return 1.0f / ((float) getRequestedFramesPerSecond());
+	}
+	
+	/**
 	 * Return render listener for Drawing.
 	 * 
 	 * @return {@link RenderListener}
@@ -362,7 +369,22 @@ public final class Graphics {
 	 * @param height Ending Position Y in Display Screen
 	 */
 	public void draw(final TextureOperator textureOp, final int x, final int y, final int width, final int height) {
-		textureOp.draw(g2d, x, y, width, height);
+		draw(textureOp, x, y, width, height, 0);
+	}
+	
+	/**
+	 * <p>
+	 * Draw a TextureOperator with the top left corner at x,y having the given width and height in pixels. 
+	 * 
+	 * @param textureOp TextureOperator used for rendering.
+	 * @param x Starting Position X in Display Screen
+	 * @param y Starting Position Y in Display Screen
+	 * @param width Ending Position X in Display Screen
+	 * @param height Ending Position Y in Display Screen
+	 * @param angle Rotation to apply on Texture in Degree (Optional)
+	 */
+	public void draw(final TextureOperator textureOp, final int x, final int y, final int width, final int height, final double angle) {
+		textureOp.draw(g2d, x, y, width, height, angle);
 	}
 	
 	/**

@@ -109,13 +109,13 @@ public class Splash implements Screen {
         }
         eContainer.push(sf.createRegularShip(CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(50),false));*/
 
-        /*Bonus bonus = null;
+        Bonus bonus = null;
         while(bonus == null) {
                 bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(-50),game.getEntityContainer());
         }
         float[] bV = {0.0f,0.0f,1.0f};
         bonus.moveBy(bV);
-        game.getEntityContainer().push(bonus);*/
+        game.getEntityContainer().push(bonus);
 	}
 	
 	@Override
@@ -190,7 +190,7 @@ public class Splash implements Screen {
 		}
 		
 		game.getEntityContainer().flush();
-		game.getWorld().step(1.0f/60.0f,6,2);
+		game.getWorld().step(delta / 1000.0f, 6, 2);
 	}
 
 	@Override
