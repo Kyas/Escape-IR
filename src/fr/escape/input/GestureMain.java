@@ -21,9 +21,10 @@ public class GestureMain {
 		final int HEIGHT = 600;
 		final LinkedList<Gesture> lGesture = new LinkedList<Gesture>();
 		lGesture.add(new Drift());
+		/*lGesture.add(new Slide());
 		lGesture.add(new LeftLoop());
 		lGesture.add(new RightLoop());
-		lGesture.add(new BackOff());
+		lGesture.add(new Booster());*/
 		final LinkedList<Input> events = new LinkedList<Input>();
 		Application.run("Detect motions", WIDTH, HEIGHT, new ApplicationCode() {
 			@Override
@@ -37,7 +38,6 @@ public class GestureMain {
 					context.render(new ApplicationRenderCode() {
 						@Override
 						public void render(Graphics2D graphics) {
-							System.out.println(event.getKind().name());
 							graphics.setFont(font);
 							Input e = new Input(event);
 							switch(e.getKind().name()) {
@@ -49,9 +49,11 @@ public class GestureMain {
 									if(it.hasNext()) {
 										Input start = it.next(); it.remove();
 										for(Gesture g : lGesture) {
-											if(g.accept(start,events,e,new float[3])) {
+											float[] velocity = new float[4];
+											if(g.accept(start,events,e,velocity)) {
 												graphics.setPaint(new Color(0,255,0));
 												System.out.println(g.getClass().toString());
+												System.out .println("Velocity : " + velocity[0]);
 												break;
 											}
 											else {

@@ -1,7 +1,6 @@
 package fr.escape.game.entity.ships;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.Objects;
@@ -16,11 +15,7 @@ import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.bonus.Bonus;
-import fr.escape.game.entity.bonus.BonusFactory;
-import fr.escape.game.entity.notifier.EdgeNotifier;
-import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapon;
-import fr.escape.game.entity.weapons.shot.AbstractShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Shapes;
@@ -41,6 +36,8 @@ public abstract class AbstractShip implements Ship {
 	private boolean isWeaponLoaded;
 	private boolean executeLeftLoop;
 	private boolean executeRightLoop;
+	private float loopValue;
+
 	private int angle;
 	
 	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EntityContainer container, AnimationTexture textures) {
@@ -220,6 +217,42 @@ public abstract class AbstractShip implements Ship {
 		}
 	}
 	
+	private void setInvulnerable(boolean invulnerable) {
+		//getBody().getFixtureList().m_filter.maskBits = (invulnerable)?IMASK:PLAYERMASK;
+	}
+	
+	private void doLooping(float[] velocity) {
+		int mode = (int) velocity[3];
+		switch(mode) {
+			case 0 :
+				if(velocity[0] <= 0) {
+					coreShip.rewind();
+					executeLeftLoop = false;
+					executeRightLoop = false;
+					setInvulnerable(false);
+				}
+				break;
+			case 1 :
+				if(velocity[0] <= 0) {
+					coreShip.rewind();
+					executeLeftLoop = executeRightLoop;
+					executeRightLoop = !executeLeftLoop;
+					velocity[0] = loopValue;
+					velocity[1] *= -1;
+					velocity[3] = 0.0f;
+					System.out.println(executeLeftLoop + " " + executeRightLoop);
+				}
+				break;
+			case 2 :
+				setInvulnerable(true);
+				executeRightLoop = velocity[1] > 0;
+				executeLeftLoop = !executeRightLoop;
+				loopValue = velocity[0];
+				velocity[3] = 1.0f;
+				break;
+		}
+	}
+	
 	@Override
 	public void moveBy(float[] velocity) {
 		
@@ -240,10 +273,12 @@ public abstract class AbstractShip implements Ship {
 			
 			float[] tmp = velocity;
 			
+			doLooping(velocity);
+			
 			if(velocity[0] > 0) {
 				
 				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
-				velocity[0] -= Math.abs(Math.max(velocity[1], velocity[2]));
+				velocity[0] -= Math.abs(Math.max(Math.abs(velocity[1]), Math.abs(velocity[2])));
 				
 			} else {
 				body.setLinearVelocity(new Vec2(0, 0));

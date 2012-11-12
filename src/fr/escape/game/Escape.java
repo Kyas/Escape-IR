@@ -37,11 +37,12 @@ import fr.escape.game.screen.Victory;
 import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
 import fr.escape.game.ui.UIWeapons;
-import fr.escape.input.BackOff;
+import fr.escape.input.Booster;
 import fr.escape.input.Drift;
 import fr.escape.input.Gesture;
 import fr.escape.input.LeftLoop;
 import fr.escape.input.RightLoop;
+import fr.escape.input.Slide;
 
 /**
  * <p>
@@ -124,7 +125,8 @@ public final class Escape extends Game implements LifeListener {
 			Ship ship = getShipFactory().createRegularShip(CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),true);
 
 			gestures.add(new Drift());
-			gestures.add(new BackOff());
+			gestures.add(new Slide());
+			gestures.add(new Booster());
 			gestures.add(new LeftLoop());
 			gestures.add(new RightLoop());
 			
