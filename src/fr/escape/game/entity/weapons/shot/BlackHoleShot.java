@@ -32,7 +32,7 @@ public final class BlackHoleShot extends AbstractShot {
 	private long timer;
 	
 	public BlackHoleShot(Body body, EntityContainer container) {
-		super(body, container, container);
+		super(body, container, container,5);
 		
 		this.isVisible = false;
 		this.drawCoreHelix = false;
@@ -56,7 +56,6 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 			case MESSAGE_FIRE: {
-				setFireMask();
 				drawLeftAndRightHelix = true;
 				setShapeRadius();
 				break;

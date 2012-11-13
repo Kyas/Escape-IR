@@ -74,7 +74,7 @@ public class ShipFactory {
 			weapons = npcWeapons;
 		}
 		
-		RegularShip ship = new RegularShip(body, weapons, isPlayer, econtainer, new AnimationTexture( 
+		RegularShip ship = new RegularShip(body, weapons, isPlayer, 1, econtainer, new AnimationTexture( 
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_1),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_2),

@@ -7,9 +7,9 @@ import fr.escape.app.Input;
 public class Slide implements Gesture {
 	
 	private static int DEFAULT_FAULT_TOLERANCE = 25;
-	private final static int COEFFICIENT = 3;
+	private final static int COEFFICIENT = 1;
 	private static double COEFFDIR = 0.2;
-	private static float VELOCITY = 2.0f;
+	private static float VELOCITY = 4.0f;
 
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {

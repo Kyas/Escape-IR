@@ -25,14 +25,10 @@ import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
-import fr.escape.game.entity.bonus.Bonus;
-import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 
-import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
-import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
 import fr.escape.graphics.Shapes;
@@ -155,9 +151,7 @@ public class Splash implements Screen {
 			
 		}
 		
-		if(!game.getUser().getShip().isWeaponLoaded()) {
-			drawEvents();
-		}
+		drawEvents();
 		
 		game.getEntityContainer().flush();
 		game.getWorld().step(delta / 1000.0f, 6, 2);

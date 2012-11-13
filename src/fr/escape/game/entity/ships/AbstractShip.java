@@ -1,7 +1,7 @@
 package fr.escape.game.entity.ships;
 
-import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +18,6 @@ import fr.escape.game.entity.bonus.Bonus;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
-import fr.escape.graphics.Shapes;
 
 public abstract class AbstractShip implements Ship {
 	private static final int PLAYER_MASK = 0x0004 | 0x0008 | 0x000F;
@@ -41,8 +40,9 @@ public abstract class AbstractShip implements Ship {
 	private float loopValue;
 
 	private int angle;
+	private int life;
 	
-	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, EntityContainer container, AnimationTexture textures) {
+	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, int life, EntityContainer container, AnimationTexture textures) {
 		
 		this.body = Objects.requireNonNull(body);
 		this.weapons = Objects.requireNonNull(weapons);
@@ -56,11 +56,20 @@ public abstract class AbstractShip implements Ship {
 		this.isWeaponLoaded = false;
 		this.executeLeftLoop = false;
 		this.executeRightLoop = false;
+		
+		this.life = life;
 	}
 	
 	@Override
 	public boolean isPlayer() {
 		return isPlayer;
+	}
+	
+	public void damage(int value) {
+		life -= value;
+		if(life <= 0) {
+			this.toDestroy();
+		}
 	}
 	
 	@Override
@@ -114,7 +123,7 @@ public abstract class AbstractShip implements Ship {
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight(), angle);
 		//graphics.draw(getEdge(), Color.RED);
 		
-		graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)), Color.CYAN);
+		//graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)), Color.CYAN);
 	}
 	
 	@Override
@@ -186,8 +195,7 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public boolean fireWeapon() {
 		// TODO Debug
-		//return loadWeapon() && fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
-		return false;
+		return loadWeapon() && fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
 	}
 	
 	@Override
@@ -195,7 +203,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(velocity)) {
+		if(activeWeapon.fire(velocity,isPlayer)) {
 			isWeaponLoaded = false;
 			return true;
 		}
@@ -206,7 +214,6 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void toDestroy() {
 		if(!isPlayer) {
-			// TODO Fix it
 			Foundation.ACTIVITY.post(new Runnable() {
 				@Override
 				public void run() {
@@ -278,7 +285,7 @@ public abstract class AbstractShip implements Ship {
 				velocity[2] *= -1;
 			}
 			
-			float[] tmp = velocity;
+			float[] tmp = Arrays.copyOfRange(velocity, 0, velocity.length);
 			
 			doLooping(velocity);
 			
@@ -289,9 +296,12 @@ public abstract class AbstractShip implements Ship {
 				
 			} else {
 				body.setLinearVelocity(new Vec2(0, 0));
+				velocity[1] = 0.0f;
+				velocity[2] = 0.0f;
 			}
 			
 			if(shot != null) {
+				tmp[0] = 0.0f;
 				shot.moveBy(tmp);
 			}
 

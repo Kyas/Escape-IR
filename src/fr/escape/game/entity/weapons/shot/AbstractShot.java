@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.game.User;
@@ -14,7 +15,8 @@ import fr.escape.game.entity.notifier.KillNotifier;
 
 public abstract class AbstractShot implements Shot {
 	
-	private static final int MASK = PLAYER_TYPE | NPC_TYPE;
+	private static final int PLAYER_SHOT_MASK = NPC_TYPE;
+	private static final int NPC_SHOT_MASK = PLAYER_TYPE;
 	private static final String TAG = AbstractShot.class.getSimpleName();
 	
 	private final EdgeNotifier eNotifier;
@@ -23,14 +25,16 @@ public abstract class AbstractShot implements Shot {
 	private int state;
 	
 	private int angle;
+	private int damage;
 	
-	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier) {
+	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier,int defaultDamage) {
 		
 		this.body = Objects.requireNonNull(body);
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
 		this.kNotifier = Objects.requireNonNull(killNotifier);
 		
 		this.angle = 0;
+		this.damage = defaultDamage;
 		
 		this.state = MESSAGE_LOAD;
 		
@@ -99,6 +103,7 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
+		getBody().setType(BodyType.STATIC);
 		this.receive(MESSAGE_HIT);
 		switch(whois) {
 			case PLAYER_TYPE: {
@@ -119,8 +124,10 @@ public abstract class AbstractShot implements Shot {
 		}
 	}
 	
-	protected void setFireMask() {
-		Objects.requireNonNull(getBody().getFixtureList()).m_filter.maskBits = MASK;
+	@Override
+	public void setFireMask(boolean isPlayer) {
+		int mask = (isPlayer)?PLAYER_SHOT_MASK:NPC_SHOT_MASK;
+		Objects.requireNonNull(getBody().getFixtureList()).m_filter.maskBits = mask;
 	}
 	
 }

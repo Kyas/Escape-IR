@@ -21,7 +21,7 @@ public interface Weapon extends Updateable {
 	
 	public boolean unload();
 	
-	public boolean fire(float[] velocity);
+	public boolean fire(float[] velocity, boolean isPlayer);
 
 	/**
 	 * Call {@link Updateable#update(Graphics, long)} on the loaded Shot if any

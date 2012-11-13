@@ -12,7 +12,6 @@
 package fr.escape.game;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
@@ -24,10 +23,7 @@ import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.CollisionDetector;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
-import fr.escape.game.entity.weapons.Weapon;
-import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.game.screen.Lost;
 import fr.escape.game.screen.Menu;
