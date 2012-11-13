@@ -12,10 +12,12 @@
 package fr.escape.game;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.ships.Ship;
+import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.message.Receiver;
 import fr.escape.game.message.Sender;
 import fr.escape.input.Gesture;
@@ -31,11 +33,10 @@ public final class User implements Receiver, Sender {
 	private Receiver receiver;
 	private ArrayList<Gesture> gestures;
 	private int life;
-	private LifeListener listener;
+	private Escape game;
 	
-	// TODO Ship
-	User(LifeListener listener) {
-		this.listener = Objects.requireNonNull(listener);
+	User(Escape game) {
+		this.game = Objects.requireNonNull(game);
 		this.highscore = 0;
 		this.ship = null;
 		this.life = INITIAL_LIFE;
@@ -48,6 +49,28 @@ public final class User implements Receiver, Sender {
 	public void setHighscore(int highscore) {
 		this.highscore = highscore;
 		this.send(highscore);
+	}
+	
+	public void addScore(final int score) {
+		Foundation.ACTIVITY.log(TAG, "Add "+score+" to Highscore");
+		Foundation.ACTIVITY.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				setHighscore(getHighscore() + score);
+			}
+			
+		});
+	}
+	
+	public boolean reset() {
+		Foundation.ACTIVITY.log(TAG, "User: Reset Requested");
+		this.highscore = 0;
+		this.life = INITIAL_LIFE;
+		if(!this.ship.reset()) {
+			throw new IllegalStateException();
+		}
+		return true;
 	}
 
 	/**
@@ -88,7 +111,7 @@ public final class User implements Receiver, Sender {
 	 */
 	@Override
 	public void register(Receiver receiver) {
-		this.receiver = receiver;
+		this.receiver = Objects.requireNonNull(receiver);
 	}
 
 	// TODO DEBUG
@@ -114,15 +137,23 @@ public final class User implements Receiver, Sender {
 		this.life -= 1;
 		
 		if(this.life <= 0) {
-			listener.stop();
+			game.stop();
 		} else {
-			listener.restart();
+			game.restart();
 		}
 	}
 	
 	public void addBonus(int weapon, int number) {
 		Foundation.ACTIVITY.debug(TAG, "Bonus loaded in Player {"+weapon+", "+number+"}");
 		getShip().reloadWeapon(weapon, number);
+	}
+	
+	public List<Weapon> getAllWeapons() {
+		return Objects.requireNonNull(getShip(), "getShip() is empty").getAllWeapons();
+	}
+
+	public Weapon getActiveWeapon() {
+		return Objects.requireNonNull(getShip(), "getShip() is empty").getActiveWeapon();
 	}
 	
 	/**
@@ -144,6 +175,7 @@ public final class User implements Receiver, Sender {
 		 * User lose without extra lives.
 		 */
 		public void stop();
+		
 	}
 	
 }

@@ -25,14 +25,14 @@ public class ShipFactory {
 	
 	private final World world;
 	private final EntityContainer econtainer;
-	private final List<Weapon> weapons;
-	private final List<Weapon> npcweapons;
+	private final List<Weapon> playerWeapons;
+	private final List<Weapon> npcWeapons;
 	
-	public ShipFactory(World world, EntityContainer ec, List<Weapon> weapons, ShotFactory factory) {
+	public ShipFactory(World world, EntityContainer ec, ShotFactory factory) {
 		this.world = world;
 		this.econtainer = ec;
-		this.weapons = weapons;
-		this.npcweapons = Weapons.createListOfUnlimitedWeapons(this.econtainer, factory);
+		this.playerWeapons = Weapons.createListOfWeapons(this.econtainer, factory);
+		this.npcWeapons = Weapons.createListOfUnlimitedWeapons(this.econtainer, factory);
 	}
 	
 	public RegularShip createRegularShip(float x, float y, boolean isPlayer) {
@@ -66,15 +66,15 @@ public class ShipFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		
-		List<Weapon> lWeapons;
+		List<Weapon> weapons;
 		
 		if(isPlayer) {
-			lWeapons = weapons;
+			weapons = playerWeapons;
 		} else {
-			lWeapons = npcweapons;
+			weapons = npcWeapons;
 		}
 		
-		RegularShip ship = new RegularShip(body, lWeapons, isPlayer, econtainer, new AnimationTexture( 
+		RegularShip ship = new RegularShip(body, weapons, isPlayer, econtainer, new AnimationTexture( 
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_1),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_2),

@@ -15,15 +15,17 @@ public abstract class AbstractWeapon implements Weapon {
 	private final Texture drawable;
 	private final EntityContainer container;
 	private final ShotFactory factory;
+	private final int defaultAmmunition;
 	
 	private int ammunition;
 	private Shot shot;
 	
 	public AbstractWeapon(Texture texture, EntityContainer eContainer, ShotFactory sFactory, int defaultAmmunition) {
-		drawable = Objects.requireNonNull(texture);
-		container = Objects.requireNonNull(eContainer);
-		factory = Objects.requireNonNull(sFactory);
-		ammunition = defaultAmmunition;
+		this.drawable = Objects.requireNonNull(texture);
+		this.container = Objects.requireNonNull(eContainer);
+		this.factory = Objects.requireNonNull(sFactory);
+		this.ammunition = defaultAmmunition;
+		this.defaultAmmunition = defaultAmmunition;
 	}
 
 	@Override
@@ -121,4 +123,9 @@ public abstract class AbstractWeapon implements Weapon {
 		}
 	}
 	
+	@Override
+	public boolean reset() {
+		ammunition = defaultAmmunition;
+		return true;
+	}
 }

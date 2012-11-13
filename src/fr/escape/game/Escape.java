@@ -110,29 +110,16 @@ public final class Escape extends Game implements LifeListener {
 			// Create Game Components
 			ingameUI = new IngameUI();
 			shotFactory = new ShotFactory(getWorld(), getEntityContainer());
-			List<Weapon> lWeapons = Weapons.createListOfWeapons(getEntityContainer(), getShotFactory());
-			shipFactory = new ShipFactory(getWorld(), getEntityContainer(), lWeapons, getShotFactory());
-
-			ArrayList<Gesture> gestures = new ArrayList<>();
+			shipFactory = new ShipFactory(getWorld(), getEntityContainer(), getShotFactory());
 			
-			UIHighscore uHighscore = new UIHighscore(this);
+			// Create Ship
+			createPlayerShip();
 			
-			UIWeapons uWeapons = new UIWeapons(this, getUser(), lWeapons, lWeapons.get(0));
+			// Create Gesture
+			createGestures();
 			
-			ingameUI.add(uHighscore);
-			ingameUI.add(uWeapons);
-			
-			Ship ship = getShipFactory().createRegularShip(CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),true);
-
-			gestures.add(new Drift());
-			gestures.add(new Slide());
-			gestures.add(new Booster());
-			gestures.add(new LeftLoop());
-			gestures.add(new RightLoop());
-			
-			getUser().register(uHighscore);
-			getUser().setGestures(gestures);
-			getUser().setShip(ship);
+			// Create Overlay
+			createOverlay();
 			
 			// Create Screen
 			lost = new Lost(this);
@@ -141,7 +128,8 @@ public final class Escape extends Game implements LifeListener {
 			victory = new Victory(this);
 			// Other Screen if any ...
 			
-			setScreen(victory);
+			// Show Entry Screen
+			setScreen(lost);
 			
 		} catch(Exception e) {
 			error = new Error(this);
@@ -205,8 +193,7 @@ public final class Escape extends Game implements LifeListener {
 
 	@Override
 	public void restart() {
-		// TODO Finish
-		setScreen(splash);
+		setScreen(getScreen());
 	}
 
 	@Override
@@ -219,6 +206,22 @@ public final class Escape extends Game implements LifeListener {
 	 */
 	public void setMenuScreen() {
 		setScreen(menu);
+	}
+	
+	/**
+	 * Update the current Screen by starting a New Game
+	 */
+	public void setNewGameScreen() {
+		// TODO Change it by Earth
+		setScreen(splash);
+	}
+	
+	public void setVictoryScreen() {
+		setScreen(victory);
+	}
+	
+	public void setLostScreen() {
+		setScreen(lost);
 	}
 	
 	/**
@@ -248,4 +251,35 @@ public final class Escape extends Game implements LifeListener {
 		return entityContainer;
 	}
 	
+	private void createPlayerShip() {
+		getUser().setShip(getShipFactory().createRegularShip(
+				CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), 
+				CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),
+				true
+		));
+	}
+	
+	private void createGestures() {
+		
+		ArrayList<Gesture> gestures = new ArrayList<>();
+		
+		gestures.add(new Drift());
+		gestures.add(new Slide());
+		gestures.add(new Booster());
+		gestures.add(new LeftLoop());
+		gestures.add(new RightLoop());
+		
+		getUser().setGestures(gestures);
+	}
+	
+	private void createOverlay() {
+		
+		UIHighscore uHighscore = new UIHighscore(this);
+		UIWeapons uWeapons = new UIWeapons(this, getUser(), getUser().getAllWeapons(), getUser().getActiveWeapon());
+		
+		ingameUI.add(uHighscore);
+		ingameUI.add(uWeapons);
+		
+		getUser().register(uHighscore);
+	}
 }
