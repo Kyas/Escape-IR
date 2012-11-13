@@ -15,6 +15,8 @@ import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
+import org.jbox2d.dynamics.World;
+
 import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;
 import fr.umlv.zen2.Application;
@@ -42,10 +44,19 @@ public final class Activity {
 	public static final int LOG_INFO = 2;
 	public static final int LOG_ERROR = 1;
 	
+	/**
+	 * World Updating
+	 */
+	private static final float WORLD_STEP = 1.0f / 60.0f;
+	private static final int WORLD_UPDATE = (int) (WORLD_STEP * 1000);
+	
 	private final Game game;
 	private final Graphics graphics;
 	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
 	private final String title;
+	
+	private int worldUpdateLeft;
+
 	private int logLevel;
 	
 	/**
@@ -67,8 +78,9 @@ public final class Activity {
 		
 		this.graphics = new Graphics(game, configuration);
 		this.logLevel = LOG_INFO;
-		this.title = configuration.title;
+		this.title = configuration.getTitle();
 		this.game = game;
+		this.worldUpdateLeft = 0;
 
 		debug(TAG, "Graphics Engine created");
 	}
@@ -105,12 +117,13 @@ public final class Activity {
 					
 					debug(TAG, "Application started");
 					Input lastEvent = null;
+					
 					for(;;) {
-						
 						
 						int executionTime = 0;
 						
 						MotionEvent mEvent = context.pollMotion();
+						
 						if(mEvent != null) {
 							Input event = new Input(mEvent);
 							event(event, lastEvent);
@@ -120,30 +133,29 @@ public final class Activity {
 						/**
 						 * May need to implements QoS in Runnable execution.
 						 */
-						synchronized(getRunnables()) {
+						if(!getRunnables().isEmpty()) {
 							
-							if(!getRunnables().isEmpty()) {
-								
-								long start = System.currentTimeMillis();
-								Runnable next;
-								
-								while((next = getRunnables().poll()) != null) {
-									try {
-										next.run();
-									} catch(Throwable t) {
-										error(TAG, "Error while executing a Runnable", t);
-									}
+							long start = System.currentTimeMillis();
+							Runnable next;
+							
+							while((next = getRunnables().poll()) != null) {
+								try {
+									next.run();
+								} catch(Throwable t) {
+									error(TAG, "Error while executing a Runnable", t);
 								}
-								
-								executionTime = (int) (System.currentTimeMillis() - start);
-								//TODO remove ?
-								//debug(TAG, "Runnable(s) executed in "+executionTime+" ms");
 							}
+							
+							executionTime = (int) (System.currentTimeMillis() - start);
 						}
 						
 						try {
 							
 							int sleep = getGraphics().getNextWakeUp() - executionTime;
+							long start = System.currentTimeMillis();
+							updateWorld(sleep);
+							sleep -= ((int) (System.currentTimeMillis() - start));
+							
 							if(sleep > 0) {
 								Thread.sleep(sleep);
 							}
@@ -290,9 +302,7 @@ public final class Activity {
 	 * @param runnable Runnable to execute.
 	 */
 	public void post(Runnable runnable) {
-		synchronized (getRunnables()) {
-			getRunnables().add(runnable);
-		}
+		getRunnables().add(runnable);
 	}
 	
 	/**
@@ -352,5 +362,22 @@ public final class Activity {
 			}
 		}
 	}
-	
+
+	/**
+	 * Compute if we need to update the World Step.
+	 * 
+	 * @param sleep Sleep time for the given loop in {@link Activity#initialize()}.
+	 * @see World
+	 */
+	void updateWorld(int sleep) {
+		
+		worldUpdateLeft += sleep;
+		
+		while(worldUpdateLeft >= WORLD_UPDATE) {
+			game.getWorld().step(WORLD_STEP, 6, 2);
+			worldUpdateLeft -= WORLD_UPDATE;
+		}
+		
+	}
+
 }

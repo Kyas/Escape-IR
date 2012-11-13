@@ -18,17 +18,20 @@ package fr.escape.app;
  */
 public final class Configuration {
 
-	public final int width;
-	public final int height;
-	public final String title;
-	public final int fps;
+	private static int MIN_FPS = 20;
+	private static int MAX_FPS = 40;
+	
+	private final int width;
+	private final int height;
+	private final String title;
+	private final int fps;
 	
 	public Configuration() {
 		this(400, 600);
 	}
 	
 	public Configuration(int width, int height) {
-		this(width, height, 60);
+		this(width, height, Integer.MAX_VALUE);
 	}
 	
 	public Configuration(int width, int height, int fps) {
@@ -39,7 +42,22 @@ public final class Configuration {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.fps = fps;
+		this.fps = Math.min(Math.max(fps, MIN_FPS), MAX_FPS);
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public int getFps() {
+		return fps;
+	}
 }

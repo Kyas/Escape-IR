@@ -53,6 +53,7 @@ public abstract class AbstractStage implements Stage {
 	public void start() {
 		Foundation.ACTIVITY.debug(TAG, "Start the current Stage");
 		for(Scenario scenario : scenarios) {
+			Foundation.ACTIVITY.debug(TAG, "Add "+scenario+" on Waiting Scenario");
 			getWaitingScenario().put(scenario.getStart(), scenario);
 		}
 	}
@@ -99,9 +100,16 @@ public abstract class AbstractStage implements Stage {
 	
 	@Override
 	public void reset() {
+		
 		Foundation.ACTIVITY.debug(TAG, "Reset the current Stage");
+		
 		getActiveScenario().clear();
 		getWaitingScenario().clear();
+		
+		for(Scenario scenario : scenarios) {
+			scenario.reset();
+		}
+		
 	}
 	
 }

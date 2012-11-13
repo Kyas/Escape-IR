@@ -37,7 +37,7 @@ public final class Graphics {
 	
 	private final RenderListener listener;
 	private final int width;
-	private final int heigt;
+	private final int height;
 	private final int displayFps;
 	private final BufferedImage gBuffer;
 	private final Graphics2D g2d;
@@ -49,10 +49,10 @@ public final class Graphics {
 
 	public Graphics(RenderListener listener, Configuration configuration) {
 		
-		this.width = configuration.width;
-		this.heigt = configuration.height;
-		this.displayFps = configuration.fps;
-		this.gBuffer = new BufferedImage(width, heigt, BufferedImage.TYPE_INT_ARGB);
+		this.width = configuration.getWidth();
+		this.height = configuration.getHeight();
+		this.displayFps = configuration.getFps();
+		this.gBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.g2d = this.gBuffer.createGraphics();
 		
 		this.listener = listener;
@@ -74,7 +74,7 @@ public final class Graphics {
 	 * @return The height in pixels of the display.
 	 */
 	public int getHeight() {
-		return heigt;
+		return height;
 	}
 
 	/** 
@@ -162,10 +162,21 @@ public final class Graphics {
 				
 				// Draw Graphics
 				graphics.drawImage(getBufferedImage(), 0, 0, null);
+				
+				// Update Render Timing
+				updateRender(System.currentTimeMillis());
 			}
 		});
 		
-		long currentRender = System.currentTimeMillis();
+	}
+	
+	/**
+	 * Update the Last Rendering Timestamp
+	 * 
+	 * @param currentRender Last Rendering Timestamp
+	 */
+	void updateRender(long currentRender) {
+		
 		rawFps++;
 		
 		if((lastRender / 1000) < (currentRender / 1000)) {
@@ -174,9 +185,8 @@ public final class Graphics {
 		}
 		
 		lastRender = currentRender;
-		
 	}
-	
+
 	/**
 	 * Update the average number of frames per second.
 	 */
