@@ -99,10 +99,10 @@ public class ShiboleetShot extends AbstractShot {
 		s3.setChild(true);
 		s4.setChild(true);
 				
-		s1.moveTo((float) Math.sin(20), -5.0f);
-		s2.moveTo((float) Math.sin(65), -5.0f);
-		s3.moveTo((float) Math.cos(110), -5.0f);
-		s4.moveTo((float) Math.cos(155), -5.0f);
+		s1.moveTo(2.0f, -5.0f);
+		s2.moveTo(0.75f, -5.0f);
+		s3.moveTo(-0.75f, -5.0f);
+		s4.moveTo(-2.0f, -5.0f);
 		
 		s1.receive(MESSAGE_CRUISE);
 		s2.receive(MESSAGE_CRUISE);
