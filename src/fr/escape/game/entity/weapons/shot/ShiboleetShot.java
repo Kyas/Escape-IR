@@ -134,10 +134,10 @@ public class ShiboleetShot extends AbstractShot {
 
 	private void drawCoreShiboleet(Graphics graphics) {
 		
-		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - (coreShiboleet.getWidth() / 2);
-		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (coreShiboleet.getWidth() / 2);
+		Rectangle area = getEdge();
 		
-		graphics.draw(coreShiboleet, x, y, getAngle());
+		graphics.draw(coreShiboleet, (int) area.getX(), (int) area.getY(), getAngle());
+		
 	}
 	
 	private void drawChildShiboleet(Graphics graphics) {
@@ -163,6 +163,7 @@ public class ShiboleetShot extends AbstractShot {
 
 	@Override
 	protected Rectangle getEdge() {
+		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
