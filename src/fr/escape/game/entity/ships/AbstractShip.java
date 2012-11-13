@@ -19,6 +19,7 @@ import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 
+//TODO Comment
 public abstract class AbstractShip implements Ship {
 	private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE;
 	private static final int INVULNERABILITY_MASK = 0x0001 | BONUS_TYPE;
@@ -66,9 +67,11 @@ public abstract class AbstractShip implements Ship {
 		return isPlayer;
 	}
 	
+	@Override
 	public void damage(int value) {
 		life -= value;
 		if(life <= 0) {
+			Foundation.ACTIVITY.error(TAG, "A Ship has been destroy.");
 			this.toDestroy();
 		}
 	}
@@ -335,64 +338,41 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
-		
-		// TODO Clean this shit!
-		
-		switch(whoami) {
-			case PLAYER_TYPE: {
-				switch(whois) {
-					case SHOT_TYPE: {
-						
-						Shot shot = (Shot) e;
-						shot.receive(Shot.MESSAGE_HIT);
-						
-						// TODO
-						System.err.println("Hit by shot, you lost a life");
-						/*entityA.toDestroy();*/
-						
-						break;
-					}
-					case BONUS_TYPE: {
-						Bonus bonus = (Bonus) e;
-						user.addBonus(bonus.getWeapon(), bonus.getNumber());
-						e.toDestroy();
-						break;
-					}
-					default: {
-						
-						Foundation.ACTIVITY.error(TAG, "Hit by unknown contact, player lost a life anyway");
-						
-						// TODO
-						/*entityA.toDestroy();*/
-						e.toDestroy();
-						
-						break;
-					}
-				}
-				break;
-			}
-			case NPC_TYPE: {
-				
-				if(whois == SHOT_TYPE) {
-					
-					Shot s = (Shot) e;
-					s.receive(Shot.MESSAGE_HIT);
-					
-				} else if(whois == PLAYER_TYPE) {
-					// TODO
-					System.err.println("Player lost a life");
-				} else {
-					e.toDestroy();			
-				}
-				
-				this.toDestroy();
-				
-				break;
-			}
-			default: {
-				throw new IllegalArgumentException("Unknwon Entity Collision Type \"whoami\": "+whoami);
-			}
+		if(isPlayer && whois != BONUS_TYPE) {
+			Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
+			//user.removeOneLife();
 		}
+		
+		switch(whois) {
+			case SHOT_TYPE : 
+				Foundation.ACTIVITY.error(TAG, "Player or NPC hit by Shot.");
+				Shot shot = (Shot) e;
+				shot.receive(Shot.MESSAGE_HIT);
+				this.damage(shot.getDamage());
+				break;
+			case BONUS_TYPE :
+				if(isPlayer) {
+					Foundation.ACTIVITY.error(TAG, "Player hit by Bonus.");
+					Bonus bonus = (Bonus) e;
+					user.addBonus(bonus.getWeapon(), bonus.getNumber());
+					e.toDestroy();
+				}
+				break;
+			case NPC_TYPE :
+				Foundation.ACTIVITY.error(TAG, "Player hit by NPC.");
+				Ship ship = (Ship) e;
+				ship.damage(1);
+				break;
+			case PLAYER_TYPE : 
+				Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
+				Foundation.ACTIVITY.error(TAG, "NPC hit by Player.");
+				//user.removeOneLife();
+				break;
+			default: 
+				Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
+				break;
+		}
+		
 	}
 	
 	@Override

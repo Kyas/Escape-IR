@@ -26,7 +26,6 @@ public final class CollisionDetector implements ContactListener {
 		int typeB = arg0.getFixtureB().getFilterData().categoryBits;
 		
 		entityA.collision(user, typeA, entityB, typeB);
-		entityB.collision(user, typeB, entityA, typeA);
 
 	}
 
@@ -37,10 +36,6 @@ public final class CollisionDetector implements ContactListener {
 	public void postSolve(Contact arg0, ContactImpulse arg1) {}
 
 	@Override
-	public void preSolve(Contact arg0, Manifold arg1) {
-		// TODO Auto-generated method stub
-//		arg0.getFixtureA().getBody().setType(BodyType.STATIC);
-//		arg0.getFixtureB().getBody().setType(BodyType.STATIC);
-	}
+	public void preSolve(Contact arg0, Manifold arg1) {}
 
 }

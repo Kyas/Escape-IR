@@ -25,6 +25,7 @@ import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+//TODO Comment
 public final class BonusFactory {
 	
 	private static final int MASK = Collisionable.PLAYER_TYPE;
@@ -259,13 +260,13 @@ public final class BonusFactory {
 		public void collision(User user, int whoami, Entity e, int whois) {
 			switch(whois) {
 				case PLAYER_TYPE: {
+					Foundation.ACTIVITY.error(TAG, "Bonus hit by Player.");
 					user.addBonus(getWeapon(), getNumber());
 					this.toDestroy();
 					break;
 				}
 				default: {
 					Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
-					this.toDestroy();
 					break;
 				}
 			}

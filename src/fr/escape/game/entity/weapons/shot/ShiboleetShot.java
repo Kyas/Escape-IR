@@ -13,6 +13,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+//TODO Comment
 public class ShiboleetShot extends AbstractShot {
 	
 	static final float CHILD_RADIUS = 0.70f;

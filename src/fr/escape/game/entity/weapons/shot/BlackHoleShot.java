@@ -12,7 +12,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-// TODO Finish
+// TODO Finish & Comment
 public final class BlackHoleShot extends AbstractShot {
 
 	private static final int ROTATION_SPEED = 600;
