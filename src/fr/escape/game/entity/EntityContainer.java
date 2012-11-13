@@ -125,6 +125,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 			world.destroyBody(e.getBody());
 		}
 		destroyed.clear();
+		
 		return true;
 	}
 
@@ -163,7 +164,9 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		
 		Bonus bonus = BonusFactory.createBonus(world, x, y, this);
 		
+		
 		if(bonus != null) {
+			System.out.println("Bonus : " + bonus.getBody().getLinearVelocity().y);
 			return push(bonus);
 		}
 		

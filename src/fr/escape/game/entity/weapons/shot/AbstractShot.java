@@ -8,8 +8,6 @@ import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
 import fr.escape.game.User;
-import fr.escape.game.entity.CollisionDetector;
-import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
