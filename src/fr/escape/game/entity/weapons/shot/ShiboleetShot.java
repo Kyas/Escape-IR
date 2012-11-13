@@ -11,8 +11,6 @@ import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.notifier.EdgeNotifier;
-import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 

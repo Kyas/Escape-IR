@@ -207,7 +207,12 @@ public abstract class AbstractShip implements Ship {
 	public void toDestroy() {
 		if(!isPlayer) {
 			// TODO Fix it
-			econtainer.pushBonus(getX(), getY());
+			Foundation.ACTIVITY.post(new Runnable() {
+				@Override
+				public void run() {
+					econtainer.pushBonus(getX(), getY());
+				}
+			});
 		}
 		econtainer.destroy(this);
 	}
