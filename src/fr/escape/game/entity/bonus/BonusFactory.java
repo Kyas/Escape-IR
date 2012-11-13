@@ -57,7 +57,7 @@ public final class BonusFactory {
 		fixture.density = 0.5f;
 		fixture.friction = 0.0f;
 		fixture.restitution = 0.0f;
-		fixture.filter.categoryBits = 0x000F;
+		fixture.filter.categoryBits = 0x0010;
 		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);//new Body(bodyDef, world);
