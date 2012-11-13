@@ -318,14 +318,16 @@ public final class Activity {
 			}
 			case ACTION_MOVE: {
 				
-				post(new Runnable() {
-					
-					@Override
-					public void run() {
-						getEventListener().move(lastEvent);
-					}
-					
-				});
+				if(!lastEvent.filter(event)) {
+					post(new Runnable() {
+						
+						@Override
+						public void run() {
+							getEventListener().move(lastEvent);
+						}
+						
+					});
+				}
 				
 				break;
 			}

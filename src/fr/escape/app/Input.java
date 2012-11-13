@@ -25,6 +25,8 @@ import fr.umlv.zen2.MotionEvent.Kind;
  */
 public final class Input {
 	
+	private static final int DELTA_FILTER = 2;
+	
 	/**
 	 * Mouse Input.
 	 */
@@ -65,6 +67,26 @@ public final class Input {
 	 */
 	public Kind getKind() {
 		return event.getKind();
+	}
+	
+	@Override
+	public String toString() {
+		return getX()+" "+getY()+": "+getKind();
+	}
+	
+	/**
+	 * Should we need to filter and delete this new Input from the last one.
+	 */
+	public boolean filter(Input input) {
+		
+		double mDelta = Math.sqrt(Math.pow(getX(), 2) + Math.pow(getY(), 2));
+		double aDelta = Math.sqrt(Math.pow(input.getX(), 2) + Math.pow(input.getY(), 2));
+		
+		if(Math.abs(mDelta - aDelta) < DELTA_FILTER) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 }

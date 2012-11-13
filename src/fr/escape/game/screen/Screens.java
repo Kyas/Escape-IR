@@ -13,8 +13,13 @@ package fr.escape.game.screen;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import fr.escape.app.Graphics;
+import fr.escape.app.Input;
+import fr.escape.graphics.Shapes;
 
 /**
  * <p>
@@ -43,6 +48,64 @@ public final class Screens {
 		y += (font.getSize() / 4);
 		
 		graphics.draw(message, x, y, font, color);
+	}
+	
+	public static List<Input> drawEventsOnScreen(Graphics graphics, List<Input> events, Color color) {
+		return drawEventsOnScreen(graphics, events, color, true);
+	}
+	
+	public static List<Input> drawEventsOnScreen(Graphics graphics, List<Input> events, Color color, boolean filter) {
+		
+		Input lastInput = null;
+		List<Input> render = null;
+		
+		if(filter) {
+			render = new LinkedList<>();	
+		}
+		
+		int booster = (int) (events.size() * 0.1f);
+		int index = 0;
+		
+		Iterator<Input> it = events.iterator();
+		
+		// Find First Input
+		if(it.hasNext()) {
+			
+			lastInput = it.next();
+			
+			if(filter) {
+				render.add(lastInput);
+			}
+			
+		}
+		
+		if(booster == 0) {
+			booster = 1;
+		}
+		
+		// Draw Line between Two Input 
+		while(it.hasNext()) {
+			
+			Input input = it.next();
+		
+			if(filter) {
+				
+				// Create a small booster to skip input
+				while(it.hasNext() && index != booster - 1) {
+					index = (index + 1) % booster;
+					input = it.next();
+				}
+				
+				index = 0;
+				render.add(input);
+			}
+			
+			graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), color);
+			lastInput = input;
+			
+		}
+
+		return render;
 	}
 	
 }

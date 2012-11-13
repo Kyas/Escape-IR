@@ -17,16 +17,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import fr.escape.app.Foundation;
-import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
-import fr.escape.game.entity.bonus.Bonus;
-import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 
 import fr.escape.game.scenario.Earth;
@@ -42,46 +40,33 @@ public class Splash implements Screen {
 
 	private final static String TAG = Splash.class.getSimpleName();
 	
+	private final static int MAX_ACTIVE_EVENT_TIME = 2000;
+	
 	private final Escape game;
 	private final Stage stage;
 	private final ScrollingTexture background;
+	private final LinkedList<Input> events;
 	
 	private long time;
 	private float[] velocity = {0, 0, 0, 0};
-	private Color color = Color.WHITE;
 
-	private final LinkedList<Input> events = new LinkedList<>();
-	
-	// DEBUG
+	private List<Input> activeEvents;
+	private long activeEventTime;
 	
 	public Splash(Escape game) throws IOException {
 		
 		this.game = game;
 		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		this.stage = new Earth(game.getShipFactory(), game.getEntityContainer());
+        this.events = new LinkedList<>();
         
-	}
-	
-	public void drawEvents() {
-		Iterator<Input> it = events.iterator();
-		Input lastInput = null;
-		Graphics graphics = game.getGraphics();
-		
-		if(it.hasNext()) {
-			lastInput = it.next();
-		}
-		
-		while(it.hasNext()) {
-			Input input = it.next();
-			graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), color);
-			lastInput = input;
-		}
 	}
 	
 	@Override
 	public void render(long delta) {
 
 		time += delta;
+		activeEventTime += delta;
 		
 		float percent = ((float) time) / 10000;
 		
@@ -145,9 +130,21 @@ public class Splash implements Screen {
 			
 		}
 		
-		drawEvents();
+		if(!events.isEmpty()) {
+			activeEvents = Screens.drawEventsOnScreen(game.getGraphics(), events, Color.WHITE);
+			activeEventTime = 0;
+		}
 		
-		game.getEntityContainer().flush();		
+		if(events.isEmpty() && activeEvents != null) {
+			Screens.drawEventsOnScreen(game.getGraphics(), activeEvents, Color.GREEN);
+		}
+		
+		if(activeEventTime > MAX_ACTIVE_EVENT_TIME) {
+			activeEvents = null;
+		}
+		
+		game.getEntityContainer().flush();
+		
 	}
 
 	@Override
@@ -180,10 +177,6 @@ public class Splash implements Screen {
 		
 		if((i.getX() > x - errorX && i.getX() < x + errorX) && (i.getY() > y - errorY && i.getY() < y + errorY)) {
 			
-			ship.receive(Ship.MESSAGE_EXECUTE_LEFT_LOOP);
-			game.getActivity().debug(TAG, "User Click on Ship");
-			
-			//TODO debug
 			if(ship.loadWeapon()) {
 				game.getActivity().debug(TAG, "Weapon Gesture Accept : Load");
 			}
@@ -209,6 +202,7 @@ public class Splash implements Screen {
 				if(it.hasNext()) {
 					
 					Input start = it.next(); it.remove();
+					boolean accept = false;
 					
 					if(touch(start)) {
 						
@@ -220,24 +214,30 @@ public class Splash implements Screen {
 						if(wg.accept(start, events, i, weaponVelocity) && ship.isWeaponLoaded()) {
 							game.getActivity().debug(TAG, "Weapon Gesture Accept : Fire");
 							ship.fireWeapon(weaponVelocity);
+							accept = true;
 						}
 						
 					} else {
 						
 						for(Gesture g : gestures) {
-							if(g.accept(start,events,i,velocity)) {
-								System.out.println("Gesture ok");
-								color = Color.GREEN;
+							if(g.accept(start, events, i, velocity)) {
+								accept = true;
 								break;
 							}
 						}
 						
 					}
+					
+					if(!accept) {
+						activeEvents = null;
+					}
 					events.clear();
+					
 				}
 				break;
 			}
 			default: {
+				activeEvents = null;
 				events.add(i);
 			}
 		}
