@@ -15,7 +15,7 @@ public interface Collisionable {
 	/**
 	 * Collisionable Type.
 	 */
-	public static final int BONUS_TYPE = 0x000F;
+	public static final int BONUS_TYPE = 0x0010;
 	public static final int PLAYER_TYPE = 0x0002;
 	public static final int SHOT_TYPE = 0x0008;
 	public static final int NPC_TYPE = 0x0004;
