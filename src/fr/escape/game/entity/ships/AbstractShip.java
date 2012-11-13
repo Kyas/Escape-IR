@@ -20,8 +20,10 @@ import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 
 public abstract class AbstractShip implements Ship {
-	private static final int PLAYER_MASK = 0x0004 | 0x0008 | 0x000F;
-	private static final int INVULNERABILITY_MASK = 0x0001 | 0x000F;
+	private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE;
+	private static final int INVULNERABILITY_MASK = 0x0001 | BONUS_TYPE;
+	private static final int LEFTLOOP = 2;
+	private static final int RIGHTLOOP = 1;
 	
 	private static final String TAG = AbstractShip.class.getSimpleName();
 	
@@ -37,7 +39,6 @@ public abstract class AbstractShip implements Ship {
 	private boolean isWeaponLoaded;
 	private boolean executeLeftLoop;
 	private boolean executeRightLoop;
-	private float loopValue;
 
 	private int angle;
 	private int life;
@@ -237,38 +238,33 @@ public abstract class AbstractShip implements Ship {
 	private void doLooping(float[] velocity) {
 		
 		int mode = (int) velocity[3];
-		
-		switch(mode) {
-			case 0: {
-				if(velocity[0] <= 0) {
-					coreShip.rewind();
-					executeLeftLoop = false;
-					executeRightLoop = false;
-					setInvulnerable(false);
-				}
-				break;
-			}
-			case 1: {
-				if(velocity[0] <= 0) {
-					coreShip.rewind();
-					executeLeftLoop = executeRightLoop;
-					executeRightLoop = !executeLeftLoop;
-					velocity[0] = loopValue;
-					velocity[1] *= -1;
-					velocity[3] = 0.0f;
-					System.out.println(executeLeftLoop + " " + executeRightLoop);
-				}
-				break;
-			}
-			case 2: {
+		switch (mode) {
+			case RIGHTLOOP:
 				setInvulnerable(true);
-				executeRightLoop = velocity[1] > 0;
-				executeLeftLoop = !executeRightLoop;
-				loopValue = velocity[0];
-				velocity[3] = 1.0f;
+				executeRightLoop = true;
+				if(velocity[0] <= 0) {
+					velocity[3] = 0.0f;
+				} else {
+					velocity[0] -= 2.0f;
+				}
 				break;
-			}
+			case LEFTLOOP:
+				setInvulnerable(true);
+				executeLeftLoop = true;
+				if(velocity[0] <= 0) {
+					velocity[3] = 0.0f;
+				} else {
+					velocity[0] -= 2.0f;
+				}
+				break;
+			default:
+				coreShip.rewind();
+				executeLeftLoop = false;
+				executeRightLoop = false;
+				setInvulnerable(false);
+				break;
 		}
+
 	}
 	
 	@Override

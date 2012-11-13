@@ -6,7 +6,7 @@ import fr.escape.app.Input;
 
 // TODO Comment
 public final class RightLoop implements Gesture {
-	private final static float FLAG = 2.0f;
+	private final static float FLAG = 1.0f;
 
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {
@@ -35,7 +35,7 @@ public final class RightLoop implements Gesture {
 		}
 		
 		velocity[0] = diameter;
-		velocity[1] = 2.0f;
+		velocity[1] = 0.0f;
 		velocity[2] = 0.0f;
 		velocity[3] = FLAG;
 		
