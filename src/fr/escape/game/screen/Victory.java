@@ -3,6 +3,7 @@ package fr.escape.game.screen;
 import java.awt.Color;
 import java.awt.Font;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -10,6 +11,11 @@ import fr.escape.graphics.Texture;
 import fr.escape.resources.font.FontLoader;
 import fr.escape.resources.texture.TextureLoader;
 
+/**
+ * <p>
+ * A screen that display "Victory !!!" and Credits.
+ * 
+ */
 public final class Victory implements Screen {
 
 	private static final String TAG = Victory.class.getSimpleName();
@@ -30,6 +36,7 @@ public final class Victory implements Screen {
 	private final Escape game;
 	private final Texture background;
 	private final Texture user;
+	private final Runnable confirm;
 	
 	public Victory(Escape game) {
 		this.game = game;
@@ -39,12 +46,20 @@ public final class Victory implements Screen {
 		this.fontH3 = baseFont.deriveFont(FSIZE_H3);
 		this.background = game.getResources().getTexture(TextureLoader.BACKGROUND_VICTORY);
 		this.user = game.getResources().getTexture(TextureLoader.SHIP_SWING);
+		this.confirm = new Runnable() {
+			
+			@Override
+			public void run() {
+				next();
+			}
+			
+		};
 	}
 	
 	@Override
 	public boolean touch(Input i) {
-		game.getActivity().debug(TAG, "User click: Go on Menu Screen");
-		game.setMenuScreen();
+		Foundation.ACTIVITY.log(TAG, "User Launch: MENU_SCREEN");
+		Foundation.ACTIVITY.post(confirm);
 		return true;
 	}
 
@@ -57,11 +72,11 @@ public final class Victory implements Screen {
 	public void render(long delta) {
 		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
-		
+	
 		int x = (game.getGraphics().getWidth() / 2);
 		int y = (game.getGraphics().getHeight() / 4);
 		
-		drawString(VICTORY_TITLE, fontH1, y, x);
+		Screens.drawStringInCenterPosition(game.getGraphics(), VICTORY_TITLE, x, y, fontH1, Color.WHITE);
 		
 		int ux = (game.getGraphics().getWidth() / 2) - (user.getWidth() / 2);
 		int uy = (game.getGraphics().getHeight() / 2) - (user.getWidth() / 2);
@@ -70,14 +85,15 @@ public final class Victory implements Screen {
 		
 		y = 3 * (game.getGraphics().getHeight() / 4);
 		
-		drawString(VICTORY_CREDITS_TITLE, fontH2, y, x);
+		Screens.drawStringInCenterPosition(game.getGraphics(), VICTORY_CREDITS_TITLE, x, y, fontH2, Color.WHITE);
 		
 		y = y + CSPACE + (int) (fontH3.getSize() * 1.3);
 		
-		drawString(AUTHOR_TL, fontH3, y, x);
+		Screens.drawStringInCenterPosition(game.getGraphics(), AUTHOR_TL, x, y, fontH3, Color.WHITE);
 
 		y = y + (int) (fontH3.getSize() * 1.3);
-		drawString(AUTHOR_TQ, fontH3, y, x);
+		
+		Screens.drawStringInCenterPosition(game.getGraphics(), AUTHOR_TQ, x, y, fontH3, Color.WHITE);
 		
 	}
 
@@ -88,9 +104,12 @@ public final class Victory implements Screen {
 
 	@Override
 	public void hide() {}
-	
-	private void drawString(String message, Font font, int y, int x) {
-		Screens.drawStringInCenterPosition(game.getGraphics(), message, x, y, font, Color.WHITE);
-	}
 
+	/**
+	 * Launch Menu when the User touch the Screen.
+	 */
+	public void next() {
+		game.setMenuScreen();
+	}
+	
 }

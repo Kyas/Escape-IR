@@ -40,7 +40,7 @@ public final class Screens {
 	public static void drawStringInCenterPosition(Graphics graphics, String message, int x, int y, Font font, Color color) {
 		
 		x -= ((message.length() / 2) * (font.getSize() / 2));
-		y -= (font.getSize() / 2);
+		y += (font.getSize() / 4);
 		
 		graphics.draw(message, x, y, font, color);
 	}

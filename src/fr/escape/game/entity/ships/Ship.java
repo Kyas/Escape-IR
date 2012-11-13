@@ -59,4 +59,6 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	public void receive(int message);
 
 	public Rectangle getEdge();
+	
+	public boolean reset();
 }

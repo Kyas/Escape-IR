@@ -30,5 +30,7 @@ public interface Weapon extends Updateable {
 	 */
 	@Override
 	public void update(Graphics graphics, long delta);
+
+	public boolean reset();
 	
 }

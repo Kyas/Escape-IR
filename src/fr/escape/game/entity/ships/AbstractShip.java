@@ -395,4 +395,20 @@ public abstract class AbstractShip implements Ship {
 		}
 	}
 	
+	@Override
+	public boolean reset() {
+		
+		// TODO Reset Ship Armor
+		
+		
+		// Reset All Weapons
+		for(Weapon w : getAllWeapons()) {
+			if(!w.reset()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }
