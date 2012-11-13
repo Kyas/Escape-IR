@@ -13,9 +13,10 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+//TODO Comment
 public class ShiboleetShot extends AbstractShot {
 	
-	private static final float CHILD_RADIUS = 0.70f;
+	static final float CHILD_RADIUS = 0.70f;
 	
 	private final Texture coreShiboleet;
 	private final EntityContainer entityContainer;
@@ -24,14 +25,14 @@ public class ShiboleetShot extends AbstractShot {
 	private boolean isVisible;
 	private boolean isChild;
 
-	public ShiboleetShot(Body body, EntityContainer container, ShotFactory factory) {
+	public ShiboleetShot(Body body, boolean isChild, EntityContainer container, ShotFactory factory) {
 		super(body, container, container,1);
 
 		this.coreShiboleet = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 		this.entityContainer = Objects.requireNonNull(container);
 		this.shotFactory = Objects.requireNonNull(factory);
 		this.isVisible = false;
-		this.isChild = false;
+		this.isChild = isChild;
 	}
 
 	@Override
@@ -72,10 +73,6 @@ public class ShiboleetShot extends AbstractShot {
 			}
 		}
 	}
-	
-	private void setChild(boolean value) {
-		isChild = value;
-	}
 
 	private void explode() {
 		System.err.println("Explode Motherfucker");
@@ -93,11 +90,6 @@ public class ShiboleetShot extends AbstractShot {
 		s2.setFireMask(isPlayer);
 		s3.setFireMask(isPlayer);
 		s4.setFireMask(isPlayer);
-		
-		s1.setChild(true);
-		s2.setChild(true);
-		s3.setChild(true);
-		s4.setChild(true);
 				
 		s1.moveTo(2.0f, -5.0f);
 		s2.moveTo(0.75f, -5.0f);
@@ -117,7 +109,7 @@ public class ShiboleetShot extends AbstractShot {
 	}
 	
 	private ShiboleetShot createChild() {
-		return (ShiboleetShot) shotFactory.createShiboleetShot(getX(), getY());
+		return (ShiboleetShot) shotFactory.createShiboleetShot(getX(), getY(), true);
 	}
 
 	@Override
@@ -131,7 +123,7 @@ public class ShiboleetShot extends AbstractShot {
 		}
 	}
 
-	private void drawCoreShiboleet(Graphics graphics) {
+	/*private void drawCoreShiboleet(Graphics graphics) {
 		
 		Rectangle area = getEdge();
 		
@@ -148,8 +140,8 @@ public class ShiboleetShot extends AbstractShot {
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - h;
 		
 		graphics.draw(coreShiboleet, x, y, x + w,  y + h, getAngle());
-	}
-
+	}*/
+	
 	@Override
 	public void update(Graphics graphics, long delta) {
 		

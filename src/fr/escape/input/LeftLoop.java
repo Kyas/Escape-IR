@@ -34,7 +34,7 @@ public final class LeftLoop implements Gesture {
 		}
 		
 		velocity[0] = diameter;
-		velocity[1] = -2.0f;
+		velocity[1] = 0.0f;
 		velocity[2] = 0.0f;
 		velocity[3] = FLAG;
 		

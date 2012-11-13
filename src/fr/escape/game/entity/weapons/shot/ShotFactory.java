@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 // TODO Comment
@@ -120,15 +121,22 @@ public final class ShotFactory {
 		return shot;
 	}
 
-	public Shot createShiboleetShot(float x, float y) {
+	public Shot createShiboleetShot(float x, float y, boolean isChild) {
+		Texture coreShiboleet = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
+		float shapeX, shapeY;
 
 		// TODO Find something more elegant
 		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight());
-		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT).getWidth() / 2);
-		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT).getHeight() / 2);
+		if(isChild) {
+			shapeX = CoordinateConverter.toMeterX(coreShiboleet.getWidth() / 2 - 10);
+			shapeY = CoordinateConverter.toMeterY(coreShiboleet.getHeight() / 2 - 10);
+		} else {
+			shapeX = CoordinateConverter.toMeterX((int) ((coreShiboleet.getWidth() / 2) * ShiboleetShot.CHILD_RADIUS));
+			shapeY = CoordinateConverter.toMeterY((int) ((coreShiboleet.getHeight() / 2) * ShiboleetShot.CHILD_RADIUS));
+		}
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(x, y + shipSize);
+		bodyDef.position.set(x, y + ((isChild)?0:shipSize));
 		bodyDef.type = BodyType.DYNAMIC;
 		
 		PolygonShape shape = new PolygonShape();
@@ -145,7 +153,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new ShiboleetShot(body, entityContainer, this);
+		Shot shot = new ShiboleetShot(body, isChild, entityContainer, this);
 		
 		body.setUserData(shot);
 		

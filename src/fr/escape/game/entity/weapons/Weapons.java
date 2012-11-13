@@ -62,7 +62,7 @@ public class Weapons {
 			
 			@Override
 			protected Shot createShot(float x, float y) {
-				return getFactory().createShiboleetShot(x, y);
+				return getFactory().createShiboleetShot(x, y, false);
 			}
 			
 		};
@@ -138,7 +138,7 @@ public class Weapons {
 			
 			@Override
 			protected Shot createShot(float x, float y) {
-				return getFactory().createShiboleetShot(x, y);
+				return getFactory().createShiboleetShot(x, y, false);
 			}
 			
 			@Override

@@ -11,6 +11,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+//TODO Comment
 public class MissileShot extends AbstractShot {
 	
 	private final Texture coreMissile;

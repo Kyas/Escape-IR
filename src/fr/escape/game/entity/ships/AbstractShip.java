@@ -19,9 +19,12 @@ import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 
+//TODO Comment
 public abstract class AbstractShip implements Ship {
-	private static final int PLAYER_MASK = 0x0004 | 0x0008 | 0x000F;
-	private static final int INVULNERABILITY_MASK = 0x0001 | 0x000F;
+	private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE;
+	private static final int INVULNERABILITY_MASK = 0x0001 | BONUS_TYPE;
+	private static final int LEFTLOOP = 2;
+	private static final int RIGHTLOOP = 1;
 	
 	private static final String TAG = AbstractShip.class.getSimpleName();
 	
@@ -37,7 +40,6 @@ public abstract class AbstractShip implements Ship {
 	private boolean isWeaponLoaded;
 	private boolean executeLeftLoop;
 	private boolean executeRightLoop;
-	private float loopValue;
 
 	private int angle;
 	private int life;
@@ -65,9 +67,11 @@ public abstract class AbstractShip implements Ship {
 		return isPlayer;
 	}
 	
+	@Override
 	public void damage(int value) {
 		life -= value;
 		if(life <= 0) {
+			Foundation.ACTIVITY.error(TAG, "A Ship has been destroy.");
 			this.toDestroy();
 		}
 	}
@@ -237,38 +241,33 @@ public abstract class AbstractShip implements Ship {
 	private void doLooping(float[] velocity) {
 		
 		int mode = (int) velocity[3];
-		
-		switch(mode) {
-			case 0: {
-				if(velocity[0] <= 0) {
-					coreShip.rewind();
-					executeLeftLoop = false;
-					executeRightLoop = false;
-					setInvulnerable(false);
-				}
-				break;
-			}
-			case 1: {
-				if(velocity[0] <= 0) {
-					coreShip.rewind();
-					executeLeftLoop = executeRightLoop;
-					executeRightLoop = !executeLeftLoop;
-					velocity[0] = loopValue;
-					velocity[1] *= -1;
-					velocity[3] = 0.0f;
-					System.out.println(executeLeftLoop + " " + executeRightLoop);
-				}
-				break;
-			}
-			case 2: {
+		switch (mode) {
+			case RIGHTLOOP:
 				setInvulnerable(true);
-				executeRightLoop = velocity[1] > 0;
-				executeLeftLoop = !executeRightLoop;
-				loopValue = velocity[0];
-				velocity[3] = 1.0f;
+				executeRightLoop = true;
+				if(velocity[0] <= 0) {
+					velocity[3] = 0.0f;
+				} else {
+					velocity[0] -= 2.0f;
+				}
 				break;
-			}
+			case LEFTLOOP:
+				setInvulnerable(true);
+				executeLeftLoop = true;
+				if(velocity[0] <= 0) {
+					velocity[3] = 0.0f;
+				} else {
+					velocity[0] -= 2.0f;
+				}
+				break;
+			default:
+				coreShip.rewind();
+				executeLeftLoop = false;
+				executeRightLoop = false;
+				setInvulnerable(false);
+				break;
 		}
+
 	}
 	
 	@Override
@@ -339,64 +338,41 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
-		
-		// TODO Clean this shit!
-		
-		switch(whoami) {
-			case PLAYER_TYPE: {
-				switch(whois) {
-					case SHOT_TYPE: {
-						
-						Shot shot = (Shot) e;
-						shot.receive(Shot.MESSAGE_HIT);
-						
-						// TODO
-						System.err.println("Hit by shot, you lost a life");
-						/*entityA.toDestroy();*/
-						
-						break;
-					}
-					case BONUS_TYPE: {
-						Bonus bonus = (Bonus) e;
-						user.addBonus(bonus.getWeapon(), bonus.getNumber());
-						e.toDestroy();
-						break;
-					}
-					default: {
-						
-						Foundation.ACTIVITY.error(TAG, "Hit by unknown contact, player lost a life anyway");
-						
-						// TODO
-						/*entityA.toDestroy();*/
-						e.toDestroy();
-						
-						break;
-					}
-				}
-				break;
-			}
-			case NPC_TYPE: {
-				
-				if(whois == SHOT_TYPE) {
-					
-					Shot s = (Shot) e;
-					s.receive(Shot.MESSAGE_HIT);
-					
-				} else if(whois == PLAYER_TYPE) {
-					// TODO
-					System.err.println("Player lost a life");
-				} else {
-					e.toDestroy();			
-				}
-				
-				this.toDestroy();
-				
-				break;
-			}
-			default: {
-				throw new IllegalArgumentException("Unknwon Entity Collision Type \"whoami\": "+whoami);
-			}
+		if(isPlayer && whois != BONUS_TYPE) {
+			Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
+			//user.removeOneLife();
 		}
+		
+		switch(whois) {
+			case SHOT_TYPE : 
+				Foundation.ACTIVITY.error(TAG, "Player or NPC hit by Shot.");
+				Shot shot = (Shot) e;
+				shot.receive(Shot.MESSAGE_HIT);
+				this.damage(shot.getDamage());
+				break;
+			case BONUS_TYPE :
+				if(isPlayer) {
+					Foundation.ACTIVITY.error(TAG, "Player hit by Bonus.");
+					Bonus bonus = (Bonus) e;
+					user.addBonus(bonus.getWeapon(), bonus.getNumber());
+					e.toDestroy();
+				}
+				break;
+			case NPC_TYPE :
+				Foundation.ACTIVITY.error(TAG, "Player hit by NPC.");
+				Ship ship = (Ship) e;
+				ship.damage(1);
+				break;
+			case PLAYER_TYPE : 
+				Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
+				Foundation.ACTIVITY.error(TAG, "NPC hit by Player.");
+				//user.removeOneLife();
+				break;
+			default: 
+				Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
+				break;
+		}
+		
 	}
 	
 	@Override

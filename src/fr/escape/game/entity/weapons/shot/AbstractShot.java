@@ -12,7 +12,9 @@ import fr.escape.game.User;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
+import fr.escape.game.entity.ships.Ship;
 
+//TODO Comment
 public abstract class AbstractShot implements Shot {
 	
 	private static final int PLAYER_SHOT_MASK = NPC_TYPE;
@@ -103,19 +105,25 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
+	public int getDamage() {
+		return damage;
+	}
+	
+	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
 		getBody().setType(BodyType.STATIC);
 		this.receive(MESSAGE_HIT);
 		switch(whois) {
 			case PLAYER_TYPE: {
 				// TODO
-				Foundation.ACTIVITY.debug(TAG, "Shot touch Player");
-				System.err.println("Player lost a life");
+				Foundation.ACTIVITY.error(TAG, "Shot hit by Player.");
+				//user.removeOneLife();
 				break;
 			}
 			case NPC_TYPE: {
-				e.toDestroy();
-				Foundation.ACTIVITY.debug(TAG, "Shot touch NPC");
+				Foundation.ACTIVITY.error(TAG, "Shot hit by NPC.");
+				Ship ship = (Ship) e;
+				ship.damage(getDamage());
 				break;
 			}
 			default: {

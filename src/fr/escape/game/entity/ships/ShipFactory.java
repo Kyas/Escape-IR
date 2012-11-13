@@ -19,6 +19,7 @@ import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.resources.texture.TextureLoader;
 
+//TODO Comment
 public class ShipFactory {
 	private static final int PLAYERMASK = 0x0004 | 0x0008 | 0x000F;
 	private static final int NPCMASK = 0x0002 | 0x0008;

@@ -13,6 +13,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
+//TODO Comment
 public final class FireBallShot extends AbstractShot {
 
 	private static final int FIREBALL_SPEED = 4000;

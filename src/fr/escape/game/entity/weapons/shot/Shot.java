@@ -5,6 +5,7 @@ import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.Moveable;
 import fr.escape.game.message.Receiver;
 
+//TODO Comment
 public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	
 	/**
@@ -42,4 +43,5 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	
 	public void setFireMask(boolean isPlayer);
 	
+	public int getDamage();
 }
