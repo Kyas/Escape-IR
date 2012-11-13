@@ -19,4 +19,6 @@ public interface Scenario {
 	 */
 	public void action(int time);
 	
+	public boolean reset();
+	
 }

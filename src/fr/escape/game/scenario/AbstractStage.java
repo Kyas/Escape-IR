@@ -23,19 +23,19 @@ public abstract class AbstractStage implements Stage {
 		this.lastTime = -1;
 	}
 	
-	public List<Scenario> getActiveScenario() {
+	private List<Scenario> getActiveScenario() {
 		return active;
 	}
 	
-	public TreeMap<Integer, Scenario> getWaitingScenario() {
+	protected TreeMap<Integer, Scenario> getWaitingScenario() {
 		return waiting;
 	}
 	
-	public int getLastUpdateTime() {
+	private int getLastUpdateTime() {
 		return lastTime;
 	}
 	
-	public void setLastUpdateTime(int updateTime) {
+	private void setLastUpdateTime(int updateTime) {
 		lastTime = updateTime;
 	}
 	

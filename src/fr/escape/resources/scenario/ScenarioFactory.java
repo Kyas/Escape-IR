@@ -60,7 +60,6 @@ final class ScenarioFactory {
 					if(spawns.contains(row.getKey()) && !getContainer().contains(row.getValue())) {
 						Foundation.ACTIVITY.debug(tag, "Remove "+row.getValue());
 						spawns.remove(row.getKey());
-						it.remove();
 					}
 
 				}
@@ -137,7 +136,7 @@ final class ScenarioFactory {
 
 				Integer shipID = Integer.parseInt(args[0]);
 				
-				Ship ship = ships.get(shipID);
+				Ship ship = selectShip(shipID);
 				
 				if(ship != null) {
 					ship.fireWeapon();
@@ -151,7 +150,7 @@ final class ScenarioFactory {
 				float shipX = Float.parseFloat(args[1]);
 				float shipY = Float.parseFloat(args[2]);
 				
-				Ship ship = ships.get(shipID);
+				Ship ship = selectShip(shipID);
 				
 				if(ship != null) {
 					ship.moveTo(shipX, shipY);
@@ -163,7 +162,7 @@ final class ScenarioFactory {
 
 				Integer shipID = Integer.parseInt(args[0]);
 
-				Ship ship = Objects.requireNonNull(ships.get(shipID));
+				Ship ship = fetchShip(shipID);
 				
 				Foundation.ACTIVITY.debug(tag, "Spawn "+ship);
 				spawns.add(shipID);
@@ -173,9 +172,48 @@ final class ScenarioFactory {
 				
 			}
 			
+			/**
+			 * <p>
+			 * Select Ship in EntityContainer.
+			 * 
+			 * @param shipID The Ship ID
+			 * @return Ship
+			 */
+			private Ship selectShip(Integer shipID) {
+				
+				Ship ship = fetchShip(shipID);
+				
+				if(spawns.contains(shipID)) {
+					return ship;
+				}
+				
+				return null;
+			}
+			
+			/**
+			 * <p>
+			 * Fetch Ship from Collection.
+			 * 
+			 * <p>
+			 * This is unattached with EntityContainer and Game state.
+			 * 
+			 * @param shipID The Ship ID
+			 * @return Ship
+			 */
+			private Ship fetchShip(Integer shipID) {
+				return Objects.requireNonNull(ships.get(shipID));
+			}
+			
 			private EntityContainer getContainer() {
 				assert container != null;
 				return container;
+			}
+
+			@Override
+			public boolean reset() {
+				cursor = 0;
+				spawns.clear();
+				return false;
 			}
 
 		};
