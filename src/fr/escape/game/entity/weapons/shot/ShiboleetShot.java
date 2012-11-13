@@ -23,7 +23,7 @@ public class ShiboleetShot extends AbstractShot {
 	private boolean isVisible;
 
 	public ShiboleetShot(Body body, EntityContainer container, ShotFactory factory) {
-		super(body, container, container);
+		super(body, container, container,1);
 
 		this.coreShiboleet = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 		this.entityContainer = Objects.requireNonNull(container);
@@ -46,7 +46,6 @@ public class ShiboleetShot extends AbstractShot {
 			}
 			case Shot.MESSAGE_CRUISE: {
 				isVisible = true;
-				setFireMask();
 				break;
 			}
 			case Shot.MESSAGE_HIT: {
@@ -74,29 +73,39 @@ public class ShiboleetShot extends AbstractShot {
 	private void explode() {
 		
 		System.err.println("Explode Motherfucker");
+		int mask = getBody().getFixtureList().m_filter.maskBits;
+		boolean isPlayer = (mask != PLAYER_TYPE);
+		System.err.println(mask);
 		
 		Shot s1 = createChild();
 		System.err.println("s1:"+s1);
-//		Shot s2 = createChild();
-//		Shot s3 = createChild();
-//		Shot s4 = createChild();
-		
+		Shot s2 = createChild();
+		Shot s3 = createChild();
+		Shot s4 = createChild();
+	
 		// TODO Compute Angle
+		s1.setFireMask(isPlayer);
 		s1.getBody().setLinearVelocity(new Vec2(0.0f, -1.0f));
-//		s2.moveTo(4.0f, 0.0f);
-//		s3.moveTo(6.0f, 0.0f);
-//		s4.moveTo(8.0f, 0.0f);
+		s2.setFireMask(isPlayer);
+		s2.getBody().setLinearVelocity(new Vec2(0.0f, -2.0f));
+		s3.setFireMask(isPlayer);
+		s3.getBody().setLinearVelocity(new Vec2(0.0f, -3.0f));
+		s4.setFireMask(isPlayer);
+		s4.getBody().setLinearVelocity(new Vec2(0.0f, -4.0f));
+		/*s2.moveTo(4.0f, 0.0f);
+		s3.moveTo(6.0f, 0.0f);
+		s4.moveTo(8.0f, 0.0f);*/
 		
 		s1.receive(MESSAGE_CRUISE);
-//		s2.receive(MESSAGE_CRUISE);
-//		s3.receive(MESSAGE_CRUISE);
-//		s4.receive(MESSAGE_CRUISE);
-//		
+		s2.receive(MESSAGE_CRUISE);
+		s3.receive(MESSAGE_CRUISE);
+		s4.receive(MESSAGE_CRUISE);
+		
 		entityContainer.push(s1);
-//		entityContainer.push(s2);
-//		entityContainer.push(s3);
-//		entityContainer.push(s4);
-//		
+		entityContainer.push(s2);
+		entityContainer.push(s3);
+		entityContainer.push(s4);
+		
 	}
 	
 	private Shot createChild() {

@@ -87,12 +87,13 @@ public abstract class AbstractWeapon implements Weapon {
 	}
 	
 	@Override
-	public boolean fire(float[] velocity) {
+	public boolean fire(float[] velocity, boolean isPlayer) {
 
 		if(shot != null) {
 			
 			// TODO
 			shot.moveBy(velocity);
+			shot.setFireMask(isPlayer);
 			
 			container.push(shot);
 			shot.receive(Shot.MESSAGE_FIRE);

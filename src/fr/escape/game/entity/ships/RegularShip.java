@@ -11,8 +11,8 @@ import fr.escape.graphics.AnimationTexture;
 //TODO comment
 public class RegularShip extends AbstractShip {
 	
-	RegularShip(Body body, List<Weapon> weapons, boolean isPlayer, EntityContainer container, AnimationTexture textures) {
-		super(body, weapons, isPlayer, container, textures);
+	RegularShip(Body body, List<Weapon> weapons, boolean isPlayer, int life, EntityContainer container, AnimationTexture textures) {
+		super(body, weapons, isPlayer, life, container, textures);
 	}
 
 }

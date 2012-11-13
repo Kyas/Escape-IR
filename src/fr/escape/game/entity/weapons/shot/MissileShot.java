@@ -18,7 +18,7 @@ public class MissileShot extends AbstractShot {
 	private boolean isVisible;
 
 	public MissileShot(Body body, EntityContainer container) {
-		super(body, container, container);
+		super(body, container, container,2);
 		
 		this.coreMissile = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 		this.isVisible = false;
@@ -32,7 +32,6 @@ public class MissileShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
-				setFireMask();
 				break;
 			}
 			case Shot.MESSAGE_CRUISE: {

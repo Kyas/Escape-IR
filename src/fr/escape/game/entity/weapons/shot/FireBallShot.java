@@ -27,7 +27,7 @@ public final class FireBallShot extends AbstractShot {
 	private long timer;
 	
 	public FireBallShot(Body body, EntityContainer container) {
-		super(body, container, container);
+		super(body, container, container,3);
 		
 		this.coreBall = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
 		this.radiusEffect = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_RADIUS_SHOT);
@@ -75,7 +75,6 @@ public final class FireBallShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
-				setFireMask();
 				radiusGrown = false;
 				break;
 			}

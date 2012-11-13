@@ -207,9 +207,7 @@ public class Splash implements Screen {
 			
 		}
 		
-		if(!game.getUser().getShip().isWeaponLoaded()) {
-			drawEvents();
-		}
+		drawEvents();
 		
 		game.getEntityContainer().flush();
 		game.getWorld().step(delta / 1000.0f, 6, 2);

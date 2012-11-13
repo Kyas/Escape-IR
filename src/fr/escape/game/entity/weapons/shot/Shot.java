@@ -40,4 +40,6 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 		
 	public int getState();
 	
+	public void setFireMask(boolean isPlayer);
+	
 }

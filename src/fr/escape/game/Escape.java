@@ -141,7 +141,7 @@ public final class Escape extends Game implements LifeListener {
 			victory = new Victory(this);
 			// Other Screen if any ...
 			
-			setScreen(victory);
+			setScreen(splash);
 			
 		} catch(Exception e) {
 			error = new Error(this);
