@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -21,6 +22,7 @@ import fr.escape.graphics.AnimationTexture;
 
 //TODO Comment
 public abstract class AbstractShip implements Ship {
+	
 	private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE;
 	private static final int INVULNERABILITY_MASK = 0x0001 | BONUS_TYPE;
 	private static final int LEFTLOOP = 2;
@@ -35,6 +37,8 @@ public abstract class AbstractShip implements Ship {
 	private final EntityContainer econtainer;
 	
 	private final AnimationTexture coreShip;
+	
+	private final Random random;
 	
 	private int activeWeapon;
 	private boolean isWeaponLoaded;
@@ -60,6 +64,8 @@ public abstract class AbstractShip implements Ship {
 		this.executeRightLoop = false;
 		
 		this.life = life;
+		
+		this.random = new Random();
 	}
 	
 	@Override
@@ -69,7 +75,9 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void damage(int value) {
+		
 		life -= value;
+		
 		if(life <= 0) {
 			Foundation.ACTIVITY.error(TAG, "A Ship has been destroy.");
 			this.toDestroy();
@@ -198,6 +206,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean fireWeapon() {
+		setActiveWeapon(random.nextInt(3));
 		return loadWeapon() && fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
 	}
 	
@@ -242,7 +251,7 @@ public abstract class AbstractShip implements Ship {
 		
 		int mode = (int) velocity[3];
 		switch (mode) {
-			case RIGHTLOOP:
+			case RIGHTLOOP: {
 				setInvulnerable(true);
 				executeRightLoop = true;
 				if(velocity[0] <= 0) {
@@ -251,7 +260,8 @@ public abstract class AbstractShip implements Ship {
 					velocity[0] -= 2.0f;
 				}
 				break;
-			case LEFTLOOP:
+			}
+			case LEFTLOOP: {
 				setInvulnerable(true);
 				executeLeftLoop = true;
 				if(velocity[0] <= 0) {
@@ -260,12 +270,14 @@ public abstract class AbstractShip implements Ship {
 					velocity[0] -= 2.0f;
 				}
 				break;
-			default:
+			}
+			default: {
 				coreShip.rewind();
 				executeLeftLoop = false;
 				executeRightLoop = false;
 				setInvulnerable(false);
 				break;
+			}
 		}
 
 	}
@@ -312,65 +324,71 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	public void receive(int message) {
-		switch(message) {
-			case MESSAGE_EXECUTE_LEFT_LOOP: {
-				
-				System.err.println("TODO: Execute Left Loop");
-				
-				break;
-			}
-			case MESSAGE_EXECUTE_RIGHT_LOOP: {
-				
-				System.err.println("TODO: Execute Right Loop");
-				
-				break;
-			}
-		}
 		
 	}
 	
 	@Override
 	public Rectangle getEdge() {
+		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
+		
 		return new Rectangle(x - (coreShip.getWidth() / 2), y - (coreShip.getHeight() / 2), coreShip.getWidth(), coreShip.getHeight());
 	}
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
+		
 		if(isPlayer && whois != BONUS_TYPE) {
 			Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
-			//user.removeOneLife();
+			user.removeOneLife();
 		}
 		
 		switch(whois) {
-			case SHOT_TYPE : 
-				Foundation.ACTIVITY.error(TAG, "Player or NPC hit by Shot.");
+			case SHOT_TYPE: { 
+				
+				Foundation.ACTIVITY.debug(TAG, "Player or NPC hit by Shot.");
+				
 				Shot shot = (Shot) e;
 				shot.receive(Shot.MESSAGE_HIT);
+				
 				this.damage(shot.getDamage());
+				
 				break;
-			case BONUS_TYPE :
+			}
+			case BONUS_TYPE: {
 				if(isPlayer) {
-					Foundation.ACTIVITY.error(TAG, "Player hit by Bonus.");
+					
+					Foundation.ACTIVITY.debug(TAG, "Player hit by Bonus.");
+					
 					Bonus bonus = (Bonus) e;
 					user.addBonus(bonus.getWeapon(), bonus.getNumber());
+					
 					e.toDestroy();
+					
 				}
 				break;
-			case NPC_TYPE :
-				Foundation.ACTIVITY.error(TAG, "Player hit by NPC.");
+			}
+			case NPC_TYPE: {
+				
+				Foundation.ACTIVITY.debug(TAG, "Player hit by NPC.");
+				
 				Ship ship = (Ship) e;
+				
 				ship.damage(1);
+				this.damage(1);
+				
 				break;
-			case PLAYER_TYPE : 
-				Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
-				Foundation.ACTIVITY.error(TAG, "NPC hit by Player.");
-				//user.removeOneLife();
+			}
+			case PLAYER_TYPE: {
+				Foundation.ACTIVITY.debug(TAG, "Hit, player lost a life.");
+				Foundation.ACTIVITY.debug(TAG, "NPC hit by Player.");
 				break;
-			default: 
+			}
+			default: { 
 				Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
 				break;
+			}
 		}
 		
 	}
