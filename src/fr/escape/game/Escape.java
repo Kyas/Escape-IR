@@ -19,12 +19,16 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
+import fr.escape.app.Screen;
 import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.CollisionDetector;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
+import fr.escape.game.screen.IntroEarth;
+import fr.escape.game.screen.IntroJupiter;
+import fr.escape.game.screen.IntroMoon;
 import fr.escape.game.screen.Lost;
 import fr.escape.game.screen.Menu;
 import fr.escape.game.screen.Splash;
@@ -63,6 +67,13 @@ public final class Escape extends Game implements LifeListener {
 	private Menu menu;
 	private Splash splash;
 	private Error error;
+	
+	/**
+	 * IntroScreen 
+	 */
+	private Screen introJupiter;
+	private Screen introMoon;
+	private Screen introEarth;
 	
 	/**
 	 * Overlay used ingame
@@ -122,6 +133,9 @@ public final class Escape extends Game implements LifeListener {
 			menu = new Menu(this);
 			splash = new Splash(this);
 			victory = new Victory(this);
+			introJupiter = new IntroJupiter(this);
+			introMoon = new IntroMoon(this);
+			introEarth = new IntroEarth(this);
 			// Other Screen if any ...
 			
 			// Show Entry Screen
@@ -189,7 +203,15 @@ public final class Escape extends Game implements LifeListener {
 
 	@Override
 	public void restart() {
-		setScreen(getScreen());
+		
+		Screen screen = getScreen();
+		
+		// Check if we should display Intro Screen
+		if(screen == splash) {
+			screen = introJupiter;
+		}
+		
+		setScreen(screen);
 	}
 
 	@Override
@@ -209,8 +231,7 @@ public final class Escape extends Game implements LifeListener {
 	 * Update the current Screen by starting a New Game
 	 */
 	public void setNewGameScreen() {
-		// TODO Change it by Earth
-		setScreen(splash);
+		setIntroJupiterScreen();
 	}
 	
 	public void setVictoryScreen() {
@@ -219,6 +240,30 @@ public final class Escape extends Game implements LifeListener {
 	
 	public void setLostScreen() {
 		setScreen(lost);
+	}
+	
+	public void setEarthScreen() {
+		setScreen(splash);	
+	}
+	
+	public void setJupiterScreen() {
+		setScreen(splash);
+	}
+	
+	public void setMoonScreen() {
+		// TODO
+	}
+	
+	public void setIntroEarthScreen() {
+		setScreen(introEarth);
+	}
+	
+	public void setIntroJupiterScreen() {
+		setScreen(introJupiter);
+	}
+	
+	public void setIntroMoonScreen() {
+		setScreen(introMoon);
 	}
 	
 	/**
@@ -279,4 +324,5 @@ public final class Escape extends Game implements LifeListener {
 		
 		getUser().register(uHighscore);
 	}
+	
 }

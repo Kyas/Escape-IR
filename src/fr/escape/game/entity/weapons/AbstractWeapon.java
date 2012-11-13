@@ -97,6 +97,10 @@ public abstract class AbstractWeapon implements Weapon {
 			shot.moveBy(velocity);
 			shot.setFireMask(isPlayer);
 			
+			if(!isPlayer) {
+				shot.rotateBy(180);
+			}
+			
 			container.push(shot);
 			shot.receive(Shot.MESSAGE_FIRE);
 			

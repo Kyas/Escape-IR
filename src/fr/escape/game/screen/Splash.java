@@ -25,6 +25,8 @@ import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
+import fr.escape.game.entity.bonus.Bonus;
+import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.ships.Ship;
 
 import fr.escape.game.scenario.Earth;
@@ -57,14 +59,6 @@ public class Splash implements Screen {
 		this.game = game;
 		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
 		this.stage = new Earth(game.getShipFactory(), game.getEntityContainer());
-		
-//        Bonus bonus = null;
-//        while(bonus == null) {
-//                bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(-50),game.getEntityContainer());
-//        }
-//        float[] bV = {0.0f,0.0f,1.0f};
-//        bonus.moveBy(bV);
-//        game.getEntityContainer().push(bonus);
         
 	}
 	
@@ -154,7 +148,6 @@ public class Splash implements Screen {
 		drawEvents();
 		
 		game.getEntityContainer().flush();
-		game.getWorld().step(delta / 1000.0f, 6, 2);
 		
 		if(time > 20000) {
 			System.err.println("Remove One Life");
@@ -177,6 +170,15 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		time = 0;
 		stage.start();
+		
+        Bonus bonus = null;
+        while(bonus == null) {
+                bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(-50),game.getEntityContainer());
+        }
+        float[] bV = {0.0f,0.0f,1.0f};
+        bonus.moveBy(bV);
+        game.getEntityContainer().push(bonus);
+		
 	}
 
 	@Override
@@ -184,6 +186,7 @@ public class Splash implements Screen {
 		Foundation.ACTIVITY.debug(TAG, "Hide");
 		game.getOverlay().hide();
 		game.getEntityContainer().reset();
+		game.getUser().getShip().getActiveWeapon().unload();
 		stage.reset();
 	}
 

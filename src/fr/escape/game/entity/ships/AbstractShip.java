@@ -194,7 +194,6 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean fireWeapon() {
-		// TODO Debug
 		return loadWeapon() && fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
 	}
 	
@@ -203,7 +202,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(velocity,isPlayer)) {
+		if(activeWeapon.fire(velocity, isPlayer)) {
 			isWeaponLoaded = false;
 			return true;
 		}
