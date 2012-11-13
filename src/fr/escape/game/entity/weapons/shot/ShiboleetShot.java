@@ -15,7 +15,7 @@ import fr.escape.resources.texture.TextureLoader;
 
 public class ShiboleetShot extends AbstractShot {
 	
-	private static final float CHILD_RADIUS = 0.80f;
+	private static final float CHILD_RADIUS = 0.70f;
 	
 	private final Texture coreShiboleet;
 	private final EntityContainer entityContainer;
@@ -123,11 +123,10 @@ public class ShiboleetShot extends AbstractShot {
 	@Override
 	public void draw(Graphics graphics) {
 		if(isVisible) {
-			if(!isChild) {
-				drawCoreShiboleet(graphics);
-			} else {
-				drawChildShiboleet(graphics);
-			}
+			
+			Rectangle area = getEdge();
+			
+			graphics.draw(coreShiboleet, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
 			graphics.draw(getEdge(), Color.RED);
 		}
 	}
@@ -164,10 +163,30 @@ public class ShiboleetShot extends AbstractShot {
 	@Override
 	protected Rectangle getEdge() {
 		
-		int x = CoordinateConverter.toPixelX(getX());
-		int y = CoordinateConverter.toPixelY(getY());
+		int cx = CoordinateConverter.toPixelX(getX());
+		int cy = CoordinateConverter.toPixelY(getY());
 		
-		return new Rectangle(x - (coreShiboleet.getWidth() / 2), y - (coreShiboleet.getHeight() / 2), coreShiboleet.getWidth(), coreShiboleet.getHeight());
+		int x;
+		int y;
+		int width;
+		int height;
+		
+		if(isChild) {
+			
+			width = (int) (coreShiboleet.getWidth() * CHILD_RADIUS);
+			height = (int) (coreShiboleet.getHeight() * CHILD_RADIUS);
+			x = CoordinateConverter.toPixelX(getBody().getPosition().x) - (width / 2);
+			y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (height / 2);
+			
+		} else {
+			
+			x = cx - (coreShiboleet.getWidth() / 2);
+			y = cy - (coreShiboleet.getHeight() / 2);
+			width = coreShiboleet.getWidth();
+			height = coreShiboleet.getWidth();
+		}
+		
+		return new Rectangle(x, y, width, height);
 	}
 
 }
