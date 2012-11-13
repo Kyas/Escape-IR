@@ -26,6 +26,7 @@ public final class CollisionDetector implements ContactListener {
 		int typeB = arg0.getFixtureB().getFilterData().categoryBits;
 		
 		entityA.collision(user, typeA, entityB, typeB);
+		entityB.collision(user, typeB, entityA, typeA);
 
 	}
 

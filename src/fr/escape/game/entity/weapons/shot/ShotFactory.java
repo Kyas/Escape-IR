@@ -123,11 +123,12 @@ public final class ShotFactory {
 	public Shot createShiboleetShot(float x, float y) {
 
 		// TODO Find something more elegant
+		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight());
 		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT).getWidth() / 2);
 		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT).getHeight() / 2);
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(x, y);
+		bodyDef.position.set(x, y + shipSize);
 		bodyDef.type = BodyType.DYNAMIC;
 		
 		PolygonShape shape = new PolygonShape();

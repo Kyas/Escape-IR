@@ -47,7 +47,8 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		// TODO
+		System.out.println(x + " " + y);
+		getBody().setLinearVelocity(new Vec2(x,y));
 	}
 	
 	@Override

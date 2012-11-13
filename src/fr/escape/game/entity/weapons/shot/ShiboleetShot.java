@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Objects;
 
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import fr.escape.app.Foundation;
@@ -21,6 +20,7 @@ public class ShiboleetShot extends AbstractShot {
 	private final ShotFactory shotFactory;
 	
 	private boolean isVisible;
+	private boolean isChild;
 
 	public ShiboleetShot(Body body, EntityContainer container, ShotFactory factory) {
 		super(body, container, container,1);
@@ -29,6 +29,7 @@ public class ShiboleetShot extends AbstractShot {
 		this.entityContainer = Objects.requireNonNull(container);
 		this.shotFactory = Objects.requireNonNull(factory);
 		this.isVisible = false;
+		this.isChild = false;
 	}
 
 	@Override
@@ -69,32 +70,37 @@ public class ShiboleetShot extends AbstractShot {
 			}
 		}
 	}
+	
+	private void setChild(boolean value) {
+		isChild = value;
+	}
 
 	private void explode() {
-		
 		System.err.println("Explode Motherfucker");
 		int mask = getBody().getFixtureList().m_filter.maskBits;
 		boolean isPlayer = (mask != PLAYER_TYPE);
 		System.err.println(mask);
 		
-		Shot s1 = createChild();
-		System.err.println("s1:"+s1);
-		Shot s2 = createChild();
-		Shot s3 = createChild();
-		Shot s4 = createChild();
+		ShiboleetShot s1 = createChild();
+		ShiboleetShot s2 = createChild();
+		ShiboleetShot s3 = createChild();
+		ShiboleetShot s4 = createChild();
 	
 		// TODO Compute Angle
 		s1.setFireMask(isPlayer);
-		s1.getBody().setLinearVelocity(new Vec2(0.0f, -1.0f));
 		s2.setFireMask(isPlayer);
-		s2.getBody().setLinearVelocity(new Vec2(0.0f, -2.0f));
 		s3.setFireMask(isPlayer);
-		s3.getBody().setLinearVelocity(new Vec2(0.0f, -3.0f));
 		s4.setFireMask(isPlayer);
-		s4.getBody().setLinearVelocity(new Vec2(0.0f, -4.0f));
-		/*s2.moveTo(4.0f, 0.0f);
-		s3.moveTo(6.0f, 0.0f);
-		s4.moveTo(8.0f, 0.0f);*/
+		
+		s1.setChild(true);
+		s2.setChild(true);
+		s3.setChild(true);
+		s4.setChild(true);
+				
+		s1.moveTo((float) Math.sin(20), -5.0f);
+		s2.moveTo((float) Math.sin(65), -5.0f);
+		s3.moveTo((float) Math.cos(110), -5.0f);
+		s4.moveTo((float) Math.cos(155), -5.0f);
 		
 		s1.receive(MESSAGE_CRUISE);
 		s2.receive(MESSAGE_CRUISE);
@@ -108,14 +114,18 @@ public class ShiboleetShot extends AbstractShot {
 		
 	}
 	
-	private Shot createChild() {
-		return shotFactory.createShiboleetShot(getX(), getY());
+	private ShiboleetShot createChild() {
+		return (ShiboleetShot) shotFactory.createShiboleetShot(getX(), getY());
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
 		if(isVisible) {
-			drawCoreShiboleet(graphics);
+			if(!isChild) {
+				drawCoreShiboleet(graphics);
+			} else {
+				drawChildShiboleet(graphics);
+			}
 			graphics.draw(getEdge(), Color.RED);
 		}
 	}
@@ -126,6 +136,15 @@ public class ShiboleetShot extends AbstractShot {
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (coreShiboleet.getWidth() / 2);
 		
 		graphics.draw(coreShiboleet, x, y, getAngle());
+	}
+	
+	private void drawChildShiboleet(Graphics graphics) {
+		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - (coreShiboleet.getWidth() / 2);
+		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (coreShiboleet.getWidth() / 2);
+		
+		graphics.draw(coreShiboleet, x, y, getAngle());
+		//TODO draw small Shiboleet
+		//graphics.draw(coreShiboleet, x, y, x + coreShiboleet.getWidth() / 4,  y + coreShiboleet.getHeight() / 4, x, y, x + 5, y + 5, getAngle());
 	}
 
 	@Override
