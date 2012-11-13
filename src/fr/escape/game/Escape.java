@@ -129,7 +129,7 @@ public final class Escape extends Game implements LifeListener {
 			// Other Screen if any ...
 			
 			// Show Entry Screen
-			setScreen(lost);
+			setMenuScreen();
 			
 		} catch(Exception e) {
 			error = new Error(this);
@@ -198,6 +198,7 @@ public final class Escape extends Game implements LifeListener {
 
 	@Override
 	public void stop() {
+		getUser().reset();
 		setScreen(lost);
 	}
 	

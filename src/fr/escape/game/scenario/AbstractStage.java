@@ -4,13 +4,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.TreeMap;
 
+import fr.escape.app.Foundation;
 import fr.escape.game.entity.EntityContainer;
 
 public abstract class AbstractStage implements Stage {
 
+	private static final String TAG = AbstractStage.class.getSimpleName();
+	
 	private final List<Scenario> active;
+	private final List<Scenario> scenarios;
 	private final TreeMap<Integer, Scenario> waiting;
 	private final EntityContainer container;
 	
@@ -19,6 +24,7 @@ public abstract class AbstractStage implements Stage {
 	public AbstractStage(EntityContainer container) {
 		this.container = container;
 		this.active = new LinkedList<>();
+		this.scenarios = new LinkedList<>();
 		this.waiting = new TreeMap<>();
 		this.lastTime = -1;
 	}
@@ -27,7 +33,11 @@ public abstract class AbstractStage implements Stage {
 		return active;
 	}
 	
-	protected TreeMap<Integer, Scenario> getWaitingScenario() {
+	protected boolean add(Scenario scenario) {
+		return this.scenarios.add(Objects.requireNonNull(scenario));
+	}
+	
+	private TreeMap<Integer, Scenario> getWaitingScenario() {
 		return waiting;
 	}
 	
@@ -41,7 +51,10 @@ public abstract class AbstractStage implements Stage {
 	
 	@Override
 	public void start() {
-		update(0);
+		Foundation.ACTIVITY.debug(TAG, "Start the current Stage");
+		for(Scenario scenario : scenarios) {
+			getWaitingScenario().put(scenario.getStart(), scenario);
+		}
 	}
 	
 	@Override
@@ -82,6 +95,13 @@ public abstract class AbstractStage implements Stage {
 			it.remove();
 		}
 		
+	}
+	
+	@Override
+	public void reset() {
+		Foundation.ACTIVITY.debug(TAG, "Reset the current Stage");
+		getActiveScenario().clear();
+		getWaitingScenario().clear();
 	}
 	
 }

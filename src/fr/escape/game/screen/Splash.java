@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
@@ -58,10 +59,7 @@ public class Splash implements Screen {
 	public Splash(Escape game) throws IOException {
 		
 		this.game = game;
-		this.time = 0;
-
 		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
-		
 		this.stage = new Earth(game.getShipFactory(), game.getEntityContainer());
 		
 //        Bonus bonus = null;
@@ -163,19 +161,36 @@ public class Splash implements Screen {
 		
 		game.getEntityContainer().flush();
 		game.getWorld().step(delta / 1000.0f, 6, 2);
+		
+		if(time > 20000) {
+			System.err.println("Remove One Life");
+			Foundation.ACTIVITY.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					game.getUser().removeOneLife();
+				}
+				
+			});
+		}
+		
 	}
 
 	@Override
 	public void show() {
+		Foundation.ACTIVITY.debug(TAG, "Show");
 		game.getOverlay().show();
 		game.getEntityContainer().reset();
+		time = 0;
 		stage.start();
 	}
 
 	@Override
 	public void hide() {
+		Foundation.ACTIVITY.debug(TAG, "Hide");
 		game.getOverlay().hide();
 		game.getEntityContainer().reset();
+		stage.reset();
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public final class Earth extends AbstractStage {
 	
 		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
 		
-		getWaitingScenario().put(e1.getStart(), e1);
+		add(e1);
 		
 //		getWaitingScenario().put(Integer.valueOf(2), new Scenario() {
 //			
@@ -43,4 +43,5 @@ public final class Earth extends AbstractStage {
 //			
 //		});
 	}
+	
 }

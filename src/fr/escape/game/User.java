@@ -28,15 +28,34 @@ public final class User implements Receiver, Sender {
 	private static final String TAG = User.class.getSimpleName();
 	private static final int INITIAL_LIFE = 3;
 	
+	private final Escape game;
+	private final Runnable restart;
+	private final Runnable stop;
+	
 	private Ship ship;
 	private int highscore;
 	private Receiver receiver;
 	private ArrayList<Gesture> gestures;
 	private int life;
-	private Escape game;
 	
 	User(Escape game) {
 		this.game = Objects.requireNonNull(game);
+		this.restart = new Runnable() {
+			
+			@Override
+			public void run() {
+				getLifeListener().restart();
+			}
+			
+		};
+		this.stop = new Runnable() {
+			
+			@Override
+			public void run() {
+				getLifeListener().stop();
+			}
+			
+		};
 		this.highscore = 0;
 		this.ship = null;
 		this.life = INITIAL_LIFE;
@@ -129,17 +148,18 @@ public final class User implements Receiver, Sender {
 	}
 	
 	public void setGestures(ArrayList<Gesture> gestures) {
-		this.gestures = gestures;
+		this.gestures = Objects.requireNonNull(gestures);
 	}
 	
 	public void removeOneLife() {
 		
+		Foundation.ACTIVITY.debug(TAG, "Remove One Life for User");
 		this.life -= 1;
 		
 		if(this.life <= 0) {
-			game.stop();
+			Foundation.ACTIVITY.post(stop);
 		} else {
-			game.restart();
+			Foundation.ACTIVITY.post(restart);
 		}
 	}
 	
@@ -154,6 +174,10 @@ public final class User implements Receiver, Sender {
 
 	public Weapon getActiveWeapon() {
 		return Objects.requireNonNull(getShip(), "getShip() is empty").getActiveWeapon();
+	}
+	
+	public LifeListener getLifeListener() {
+		return game;
 	}
 	
 	/**

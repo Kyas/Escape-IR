@@ -12,6 +12,7 @@
 package fr.escape.game.entity;
 
 import java.awt.Rectangle;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -135,8 +136,11 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 			return false;
 		}
 		
-		for(Entity e : entities) {
-			remove(e);
+		Iterator<Entity> it = entities.iterator();
+		
+		while(it.hasNext()) {
+			Entity e = it.next();
+			it.remove();
 			world.destroyBody(e.getBody());
 		}
 		
