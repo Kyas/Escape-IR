@@ -235,9 +235,11 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	private void doLooping(float[] velocity) {
+		
 		int mode = (int) velocity[3];
+		
 		switch(mode) {
-			case 0 :
+			case 0: {
 				if(velocity[0] <= 0) {
 					coreShip.rewind();
 					executeLeftLoop = false;
@@ -245,7 +247,8 @@ public abstract class AbstractShip implements Ship {
 					setInvulnerable(false);
 				}
 				break;
-			case 1 :
+			}
+			case 1: {
 				if(velocity[0] <= 0) {
 					coreShip.rewind();
 					executeLeftLoop = executeRightLoop;
@@ -256,13 +259,15 @@ public abstract class AbstractShip implements Ship {
 					System.out.println(executeLeftLoop + " " + executeRightLoop);
 				}
 				break;
-			case 2 :
+			}
+			case 2: {
 				setInvulnerable(true);
 				executeRightLoop = velocity[1] > 0;
 				executeLeftLoop = !executeRightLoop;
 				loopValue = velocity[0];
 				velocity[3] = 1.0f;
 				break;
+			}
 		}
 	}
 	
