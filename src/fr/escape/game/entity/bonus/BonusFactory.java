@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.User;
+import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
@@ -25,7 +26,8 @@ import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 public final class BonusFactory {
-	private static final int MASK = 0x0002;
+	
+	private static final int MASK = Collisionable.PLAYER_TYPE;
 
 	private static final int BLACKHOLE_CHANCE_PERCENT = 98;
 	private static final int FIREBALL_CHANCE_PERCENT = 70;
@@ -57,7 +59,7 @@ public final class BonusFactory {
 		fixture.density = 0.5f;
 		fixture.friction = 0.0f;
 		fixture.restitution = 0.0f;
-		fixture.filter.categoryBits = 0x0010;
+		fixture.filter.categoryBits = Collisionable.BONUS_TYPE;
 		fixture.filter.maskBits = MASK;
 		
 		Body body = world.createBody(bodyDef);//new Body(bodyDef, world);
@@ -266,7 +268,7 @@ public final class BonusFactory {
 					this.toDestroy();
 					break;
 				}
-		}
+			}
 		}
 		
 	}

@@ -15,6 +15,8 @@ import fr.escape.resources.texture.TextureLoader;
 
 public class ShiboleetShot extends AbstractShot {
 	
+	private static final float CHILD_RADIUS = 0.80f;
+	
 	private final Texture coreShiboleet;
 	private final EntityContainer entityContainer;
 	private final ShotFactory shotFactory;
@@ -139,12 +141,14 @@ public class ShiboleetShot extends AbstractShot {
 	}
 	
 	private void drawChildShiboleet(Graphics graphics) {
-		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - (coreShiboleet.getWidth() / 2);
-		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - (coreShiboleet.getWidth() / 2);
+
+		int w = (int) ((coreShiboleet.getWidth() / 2) * CHILD_RADIUS);
+		int h = (int) ((coreShiboleet.getHeight() / 2) * CHILD_RADIUS);
 		
-		graphics.draw(coreShiboleet, x, y, getAngle());
-		//TODO draw small Shiboleet
-		//graphics.draw(coreShiboleet, x, y, x + coreShiboleet.getWidth() / 4,  y + coreShiboleet.getHeight() / 4, x, y, x + 5, y + 5, getAngle());
+		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - w;
+		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - h;
+		
+		graphics.draw(coreShiboleet, x, y, x + w,  y + h, getAngle());
 	}
 
 	@Override

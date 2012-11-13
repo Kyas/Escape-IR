@@ -147,20 +147,7 @@ public class Splash implements Screen {
 		
 		drawEvents();
 		
-		game.getEntityContainer().flush();
-		
-		if(time > 20000) {
-			System.err.println("Remove One Life");
-			Foundation.ACTIVITY.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					game.getUser().removeOneLife();
-				}
-				
-			});
-		}
-		
+		game.getEntityContainer().flush();		
 	}
 
 	@Override
@@ -170,15 +157,6 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		time = 0;
 		stage.start();
-		
-        Bonus bonus = null;
-        while(bonus == null) {
-                bonus = BonusFactory.createBonus(game.getWorld(),CoordinateConverter.toMeterX(game.getGraphics().getWidth()/2), CoordinateConverter.toMeterY(-50),game.getEntityContainer());
-        }
-        float[] bV = {0.0f,0.0f,1.0f};
-        bonus.moveBy(bV);
-        game.getEntityContainer().push(bonus);
-		
 	}
 
 	@Override
