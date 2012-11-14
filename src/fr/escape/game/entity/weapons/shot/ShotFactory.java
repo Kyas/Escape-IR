@@ -127,7 +127,7 @@ public final class ShotFactory {
 		float shapeX, shapeY;
 
 		// TODO Find something more elegant
-		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight());
+		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_RAPTOR).getHeight());
 		if(isChild) {
 			shapeX = CoordinateConverter.toMeterX(coreShiboleet.getWidth() / 2 - 10);
 			shapeY = CoordinateConverter.toMeterY(coreShiboleet.getHeight() / 2 - 10);

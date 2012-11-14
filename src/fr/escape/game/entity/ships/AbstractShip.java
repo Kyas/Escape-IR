@@ -139,7 +139,6 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public float getX() {
-		if(isPlayer && body == null) System.err.println("Player body null : " + this);
 		return body.getPosition().x;
 	}
 	
@@ -155,9 +154,7 @@ public abstract class AbstractShip implements Ship {
 		int y = CoordinateConverter.toPixelY(getY()) - (coreShip.getHeight() / 2);
 			
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight(), angle);
-		//graphics.draw(getEdge(), Color.RED);
 		
-		//graphics.draw(Shapes.createCircle(CoordinateConverter.toPixelX(getX()),CoordinateConverter.toPixelY(getY()),CoordinateConverter.toPixelX(body.getFixtureList().getShape().m_radius)), Color.CYAN);
 	}
 	
 	@Override
@@ -326,6 +323,7 @@ public abstract class AbstractShip implements Ship {
 	public void moveBy(float[] velocity) {
 		
 		if(body.isActive()) {
+			
 			doLooping(velocity);
 			
 			if(velocity[0] > 0) {

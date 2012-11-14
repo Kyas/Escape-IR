@@ -60,9 +60,9 @@ public final class Resources {
 	 * Don't forget to call load() after instantiation.
 	 */
 	public Resources() {
-		fontLoader = new HashMap<String, FontLoader>();
-		textureLoader = new HashMap<String, TextureLoader>();
-		scenarioLoader = new HashMap<String, ScenarioLoader>();
+		fontLoader = new HashMap<>();
+		textureLoader = new HashMap<>();
+		scenarioLoader = new HashMap<>();
 		loaded = false;
 	}
 	
@@ -106,16 +106,18 @@ public final class Resources {
 			postTextureLoader(TextureLoader.BONUS_WEAPON_SHIBOLEET);
 			postTextureLoader(TextureLoader.BONUS_WEAPON_BLACKHOLE);
 			
-			postTextureLoader(TextureLoader.SHIP_SWING);
-			postTextureLoader(TextureLoader.SHIP_SWING_1);
-			postTextureLoader(TextureLoader.SHIP_SWING_2);
-			postTextureLoader(TextureLoader.SHIP_SWING_3);
-			postTextureLoader(TextureLoader.SHIP_SWING_4);
-			postTextureLoader(TextureLoader.SHIP_SWING_5);
-			postTextureLoader(TextureLoader.SHIP_SWING_6);
-			postTextureLoader(TextureLoader.SHIP_SWING_7);
-			postTextureLoader(TextureLoader.SHIP_SWING_8);
-			postTextureLoader(TextureLoader.SHIP_SWING_9);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_1);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_2);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_3);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_4);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_5);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_6);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_7);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_8);
+			postTextureLoader(TextureLoader.SHIP_RAPTOR_9);
+			postTextureLoader(TextureLoader.SHIP_FALCON);
+			postTextureLoader(TextureLoader.SHIP_VIPER);
 			
 			postTextureLoader(TextureLoader.MENU_UI_GRID);
 			postTextureLoader(TextureLoader.OVERLAY_STAR);

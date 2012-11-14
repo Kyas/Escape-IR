@@ -132,7 +132,7 @@ public final class Escape extends Game implements LifeListener {
 			// Create Game Components
 			ingameUI = new IngameUI();
 			shotFactory = new ShotFactory(getWorld(), getEntityContainer());
-			shipFactory = new ShipFactory(getWorld(), getEntityContainer(), getShotFactory());
+			shipFactory = new ShipFactory(getEntityContainer(), getShotFactory());
 			
 			// Create Ship
 			createPlayerShip();
@@ -354,11 +354,7 @@ public final class Escape extends Game implements LifeListener {
 	}
 	
 	private void createPlayerShip() {
-		Ship ship = getShipFactory().createRegularShip(
-			CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), 
-			CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),
-			true
-		);
+		Ship ship = getShipFactory().createPlayer(CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100));
 		ship.createBody(getWorld());
 		getUser().setShip(ship);
 	}

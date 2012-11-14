@@ -45,7 +45,7 @@ public final class Victory implements Screen {
 		this.fontH2 = baseFont.deriveFont(FSIZE_H2);
 		this.fontH3 = baseFont.deriveFont(FSIZE_H3);
 		this.background = game.getResources().getTexture(TextureLoader.BACKGROUND_VICTORY);
-		this.user = game.getResources().getTexture(TextureLoader.SHIP_SWING);
+		this.user = game.getResources().getTexture(TextureLoader.SHIP_RAPTOR);
 		this.confirm = new Runnable() {
 			
 			@Override

@@ -10,7 +10,7 @@ import fr.escape.resources.texture.TextureLoader;
 // TODO Comment
 public final class WeaponGesture implements Gesture {
 	private static int COEFFICIENT = 5;
-	private static int SHOT_POS = Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight() / 2;
+	private static int SHOT_POS = Foundation.RESOURCES.getTexture(TextureLoader.SHIP_RAPTOR).getHeight() / 2;
 	
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {

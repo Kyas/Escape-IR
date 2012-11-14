@@ -54,19 +54,20 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String BONUS_WEAPON_SHIBOLEET = "bwshiboleet.png";
 	public static final String BONUS_WEAPON_BLACKHOLE = "bwblackhole.png";
 	
-	public static final String SHIP_SWING = "sswing.png";
-	public static final String SHIP_SWING_1 = "sswing_1.png";
-	public static final String SHIP_SWING_2 = "sswing_2.png";
-	public static final String SHIP_SWING_3 = "sswing_3.png";
-	public static final String SHIP_SWING_4 = "sswing_4.png";
-	public static final String SHIP_SWING_5 = "sswing_5.png";
-	public static final String SHIP_SWING_6 = "sswing_6.png";
-	public static final String SHIP_SWING_7 = "sswing_7.png";
-	public static final String SHIP_SWING_8 = "sswing_8.png";
-	public static final String SHIP_SWING_9 = "sswing_9.png";
+	public static final String SHIP_RAPTOR = "sraptor.png";
+	public static final String SHIP_RAPTOR_1 = "sraptor_1.png";
+	public static final String SHIP_RAPTOR_2 = "sraptor_2.png";
+	public static final String SHIP_RAPTOR_3 = "sraptor_3.png";
+	public static final String SHIP_RAPTOR_4 = "sraptor_4.png";
+	public static final String SHIP_RAPTOR_5 = "sraptor_5.png";
+	public static final String SHIP_RAPTOR_6 = "sraptor_6.png";
+	public static final String SHIP_RAPTOR_7 = "sraptor_7.png";
+	public static final String SHIP_RAPTOR_8 = "sraptor_8.png";
+	public static final String SHIP_RAPTOR_9 = "sraptor_9.png";
+	public static final String SHIP_FALCON = "sfalcon.png";
+	public static final String SHIP_VIPER = "sviper.png";
 	
 	public static final String MENU_UI_GRID = "muigrid.png";
-	
 	public static final String OVERLAY_STAR = "ostar.png";
 	
 	public static final String INTRO_JUPITER = "ijupiter.png";
