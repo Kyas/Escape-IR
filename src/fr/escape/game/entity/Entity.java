@@ -14,6 +14,7 @@ package fr.escape.game.entity;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.Body;
 
+
 /**
  * <p>
  * An Entity is a Components in the {@link World}.

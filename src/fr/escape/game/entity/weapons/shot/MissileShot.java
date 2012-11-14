@@ -18,8 +18,8 @@ public class MissileShot extends AbstractShot {
 	
 	private boolean isVisible;
 
-	public MissileShot(Body body, EntityContainer container) {
-		super(body, container, container,2);
+	public MissileShot(Body body, EntityContainer container, ShotCollisionBehavior collisionBehavior) {
+		super(body, container, container, collisionBehavior, 2);
 		
 		this.coreMissile = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 		this.isVisible = false;

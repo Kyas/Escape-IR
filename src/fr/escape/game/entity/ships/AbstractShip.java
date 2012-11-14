@@ -199,8 +199,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void setRotation(int angle) {
-		angle = angle % 360;
-		this.angle = angle;
+		this.angle = angle % 360;
 	}
 	
 	public int getAngle() {
@@ -251,17 +250,23 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void toDestroy() {
-		System.err.println("toDestroy : " + this);
 		if(!isPlayer) {
+			
 			Foundation.ACTIVITY.post(new Runnable() {
+				
 				@Override
 				public void run() {
-					econtainer.pushBonus(getX(), getY());
+					popBonus();
 				}
+				
 			});
-			econtainer.destroy(this);
+			
 		}
-		//econtainer.destroy(this);
+	}
+	
+	void popBonus() {
+		econtainer.pushBonus(getX(), getY());
+		econtainer.destroy(this);
 	}
 	
 	@Override
@@ -348,10 +353,6 @@ public abstract class AbstractShip implements Ship {
 			}
 
 		}
-	}
-	
-	public void receive(int message) {
-		
 	}
 	
 	@Override

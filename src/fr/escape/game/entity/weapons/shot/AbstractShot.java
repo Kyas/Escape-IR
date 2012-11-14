@@ -5,41 +5,43 @@ import java.util.Objects;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyType;
 
-import fr.escape.app.Foundation;
 import fr.escape.game.User;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
-import fr.escape.game.entity.ships.Ship;
 
 //TODO Comment
 public abstract class AbstractShot implements Shot {
 	
 	private static final int PLAYER_SHOT_MASK = NPC_TYPE;
 	private static final int NPC_SHOT_MASK = PLAYER_TYPE;
+	
 	private static final String TAG = AbstractShot.class.getSimpleName();
 	
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
+	
+	private CollisionBehavior collisionBehavior;
+	
 	private Body body;
 	private int state;
 	
 	private int angle;
 	private int damage;
 	
-	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier,int defaultDamage) {
+	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier, ShotCollisionBehavior collisionBehavior, int defaultDamage) {
 		
 		this.body = Objects.requireNonNull(body);
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
 		this.kNotifier = Objects.requireNonNull(killNotifier);
+		this.collisionBehavior = Objects.requireNonNull(collisionBehavior);
 		
 		this.angle = 0;
 		this.damage = defaultDamage;
 		
 		this.state = MESSAGE_LOAD;
-		
 	}
 
 	@Override
@@ -62,8 +64,7 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void setRotation(int angle) {
-		angle = angle % 360;
-		this.angle = angle;
+		this.angle = angle % 360;
 	}
 	
 	@Override
@@ -115,26 +116,7 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
-		getBody().setType(BodyType.STATIC);
-		this.receive(MESSAGE_HIT);
-		switch(whois) {
-			case PLAYER_TYPE: {
-				// TODO
-				Foundation.ACTIVITY.error(TAG, "Shot hit by Player.");
-				user.removeOneLife();
-				break;
-			}
-			case NPC_TYPE: {
-				Foundation.ACTIVITY.error(TAG, "Shot hit by NPC.");
-				Ship ship = (Ship) e;
-				ship.damage(getDamage());
-				break;
-			}
-			default: {
-				Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
-				break;
-			}
-		}
+		collisionBehavior.applyCollision(user, this, e, whois);
 	}
 	
 	@Override

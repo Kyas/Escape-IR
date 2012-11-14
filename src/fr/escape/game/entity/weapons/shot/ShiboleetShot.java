@@ -25,8 +25,8 @@ public class ShiboleetShot extends AbstractShot {
 	private boolean isVisible;
 	private boolean isChild;
 
-	public ShiboleetShot(Body body, boolean isChild, EntityContainer container, ShotFactory factory) {
-		super(body, container, container,1);
+	public ShiboleetShot(Body body, boolean isChild, EntityContainer container, ShotCollisionBehavior collisionBehavior, ShotFactory factory) {
+		super(body, container, container, collisionBehavior, 1);
 
 		this.coreShiboleet = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 		this.entityContainer = Objects.requireNonNull(container);

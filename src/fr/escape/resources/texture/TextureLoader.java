@@ -27,6 +27,7 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String BACKGROUND_LOST = "blost.png";
 	public static final String BACKGROUND_MENU = "bmenu.png";
 	public static final String BACKGROUND_VICTORY = "bvictory.png";
+	public static final String BACKGROUND_INTRO = "bintro.png";
 	public static final String BACKGROUND_JUPITER = "bjupiter.png";
 	public static final String BACKGROUND_MOON = "bmoon.png";
 	public static final String BACKGROUND_EARTH = "bearth.png";

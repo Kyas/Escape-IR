@@ -21,6 +21,7 @@ import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
 public class ShipFactory {
+	
 	private static final int PLAYERMASK = Collisionable.NPC_TYPE | Collisionable.SHOT_TYPE | Collisionable.BONUS_TYPE | Collisionable.WALL_TYPE;
 	private static final int NPCMASK = Collisionable.PLAYER_TYPE | Collisionable.SHOT_TYPE;
 	

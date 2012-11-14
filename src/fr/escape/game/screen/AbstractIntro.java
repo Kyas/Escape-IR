@@ -17,6 +17,7 @@ import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
 import fr.escape.graphics.Texture;
+import fr.escape.resources.texture.TextureLoader;
 
 /**
  * <p>
@@ -30,6 +31,7 @@ public abstract class AbstractIntro implements Screen {
 	private final Escape game;
 	private final Runnable next;
 	private final Texture drawable;
+	private final Texture background;
 	
 	private long time;
 	
@@ -37,6 +39,7 @@ public abstract class AbstractIntro implements Screen {
 		
 		this.game = Objects.requireNonNull(game);
 		this.drawable = Objects.requireNonNull(drawable);
+		this.background = game.getResources().getTexture(TextureLoader.BACKGROUND_INTRO);
 		this.next = new Runnable() {
 			
 			@Override
@@ -51,6 +54,8 @@ public abstract class AbstractIntro implements Screen {
 	public void render(long delta) {
 		
 		time += delta;
+		
+		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
 		int x = (game.getGraphics().getWidth() / 2) - (drawable.getWidth() / 2);
 		int y = (game.getGraphics().getHeight() / 2) - (drawable.getHeight() / 2);

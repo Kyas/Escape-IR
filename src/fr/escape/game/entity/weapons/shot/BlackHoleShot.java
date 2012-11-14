@@ -31,8 +31,8 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	private long timer;
 	
-	public BlackHoleShot(Body body, EntityContainer container) {
-		super(body, container, container,5);
+	public BlackHoleShot(Body body, EntityContainer container, ShotCollisionBehavior collisionBehavior) {
+		super(body, container, container, collisionBehavior, 5);
 		
 		this.isVisible = false;
 		this.drawCoreHelix = false;

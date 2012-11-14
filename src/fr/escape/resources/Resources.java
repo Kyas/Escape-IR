@@ -83,6 +83,7 @@ public final class Resources {
 			postTextureLoader(TextureLoader.BACKGROUND_LOST);
 			postTextureLoader(TextureLoader.BACKGROUND_MENU);
 			postTextureLoader(TextureLoader.BACKGROUND_VICTORY);
+			postTextureLoader(TextureLoader.BACKGROUND_INTRO);
 			postTextureLoader(TextureLoader.BACKGROUND_JUPITER);
 			postTextureLoader(TextureLoader.BACKGROUND_MOON);
 			postTextureLoader(TextureLoader.BACKGROUND_EARTH);

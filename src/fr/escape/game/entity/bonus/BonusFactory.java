@@ -1,11 +1,9 @@
 package fr.escape.game.entity.bonus;
 
-import java.awt.Rectangle;
 import java.util.Objects;
 import java.util.Random;
 
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -13,16 +11,10 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
-import fr.escape.app.Graphics;
-import fr.escape.game.User;
 import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
-import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.notifier.EdgeNotifier;
-import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.game.entity.weapons.Weapons;
-import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
@@ -41,10 +33,12 @@ public final class BonusFactory {
 	private static final int MISSILE_NUMBER = 10;
 	
 	private static final Random RANDOM = new Random();
+	private static final BonusCollisionBehavior COLLISION_BEHAVIOR = new BonusCollisionBehavior();
 	
 	public static Bonus createBonus(World world, float x, float y, EntityContainer ec) {
 		
 		Objects.requireNonNull(world);
+		
 		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getWidth() / 2);
 		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight() / 2);
 		
@@ -69,7 +63,7 @@ public final class BonusFactory {
 		Bonus bonus;
 		if(isBlackHoleBonus()) {
 		
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec, ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec, ec, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -85,7 +79,7 @@ public final class BonusFactory {
 			
 		} else if(isFireballBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_FIREBALL), ec, ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_FIREBALL), ec, ec, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -101,7 +95,7 @@ public final class BonusFactory {
 			
 		} else if(isShiboleetBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET), ec, ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET), ec, ec, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -117,7 +111,7 @@ public final class BonusFactory {
 			
 		} else if(isMissileBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE), ec, ec) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE), ec, ec, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -164,119 +158,6 @@ public final class BonusFactory {
 	
 	private static int getChance() {
 		return RANDOM.nextInt(100);
-	}
-	
-	private static abstract class AbstractBonus implements Bonus {
-		
-		private static int COEFFICIENT = 3;
-		private static String TAG = AbstractBonus.class.getSimpleName();
-		
-		private final Texture drawable;
-		private final EdgeNotifier eNotifier;
-		private final KillNotifier kNotifier;
-		
-		private Body body;
-		
-		public AbstractBonus(Body body,Texture drawable, EdgeNotifier eNotifier, KillNotifier kNotifier) {
-			
-			this.body = body;
-			this.drawable = drawable;
-			this.eNotifier = eNotifier;
-			this.kNotifier = kNotifier;
-			
-		}
-
-		@Override
-		public void rotateBy(int angle) {
-			throw new UnsupportedOperationException();
-		}
-		
-		@Override
-		public void moveBy(float[] velocity) {
-			if(body.isActive()) {
-				body.setLinearVelocity(new Vec2(velocity[1], velocity[2]));
-			}
-		}
-		
-		@Override
-		public void moveTo(float x, float y) {
-			float distanceX = x - getX();
-			float distanceY = y - getY();
-			
-			float max = Math.max(Math.abs(distanceX), Math.abs(distanceY));
-			float coeff = COEFFICIENT / max;
-			
-			body.setLinearVelocity(new Vec2(distanceX * coeff, distanceY * coeff));
-		}
-		
-		@Override
-		public void setRotation(int angle) {
-			throw new UnsupportedOperationException();
-		}
-		
-		public Rectangle getEdge() {
-			int x = CoordinateConverter.toPixelX(getX());
-			int y = CoordinateConverter.toPixelY(getY());
-			
-			return new Rectangle(x - (drawable.getWidth() / 2), y - (drawable.getHeight() / 2), drawable.getWidth(), drawable.getHeight());
-		}
-		
-		private float getX() {
-			return body.getPosition().x;
-		}
-
-		private float getY() {
-			return body.getPosition().y;
-		}
-
-		@Override
-		public void draw(Graphics graphics) {
-			
-			int x = CoordinateConverter.toPixelX(body.getPosition().x) - (drawable.getWidth() / 2);
-			int y = CoordinateConverter.toPixelY(body.getPosition().y) - (drawable.getHeight() / 2);
-			
-			graphics.draw(drawable, x, y);
-		}
-		
-		@Override
-		public void update(Graphics graphics, long delta) {
-			draw(graphics);
-			if(!eNotifier.isInside(getEdge())) {
-				eNotifier.edgeReached(this);
-			}
-		}
-		
-		@Override
-		public Body getBody() {
-			return body;
-		}
-		
-		@Override
-		public void setBody(Body body) {
-			this.body = body;
-		}
-
-		@Override
-		public void toDestroy() {
-			kNotifier.destroy(this);
-		}
-		
-		@Override
-		public void collision(User user, int whoami, Entity e, int whois) {
-			switch(whois) {
-				case PLAYER_TYPE: {
-					Foundation.ACTIVITY.error(TAG, "Bonus hit by Player.");
-					user.addBonus(getWeapon(), getNumber());
-					this.toDestroy();
-					break;
-				}
-				default: {
-					Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
-					break;
-				}
-			}
-		}
-		
 	}
 	
 }

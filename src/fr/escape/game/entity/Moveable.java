@@ -17,19 +17,12 @@ package fr.escape.game.entity;
  * 
  */
 public interface Moveable {
-
-	/**
-	 * Move the Entity with the given value for X-Axis and Y-Axis. 
-	 * 
-	 * @param x Move the Entity on X-Axis.
-	 * @param y Move the Entity on Y-Axis.
-	 */
-	//public void moveBy(int x, int y);
 	
 	/**
 	 * Rotate the Entity with the given angle. 
 	 * 
 	 * @param angle Rotate the Entity.
+	 * @throws UnsupportedOperationException If the {@link Moveable} cannot rotate.
 	 */
 	public void rotateBy(int angle);
 	
@@ -63,6 +56,7 @@ public interface Moveable {
 	 * Set the Rotation of the Entity in degree.
 	 * 
 	 * @param angle Angle in Degree.
+	 * @throws UnsupportedOperationException If the {@link Moveable} cannot rotate.
 	 */
 	public void setRotation(int angle);
 	

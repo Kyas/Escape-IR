@@ -19,10 +19,11 @@ import fr.escape.resources.texture.TextureLoader;
 public final class ShotFactory {
 	
 	private static final int MASK = 0x0001;
+	private static final ShotCollisionBehavior COLLISION_BEHAVIOR = new ShotCollisionBehavior();
 	
 	private final World world;
 	private final EntityContainer entityContainer;
-	
+
 	public ShotFactory(World world, EntityContainer entityContainer) {
 		this.world = Objects.requireNonNull(world);
 		this.entityContainer = Objects.requireNonNull(entityContainer);
@@ -52,7 +53,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		
-		Shot shot = new BlackHoleShot(body, entityContainer);
+		Shot shot = new BlackHoleShot(body, entityContainer, COLLISION_BEHAVIOR);
 		
 		body.setUserData(shot);
 		
@@ -83,7 +84,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new FireBallShot(body, entityContainer);
+		Shot shot = new FireBallShot(body, entityContainer, COLLISION_BEHAVIOR);
 		
 		body.setUserData(shot);
 		
@@ -114,7 +115,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new MissileShot(body, entityContainer);
+		Shot shot = new MissileShot(body, entityContainer, COLLISION_BEHAVIOR);
 		
 		body.setUserData(shot);
 		
@@ -153,7 +154,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new ShiboleetShot(body, isChild, entityContainer, this);
+		Shot shot = new ShiboleetShot(body, isChild, entityContainer, COLLISION_BEHAVIOR, this);
 		
 		body.setUserData(shot);
 		
