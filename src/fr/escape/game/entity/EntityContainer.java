@@ -100,6 +100,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		return true;
 	}
 	
+	@Override
 	public void update(Graphics graphics, long delta) {
 		for(Entity e : entities) {
 			e.update(graphics, delta);

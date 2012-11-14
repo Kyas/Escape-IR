@@ -123,11 +123,14 @@ public final class Activity {
 						int executionTime = 0;
 						
 						MotionEvent mEvent = context.pollMotion();
+						int mStack = 30;
 						
-						if(mEvent != null) {
+						while(mEvent != null && mStack > 0) {
 							Input event = new Input(mEvent);
 							event(event, lastEvent);
 							lastEvent = event;
+							mEvent = context.pollMotion();
+							mStack--;
 						}
 						
 						/**
