@@ -83,6 +83,9 @@ public final class Resources {
 			postTextureLoader(TextureLoader.BACKGROUND_LOST);
 			postTextureLoader(TextureLoader.BACKGROUND_MENU);
 			postTextureLoader(TextureLoader.BACKGROUND_VICTORY);
+			postTextureLoader(TextureLoader.BACKGROUND_JUPITER);
+			postTextureLoader(TextureLoader.BACKGROUND_MOON);
+			postTextureLoader(TextureLoader.BACKGROUND_EARTH);
 			postTextureLoader(TextureLoader.WEAPON_UI_ACTIVATED);
 			postTextureLoader(TextureLoader.WEAPON_UI_DISABLED);
 			postTextureLoader(TextureLoader.WEAPON_BLACKHOLE);
@@ -114,6 +117,11 @@ public final class Resources {
 			postTextureLoader(TextureLoader.SHIP_SWING_9);
 			
 			postTextureLoader(TextureLoader.MENU_UI_GRID);
+			postTextureLoader(TextureLoader.OVERLAY_STAR);
+			
+			postTextureLoader(TextureLoader.INTRO_JUPITER);
+			postTextureLoader(TextureLoader.INTRO_MOON);
+			postTextureLoader(TextureLoader.INTRO_EARTH);
 			
 		}
 		

@@ -27,9 +27,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
-import fr.escape.game.screen.IntroEarth;
-import fr.escape.game.screen.IntroJupiter;
-import fr.escape.game.screen.IntroMoon;
+import fr.escape.game.screen.AbstractIntro;
 import fr.escape.game.screen.Lost;
 import fr.escape.game.screen.Menu;
 import fr.escape.game.screen.Splash;
@@ -44,6 +42,7 @@ import fr.escape.input.Gesture;
 import fr.escape.input.LeftLoop;
 import fr.escape.input.RightLoop;
 import fr.escape.input.Slide;
+import fr.escape.resources.texture.TextureLoader;
 
 /**
  * <p>
@@ -134,9 +133,30 @@ public final class Escape extends Game implements LifeListener {
 			menu = new Menu(this);
 			splash = new Splash(this);
 			victory = new Victory(this);
-			introJupiter = new IntroJupiter(this);
-			introMoon = new IntroMoon(this);
-			introEarth = new IntroEarth(this);
+			introJupiter = new AbstractIntro(this, getResources().getTexture(TextureLoader.INTRO_JUPITER)) {
+
+				@Override
+				public void next() {
+					setJupiterScreen();
+				}
+				
+			};
+			introMoon = new AbstractIntro(this, getResources().getTexture(TextureLoader.INTRO_MOON)) {
+
+				@Override
+				public void next() {
+					setMoonScreen();
+				}
+				
+			};
+			introEarth = new AbstractIntro(this, getResources().getTexture(TextureLoader.INTRO_EARTH)) {
+
+				@Override
+				public void next() {
+					setEarthScreen();
+				}
+				
+			};
 			// Other Screen if any ...
 			
 			// Show Entry Screen

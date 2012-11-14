@@ -11,29 +11,32 @@
 
 package fr.escape.game.screen;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.util.Objects;
 
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
-import fr.escape.resources.font.FontLoader;
+import fr.escape.graphics.Texture;
 
-public final class IntroMoon implements Screen {
+/**
+ * <p>
+ * An abstract Class for Intro Screen.
+ * 
+ */
+public abstract class AbstractIntro implements Screen {
 	
-	private final static String TITLE = "Moon";
 	private final static long WAIT = 3000;
 	
 	private final Escape game;
-	private final Font font;
 	private final Runnable next;
+	private final Texture drawable;
 	
 	private long time;
 	
-	public IntroMoon(Escape game) {
+	public AbstractIntro(Escape game, Texture drawable) {
 		
-		this.game = game;
-		this.font = game.getResources().getFont(FontLoader.VISITOR_ID);
+		this.game = Objects.requireNonNull(game);
+		this.drawable = Objects.requireNonNull(drawable);
 		this.next = new Runnable() {
 			
 			@Override
@@ -49,12 +52,10 @@ public final class IntroMoon implements Screen {
 		
 		time += delta;
 		
-		Screens.drawStringInCenterPosition(
-				game.getGraphics(), TITLE, 
-				game.getGraphics().getWidth() / 2, 
-				game.getGraphics().getHeight() / 2, 
-				font, Color.BLACK
-		);
+		int x = (game.getGraphics().getWidth() / 2) - (drawable.getWidth() / 2);
+		int y = (game.getGraphics().getHeight() / 2) - (drawable.getHeight() / 2);
+		
+		game.getGraphics().draw(drawable, x, y);
 		
 		if(time > WAIT) {
 			game.getActivity().post(next);
@@ -83,8 +84,6 @@ public final class IntroMoon implements Screen {
 		return false;
 	}
 
-	public void next() {
-		game.setMoonScreen();
-	}
+	public abstract void next();
 	
 }

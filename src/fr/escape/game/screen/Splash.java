@@ -35,16 +35,20 @@ import fr.escape.graphics.Shapes;
 import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
 import fr.escape.input.WeaponGesture;
+import fr.escape.resources.texture.TextureLoader;
 
 public class Splash implements Screen {
 
 	private final static String TAG = Splash.class.getSimpleName();
 	
 	private final static int MAX_ACTIVE_EVENT_TIME = 2000;
+	private final static long STAGE_TIME = 7500;
+	private final static long STAR_SPEED = 5000;
 	
 	private final Escape game;
 	private final Stage stage;
 	private final ScrollingTexture background;
+	private final ScrollingTexture star;
 	private final LinkedList<Input> events;
 	
 	private long time;
@@ -53,12 +57,16 @@ public class Splash implements Screen {
 	private List<Input> activeEvents;
 	private long activeEventTime;
 	
+	private boolean spawnBoss;
+	
 	public Splash(Escape game) throws IOException {
 		
 		this.game = game;
-		this.background = new RepeatableScrollingTexture(new Texture(new File("res/04.jpg")), true);
+		this.background = new ScrollingTexture(game.getResources().getTexture(TextureLoader.BACKGROUND_JUPITER), true);
+		this.star = new RepeatableScrollingTexture(game.getResources().getTexture(TextureLoader.OVERLAY_STAR), true);
 		this.stage = new Earth(game.getShipFactory(), game.getEntityContainer());
         this.events = new LinkedList<>();
+        this.spawnBoss = false;
         
 	}
 	
@@ -68,12 +76,29 @@ public class Splash implements Screen {
 		time += delta;
 		activeEventTime += delta;
 		
-		float percent = ((float) time) / 10000;
+		float percent = ((float) time) / STAGE_TIME;
+
+		if(percent >= 1.0f) {
+
+			if(spawnBoss == false) {
+				spawnBoss = true;
+				
+				// TODO Spawn the Boss
+				System.err.println("Spawn du boss");
+			}
+			
+			percent = 1.0f;
+		}
 		
-		//background.setXPercent(percent);
 		background.setYPercent(percent);
-		
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		
+		percent = ((float) time) / STAR_SPEED;
+		
+		if(!spawnBoss) {
+			star.setYPercent(percent);
+			game.getGraphics().draw(star, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		}
 		
 		game.getUser().getShip().update(game.getGraphics(), delta);
 		
