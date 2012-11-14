@@ -6,6 +6,7 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
+import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
 import fr.escape.graphics.Texture;
 
 public abstract class AbstractWeapon implements Weapon {
@@ -90,15 +91,15 @@ public abstract class AbstractWeapon implements Weapon {
 	}
 	
 	@Override
-	public boolean fire(float[] velocity, boolean isPlayer) {
+	public boolean fire(float[] velocity, ShotConfiguration configuration) {
 
 		if(shot != null) {
 			
 			// TODO
 			shot.moveBy(velocity);
-			shot.setFireMask(isPlayer);
+			shot.setShotConfiguration(configuration);
 			
-			if(!isPlayer) {
+			if(!configuration.isPlayer()) {
 				shot.rotateBy(180);
 			}
 			

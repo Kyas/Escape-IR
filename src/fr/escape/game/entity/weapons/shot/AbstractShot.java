@@ -30,6 +30,10 @@ public abstract class AbstractShot implements Shot {
 	private int angle;
 	private int damage;
 	
+	private int width;
+	private int height;
+	private boolean player;
+	
 	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier, CollisionBehavior collisionBehavior, int defaultDamage) {
 		
 		this.body = Objects.requireNonNull(body);
@@ -135,9 +139,28 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
-	public void setFireMask(boolean isPlayer) {
-		int mask = (isPlayer)?PLAYER_SHOT_MASK:NPC_SHOT_MASK;
+	public boolean setShotConfiguration(ShotConfiguration configuration) {
+		
+		int mask = (Objects.requireNonNull(configuration).isPlayer())?PLAYER_SHOT_MASK:NPC_SHOT_MASK;
 		Objects.requireNonNull(getBody().getFixtureList()).m_filter.maskBits = mask;
+		
+		this.width = configuration.getWidth();
+		this.height = configuration.getHeight();
+		this.player = configuration.isPlayer();
+		
+		return true;
+	}
+	
+	int getWidth() {
+		return width;
+	}
+
+	int getHeight() {
+		return height;
+	}
+	
+	boolean isPlayer() {
+		return player;
 	}
 	
 }

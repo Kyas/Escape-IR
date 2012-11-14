@@ -41,9 +41,35 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 		
 	public int getState();
 	
-	public void setFireMask(boolean isPlayer);
-	
 	public int getDamage();
 	
+	public boolean setShotConfiguration(ShotConfiguration configuration);
+	
 	public void setPosition(float x, float y);
+	
+	public static final class ShotConfiguration {
+		
+		private final boolean player;
+		private final int width;
+		private final int height;
+		
+		public ShotConfiguration(boolean player, int width, int height) {
+			this.player = player;
+			this.width = width;
+			this.height = height;
+		}
+		
+		public boolean isPlayer() {
+			return player;
+		}
+
+		public int getWidth() {
+			return width;
+		}
+
+		public int getHeight() {
+			return height;
+		}
+		
+	}
 }

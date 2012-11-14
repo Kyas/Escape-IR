@@ -20,6 +20,7 @@ import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
 import fr.escape.graphics.AnimationTexture;
 
 //TODO Comment
@@ -233,7 +234,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(velocity, isPlayer)) {
+		if(activeWeapon.fire(velocity, new ShotConfiguration(isPlayer, coreShip.getWidth(), coreShip.getHeight()))) {
 			isWeaponLoaded = false;
 			return true;
 		}

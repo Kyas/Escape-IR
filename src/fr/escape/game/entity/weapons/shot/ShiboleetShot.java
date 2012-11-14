@@ -39,8 +39,10 @@ public class ShiboleetShot extends AbstractShot {
 	
 	@Override
 	public void setPosition(float x, float y) {
-		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight());
-		getBody().setTransform(new Vec2(x, y + shipSize), getBody().getAngle());
+		
+		float size = CoordinateConverter.toMeterY(Math.max(getHeight(), getWidth()));	
+		getBody().setTransform(new Vec2(x, y + size), getBody().getAngle());
+		
 	}
 
 	@Override
@@ -86,26 +88,21 @@ public class ShiboleetShot extends AbstractShot {
 	}
 
 	private void explode() {
-		System.err.println("Explode Motherfucker");
-		int mask = getBody().getFixtureList().m_filter.maskBits;
-		boolean isPlayer = (mask != PLAYER_TYPE);
-		System.err.println(mask);
 		
 		ShiboleetShot s1 = createChild();
 		ShiboleetShot s2 = createChild();
 		ShiboleetShot s3 = createChild();
 		ShiboleetShot s4 = createChild();
-	
-		// TODO Compute Angle
-		s1.setFireMask(isPlayer);
-		s2.setFireMask(isPlayer);
-		s3.setFireMask(isPlayer);
-		s4.setFireMask(isPlayer);
 		
-		s1.moveBy(new float[] {0.0f, 4.0f, (isPlayer)?-5.0f:5.0f});
-		s2.moveBy(new float[] {0.0f, 1.25f, (isPlayer)?-5.0f:5.0f});
-		s3.moveBy(new float[] {0.0f, -1.25f, (isPlayer)?-5.0f:5.0f});
-		s4.moveBy(new float[] {0.0f, -4.0f, (isPlayer)?-5.0f:5.0f});
+		s1.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
+		s2.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
+		s3.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
+		s4.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
+		
+		s1.moveBy(new float[] {0.0f, 4.0f, (isPlayer())?-5.0f:5.0f});
+		s2.moveBy(new float[] {0.0f, 1.25f, (isPlayer())?-5.0f:5.0f});
+		s3.moveBy(new float[] {0.0f, -1.25f, (isPlayer())?-5.0f:5.0f});
+		s4.moveBy(new float[] {0.0f, -4.0f, (isPlayer())?-5.0f:5.0f});
 		
 		s1.receive(MESSAGE_CRUISE);
 		s2.receive(MESSAGE_CRUISE);

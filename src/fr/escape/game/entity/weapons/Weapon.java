@@ -3,6 +3,7 @@ package fr.escape.game.entity.weapons;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.Updateable;
 import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
 import fr.escape.graphics.Texture;
 
 public interface Weapon extends Updateable {	
@@ -21,7 +22,7 @@ public interface Weapon extends Updateable {
 	
 	public boolean unload();
 	
-	public boolean fire(float[] velocity, boolean isPlayer);
+	public boolean fire(float[] velocity, ShotConfiguration configuration);
 
 	/**
 	 * Call {@link Updateable#update(Graphics, long)} on the loaded Shot if any
