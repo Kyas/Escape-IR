@@ -269,18 +269,12 @@ public abstract class AbstractShip implements Ship {
 	public void moveTo(float x, float y) {
 		float distanceX = x - getX();
 		float distanceY = y - getY();
-		float distance = (float) Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
 		
 		float max = Math.max(Math.abs(distanceX), Math.abs(distanceY));
 		float coeff = 5.0f / max;
 		
-		float[] velocity = new float[4];
-		velocity[0] = distance;
-		velocity[1] = distanceX * coeff;
-		velocity[2] = distanceY * coeff;
-		velocity[3] = 0.0f;
-		
-		moveBy(velocity);
+		getBody().setLinearDamping((coeff));
+		getBody().setLinearVelocity(new Vec2(distanceX * coeff, distanceY * coeff));
 	}
 	
 	private void setInvulnerable(boolean invulnerable) {
