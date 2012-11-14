@@ -13,7 +13,12 @@ package fr.escape.game;
 
 import java.util.ArrayList;
 
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Game;
@@ -22,6 +27,7 @@ import fr.escape.app.Overlay;
 import fr.escape.app.Screen;
 import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.CollisionDetector;
+import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
@@ -110,6 +116,15 @@ public final class Escape extends Game implements LifeListener {
 			world.setContactListener(new CollisionDetector(getUser()));
 			setWorld(world);
 			
+			//Top Wall
+			createWall(world,CoordinateConverter.toMeterX(getGraphics().getWidth() / 2),CoordinateConverter.toMeterY((getGraphics().getHeight() * 2) / 3) - 1.0f,false);
+			//Bottom Wall
+			createWall(world,CoordinateConverter.toMeterX(getGraphics().getWidth() / 2),CoordinateConverter.toMeterY(getGraphics().getHeight()) + 2.0f,false);
+			//Left Wall
+			createWall(world,-1.0f,CoordinateConverter.toMeterY(getGraphics().getHeight() / 2),true);
+			//Right Wall
+			createWall(world,11.0f,CoordinateConverter.toMeterY(getGraphics().getHeight() / 2),true);
+			
 			// Create Entity Container
 			entityContainer = new EntityContainer(getWorld(), Math.max((int) (getGraphics().getWidth() * 0.1f), 
 					(int) (getGraphics().getHeight() * 0.1f)));
@@ -170,6 +185,30 @@ public final class Escape extends Game implements LifeListener {
 		
 	}
 	
+	private void createWall(World world, float x, float y, boolean isRightOrLeft) {
+		float shapeX = (isRightOrLeft) ? 1.0f : CoordinateConverter.toMeterX(getGraphics().getWidth());
+		float shapeY = (isRightOrLeft) ? CoordinateConverter.toMeterY(getGraphics().getHeight()) : 1.0f;
+		
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(x, y - 1.0f);
+		bodyDef.type = BodyType.STATIC;
+		
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
+		
+		FixtureDef fixture = new FixtureDef();
+		fixture.shape = shape;
+		fixture.density = 0.5f;
+		fixture.friction = 0.0f;      
+		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = Collisionable.WALL_TYPE;
+		fixture.filter.maskBits = Collisionable.PLAYER_TYPE;
+		
+		Body body = world.createBody(bodyDef);
+		body.createFixture(fixture);
+	}
+
 	/**
 	 * @see Game#render()
 	 */

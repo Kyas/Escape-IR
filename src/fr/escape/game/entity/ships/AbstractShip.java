@@ -26,7 +26,7 @@ import fr.escape.graphics.AnimationTexture;
 //TODO Comment
 public abstract class AbstractShip implements Ship {
 	
-	private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE;
+	private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE | WALL_TYPE;
 	private static final int INVULNERABILITY_MASK = 0x0001 | BONUS_TYPE;
 	private static final int LEFTLOOP = 2;
 	private static final int RIGHTLOOP = 1;
@@ -266,7 +266,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		/*float distanceX = x - getX();
+		float distanceX = x - getX();
 		float distanceY = y - getY();
 		float distance = (float) Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
 		
@@ -279,9 +279,7 @@ public abstract class AbstractShip implements Ship {
 		velocity[2] = distanceY * coeff;
 		velocity[3] = 0.0f;
 		
-		moveBy(velocity);*/
-			
-		body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
+		moveBy(velocity);
 	}
 	
 	private void setInvulnerable(boolean invulnerable) {
@@ -326,20 +324,8 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void moveBy(float[] velocity) {
 		
-		if(body.isActive()) {			
-			
+		if(body.isActive()) {
 			Shot shot = getActiveWeapon().getShot();
-			Graphics graphics = Foundation.GRAPHICS;
-			
-			int x = CoordinateConverter.toPixelX(body.getPosition().x);
-			int y = CoordinateConverter.toPixelY(body.getPosition().y);
-			int radius = getRadius();
-			
-			if(isPlayer() && (x <= radius || x >= graphics.getWidth() - radius || y <= (graphics.getHeight() * 2) / 3 + radius || y >= graphics.getHeight() - radius)) {
-				velocity[0] = 0.1f;
-				velocity[1] *= -1;
-				velocity[2] *= -1;
-			}
 			
 			float[] tmp = Arrays.copyOfRange(velocity, 0, velocity.length);
 			
@@ -438,6 +424,8 @@ public abstract class AbstractShip implements Ship {
 	public boolean reset(World world) {
 		
 		// TODO Reset Ship Armor
+		/*world.destroyBody(body);
+		createBody(world);*/
 		/*setBody(null);
 		createBody(world);*/
 		

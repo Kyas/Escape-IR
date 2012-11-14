@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
@@ -20,8 +21,8 @@ import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
 public class ShipFactory {
-	private static final int PLAYERMASK = 0x0004 | 0x0008 | 0x000F;
-	private static final int NPCMASK = 0x0002 | 0x0008;
+	private static final int PLAYERMASK = Collisionable.NPC_TYPE | Collisionable.SHOT_TYPE | Collisionable.BONUS_TYPE | Collisionable.WALL_TYPE;
+	private static final int NPCMASK = Collisionable.PLAYER_TYPE | Collisionable.SHOT_TYPE;
 	
 	private final World world;
 	private final EntityContainer econtainer;

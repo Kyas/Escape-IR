@@ -19,6 +19,7 @@ public interface Collisionable {
 	public static final int PLAYER_TYPE = 0x0002;
 	public static final int SHOT_TYPE = 0x0008;
 	public static final int NPC_TYPE = 0x0004;
+	public static final int WALL_TYPE = 0x0020;
 	
 	/**
 	 * A collision between {@link Entity} has been detected and

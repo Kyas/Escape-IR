@@ -179,7 +179,7 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		time = 0;
 		stage.start();
-		game.getUser().getShip().moveTo(CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100));
+		//game.getUser().getShip().moveTo(CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100));
 	}
 
 	@Override
@@ -190,7 +190,6 @@ public class Splash implements Screen {
 		game.getUser().getShip().getActiveWeapon().unload();
 		stage.reset();
 		game.getUser().getShip().moveTo(CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100));
-
 	}
 
 	@Override
