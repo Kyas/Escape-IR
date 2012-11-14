@@ -20,6 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.jbox2d.common.Vec2;
+
 import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
@@ -179,17 +181,20 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		time = 0;
 		stage.start();
-		//game.getUser().getShip().moveTo(CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100));
 	}
 
 	@Override
 	public void hide() {
+		float x = CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2);
+		float y = CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100);
+		Ship userShip = game.getUser().getShip();
+		
 		Foundation.ACTIVITY.debug(TAG, "Hide");
 		game.getOverlay().hide();
 		game.getEntityContainer().reset();
-		game.getUser().getShip().getActiveWeapon().unload();
+		userShip.getActiveWeapon().unload();
+		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
 		stage.reset();
-		game.getUser().getShip().moveTo(CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100));
 	}
 
 	@Override

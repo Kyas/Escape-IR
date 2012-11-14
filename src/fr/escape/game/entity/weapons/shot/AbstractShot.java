@@ -50,6 +50,11 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
+	public void setPosition(float x, float y) {
+		getBody().setTransform(new Vec2(x, y), getBody().getAngle());
+	}
+	
+	@Override
 	public void moveTo(float x, float y) {
 		throw new UnsupportedOperationException();
 	}

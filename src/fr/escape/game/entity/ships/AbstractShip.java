@@ -1,7 +1,6 @@
 package fr.escape.game.entity.ships;
 
 import java.awt.Rectangle;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -330,10 +329,6 @@ public abstract class AbstractShip implements Ship {
 	public void moveBy(float[] velocity) {
 		
 		if(body.isActive()) {
-			Shot shot = getActiveWeapon().getShot();
-			
-			float[] tmp = Arrays.copyOfRange(velocity, 0, velocity.length);
-			
 			doLooping(velocity);
 			
 			if(velocity[0] > 0) {
@@ -347,9 +342,9 @@ public abstract class AbstractShip implements Ship {
 				velocity[2] = 0.0f;
 			}
 			
+			Shot shot = getActiveWeapon().getShot();
 			if(shot != null) {
-				tmp[0] = 0.0f;
-				shot.moveBy(tmp);
+				shot.setPosition(getX(), getY() - CoordinateConverter.toMeterY(coreShip.getHeight()));
 			}
 
 		}
@@ -425,10 +420,7 @@ public abstract class AbstractShip implements Ship {
 	public boolean reset(World world) {
 		
 		// TODO Reset Ship Armor
-		/*world.destroyBody(body);
-		createBody(world);*/
-		/*setBody(null);
-		createBody(world);*/
+		
 		
 		// Reset All Weapons
 		for(Weapon w : getAllWeapons()) {
