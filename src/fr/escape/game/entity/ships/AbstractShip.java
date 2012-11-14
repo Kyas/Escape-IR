@@ -419,10 +419,7 @@ public abstract class AbstractShip implements Ship {
 	public boolean reset(World world) {
 		
 		// TODO Reset Ship Armor
-		/*world.destroyBody(body);
-		createBody(world);*/
-		/*setBody(null);
-		createBody(world);*/
+		
 		
 		// Reset All Weapons
 		for(Weapon w : getAllWeapons()) {
