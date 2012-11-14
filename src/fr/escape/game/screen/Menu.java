@@ -99,12 +99,10 @@ public final class Menu implements Screen {
 				(game.getGraphics().getWidth() / 2), HEADER_MARGING, 
 				fontH1, Color.WHITE);
 		
-		game.getGraphics().draw(grid, (int) gridArea.getX(), (int) gridArea.getY(), (int) (gridArea.getX() + gridArea.getWidth()), (int) (gridArea.getY() + gridArea.getHeight()));
+		game.getGraphics().draw(grid, (int) gridArea.getX(), (int) gridArea.getY(), 
+				(int) (gridArea.getX() + gridArea.getWidth()), (int) (gridArea.getY() + gridArea.getHeight()));
 		
-		game.getGraphics().draw(touchArea, Color.GRAY);
-		
-		Screens.drawStringInCenterPosition(game.getGraphics(), NEW_GAME, (int) touchArea.getCenterX(), (int) touchArea.getCenterY(), fontH3, Color.BLACK);
-		
+		Screens.drawStringInCenterPosition(game.getGraphics(), NEW_GAME, (int) touchArea.getCenterX(), (int) touchArea.getCenterY(), fontH3, Color.BLACK);		
 		Screens.drawStringInCenterPosition(
 				game.getGraphics(), FOOTER, 
 				(game.getGraphics().getWidth() / 2),
