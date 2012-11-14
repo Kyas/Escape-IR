@@ -57,7 +57,7 @@ public final class BonusFactory {
 		fixture.filter.categoryBits = Collisionable.BONUS_TYPE;
 		fixture.filter.maskBits = MASK;
 		
-		Body body = world.createBody(bodyDef);//new Body(bodyDef, world);
+		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 		
 		Bonus bonus;

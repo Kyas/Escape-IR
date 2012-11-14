@@ -12,8 +12,6 @@
 package fr.escape.game.screen;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -22,7 +20,6 @@ import java.util.Objects;
 
 import org.jbox2d.common.Vec2;
 
-import fr.escape.app.Foundation;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -33,8 +30,6 @@ import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
-import fr.escape.graphics.Shapes;
-import fr.escape.graphics.Texture;
 import fr.escape.input.Gesture;
 import fr.escape.input.WeaponGesture;
 import fr.escape.resources.texture.TextureLoader;
@@ -61,7 +56,7 @@ public class Splash implements Screen {
 	
 	private boolean spawnBoss;
 	
-	public Splash(Escape game) throws IOException {
+	public Splash(Escape game) {
 		
 		this.game = game;
 		this.background = new ScrollingTexture(game.getResources().getTexture(TextureLoader.BACKGROUND_JUPITER), true);
@@ -106,6 +101,10 @@ public class Splash implements Screen {
 		game.getUser().getShip().moveBy(velocity);
 		
 		stage.update((int) (time / 1000));
+
+		/*game.getGraphics().draw(Shapes.createLine(0, game.getGraphics().getHeight(), game.getGraphics().getWidth(), 0), Color.CYAN);
+		game.getGraphics().draw(Shapes.createLine(0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight()), Color.CYAN);*/
+		
 		game.getEntityContainer().update(game.getGraphics(), delta);
 		
 		if(!events.isEmpty()) {
@@ -139,6 +138,14 @@ public class Splash implements Screen {
 		}
 		activeEventTime = 0;
 		events.clear();
+		
+		float x = CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2);
+		float y = CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100);
+		
+		Ship userShip = game.getUser().getShip();
+		userShip.getActiveWeapon().unload();
+		userShip.getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
+		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
 	}
 
 	@Override
@@ -153,7 +160,9 @@ public class Splash implements Screen {
 		Ship userShip = game.getUser().getShip();
 		
 		userShip.getActiveWeapon().unload();
+		userShip.getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
 		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
+		
 		
 		stage.reset();
 	}

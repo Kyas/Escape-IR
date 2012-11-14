@@ -152,7 +152,7 @@ public class ShipFactory {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = createShape(drawable);
 		fixture.density = 0.5f;
-		fixture.friction = 0.0f;      
+		fixture.friction = 0.3f;      
 		fixture.restitution = 0.0f;
 		fixture.filter.categoryBits = 0x0004;
 		fixture.filter.maskBits = NPCMASK;

@@ -36,6 +36,12 @@ public class ShiboleetShot extends AbstractShot {
 		this.isVisible = false;
 		this.isChild = isChild;
 	}
+	
+	@Override
+	public void setPosition(float x, float y) {
+		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING).getHeight());
+		getBody().setTransform(new Vec2(x, y + shipSize), getBody().getAngle());
+	}
 
 	@Override
 	public void receive(int message) {
