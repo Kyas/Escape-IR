@@ -2,8 +2,6 @@ package fr.escape.game.entity.weapons.shot;
 
 import java.util.Objects;
 
-import org.jbox2d.dynamics.BodyType;
-
 import fr.escape.app.Foundation;
 import fr.escape.game.User;
 import fr.escape.game.entity.CollisionBehavior;
@@ -22,19 +20,23 @@ public final class ShotCollisionBehavior implements CollisionBehavior {
 		Objects.requireNonNull(other);
 		Shot shot = (Shot) Objects.requireNonNull(handler);
 		
-		shot.getBody().setType(BodyType.STATIC);
 		shot.receive(Shot.MESSAGE_HIT);
 		
 		switch(type) {
 			case Collisionable.PLAYER_TYPE: {
+				
 				Foundation.ACTIVITY.debug(TAG, "Shot hit a Player.");
 				user.removeOneLife();
+				
 				break;
 			}
 			case Collisionable.NPC_TYPE: {
+				
 				Foundation.ACTIVITY.debug(TAG, "Shot hit a NPC.");
 				Ship ship = (Ship) other;
 				ship.damage(shot.getDamage());
+				user.addScore(HIT_SCORE);
+				
 				break;
 			}
 			default: {

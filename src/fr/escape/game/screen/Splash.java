@@ -103,59 +103,10 @@ public class Splash implements Screen {
 		}
 		
 		game.getUser().getShip().update(game.getGraphics(), delta);
-		
-		// TODO THOMAS ?
 		game.getUser().getShip().moveBy(velocity);
-
-		//game.getGraphics().draw("Delta: "+delta, 10, 20, Foundation.resources.getFont("visitor"), Color.WHITE);
-		//game.getGraphics().draw("Fps: "+game.getGraphics().getFramesPerSecond(), 10, 34, Foundation.resources.getFont("visitor"), Color.WHITE);
 		
-		game.getUser().setHighscore((int) time);
 		stage.update((int) (time / 1000));
-
-		game.getGraphics().draw(Shapes.createLine(0, game.getGraphics().getHeight(), game.getGraphics().getWidth(), 0), Color.CYAN);
-		
 		game.getEntityContainer().update(game.getGraphics(), delta);
-		
-//		if(time > 3000) {
-//			game.getUser().removeOneLife();
-//		}
-		
-		/*if(time > 1000 && time <= 3000) {
-			bw.receive(AbstractShot.MESSAGE_LOAD);
-		} else if(time > 3000 && time <= 5000) {
-			bw.receive(AbstractShot.MESSAGE_FIRE);
-			bw.receive(AbstractShot.MESSAGE_CRUISE);
-		} else if(time > 5000 && time <= 7000 && !hit) {
-			bw.receive(AbstractShot.MESSAGE_HIT);
-			hit = true;
-		} else if(time > 13000){
-			if(bw != null) {
-				bw.receive(AbstractShot.MESSAGE_DESTROY);
-				bw = null;
-			}
-		}*/
-		
-//		if((time % 1000) > 0 && (time % 1000) < 100) {
-//			
-//			if(!spawn) {
-//				Bonus bonus = BonusFactory.createBonus(eContainer);
-//				if(bonus != null) {
-//					bonus.setPosition(game.getGraphics().getWidth() / 2, 0);
-//					eContainer.push(bonus);
-//				}
-//				spawn = true;
-//			}
-//			
-//		} else {
-//			spawn = false;
-//		}
-
-		if((time % 1000) > 0 && (time % 1000) < 100) {
-			
-			//s2.fireWeapon(world, ec, velocity);
-			
-		}
 		
 		if(!events.isEmpty()) {
 			activeEvents = Screens.drawEventsOnScreen(game.getGraphics(), events, Color.WHITE);

@@ -53,6 +53,7 @@ public final class PlayerShipCollisionBehavior implements CollisionBehavior {
 				
 				Ship ship = (Ship) other;
 				user.removeOneLife();
+				user.addScore(50);
 				
 				ship.damage(1);
 				

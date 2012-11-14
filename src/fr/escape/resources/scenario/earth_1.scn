@@ -15,7 +15,7 @@
 7 move 1 0.1 6.2
 7 fire 1
 8 spawn 0
-8 move 1 9.0 2.2
+8 move 1 5.0 5.0
 8 spawn 2
 8 fire 1
 %%

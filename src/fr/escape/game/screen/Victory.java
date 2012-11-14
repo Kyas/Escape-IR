@@ -65,7 +65,7 @@ public final class Victory implements Screen {
 
 	@Override
 	public boolean move(Input i) {
-		return false;
+		return touch(i);
 	}
 
 	@Override

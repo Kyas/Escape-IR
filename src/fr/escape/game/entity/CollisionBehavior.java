@@ -12,6 +12,8 @@ import fr.escape.game.User;
  */
 public interface CollisionBehavior {
 
+	public static final int HIT_SCORE = 100;
+	
 	/**
 	 * Apply a behavior when a collision happened.
 	 * 

@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -83,7 +85,10 @@ public final class FireBallShot extends AbstractShot {
 				
 				break;
 			}
-			case Shot.MESSAGE_HIT:
+			case Shot.MESSAGE_HIT: {
+				getBody().setType(BodyType.STATIC);
+				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
+			}
 			case Shot.MESSAGE_DESTROY: {
 				
 				isVisible = false;
@@ -99,6 +104,9 @@ public final class FireBallShot extends AbstractShot {
 				});
 	
 				break;
+			}
+			default: {
+				throw new IllegalArgumentException("Unknown Message: "+message);
 			}
 		}
 	}

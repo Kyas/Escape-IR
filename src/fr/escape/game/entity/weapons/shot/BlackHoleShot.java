@@ -3,7 +3,9 @@ package fr.escape.game.entity.weapons.shot;
 import java.awt.Rectangle;
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -67,6 +69,8 @@ public final class BlackHoleShot extends AbstractShot {
 				drawEventHorizon = true;
 				timer = 0;
 				setShapeRadius();
+				getBody().setType(BodyType.STATIC);
+				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
 				break;
 			}
 			case MESSAGE_DESTROY: {
@@ -84,7 +88,11 @@ public final class BlackHoleShot extends AbstractShot {
 
 				break;
 			}
+			default: {
+				throw new IllegalArgumentException("Unknown Message: "+message);
+			}
 		}
+		
 		setState(message);
 	}
 
