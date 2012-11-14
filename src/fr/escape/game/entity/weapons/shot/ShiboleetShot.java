@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Objects;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -53,12 +55,12 @@ public class ShiboleetShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_HIT: {
-	
-				break;
+				getBody().setType(BodyType.STATIC);
+				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
 			}
 			case Shot.MESSAGE_DESTROY: {
 				
-				isVisible = true;
+				isVisible = false;
 				
 				Foundation.ACTIVITY.post(new Runnable() {
 					
@@ -70,6 +72,9 @@ public class ShiboleetShot extends AbstractShot {
 				});
 	
 				break;
+			}
+			default: {
+				throw new IllegalArgumentException("Unknown Message: "+message);
 			}
 		}
 	}

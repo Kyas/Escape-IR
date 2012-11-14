@@ -2,7 +2,9 @@ package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -39,7 +41,10 @@ public class MissileShot extends AbstractShot {
 				
 				break;
 			}
-			case Shot.MESSAGE_HIT:
+			case Shot.MESSAGE_HIT:{
+				getBody().setType(BodyType.STATIC);
+				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
+			}
 			case Shot.MESSAGE_DESTROY: {
 				
 				isVisible = false;
@@ -54,6 +59,9 @@ public class MissileShot extends AbstractShot {
 				});
 	
 				break;
+			}
+			default: {
+				throw new IllegalArgumentException("Unknown Message: "+message);
 			}
 		}
 	}

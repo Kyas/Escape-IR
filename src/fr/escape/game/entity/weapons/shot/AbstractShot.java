@@ -19,8 +19,6 @@ public abstract class AbstractShot implements Shot {
 	private static final int PLAYER_SHOT_MASK = NPC_TYPE;
 	private static final int NPC_SHOT_MASK = PLAYER_TYPE;
 	
-	private static final String TAG = AbstractShot.class.getSimpleName();
-	
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
 	

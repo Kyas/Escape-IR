@@ -86,6 +86,9 @@ public final class Menu implements Screen {
 
 	@Override
 	public boolean move(Input i) {
+		if(touchArea.contains(i.getX(), i.getY())) {
+			return touch(i);
+		}
 		return false;
 	}
 

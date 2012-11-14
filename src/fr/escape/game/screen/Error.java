@@ -50,7 +50,7 @@ public class Error implements Screen {
 			game.getActivity().error(TAG, "Cannot create RepeatableScrollingTexture", e);
 		}
 		
-		this.message = new ArrayList<String>(4);
+		this.message = new ArrayList<>(4);
 		
 		message.add("An error has occurred :");
 		message.add("");
@@ -106,15 +106,18 @@ public class Error implements Screen {
 	}
 	
 	private void draw(int x, int y, int space, boolean useFont, Color color) {
+		
+		int yy = y;
+		
 		for(String info: message) {
 			
 			if(useFont) {
-				game.getGraphics().draw(info, x, y, font, color);
+				game.getGraphics().draw(info, x, yy, font, color);
 			} else {
-				game.getGraphics().draw(info, x, y, color);
+				game.getGraphics().draw(info, x, yy, color);
 			}
 			
-			y += space;
+			yy += space;
 		}
 	}
 

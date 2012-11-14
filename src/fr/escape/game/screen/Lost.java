@@ -69,7 +69,7 @@ public final class Lost implements Screen {
 
 	@Override
 	public boolean move(Input i) {
-		return false;
+		return touch(i);
 	}
 	
 }
