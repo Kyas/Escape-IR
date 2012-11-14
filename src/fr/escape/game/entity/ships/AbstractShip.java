@@ -14,10 +14,10 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.User;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.bonus.Bonus;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
@@ -32,36 +32,33 @@ public abstract class AbstractShip implements Ship {
 	
 	private static final String TAG = AbstractShip.class.getSimpleName();
 	
-	private Body body;
 	private final BodyDef bodyDef;
 	private final FixtureDef fixture;
 	private final List<Weapon> weapons;
 	private final boolean isPlayer;
-	
 	private final EntityContainer econtainer;
-	
 	private final AnimationTexture coreShip;
-	
 	private final Random random;
+	private final CollisionBehavior collisionBehavior;
 	
 	private int activeWeapon;
 	private boolean isWeaponLoaded;
 	private boolean executeLeftLoop;
 	private boolean executeRightLoop;
-
+	private Body body;
 	private int angle;
 	private int life;
 	
-	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, boolean isPlayer, int life, EntityContainer container, AnimationTexture textures) {
+	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, boolean isPlayer, int life, 
+			EntityContainer container, AnimationTexture textures, CollisionBehavior collisionBehavior) {
 		
 		this.bodyDef = Objects.requireNonNull(bodyDef);
 		this.fixture = Objects.requireNonNull(fixture);
 		this.weapons = Objects.requireNonNull(weapons);
-		this.isPlayer = isPlayer;
-		
 		this.econtainer = Objects.requireNonNull(container);
-		
 		this.coreShip = Objects.requireNonNull(textures);
+		this.collisionBehavior = Objects.requireNonNull(collisionBehavior);
+		this.isPlayer = isPlayer;
 		
 		this.activeWeapon = 0;
 		this.isWeaponLoaded = false;
@@ -359,61 +356,19 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void collision(User user, int whoami, Entity e, int whois) {
-		System.out.println("Entity : " + e);
-		if(isPlayer && whois != BONUS_TYPE) {
-			Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
-			user.removeOneLife();
-		}
-		
-		switch(whois) {
-			case SHOT_TYPE: { 
-				
-				Foundation.ACTIVITY.debug(TAG, "Player or NPC hit by Shot.");
-				
-				Shot shot = (Shot) e;
-				shot.receive(Shot.MESSAGE_HIT);
-
-				if(!isPlayer) {
-					this.damage(shot.getDamage());
-				}
-				
-				break;
+	public void collision(final User user, int whoami, final Entity e, final int whois) {
+		Foundation.ACTIVITY.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				getCollisionBehavior().applyCollision(user, AbstractShip.this, e, whois);
 			}
-			case BONUS_TYPE: {
-				if(isPlayer) {
-					
-					Foundation.ACTIVITY.debug(TAG, "Player hit by Bonus.");
-					
-					Bonus bonus = (Bonus) e;
-					user.addBonus(bonus.getWeapon(), bonus.getNumber());
-					
-					bonus.toDestroy();
-					
-				}
-				break;
-			}
-			case NPC_TYPE: {
-				
-				Foundation.ACTIVITY.debug(TAG, "Player hit by NPC.");
-				
-				Ship ship = (Ship) e;
-				
-				ship.damage(1);
-				
-				break;
-			}
-			case PLAYER_TYPE: {
-				Foundation.ACTIVITY.debug(TAG, "Hit, player lost a life.");
-				Foundation.ACTIVITY.debug(TAG, "NPC hit by Player.");
-				break;
-			}
-			default: { 
-				Foundation.ACTIVITY.error(TAG, "Unknown touch contact {"+this+", "+e+"}");
-				break;
-			}
-		}
-		
+			
+		});
+	}
+	
+	CollisionBehavior getCollisionBehavior() {
+		return collisionBehavior;
 	}
 	
 	@Override

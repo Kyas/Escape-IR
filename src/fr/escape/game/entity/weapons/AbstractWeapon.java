@@ -33,6 +33,7 @@ public abstract class AbstractWeapon implements Weapon {
 		return drawable;
 	}
 
+	@Override
 	public int getAmmunition() {
 		return ammunition;
 	}

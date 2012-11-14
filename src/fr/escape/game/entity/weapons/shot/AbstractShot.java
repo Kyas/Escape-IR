@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import fr.escape.app.Foundation;
 import fr.escape.game.User;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Entity;
@@ -31,7 +32,7 @@ public abstract class AbstractShot implements Shot {
 	private int angle;
 	private int damage;
 	
-	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier, ShotCollisionBehavior collisionBehavior, int defaultDamage) {
+	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier, CollisionBehavior collisionBehavior, int defaultDamage) {
 		
 		this.body = Objects.requireNonNull(body);
 		this.eNotifier = Objects.requireNonNull(edgeNotifier);
@@ -120,8 +121,19 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
-	public void collision(User user, int whoami, Entity e, int whois) {
-		collisionBehavior.applyCollision(user, this, e, whois);
+	public void collision(final User user, int whoami, final Entity e, final int whois) {
+		Foundation.ACTIVITY.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				getCollisionBehavior().applyCollision(user, AbstractShot.this, e, whois);
+			}
+			
+		});
+	}
+	
+	CollisionBehavior getCollisionBehavior() {
+		return collisionBehavior;
 	}
 	
 	@Override

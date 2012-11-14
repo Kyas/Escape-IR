@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
@@ -24,6 +25,8 @@ public class ShipFactory {
 	
 	private static final int PLAYERMASK = Collisionable.NPC_TYPE | Collisionable.SHOT_TYPE | Collisionable.BONUS_TYPE | Collisionable.WALL_TYPE;
 	private static final int NPCMASK = Collisionable.PLAYER_TYPE | Collisionable.SHOT_TYPE;
+	private static final CollisionBehavior COMPUTER_COLLISION_BEHAVIOR = new ComputerShipCollisionBehavior();
+	private static final CollisionBehavior PLAYER_COLLISION_BEHAVIOR = new PlayerShipCollisionBehavior();
 	
 	private final World world;
 	private final EntityContainer econtainer;
@@ -87,7 +90,7 @@ public class ShipFactory {
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_7),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_8),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_9)
-		));
+		), ((isPlayer)?PLAYER_COLLISION_BEHAVIOR:COMPUTER_COLLISION_BEHAVIOR));
 		
 		if(!isPlayer) {
 			ship.setRotation(180);

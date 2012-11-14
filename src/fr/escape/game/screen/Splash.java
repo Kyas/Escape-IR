@@ -176,24 +176,34 @@ public class Splash implements Screen {
 
 	@Override
 	public void show() {
-		Foundation.ACTIVITY.debug(TAG, "Show");
+		
 		game.getOverlay().show();
 		game.getEntityContainer().reset();
+		
 		time = 0;
 		stage.start();
+		
+		if(activeEvents != null) {
+			activeEvents.clear();
+		}
+		activeEventTime = 0;
+		events.clear();
 	}
 
 	@Override
 	public void hide() {
+		
 		float x = CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2);
 		float y = CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100);
-		Ship userShip = game.getUser().getShip();
 		
-		Foundation.ACTIVITY.debug(TAG, "Hide");
 		game.getOverlay().hide();
 		game.getEntityContainer().reset();
+		
+		Ship userShip = game.getUser().getShip();
+		
 		userShip.getActiveWeapon().unload();
 		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
+		
 		stage.reset();
 	}
 

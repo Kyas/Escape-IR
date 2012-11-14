@@ -25,7 +25,7 @@ import fr.umlv.zen2.MotionEvent.Kind;
  */
 public final class Input {
 	
-	private static final int DELTA_FILTER = 2;
+	private static final int DELTA_FILTER = 4;
 	
 	/**
 	 * Mouse Input.
