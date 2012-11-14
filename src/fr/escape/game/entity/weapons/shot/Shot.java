@@ -44,4 +44,6 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	public void setFireMask(boolean isPlayer);
 	
 	public int getDamage();
+	
+	public void setPosition(float x, float y);
 }
