@@ -70,6 +70,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if successful
 	 */
 	public boolean push(Entity e) {
+		System.err.println("PUSH : " + e);
 		Objects.requireNonNull(e);
 		return this.entities.add(e);
 	}
@@ -87,12 +88,14 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	
 	@Override
 	public boolean edgeReached(Entity e) {
+		System.err.print("Edge: "+e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
 
 	@Override
 	public boolean destroy(Entity e) {
+		System.err.println("destroy: "+e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
@@ -118,6 +121,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	}
 
 	public void toDestroy(Entity e) {
+		Foundation.ACTIVITY.debug(TAG, "Add Entity in Removing Queue: "+e);
 		this.destroyed.add(e);
 	}
 	
@@ -136,6 +140,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 
 	public boolean reset() {
 		System.out.println("Nombre de body avant reset : " + world.getBodyCount());
+		
 		if(!flush()) {
 			return false;
 		}
@@ -144,6 +149,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		
 		while(it.hasNext()) {
 			Entity e = it.next();
+			System.out.println("RESET : " + e);
 			it.remove();
 			world.destroyBody(e.getBody());
 			e.setBody(null);

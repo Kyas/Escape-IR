@@ -49,8 +49,7 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		System.out.println(x + " " + y);
-		getBody().setLinearVelocity(new Vec2(x,y));
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
@@ -122,13 +121,13 @@ public abstract class AbstractShot implements Shot {
 			case PLAYER_TYPE: {
 				// TODO
 				Foundation.ACTIVITY.error(TAG, "Shot hit by Player.");
-				//user.removeOneLife();
+				user.removeOneLife();
 				break;
 			}
 			case NPC_TYPE: {
 				Foundation.ACTIVITY.error(TAG, "Shot hit by NPC.");
 				Ship ship = (Ship) e;
-				ship.damage(getDamage());
+				//ship.damage(getDamage());
 				break;
 			}
 			default: {

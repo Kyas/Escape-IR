@@ -38,10 +38,22 @@ public interface Moveable {
 	 * 
 	 * @param x X Position on axis.
 	 * @param y Y Position on axis.
+	 * @throws UnsupportedOperationException If the {@link Moveable} move to a fixed position.
 	 */
 	public void moveTo(float x, float y);
 	
 	/**
+	 * <p>
+	 * Apply a velocity to this Entity.
+	 * 
+	 * <p>
+	 * Velocity is an array with the given properties:
+	 * 
+	 * <p>
+	 * velocity[0] : Duration of the movement.<br>
+	 * velocity[1] : Force to apply on X.<br>
+	 * velocity[2] : Force to apply on Y.<br>
+	 * velocity[3] (optional) : Use to detect a looping.<br>
 	 * 
 	 * @param velocity
 	 */

@@ -16,7 +16,7 @@ import fr.escape.resources.texture.TextureLoader;
 //TODO Comment
 public class ShiboleetShot extends AbstractShot {
 	
-	static final float CHILD_RADIUS = 0.70f;
+	static final float CHILD_RADIUS = 0.35f;
 	
 	private final Texture coreShiboleet;
 	private final EntityContainer entityContainer;
@@ -91,10 +91,10 @@ public class ShiboleetShot extends AbstractShot {
 		s3.setFireMask(isPlayer);
 		s4.setFireMask(isPlayer);
 				
-		s1.moveTo(2.0f, (isPlayer)?-5.0f:5.0f);
-		s2.moveTo(0.75f, (isPlayer)?-5.0f:5.0f);
-		s3.moveTo(-0.75f, (isPlayer)?-5.0f:5.0f);
-		s4.moveTo(-2.0f, (isPlayer)?-5.0f:5.0f);
+		s1.moveTo(4.0f, (isPlayer)?-5.0f:5.0f);
+		s2.moveTo(1.25f, (isPlayer)?-5.0f:5.0f);
+		s3.moveTo(-1.25f, (isPlayer)?-5.0f:5.0f);
+		s4.moveTo(-4.0f, (isPlayer)?-5.0f:5.0f);
 		
 		s1.receive(MESSAGE_CRUISE);
 		s2.receive(MESSAGE_CRUISE);

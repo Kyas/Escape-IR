@@ -143,7 +143,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public float getX() {
-		if(isPlayer && body == null) System.err.println("Player body null !!!");
+		if(isPlayer && body == null) System.err.println("Player body null : " + this);
 		return body.getPosition().x;
 	}
 	
@@ -251,6 +251,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void toDestroy() {
+		System.err.println("toDestroy : " + this);
 		if(!isPlayer) {
 			Foundation.ACTIVITY.post(new Runnable() {
 				@Override
@@ -364,7 +365,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
-		
+		System.out.println("Entity : " + e);
 		if(isPlayer && whois != BONUS_TYPE) {
 			Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
 			user.removeOneLife();
@@ -377,8 +378,10 @@ public abstract class AbstractShip implements Ship {
 				
 				Shot shot = (Shot) e;
 				shot.receive(Shot.MESSAGE_HIT);
-				
-				this.damage(shot.getDamage());
+
+				if(!isPlayer) {
+					//this.damage(shot.getDamage());
+				}
 				
 				break;
 			}
@@ -390,7 +393,7 @@ public abstract class AbstractShip implements Ship {
 					Bonus bonus = (Bonus) e;
 					user.addBonus(bonus.getWeapon(), bonus.getNumber());
 					
-					e.toDestroy();
+					bonus.toDestroy();
 					
 				}
 				break;
@@ -401,8 +404,7 @@ public abstract class AbstractShip implements Ship {
 				
 				Ship ship = (Ship) e;
 				
-				ship.damage(1);
-				this.damage(1);
+				//ship.damage(1);
 				
 				break;
 			}
@@ -423,8 +425,8 @@ public abstract class AbstractShip implements Ship {
 	public boolean reset(World world) {
 		
 		// TODO Reset Ship Armor
-		setBody(null);
-		createBody(world);
+		/*setBody(null);
+		createBody(world);*/
 		
 		// Reset All Weapons
 		for(Weapon w : getAllWeapons()) {
