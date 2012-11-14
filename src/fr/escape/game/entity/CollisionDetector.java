@@ -18,15 +18,15 @@ public final class CollisionDetector implements ContactListener {
 	
 	@Override
 	public void beginContact(Contact arg0) {
-		
-		Entity entityA = (Entity) arg0.getFixtureA().getBody().getUserData();
-		Entity entityB = (Entity) arg0.getFixtureB().getBody().getUserData();
-		
 		int typeA = arg0.getFixtureA().getFilterData().categoryBits;
 		int typeB = arg0.getFixtureB().getFilterData().categoryBits;
 		
-		entityA.collision(user, typeA, entityB, typeB);
-
+		if(typeA != Collisionable.WALL_TYPE && typeB != Collisionable.WALL_TYPE) {
+			Entity entityA = (Entity) arg0.getFixtureA().getBody().getUserData();
+			Entity entityB = (Entity) arg0.getFixtureB().getBody().getUserData();
+			
+			entityA.collision(user, typeA, entityB, typeB);
+		}
 	}
 
 	@Override
