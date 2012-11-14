@@ -51,10 +51,11 @@ public abstract class AbstractWeapon implements Weapon {
 	}
 	
 	@Override
-	public boolean load(float x, float y) {
+	public boolean load(float x, float y, ShotConfiguration configuration) {
 		if(!isEmpty() && shot == null) {
 			
 			shot = Objects.requireNonNull(createShot(x, y));
+			shot.setShotConfiguration(configuration);
 			shot.receive(Shot.MESSAGE_LOAD);
 			
 			return true;

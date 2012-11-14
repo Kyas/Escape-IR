@@ -41,6 +41,7 @@ public abstract class AbstractShip implements Ship {
 	private final AnimationTexture coreShip;
 	private final Random random;
 	private final CollisionBehavior collisionBehavior;
+	private final ShotConfiguration shotConfiguration;
 	
 	private int activeWeapon;
 	private boolean isWeaponLoaded;
@@ -60,15 +61,15 @@ public abstract class AbstractShip implements Ship {
 		this.coreShip = Objects.requireNonNull(textures);
 		this.collisionBehavior = Objects.requireNonNull(collisionBehavior);
 		this.isPlayer = isPlayer;
+		this.random = new Random();
+		this.shotConfiguration = new ShotConfiguration(isPlayer, coreShip.getWidth(), coreShip.getHeight());
 		
 		this.activeWeapon = 0;
 		this.isWeaponLoaded = false;
 		this.executeLeftLoop = false;
 		this.executeRightLoop = false;
-		
 		this.life = life;
 		
-		this.random = new Random();
 	}
 	
 	@Override
@@ -210,7 +211,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.load(getX(), getY() - CoordinateConverter.toMeterY(coreShip.getHeight()))) {
+		if(activeWeapon.load(getX(), getY() - CoordinateConverter.toMeterY(coreShip.getHeight()), shotConfiguration)) {
 			isWeaponLoaded = true;
 			return true;
 		}
@@ -234,7 +235,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(velocity, new ShotConfiguration(isPlayer, coreShip.getWidth(), coreShip.getHeight()))) {
+		if(activeWeapon.fire(velocity, shotConfiguration)) {
 			isWeaponLoaded = false;
 			return true;
 		}

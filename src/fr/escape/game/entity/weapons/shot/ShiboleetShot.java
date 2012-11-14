@@ -40,7 +40,8 @@ public class ShiboleetShot extends AbstractShot {
 	@Override
 	public void setPosition(float x, float y) {
 		
-		float size = CoordinateConverter.toMeterY(Math.max(getHeight(), getWidth()));	
+		float size = CoordinateConverter.toMeterY(Math.max(getHeight(), getWidth()));
+		System.err.println(size);
 		getBody().setTransform(new Vec2(x, y + size), getBody().getAngle());
 		
 	}

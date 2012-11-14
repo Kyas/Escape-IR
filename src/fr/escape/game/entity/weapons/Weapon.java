@@ -16,7 +16,7 @@ public interface Weapon extends Updateable {
 	
 	public Shot getShot();
 	
-	public boolean load(float x, float y);
+	public boolean load(float x, float y, ShotConfiguration configuration);
 	
 	public boolean reload(int number);
 	

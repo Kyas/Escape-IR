@@ -1,6 +1,7 @@
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
+import java.util.Objects;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -69,12 +70,12 @@ public class MissileShot extends AbstractShot {
 	@Override
 	public void draw(Graphics graphics) {
 		if(isVisible) {
-			drawCoreMissile(graphics);
-			//graphics.draw(getEdge(), Color.RED);
+			drawCoreMissile(Objects.requireNonNull(graphics));
 		}
 	}
 
 	private void drawCoreMissile(Graphics graphics) {
+		
 		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreMissile.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreMissile.getHeight() / 2;
 		
@@ -84,7 +85,7 @@ public class MissileShot extends AbstractShot {
 	@Override
 	public void update(Graphics graphics, long delta) {
 		
-		draw(graphics);
+		draw(Objects.requireNonNull(graphics));
 		
 		if(!getEdgeNotifier().isInside(getEdge())) {
 			getEdgeNotifier().edgeReached(this);
@@ -93,6 +94,7 @@ public class MissileShot extends AbstractShot {
 
 	@Override
 	protected Rectangle getEdge() {
+		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
