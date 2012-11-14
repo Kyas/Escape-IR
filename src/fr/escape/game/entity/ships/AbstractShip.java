@@ -8,6 +8,9 @@ import java.util.Random;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -30,7 +33,9 @@ public abstract class AbstractShip implements Ship {
 	
 	private static final String TAG = AbstractShip.class.getSimpleName();
 	
-	private final Body body;
+	private Body body;
+	private final BodyDef bodyDef;
+	private final FixtureDef fixture;
 	private final List<Weapon> weapons;
 	private final boolean isPlayer;
 	
@@ -48,9 +53,10 @@ public abstract class AbstractShip implements Ship {
 	private int angle;
 	private int life;
 	
-	public AbstractShip(Body body, List<Weapon> weapons, boolean isPlayer, int life, EntityContainer container, AnimationTexture textures) {
+	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, boolean isPlayer, int life, EntityContainer container, AnimationTexture textures) {
 		
-		this.body = Objects.requireNonNull(body);
+		this.bodyDef = Objects.requireNonNull(bodyDef);
+		this.fixture = Objects.requireNonNull(fixture);
 		this.weapons = Objects.requireNonNull(weapons);
 		this.isPlayer = isPlayer;
 		
@@ -108,8 +114,27 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
+	public BodyDef getBodyDef() {
+		return bodyDef;
+	}
+	
+	@Override
 	public Body getBody() {
 		return body;
+	}
+	
+	@Override
+	public void setBody(Body body) {
+		this.body = body;
+	}
+	
+	@Override
+	public void createBody(World world) {
+		if(body == null) {
+			body = world.createBody(bodyDef);
+			body.createFixture(fixture);
+			body.setUserData(this);
+		}
 	}
 	
 	public int getRadius() {
@@ -118,6 +143,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public float getX() {
+		if(isPlayer && body == null) System.err.println("Player body null : " + this);
 		return body.getPosition().x;
 	}
 	
@@ -129,9 +155,9 @@ public abstract class AbstractShip implements Ship {
 	@Override
 	public void draw(Graphics graphics) {
 		
-		int x = CoordinateConverter.toPixelX(body.getPosition().x) - (coreShip.getWidth() / 2);
-		int y = CoordinateConverter.toPixelY(body.getPosition().y) - (coreShip.getHeight() / 2);
-		
+		int x = CoordinateConverter.toPixelX(getX()) - (coreShip.getWidth() / 2);
+		int y = CoordinateConverter.toPixelY(getY()) - (coreShip.getHeight() / 2);
+			
 		graphics.draw(coreShip, x, y, x + coreShip.getWidth(), y + coreShip.getHeight(), angle);
 		//graphics.draw(getEdge(), Color.RED);
 		
@@ -225,6 +251,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void toDestroy() {
+		System.err.println("toDestroy : " + this);
 		if(!isPlayer) {
 			Foundation.ACTIVITY.post(new Runnable() {
 				@Override
@@ -232,15 +259,29 @@ public abstract class AbstractShip implements Ship {
 					econtainer.pushBonus(getX(), getY());
 				}
 			});
+			econtainer.destroy(this);
 		}
-		econtainer.destroy(this);
+		//econtainer.destroy(this);
 	}
 	
 	@Override
 	public void moveTo(float x, float y) {
-		if(body.isActive()) {
-			body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
-		}
+		/*float distanceX = x - getX();
+		float distanceY = y - getY();
+		float distance = (float) Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+		
+		float max = Math.max(Math.abs(distanceX), Math.abs(distanceY));
+		float coeff = 5.0f / max;
+		
+		float[] velocity = new float[4];
+		velocity[0] = distance;
+		velocity[1] = distanceX * coeff;
+		velocity[2] = distanceY * coeff;
+		velocity[3] = 0.0f;
+		
+		moveBy(velocity);*/
+			
+		body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
 	}
 	
 	private void setInvulnerable(boolean invulnerable) {
@@ -329,7 +370,6 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public Rectangle getEdge() {
-		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
@@ -338,7 +378,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void collision(User user, int whoami, Entity e, int whois) {
-		
+		System.out.println("Entity : " + e);
 		if(isPlayer && whois != BONUS_TYPE) {
 			Foundation.ACTIVITY.error(TAG, "Hit, player lost a life.");
 			user.removeOneLife();
@@ -351,8 +391,10 @@ public abstract class AbstractShip implements Ship {
 				
 				Shot shot = (Shot) e;
 				shot.receive(Shot.MESSAGE_HIT);
-				
-				this.damage(shot.getDamage());
+
+				if(!isPlayer) {
+					this.damage(shot.getDamage());
+				}
 				
 				break;
 			}
@@ -364,7 +406,7 @@ public abstract class AbstractShip implements Ship {
 					Bonus bonus = (Bonus) e;
 					user.addBonus(bonus.getWeapon(), bonus.getNumber());
 					
-					e.toDestroy();
+					bonus.toDestroy();
 					
 				}
 				break;
@@ -376,7 +418,6 @@ public abstract class AbstractShip implements Ship {
 				Ship ship = (Ship) e;
 				
 				ship.damage(1);
-				this.damage(1);
 				
 				break;
 			}
@@ -394,10 +435,11 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public boolean reset() {
+	public boolean reset(World world) {
 		
 		// TODO Reset Ship Armor
-		
+		/*setBody(null);
+		createBody(world);*/
 		
 		// Reset All Weapons
 		for(Weapon w : getAllWeapons()) {

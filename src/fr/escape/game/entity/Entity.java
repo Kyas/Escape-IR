@@ -26,6 +26,8 @@ public interface Entity extends Updateable, Collisionable {
 	
 	public Body getBody();
 	
+	public void setBody(Body body);
+	
 	public void toDestroy();
 	
 }

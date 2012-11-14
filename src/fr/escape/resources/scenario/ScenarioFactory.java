@@ -167,8 +167,8 @@ final class ScenarioFactory {
 				Foundation.ACTIVITY.debug(tag, "Spawn "+ship);
 				spawns.add(shipID);
 				
-				ship.getBody().setActive(true);
-				getContainer().push(ship);
+				//ship.getBody().setActive(true);
+				getContainer().pushShip(ship);
 				
 			}
 			

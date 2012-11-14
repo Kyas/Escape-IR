@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.List;
 
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.World;
 
 import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
@@ -23,6 +25,8 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	
 	public Weapon getActiveWeapon();
 	
+	public BodyDef getBodyDef();
+	
 	public Body getBody();
 	
 	public float getX();
@@ -32,6 +36,8 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 	public boolean isPlayer();
 	
 	public boolean isWeaponLoaded();
+	
+	public void createBody(World world);
 	
 	public boolean loadWeapon();
 	
@@ -60,7 +66,7 @@ public interface Ship extends Moveable, Drawable, Entity, Receiver {
 
 	public Rectangle getEdge();
 	
-	public boolean reset();
+	public boolean reset(World world);
 	
 	public void damage(int value);
 }

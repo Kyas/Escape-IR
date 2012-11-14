@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
@@ -64,8 +63,8 @@ public class ShipFactory {
 			fixture.filter.maskBits = NPCMASK;
 		}
 		
-		Body body = world.createBody(bodyDef);
-		body.createFixture(fixture);
+		/*Body body = world.createBody(bodyDef);
+		body.createFixture(fixture);*/
 		
 		List<Weapon> weapons;
 		
@@ -75,7 +74,7 @@ public class ShipFactory {
 			weapons = npcWeapons;
 		}
 		
-		RegularShip ship = new RegularShip(body, weapons, isPlayer, 1, econtainer, new AnimationTexture( 
+		RegularShip ship = new RegularShip(bodyDef, fixture, weapons, isPlayer, 1, econtainer, new AnimationTexture( 
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_1),
 				Foundation.RESOURCES.getTexture(TextureLoader.SHIP_SWING_2),
@@ -92,7 +91,7 @@ public class ShipFactory {
 			ship.setRotation(180);
 		}
 
-		body.setUserData(ship);
+		//body.setUserData(ship);
 		
 		return ship;
 	}
@@ -103,7 +102,7 @@ public class ShipFactory {
 		switch(type) {
 			case 0: {
 				Ship ship = createRegularShip(x, y, false);
-				ship.getBody().setActive(false);
+				//ship.getBody().setActive(false);
 				return ship;
 			}
 			case 1: {

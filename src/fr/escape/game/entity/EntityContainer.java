@@ -25,6 +25,7 @@ import fr.escape.game.entity.bonus.Bonus;
 import fr.escape.game.entity.bonus.BonusFactory;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
+import fr.escape.game.entity.ships.Ship;
 
 /**
  * <p>
@@ -69,6 +70,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if successful
 	 */
 	public boolean push(Entity e) {
+		System.err.println("PUSH : " + e);
 		Objects.requireNonNull(e);
 		return this.entities.add(e);
 	}
@@ -80,18 +82,20 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if successful
 	 */
 	private boolean remove(Entity e) {
-		e.getBody().setActive(false);
+		//e.getBody().setActive(false);
 		return this.entities.remove(e);
 	}
 	
 	@Override
 	public boolean edgeReached(Entity e) {
+		System.err.print("Edge: "+e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
 
 	@Override
 	public boolean destroy(Entity e) {
+		System.err.println("destroy: "+e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
@@ -117,13 +121,17 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	}
 
 	public void toDestroy(Entity e) {
+		Foundation.ACTIVITY.debug(TAG, "Add Entity in Removing Queue: "+e);
 		this.destroyed.add(e);
 	}
 	
 	public boolean flush() {
 		for(Entity e : destroyed) {
 			Foundation.ACTIVITY.debug(TAG, "Remove Entity: "+e+" "+((remove(e)?"[DONE]":"[FAIL]")));
-			world.destroyBody(e.getBody());
+			if(e.getBody() != null) {
+				world.destroyBody(e.getBody());
+				e.setBody(null);
+			}
 		}
 		destroyed.clear();
 		
@@ -131,6 +139,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	}
 
 	public boolean reset() {
+		System.out.println("Nombre de body avant reset : " + world.getBodyCount());
 		
 		if(!flush()) {
 			return false;
@@ -140,10 +149,12 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		
 		while(it.hasNext()) {
 			Entity e = it.next();
+			System.out.println("RESET : " + e);
 			it.remove();
 			world.destroyBody(e.getBody());
+			e.setBody(null);
 		}
-		
+		System.out.println("Nombre de body apres reset : " + world.getBodyCount());
 		return true;
 	}
 	
@@ -176,4 +187,10 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		
 		return true;
 	}
+	
+	public boolean pushShip(Ship ship) {
+		Objects.requireNonNull(ship).createBody(world);
+		return push(ship);
+	}
+
 }

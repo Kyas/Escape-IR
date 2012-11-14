@@ -23,7 +23,7 @@ public abstract class AbstractShot implements Shot {
 	
 	private final EdgeNotifier eNotifier;
 	private final KillNotifier kNotifier;
-	private final Body body;
+	private Body body;
 	private int state;
 	
 	private int angle;
@@ -49,8 +49,7 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		System.out.println(x + " " + y);
-		getBody().setLinearVelocity(new Vec2(x,y));
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
@@ -70,6 +69,11 @@ public abstract class AbstractShot implements Shot {
 	@Override
 	public Body getBody() {
 		return body;
+	}
+	
+	@Override
+	public void setBody(Body body) {
+		this.body = body;
 	}
 	
 	protected float getX() {
@@ -117,7 +121,7 @@ public abstract class AbstractShot implements Shot {
 			case PLAYER_TYPE: {
 				// TODO
 				Foundation.ACTIVITY.error(TAG, "Shot hit by Player.");
-				//user.removeOneLife();
+				user.removeOneLife();
 				break;
 			}
 			case NPC_TYPE: {
