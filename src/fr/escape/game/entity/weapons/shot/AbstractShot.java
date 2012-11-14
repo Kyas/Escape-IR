@@ -127,7 +127,7 @@ public abstract class AbstractShot implements Shot {
 			case NPC_TYPE: {
 				Foundation.ACTIVITY.error(TAG, "Shot hit by NPC.");
 				Ship ship = (Ship) e;
-				//ship.damage(getDamage());
+				ship.damage(getDamage());
 				break;
 			}
 			default: {

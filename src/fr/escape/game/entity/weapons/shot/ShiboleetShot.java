@@ -90,11 +90,11 @@ public class ShiboleetShot extends AbstractShot {
 		s2.setFireMask(isPlayer);
 		s3.setFireMask(isPlayer);
 		s4.setFireMask(isPlayer);
-				
-		s1.moveTo(4.0f, (isPlayer)?-5.0f:5.0f);
-		s2.moveTo(1.25f, (isPlayer)?-5.0f:5.0f);
-		s3.moveTo(-1.25f, (isPlayer)?-5.0f:5.0f);
-		s4.moveTo(-4.0f, (isPlayer)?-5.0f:5.0f);
+		
+		s1.moveBy(new float[] {0.0f, 4.0f, (isPlayer)?-5.0f:5.0f});
+		s2.moveBy(new float[] {0.0f, 1.25f, (isPlayer)?-5.0f:5.0f});
+		s3.moveBy(new float[] {0.0f, -1.25f, (isPlayer)?-5.0f:5.0f});
+		s4.moveBy(new float[] {0.0f, -4.0f, (isPlayer)?-5.0f:5.0f});
 		
 		s1.receive(MESSAGE_CRUISE);
 		s2.receive(MESSAGE_CRUISE);

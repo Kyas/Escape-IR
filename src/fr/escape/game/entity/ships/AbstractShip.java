@@ -266,9 +266,22 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void moveTo(float x, float y) {
-		if(body.isActive()) {
-			body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
-		}
+		/*float distanceX = x - getX();
+		float distanceY = y - getY();
+		float distance = (float) Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+		
+		float max = Math.max(Math.abs(distanceX), Math.abs(distanceY));
+		float coeff = 5.0f / max;
+		
+		float[] velocity = new float[4];
+		velocity[0] = distance;
+		velocity[1] = distanceX * coeff;
+		velocity[2] = distanceY * coeff;
+		velocity[3] = 0.0f;
+		
+		moveBy(velocity);*/
+			
+		body.setLinearVelocity(new Vec2(x - getX(), y - getY()));
 	}
 	
 	private void setInvulnerable(boolean invulnerable) {
@@ -380,7 +393,7 @@ public abstract class AbstractShip implements Ship {
 				shot.receive(Shot.MESSAGE_HIT);
 
 				if(!isPlayer) {
-					//this.damage(shot.getDamage());
+					this.damage(shot.getDamage());
 				}
 				
 				break;
@@ -404,7 +417,7 @@ public abstract class AbstractShip implements Ship {
 				
 				Ship ship = (Ship) e;
 				
-				//ship.damage(1);
+				ship.damage(1);
 				
 				break;
 			}
