@@ -86,7 +86,7 @@ public final class User implements Receiver, Sender {
 		Foundation.ACTIVITY.log(TAG, "User: Reset Requested");
 		this.highscore = 0;
 		this.life = INITIAL_LIFE;
-		if(!this.ship.reset()) {
+		if(!this.ship.reset(game.getWorld())) {
 			throw new IllegalStateException();
 		}
 		return true;
@@ -135,7 +135,7 @@ public final class User implements Receiver, Sender {
 
 	// TODO DEBUG
 	public void setShip(Ship ship) {
-		this.ship = ship;
+		this.ship = Objects.requireNonNull(ship);
 	}
 	
 	// TODO DEBUG

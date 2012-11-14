@@ -175,7 +175,7 @@ public final class BonusFactory {
 		private final EdgeNotifier eNotifier;
 		private final KillNotifier kNotifier;
 		
-		private final Body body;
+		private Body body;
 		
 		public AbstractBonus(Body body,Texture drawable, EdgeNotifier eNotifier, KillNotifier kNotifier) {
 			
@@ -249,6 +249,11 @@ public final class BonusFactory {
 		@Override
 		public Body getBody() {
 			return body;
+		}
+		
+		@Override
+		public void setBody(Body body) {
+			this.body = body;
 		}
 
 		@Override

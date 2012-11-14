@@ -91,10 +91,10 @@ public class ShiboleetShot extends AbstractShot {
 		s3.setFireMask(isPlayer);
 		s4.setFireMask(isPlayer);
 				
-		s1.moveTo(2.0f, -5.0f);
-		s2.moveTo(0.75f, -5.0f);
-		s3.moveTo(-0.75f, -5.0f);
-		s4.moveTo(-2.0f, -5.0f);
+		s1.moveTo(2.0f, (isPlayer)?-5.0f:5.0f);
+		s2.moveTo(0.75f, (isPlayer)?-5.0f:5.0f);
+		s3.moveTo(-0.75f, (isPlayer)?-5.0f:5.0f);
+		s4.moveTo(-2.0f, (isPlayer)?-5.0f:5.0f);
 		
 		s1.receive(MESSAGE_CRUISE);
 		s2.receive(MESSAGE_CRUISE);
@@ -122,25 +122,6 @@ public class ShiboleetShot extends AbstractShot {
 			graphics.draw(getEdge(), Color.RED);
 		}
 	}
-
-	/*private void drawCoreShiboleet(Graphics graphics) {
-		
-		Rectangle area = getEdge();
-		
-		graphics.draw(coreShiboleet, (int) area.getX(), (int) area.getY(), getAngle());
-		
-	}
-	
-	private void drawChildShiboleet(Graphics graphics) {
-
-		int w = (int) ((coreShiboleet.getWidth() / 2) * CHILD_RADIUS);
-		int h = (int) ((coreShiboleet.getHeight() / 2) * CHILD_RADIUS);
-		
-		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - w;
-		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - h;
-		
-		graphics.draw(coreShiboleet, x, y, x + w,  y + h, getAngle());
-	}*/
 	
 	@Override
 	public void update(Graphics graphics, long delta) {

@@ -24,6 +24,7 @@ import fr.escape.game.User.LifeListener;
 import fr.escape.game.entity.CollisionDetector;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.game.screen.IntroEarth;
@@ -294,11 +295,13 @@ public final class Escape extends Game implements LifeListener {
 	}
 	
 	private void createPlayerShip() {
-		getUser().setShip(getShipFactory().createRegularShip(
-				CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), 
-				CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),
-				true
-		));
+		Ship ship = getShipFactory().createRegularShip(
+			CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), 
+			CoordinateConverter.toMeterY(getGraphics().getHeight() - 100),
+			true
+		);
+		ship.createBody(getWorld());
+		getUser().setShip(ship);
 	}
 	
 	private void createGestures() {
