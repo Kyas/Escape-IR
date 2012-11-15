@@ -141,7 +141,7 @@ public class Splash implements Screen {
 		float y = CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100);
 		
 		velocity[0] = 0.0f;
-		game.getUser().reset(x, y);
+		game.getUser().getShip().reset(x, y);
 		
 		spawnBoss = false;
 	}
@@ -156,7 +156,7 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		
 		velocity[0] = 0.0f;
-		game.getUser().reset(x, y);
+		game.getUser().getShip().reset(x, y);
 		
 		spawnBoss = false;
 		stage.reset();
