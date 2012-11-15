@@ -224,7 +224,7 @@ public final class ShotFactory {
 	public Shot createEarthShot(float x, float y) {
 		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
-		float shapeY = CoordinateConverter.toMeterY(coreJupiter.getHeight() / 2);
+		float shapeY = CoordinateConverter.toMeterY(Foundation.GRAPHICS.getHeight()) - y;
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
@@ -236,7 +236,7 @@ public final class ShotFactory {
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
 		fixture.density = 0.5f;
-		fixture.friction = 1.0f;       
+		fixture.friction = 1.0f;
 		fixture.restitution = 0.0f;
 		fixture.filter.categoryBits = 0x0008;
 		fixture.filter.maskBits = MASK;

@@ -273,11 +273,6 @@ public final class Activity {
 		return graphics;
 	}
 	
-	//TODO remove just a test for JupiterShot
-	public World getWorld() {
-		return game.getWorld();
-	}
-	
 	/**
 	 * <p>
 	 * Return Runnable Queue.
