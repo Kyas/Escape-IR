@@ -17,9 +17,14 @@ import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
+import fr.escape.game.entity.weapons.shot.EarthShot;
+import fr.escape.game.entity.weapons.shot.JupiterShot;
+import fr.escape.game.entity.weapons.shot.MoonShot;
 import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.AnimationTexture;
+import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
@@ -38,10 +43,13 @@ public class ShipFactory {
 	private final List<Weapon> playerWeapons;
 	private final List<Weapon> npcWeapons;
 	
+	final ShotFactory shotFactory;
+	
 	public ShipFactory(EntityContainer ec, ShotFactory factory) {
 		this.econtainer = Objects.requireNonNull(ec);
 		this.playerWeapons = Weapons.createListOfWeapons(this.econtainer, Objects.requireNonNull(factory));
 		this.npcWeapons = Weapons.createListOfUnlimitedWeapons(this.econtainer, factory);
+		this.shotFactory = factory;
 	}
 	
 	public Ship createFalcon(float x, float y) {
@@ -269,6 +277,41 @@ public class ShipFactory {
 				
 				incActionCount();
 			}
+			
+			@Override
+			public void special() {
+				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+				
+				final JupiterShot s1 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+				final JupiterShot s2 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+				final JupiterShot s3 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+				final JupiterShot s4 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+				
+				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				s2.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				s3.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				s4.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				
+				s1.moveBy(new float[] {0.0f, 4.0f, 5.0f});
+				s2.moveBy(new float[] {0.0f, 1.25f, 5.0f});
+				s3.moveBy(new float[] {0.0f, -1.25f, 5.0f});
+				s4.moveBy(new float[] {0.0f, -4.0f, 5.0f});
+				
+				s1.receive(Shot.MESSAGE_CRUISE);
+				s2.receive(Shot.MESSAGE_CRUISE);
+				s3.receive(Shot.MESSAGE_CRUISE);
+				s4.receive(Shot.MESSAGE_CRUISE);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					@Override
+					public void run() {
+						container.push(s1);
+						container.push(s2);
+						container.push(s3);
+						container.push(s4);
+					}
+				});
+			}
 
 			@Override
 			public void normal() {
@@ -315,6 +358,23 @@ public class ShipFactory {
 				
 				incActionCount();
 			}
+			
+			@Override
+			public void special() {
+				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
+				final MoonShot s1 = (MoonShot) shotFactory.createMoonShot(getX() - CoordinateConverter.toMeterX(20), getY() - CoordinateConverter.toMeterY(9));
+				
+				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				s1.moveBy(new float[] {0.0f, 0.0f, 2.5f});
+				s1.receive(Shot.MESSAGE_CRUISE);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					@Override
+					public void run() {
+						container.push(s1);
+					}
+				});
+			}
 
 			@Override
 			public void normal() {
@@ -360,6 +420,23 @@ public class ShipFactory {
 				});
 				
 				incActionCount();
+			}
+			
+			@Override
+			public void special() {
+				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
+				final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - CoordinateConverter.toMeterY(10), getY() + CoordinateConverter.toMeterY(50));
+				
+				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
+				s1.receive(Shot.MESSAGE_CRUISE);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					@Override
+					public void run() {
+						container.push(s1);
+					}
+				});
 			}
 
 			@Override

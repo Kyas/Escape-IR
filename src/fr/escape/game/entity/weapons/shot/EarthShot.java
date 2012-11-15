@@ -90,9 +90,7 @@ public class EarthShot extends AbstractShot {
 	protected Rectangle getEdge() {
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
-		
-		System.out.println("GETEDGE : " + x + " -> " + y);
-		
+				
 		return new Rectangle(x - (coreEarthShot.getWidth() / 2), y - (coreEarthShot.getHeight() / 2), coreEarthShot.getWidth(), coreEarthShot.getHeight());
 	}
 	
