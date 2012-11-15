@@ -139,7 +139,7 @@ public abstract class AbstractShot implements Shot {
 	}
 	
 	@Override
-	public boolean setShotConfiguration(ShotConfiguration configuration) {
+	public boolean setShotConfiguration(ShotContext configuration) {
 		
 		int mask = (Objects.requireNonNull(configuration).isPlayer())?PLAYER_SHOT_MASK:NPC_SHOT_MASK;
 		Objects.requireNonNull(getBody().getFixtureList()).m_filter.maskBits = mask;

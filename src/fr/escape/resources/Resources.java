@@ -120,7 +120,13 @@ public final class Resources {
 			postTextureLoader(TextureLoader.SHIP_VIPER);
 			
 			postTextureLoader(TextureLoader.BOSS_JUPITER);
+			postTextureLoader(TextureLoader.BOSS_MOON);
+			postTextureLoader(TextureLoader.BOSS_MOON_1);
+			postTextureLoader(TextureLoader.BOSS_EARTH);
+			postTextureLoader(TextureLoader.BOSS_EARTH_1);
 			postTextureLoader(TextureLoader.JUPITER_SPECIAL);
+			postTextureLoader(TextureLoader.MOON_SPECIAL);
+			postTextureLoader(TextureLoader.EARTH_SPECIAL);
 			
 			postTextureLoader(TextureLoader.MENU_UI_GRID);
 			postTextureLoader(TextureLoader.OVERLAY_STAR);

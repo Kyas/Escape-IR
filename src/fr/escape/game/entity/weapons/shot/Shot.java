@@ -43,17 +43,17 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 	
 	public int getDamage();
 	
-	public boolean setShotConfiguration(ShotConfiguration configuration);
+	public boolean setShotConfiguration(ShotContext configuration);
 	
 	public void setPosition(float x, float y);
 	
-	public static final class ShotConfiguration {
+	public static final class ShotContext {
 		
 		private final boolean player;
 		private final int width;
 		private final int height;
 		
-		public ShotConfiguration(boolean player, int width, int height) {
+		public ShotContext(boolean player, int width, int height) {
 			this.player = player;
 			this.width = width;
 			this.height = height;

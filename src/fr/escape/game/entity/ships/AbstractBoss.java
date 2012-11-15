@@ -12,15 +12,13 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.JupiterShot;
 import fr.escape.game.entity.weapons.shot.Shot;
-import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
+import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 public abstract class AbstractBoss extends AbstractShip implements Boss {
-
-	private static final int SPECIAL_FREQUENCY = 7000;
 	
 	private boolean moveToRight;
 	private long timer;
@@ -51,12 +49,13 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		move();
 		
 		draw(graphics);
-		
-		//TODO Decommenter apres test
-		if(timer >= SPECIAL_FREQUENCY/*getSpecialWaitingTime()*/) {
+
+		// Do we need to trigger Special Action ?
+		if(timer >= getSpecialWaitingTime()) {
 			special();
 		}
 		
+		// Do we need to trigger Fire Action ?
 		if((timer / actionCount) >= getFireWaitingTime()) {
 			fire();	
 		}
@@ -65,7 +64,14 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 
 	@Override
 	public void toDestroy() {
-		throw new UnsupportedOperationException("TODO");
+		Foundation.ACTIVITY.post(new Runnable() {
+
+			@Override
+			public void run() {
+				getEntityContainer().destroy(AbstractBoss.this);
+			}
+			
+		});
 	}
 
 	@Override
@@ -128,8 +134,9 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	
 	@Override
 	public void special() {
+		
 		System.err.println("SPECIAL FIRE DONE");
-		//TODO fire special
+
 		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
 		ShotFactory shotFactory = new ShotFactory(Foundation.ACTIVITY.getWorld(), container);
 		
@@ -138,10 +145,10 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		final JupiterShot s3 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
 		final JupiterShot s4 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
 		
-		s1.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
-		s2.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
-		s3.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
-		s4.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s2.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s3.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s4.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
 		
 		s1.moveBy(new float[] {0.0f, 4.0f, 5.0f});
 		s2.moveBy(new float[] {0.0f, 1.25f, 5.0f});
@@ -175,31 +182,15 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		if(!moveToRight && x <= 1.0f) {
 			
 			moveToRight = true;
-			moveTo(1.0f, getY());
+			moveTo(1.0f, 2.0f);
 			
 		} else if(x <= 1.0f) {
 			
 			moveToRight = false;
-			moveTo(9.0f, getY());
+			moveTo(9.0f, 2.0f);
 			
 		}
+		
 	}
-
-	@Override
-	public void fire() {
-		
-		setActiveWeapon(2);
-		
-		Foundation.ACTIVITY.post(new Runnable() {
-			@Override
-			public void run() {
-				loadWeapon();
-				fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
-			}
-		});
-		
-		System.err.println("BOSS FIRE");
-		++actionCount;
-	}
-
+	
 }

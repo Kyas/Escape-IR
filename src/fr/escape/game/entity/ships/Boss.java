@@ -5,7 +5,7 @@ package fr.escape.game.entity.ships;
  * An interface for {@link Ship} who are the Boss at the end of the Stage.
  *
  */
-public interface Boss {
+public interface Boss extends Ship {
 	
 	/**
 	 * Perform a Special Action/Fire.

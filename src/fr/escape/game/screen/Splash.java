@@ -37,7 +37,6 @@ public class Splash implements Screen {
 	private final static String TAG = Splash.class.getSimpleName();
 	
 	private final static int MAX_ACTIVE_EVENT_TIME = 2000;
-	private final static long STAGE_TIME = 7500;
 	private final static long STAR_SPEED = 5000;
 	
 	private final Escape game;
@@ -52,16 +51,13 @@ public class Splash implements Screen {
 	private List<Input> activeEvents;
 	private long activeEventTime;
 	
-	private boolean spawnBoss;
-	
 	public Splash(Escape game) {
 		
 		this.game = game;
 		this.background = new ScrollingTexture(game.getResources().getTexture(TextureLoader.BACKGROUND_JUPITER), true);
 		this.star = new RepeatableScrollingTexture(game.getResources().getTexture(TextureLoader.OVERLAY_STAR), true);
-		this.stage = new Earth(game.getShipFactory(), game.getEntityContainer());
+		this.stage = new Earth(game.getWorld(), game.getEntityContainer(), game.getShipFactory());
         this.events = new LinkedList<>();
-        this.spawnBoss = false;
         
 	}
 	
@@ -71,17 +67,9 @@ public class Splash implements Screen {
 		time += delta;
 		activeEventTime += delta;
 		
-		float percent = ((float) time) / STAGE_TIME;
+		float percent = ((float) time) / (stage.getEstimatedScenarioTime() * 1000);
 
 		if(percent >= 1.0f) {
-
-			if(spawnBoss == false) {
-				spawnBoss = true;
-				// TODO Spawn the Boss
-				stage.boss(game.getWorld(), game.getEntityContainer());
-				System.err.println("Spawn du boss");
-			}
-			
 			percent = 1.0f;
 		}
 		
@@ -90,18 +78,12 @@ public class Splash implements Screen {
 		
 		percent = ((float) time) / STAR_SPEED;
 		
-		if(!spawnBoss) {
-			star.setYPercent(percent);
-			game.getGraphics().draw(star, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
-		}
+		game.getGraphics().draw(star, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
 		game.getUser().getShip().update(game.getGraphics(), delta);
 		game.getUser().getShip().moveBy(velocity);
 		
 		stage.update((int) (time / 1000));
-
-		/*game.getGraphics().draw(Shapes.createLine(0, game.getGraphics().getHeight(), game.getGraphics().getWidth(), 0), Color.CYAN);
-		game.getGraphics().draw(Shapes.createLine(0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight()), Color.CYAN);*/
 		
 		game.getEntityContainer().update(game.getGraphics(), delta);
 		
@@ -119,7 +101,20 @@ public class Splash implements Screen {
 		}
 		
 		game.getEntityContainer().flush();
-		
+		game.getActivity().post(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(stage.hasFinished()) {
+					next();
+				}
+			}
+			
+		});
+	}
+
+	protected void next() {
+		game.setVictoryScreen();
 	}
 
 	@Override
@@ -142,8 +137,7 @@ public class Splash implements Screen {
 		
 		velocity[0] = 0.0f;
 		game.getUser().getShip().reset(x, y);
-		
-		spawnBoss = false;
+
 	}
 
 	@Override
@@ -158,7 +152,6 @@ public class Splash implements Screen {
 		velocity[0] = 0.0f;
 		game.getUser().getShip().reset(x, y);
 		
-		spawnBoss = false;
 		stage.reset();
 	}
 

@@ -4,17 +4,20 @@ import java.util.List;
 import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
 import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.Weapons;
+import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.resources.texture.TextureLoader;
@@ -96,6 +99,14 @@ public class ShipFactory {
 
 		return new AbstractShip(bodyDef, fixture, playerWeapons, PLAYER_ARMOR, econtainer, raptor, PLAYER_COLLISION_BEHAVIOR) {
 			
+			private static final int PLAYER_MASK = NPC_TYPE | SHOT_TYPE | BONUS_TYPE | WALL_TYPE;
+			private static final int INVULNERABILITY_MASK = 0x0001 | BONUS_TYPE;
+			private static final int LEFTLOOP = 2;
+			private static final int RIGHTLOOP = 1;
+			
+			private boolean executeLeftLoop = false;
+			private boolean executeRightLoop = false;
+			
 			@Override
 			public boolean isPlayer() {
 				return true;
@@ -104,6 +115,100 @@ public class ShipFactory {
 			@Override
 			public void toDestroy() {
 				throw new UnsupportedOperationException();
+			}
+			
+			@Override
+			public void update(Graphics graphics, long delta) {
+				
+				if(executeRightLoop || executeLeftLoop) {
+					
+					if(executeRightLoop) {
+						getShipDrawable().forward();
+					} else {
+						getShipDrawable().reverse();
+					}
+					
+					if(getShipDrawable().hasNext()) {
+						getShipDrawable().next();
+					} else {
+						getShipDrawable().rewind();
+						executeLeftLoop = false;
+						executeRightLoop = false;
+					}
+				}
+				
+				super.update(graphics, delta);
+			}
+			
+			@Override
+			public void moveBy(float[] velocity) {
+				
+				if(getBody().isActive()) {
+					
+					doLooping(velocity);
+					
+					if(velocity[0] > 0) {
+						
+						getBody().setLinearVelocity(new Vec2(velocity[1], velocity[2]));
+						velocity[0] -= Math.abs(Math.max(Math.abs(velocity[1]), Math.abs(velocity[2])));
+						
+					} else {
+						getBody().setLinearVelocity(new Vec2(0, 0));
+						velocity[1] = 0.0f;
+						velocity[2] = 0.0f;
+					}
+					
+					Shot shot = getActiveWeapon().getShot();
+					
+					if(shot != null) {
+						shot.setPosition(getX(), getY() - CoordinateConverter.toMeterY((int) getEdge().getHeight()));
+					}
+
+				}
+			}
+			
+			/**
+			 * Make Player Invulnerable, or not.
+			 * 
+			 * @param invulnerable Is Player Invulnerable ?
+			 */
+			private void setInvulnerable(boolean invulnerable) {
+				getBody().getFixtureList().m_filter.maskBits = (invulnerable)?INVULNERABILITY_MASK:PLAYER_MASK;
+			}
+			
+			private void doLooping(float[] velocity) {
+				
+				int mode = (int) velocity[3];
+				switch (mode) {
+					case RIGHTLOOP: {
+						setInvulnerable(true);
+						executeRightLoop = true;
+						if(velocity[0] <= 0) {
+							velocity[3] = 0.0f;
+						} else {
+							velocity[0] -= 2.0f;
+						}
+						break;
+					}
+					case LEFTLOOP: {
+						setInvulnerable(true);
+						executeLeftLoop = true;
+						if(velocity[0] <= 0) {
+							velocity[3] = 0.0f;
+						} else {
+							velocity[0] -= 2.0f;
+						}
+						break;
+					}
+					default: {
+						getShipDrawable().rewind();
+						executeLeftLoop = false;
+						executeRightLoop = false;
+						setInvulnerable(false);
+						break;
+					}
+				}
+
 			}
 		
 		};
@@ -128,7 +233,7 @@ public class ShipFactory {
 		}
 	}
 	
-	public Ship createBoss(float x, float y) {
+	public Boss createBoss(float x, float y) {
 		
 		AnimationTexture jupiter = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_JUPITER));
 		
@@ -147,6 +252,23 @@ public class ShipFactory {
 				return 10000;
 			}
 			
+			@Override
+			public void fire() {
+				
+				setActiveWeapon(2);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						loadWeapon();
+						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+					}
+					
+				});
+				
+				incActionCount();
+			}
 		};
 		
 	}

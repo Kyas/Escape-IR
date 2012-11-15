@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.TreeMap;
 
+import org.jbox2d.dynamics.World;
+
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.ships.Boss;
 
+// TODO
 public abstract class AbstractStage implements Stage {
 
 	private static final String TAG = AbstractStage.class.getSimpleName();
@@ -18,43 +22,75 @@ public abstract class AbstractStage implements Stage {
 	private final List<Scenario> scenarios;
 	private final TreeMap<Integer, Scenario> waiting;
 	private final EntityContainer container;
+	private final World world;
 	
 	private int lastTime;
+	private boolean spawn;
 	
-	public AbstractStage(EntityContainer container) {
-		this.container = container;
+	public AbstractStage(World world, EntityContainer container) {
+		this.world = Objects.requireNonNull(world);
+		this.container = Objects.requireNonNull(container);
 		this.active = new LinkedList<>();
 		this.scenarios = new LinkedList<>();
 		this.waiting = new TreeMap<>();
 		this.lastTime = -1;
+		this.spawn = false;
 	}
 	
+	/**
+	 * Get a List of active Scenario
+	 * 
+	 * @return Active Scenario
+	 */
 	private List<Scenario> getActiveScenario() {
 		return active;
 	}
 	
+	/**
+	 * Add a Scenario on Stage
+	 * 
+	 * @param scenario Scenario to add on Stage
+	 * @return True if successful
+	 */
 	protected boolean add(Scenario scenario) {
 		return this.scenarios.add(Objects.requireNonNull(scenario));
 	}
 	
+	/**
+	 * Get All Waiting Scenario
+	 * 
+	 * @return Waiting Scenario
+	 */
 	private TreeMap<Integer, Scenario> getWaitingScenario() {
 		return waiting;
 	}
 	
+	/**
+	 * Get Last Update Time
+	 * 
+	 * @return Last Update Time
+	 */
 	private int getLastUpdateTime() {
 		return lastTime;
 	}
 	
+	/**
+	 * Set Last Update Time
+	 * 
+	 * @param updateTime Last Update Time
+	 */
 	private void setLastUpdateTime(int updateTime) {
 		lastTime = updateTime;
 	}
 	
 	@Override
 	public void start() {
-		Foundation.ACTIVITY.debug(TAG, "Start the current Stage");
+		
+		Foundation.ACTIVITY.debug(TAG, "Start Stage");
+		
 		for(Scenario scenario : scenarios) {
 			Foundation.ACTIVITY.debug(TAG, "Add "+scenario+" on Waiting Scenario");
-			getWaitingScenario().put(scenario.getStart(), scenario);
+			getWaitingScenario().put(Integer.valueOf(scenario.getStart()), scenario);
 		}
 	}
 	
@@ -77,14 +113,30 @@ public abstract class AbstractStage implements Stage {
 				}
 			}
 			
+			if((time >= getEstimatedScenarioTime()) && !spawn) {
+				spawn();
+			}
+			
 			setLastUpdateTime(time);
 		}
 	}
 	
+	/**
+	 * Perform a query on Waiting Scenario for retrieving activable Scenario
+	 * for the given Stage Time.
+	 * 
+	 * @param time Stage Time
+	 * @return Scenario
+	 */
 	private Collection<Scenario> getListOfActivableScenario(int time) {
 		return waiting.headMap(Integer.valueOf(time), true).values();
 	}
 	
+	/**
+	 * Fetch Waiting Scenario which can be active.
+	 * 
+	 * @param time Stage Time
+	 */
 	private void fetchActivableScenario(int time) {
 
 		Iterator<Scenario> it = getListOfActivableScenario(time).iterator();
@@ -101,7 +153,9 @@ public abstract class AbstractStage implements Stage {
 	@Override
 	public void reset() {
 		
-		Foundation.ACTIVITY.debug(TAG, "Reset the current Stage");
+		Foundation.ACTIVITY.debug(TAG, "Reset Stage");
+		
+		spawn = false;
 		
 		getActiveScenario().clear();
 		getWaitingScenario().clear();
@@ -111,5 +165,33 @@ public abstract class AbstractStage implements Stage {
 		}
 		
 	}
+	
+	@Override
+	public boolean hasFinished() {
+		
+		if(spawn) {
+			return !container.contains(getBoss());
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void spawn() {
+		
+		Boss boss = Objects.requireNonNull(getBoss());
+		
+		boss.createBody(world);
+		container.push(boss);
+		
+		spawn = true;
+	}
+	
+	/**
+	 * Get the {@link Boss} of the Stage
+	 * 
+	 * @return Boss of the Stage
+	 */
+	protected abstract Boss getBoss();
 	
 }

@@ -42,7 +42,7 @@ public class MissileShot extends AbstractShot {
 				
 				break;
 			}
-			case Shot.MESSAGE_HIT:{
+			case Shot.MESSAGE_HIT: {
 				getBody().setType(BodyType.STATIC);
 				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
 			}

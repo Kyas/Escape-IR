@@ -6,7 +6,7 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
-import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
+import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.graphics.Texture;
 
 public abstract class AbstractWeapon implements Weapon {
@@ -51,11 +51,11 @@ public abstract class AbstractWeapon implements Weapon {
 	}
 	
 	@Override
-	public boolean load(float x, float y, ShotConfiguration configuration) {
+	public boolean load(float x, float y, ShotContext context) {
 		if(!isEmpty() && shot == null) {
 			
 			shot = Objects.requireNonNull(createShot(x, y));
-			shot.setShotConfiguration(configuration);
+			shot.setShotConfiguration(context);
 			shot.receive(Shot.MESSAGE_LOAD);
 			
 			return true;
@@ -92,15 +92,15 @@ public abstract class AbstractWeapon implements Weapon {
 	}
 	
 	@Override
-	public boolean fire(float[] velocity, ShotConfiguration configuration) {
+	public boolean fire(float[] velocity, ShotContext context) {
 
 		if(shot != null) {
 			
 			// TODO
 			shot.moveBy(velocity);
-			shot.setShotConfiguration(configuration);
+			shot.setShotConfiguration(context);
 			
-			if(!configuration.isPlayer()) {
+			if(!context.isPlayer()) {
 				shot.rotateBy(180);
 			}
 			
