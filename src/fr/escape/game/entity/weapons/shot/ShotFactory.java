@@ -191,4 +191,64 @@ public final class ShotFactory {
 		return shot;
 	}
 	
+	public Shot createMoonShot(float x, float y) {
+		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(coreJupiter.getHeight() / 2);
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(x, y);
+		bodyDef.type = BodyType.DYNAMIC;
+		
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
+		
+		FixtureDef fixture = new FixtureDef();
+		fixture.shape = shape;
+		fixture.density = 0.5f;
+		fixture.friction = 1.0f;       
+		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = 0x0008;
+		fixture.filter.maskBits = MASK;
+		
+		Body body = world.createBody(bodyDef);
+		body.createFixture(fixture);
+
+		Shot shot = new MoonShot(body, entityContainer, COLLISION_BEHAVIOR);
+		
+		body.setUserData(shot);
+		
+		return shot;
+	}
+	
+	public Shot createEarthShot(float x, float y) {
+		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(coreJupiter.getHeight() / 2);
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(x, y);
+		bodyDef.type = BodyType.DYNAMIC;
+		
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(shapeX, shapeY);
+		
+		FixtureDef fixture = new FixtureDef();
+		fixture.shape = shape;
+		fixture.density = 0.5f;
+		fixture.friction = 1.0f;       
+		fixture.restitution = 0.0f;
+		fixture.filter.categoryBits = 0x0008;
+		fixture.filter.maskBits = MASK;
+		
+		Body body = world.createBody(bodyDef);
+		body.createFixture(fixture);
+
+		Shot shot = new JupiterShot(body, entityContainer, COLLISION_BEHAVIOR);
+		
+		body.setUserData(shot);
+		
+		return shot;
+	}
+	
 }

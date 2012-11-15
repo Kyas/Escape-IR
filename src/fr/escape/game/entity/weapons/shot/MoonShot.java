@@ -9,21 +9,22 @@ import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
-public class JupiterShot extends AbstractShot {
-	private final Texture coreJupiterShot;
+public class MoonShot extends AbstractShot {
+	private final Texture coreMoonShot;
 	
 	private boolean isVisible;
 
-	public JupiterShot(Body body, EntityContainer container, ShotCollisionBehavior collisionBehavior) {
-		super(body, container, container, collisionBehavior, 2);
-		
-		this.coreJupiterShot = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+	public MoonShot(Body body, EntityContainer container, CollisionBehavior collisionBehavior) {
+		super(body, container, container, collisionBehavior, 5);
+
+		this.coreMoonShot = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class JupiterShot extends AbstractShot {
 			
 			Rectangle area = getEdge();
 			
-			graphics.draw(coreJupiterShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
+			graphics.draw(coreMoonShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
 			graphics.draw(getEdge(), Color.RED);
 		}
 	}
@@ -90,7 +91,7 @@ public class JupiterShot extends AbstractShot {
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
-		return new Rectangle(x - (coreJupiterShot.getWidth() / 2), y - (coreJupiterShot.getHeight() / 2), coreJupiterShot.getWidth(), coreJupiterShot.getHeight());
+		return new Rectangle(x - (coreMoonShot.getWidth() / 2), y - (coreMoonShot.getHeight() / 2), coreMoonShot.getWidth(), coreMoonShot.getHeight());
 	}
 
 }
