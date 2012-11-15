@@ -39,10 +39,12 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		
 		draw(graphics);
 		
+		// Do we need to trigger Special Action ?
 		if(timer >= getSpecialWaitingTime()) {
 			special();
 		}
 		
+		// Do we need to trigger Fire Action ?
 		if((timer / actionCount) >= getFireWaitingTime()) {
 			fire();	
 		}
@@ -139,6 +141,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 			moveTo(9.0f, 2.0f);
 			
 		}
+		
 	}
-
+	
 }
