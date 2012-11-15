@@ -13,6 +13,11 @@ public interface Boss extends Ship {
 	public void special();
 	
 	/**
+	 * Called after performing {@link Boss#special()}.
+	 */
+	public void normal();
+	
+	/**
 	 * Perform a Movement Action
 	 */
 	public void move();
