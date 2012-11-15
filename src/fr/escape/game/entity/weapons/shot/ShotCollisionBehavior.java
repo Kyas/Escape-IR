@@ -26,7 +26,7 @@ public final class ShotCollisionBehavior implements CollisionBehavior {
 			case Collisionable.PLAYER_TYPE: {
 				
 				Foundation.ACTIVITY.debug(TAG, "Shot hit a Player.");
-				user.removeOneLife();
+				user.getShip().damage(user, shot.getDamage());
 				
 				break;
 			}
@@ -34,7 +34,7 @@ public final class ShotCollisionBehavior implements CollisionBehavior {
 				
 				Foundation.ACTIVITY.debug(TAG, "Shot hit a NPC.");
 				Ship ship = (Ship) other;
-				ship.damage(shot.getDamage());
+				ship.damage(user,shot.getDamage());
 				user.addScore(HIT_SCORE);
 				
 				break;

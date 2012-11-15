@@ -143,6 +143,8 @@ public class Splash implements Screen {
 		float y = CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100);
 		
 		Ship userShip = game.getUser().getShip();
+
+		velocity[0] = 0.0f;
 		userShip.getActiveWeapon().unload();
 		userShip.getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
 		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
@@ -158,11 +160,11 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		
 		Ship userShip = game.getUser().getShip();
-		
+	
+		velocity[0] = 0.0f;
 		userShip.getActiveWeapon().unload();
 		userShip.getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
 		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
-		
 		
 		stage.reset();
 	}

@@ -32,7 +32,7 @@ public final class ComputerShipCollisionBehavior implements CollisionBehavior {
 				Shot shot = (Shot) other;
 				shot.receive(Shot.MESSAGE_HIT);
 
-				ship.damage(shot.getDamage());
+				ship.damage(user,shot.getDamage());
 				user.addScore(HIT_SCORE);
 				
 				break;
@@ -41,7 +41,7 @@ public final class ComputerShipCollisionBehavior implements CollisionBehavior {
 				
 				Foundation.ACTIVITY.debug(TAG, "NPC hit a Player.");
 				user.addScore(HIT_SCORE);
-				user.removeOneLife();
+				user.getShip().damage(user, 1);
 				
 				break;
 			}

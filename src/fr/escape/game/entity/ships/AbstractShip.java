@@ -78,13 +78,16 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void damage(int value) {
-		
+	public void damage(User user, int value) {
 		life -= value;
 		
 		if(life <= 0) {
 			Foundation.ACTIVITY.error(TAG, "A Ship has been destroy.");
-			this.toDestroy();
+			if(!isPlayer) {
+				this.toDestroy();
+			} else {
+				user.removeOneLife();
+			}
 		}
 	}
 	

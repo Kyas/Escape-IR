@@ -29,6 +29,7 @@ public class ShipFactory {
 	private static final CollisionBehavior PLAYER_COLLISION_BEHAVIOR = new PlayerShipCollisionBehavior();
 	
 	private static final int DEFAULT_ARMOR = 1;
+	private static final int PLAYER_ARMOR = 10;
 	
 	private final EntityContainer econtainer;
 	private final List<Weapon> playerWeapons;
@@ -99,7 +100,7 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForPlayer(raptor);
 
-		return new AbstractShip(bodyDef, fixture, playerWeapons, true, DEFAULT_ARMOR, econtainer, raptor, PLAYER_COLLISION_BEHAVIOR) {
+		return new AbstractShip(bodyDef, fixture, playerWeapons, true, PLAYER_ARMOR, econtainer, raptor, PLAYER_COLLISION_BEHAVIOR) {
 			
 		};
 		
