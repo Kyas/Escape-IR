@@ -36,7 +36,6 @@ import fr.escape.game.entity.ships.Ship;
  * {@link Entity}.
  * 
  */
-// TODO Comment
 public final class EntityContainer implements Updateable, KillNotifier, EdgeNotifier {
 
 	private static final String TAG = EntityContainer.class.getSimpleName();
@@ -70,8 +69,8 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if successful
 	 */
 	public boolean push(Entity e) {
-		System.err.println("PUSH : " + e);
 		Objects.requireNonNull(e);
+		Foundation.ACTIVITY.debug(TAG, "Push this Entity: "+e);
 		return this.entities.add(e);
 	}
 	
@@ -82,20 +81,18 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if successful
 	 */
 	private boolean remove(Entity e) {
-		//e.getBody().setActive(false);
+		Foundation.ACTIVITY.debug(TAG, "Remove this Entity: "+e);
 		return this.entities.remove(e);
 	}
 	
 	@Override
 	public boolean edgeReached(Entity e) {
-		System.err.print("Edge: "+e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
 
 	@Override
 	public boolean destroy(Entity e) {
-		System.err.println("destroy: "+e);
 		toDestroy(Objects.requireNonNull(e));
 		return true;
 	}
@@ -120,13 +117,25 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	public boolean isInside(Rectangle edge) {
 		return this.edge.intersects(Objects.requireNonNull(edge));
 	}
-
+	
+	/**
+	 * Add an {@link Entity} on the Removing Queue.
+	 * 
+	 * @param e {@link Entity}
+	 */
 	public void toDestroy(Entity e) {
 		Foundation.ACTIVITY.debug(TAG, "Add Entity in Removing Queue: "+e);
 		this.destroyed.add(e);
 	}
 	
+	/**
+	 * Flush {@link EntityContainer} by removing all {@link Entity}
+	 * listed in the Removing Queue.
+	 * 
+	 * @return True if successful
+	 */
 	public boolean flush() {
+		
 		for(Entity e : destroyed) {
 			Foundation.ACTIVITY.debug(TAG, "Remove Entity: "+e+" "+((remove(e)?"[DONE]":"[FAIL]")));
 			if(e.getBody() != null) {
@@ -134,13 +143,18 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 				e.setBody(null);
 			}
 		}
-		destroyed.clear();
 		
+		destroyed.clear();
 		return true;
 	}
 
+	/**
+	 * Reset the {@link EntityContainer} by removing all {@link Entity} from this container
+	 * and the {@link World}.
+	 * 
+	 * @return True if successful
+	 */
 	public boolean reset() {
-		System.out.println("Nombre de body avant reset : " + world.getBodyCount());
 		
 		if(!flush()) {
 			return false;
@@ -150,12 +164,11 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		
 		while(it.hasNext()) {
 			Entity e = it.next();
-			System.out.println("RESET : " + e);
 			it.remove();
 			world.destroyBody(e.getBody());
 			e.setBody(null);
 		}
-		System.out.println("Nombre de body apres reset : " + world.getBodyCount());
+		
 		return true;
 	}
 	
@@ -180,15 +193,19 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 		
 		Bonus bonus = BonusFactory.createBonus(world, x, y, this);
 		
-		
 		if(bonus != null) {
-			System.out.println("Bonus : " + bonus.getBody().getLinearVelocity().y);
 			return push(bonus);
 		}
 		
 		return true;
 	}
 	
+	/**
+	 * Push a Ship in World
+	 * 
+	 * @param ship Ship to add in container.
+	 * @return True if Successful.
+	 */
 	public boolean pushShip(Ship ship) {
 		Objects.requireNonNull(ship).createBody(world);
 		return push(ship);
