@@ -18,8 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import org.jbox2d.common.Vec2;
-
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -79,8 +77,8 @@ public class Splash implements Screen {
 
 			if(spawnBoss == false) {
 				spawnBoss = true;
-				
 				// TODO Spawn the Boss
+				stage.boss(game.getWorld(), game.getEntityContainer());
 				System.err.println("Spawn du boss");
 			}
 			
@@ -142,12 +140,10 @@ public class Splash implements Screen {
 		float x = CoordinateConverter.toMeterX(game.getGraphics().getWidth() / 2);
 		float y = CoordinateConverter.toMeterY(game.getGraphics().getHeight() - 100);
 		
-		Ship userShip = game.getUser().getShip();
-
 		velocity[0] = 0.0f;
-		userShip.getActiveWeapon().unload();
-		userShip.getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
-		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
+		game.getUser().reset(x, y);
+		
+		spawnBoss = false;
 	}
 
 	@Override
@@ -159,13 +155,10 @@ public class Splash implements Screen {
 		game.getOverlay().hide();
 		game.getEntityContainer().reset();
 		
-		Ship userShip = game.getUser().getShip();
-	
 		velocity[0] = 0.0f;
-		userShip.getActiveWeapon().unload();
-		userShip.getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
-		userShip.getBody().setTransform(new Vec2(x, y), userShip.getBody().getAngle());
+		game.getUser().reset(x, y);
 		
+		spawnBoss = false;
 		stage.reset();
 	}
 

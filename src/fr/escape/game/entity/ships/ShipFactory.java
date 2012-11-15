@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
 import fr.escape.app.Foundation;
+import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
@@ -122,6 +123,56 @@ public class ShipFactory {
 				throw new IllegalArgumentException("Unknown Ship Type");
 			}
 		}
+	}
+	
+	public Ship createBoss(float x, float y) {
+		AnimationTexture raptor = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_RAPTOR));
+		
+		BodyDef bodyDef = createBodyDef(x, y);
+		FixtureDef fixture = createFixtureForNpc(raptor);
+		
+		return new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, raptor, COMPUTER_COLLISION_BEHAVIOR) {
+			private boolean moveToRight = false;
+			private long timer = 0;
+			private long coeff = 1;
+			
+			@Override
+			public void update(Graphics graphics, long delta) {
+				float x = Math.abs(getBody().getLinearVelocity().x);
+				timer += delta;
+				
+				if(!moveToRight && x <= 1.0f) {
+					moveToRight = true;
+					moveTo(1.0f, getY());
+				} else if(x <= 1.0f) {
+					moveToRight = false;
+					moveTo(9.0f, getY());
+				}
+				
+				draw(graphics);
+				
+				if(timer >= 5000) {
+					//TODO fire special
+					System.err.println("BOSS SPECIAL FIRE");
+					timer = 0;
+					coeff = 1;
+				}
+				
+				if(timer / coeff >= 1000) {
+					setActiveWeapon(2);
+					Foundation.ACTIVITY.post(new Runnable() {
+						@Override
+						public void run() {
+							loadWeapon();
+							fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+						}
+					});
+					System.err.println("BOSS FIRE");
+					++coeff;
+				}
+				
+			}
+		};
 	}
 	
 	private static BodyDef createBodyDef(float x, float y) {

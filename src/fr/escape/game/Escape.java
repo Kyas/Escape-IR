@@ -276,7 +276,10 @@ public final class Escape extends Game implements LifeListener {
 
 	@Override
 	public void stop() {
-		getUser().reset();
+		float x = CoordinateConverter.toMeterX(getGraphics().getWidth() / 2);
+		float y = CoordinateConverter.toMeterY(getGraphics().getHeight() - 100);
+		
+		getUser().reset(x,y);
 		setScreen(lost);
 	}
 	

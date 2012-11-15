@@ -82,11 +82,11 @@ public final class User implements Receiver, Sender {
 		});
 	}
 	
-	public boolean reset() {
+	public boolean reset(float x, float y) {
 		Foundation.ACTIVITY.log(TAG, "User: Reset Requested");
 		this.highscore = 0;
 		this.life = INITIAL_LIFE;
-		if(!this.ship.reset(game.getWorld())) {
+		if(!this.ship.reset(x,y)) {
 			throw new IllegalStateException();
 		}
 		return true;
