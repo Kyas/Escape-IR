@@ -50,6 +50,7 @@ public abstract class AbstractShip implements Ship {
 	private Body body;
 	private int angle;
 	private int life;
+	private final int initialLife;
 	
 	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, boolean isPlayer, int life, 
 			EntityContainer container, AnimationTexture textures, CollisionBehavior collisionBehavior) {
@@ -69,6 +70,7 @@ public abstract class AbstractShip implements Ship {
 		this.executeLeftLoop = false;
 		this.executeRightLoop = false;
 		this.life = life;
+		this.initialLife = life;
 		
 	}
 	
@@ -352,10 +354,11 @@ public abstract class AbstractShip implements Ship {
 	}
 
 	@Override
-	public boolean reset(World world) {
-		
-		// TODO Reset Ship Armor
-		
+	public boolean reset(float x, float y) {
+		life = initialLife;
+		getActiveWeapon().unload();
+		getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
+		getBody().setTransform(new Vec2(x, y), getBody().getAngle());
 		
 		// Reset All Weapons
 		for(Weapon w : getAllWeapons()) {

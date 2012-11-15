@@ -66,11 +66,13 @@ public final class BlackHoleShot extends AbstractShot {
 				break;
 			}
 			case MESSAGE_HIT: {
-				drawEventHorizon = true;
-				timer = 0;
-				setShapeRadius();
-				getBody().setType(BodyType.STATIC);
-				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
+				if(!drawEventHorizon) {
+					drawEventHorizon = true;
+					timer = 0;
+					setShapeRadius();
+					getBody().setType(BodyType.STATIC);
+					getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
+				}
 				break;
 			}
 			case MESSAGE_DESTROY: {

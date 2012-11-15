@@ -49,7 +49,7 @@ public interface Ship extends Moveable, Drawable, Entity {
 
 	public Rectangle getEdge();
 	
-	public boolean reset(World world);
+	public boolean reset(float x, float y);
 		
 	public boolean damage(int value);
 	
