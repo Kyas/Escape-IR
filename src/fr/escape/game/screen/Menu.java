@@ -76,11 +76,13 @@ public final class Menu implements Screen {
 	
 	@Override
 	public boolean touch(Input i) {
+		
 		if(touchArea.contains(i.getX(), i.getY())) {
 			Foundation.ACTIVITY.log(TAG, "User Launch: NEW_GAME");
 			Foundation.ACTIVITY.post(newGame);
 			return true;
 		}
+		
 		return false;
 	}
 
@@ -127,7 +129,7 @@ public final class Menu implements Screen {
 	 * @param grid Grid to use
 	 * @return Touch Area
 	 */
-	private Rectangle createTouch(Rectangle grid) {
+	private static Rectangle createTouch(Rectangle grid) {
 		return new Rectangle((int) (grid.getX() + GRID_PADDING), (int) (grid.getCenterY() - (GRID_COMPONENTS_SIZE/2)), 
 				(int) (grid.getWidth() - (GRID_PADDING * 2)), GRID_COMPONENTS_SIZE);
 	}

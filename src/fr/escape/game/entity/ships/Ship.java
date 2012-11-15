@@ -3,7 +3,6 @@ package fr.escape.game.entity.ships;
 import java.awt.Rectangle;
 import java.util.List;
 
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
@@ -14,9 +13,6 @@ import fr.escape.game.entity.weapons.Weapon;
 
 // TODO Comment
 public interface Ship extends Moveable, Drawable, Entity {
-	
-	public static final int MESSAGE_EXECUTE_LEFT_LOOP = 0;
-	public static final int MESSAGE_EXECUTE_RIGHT_LOOP = MESSAGE_EXECUTE_LEFT_LOOP + 1;
 		
 	public List<Weapon> getAllWeapons();
 	
@@ -25,9 +21,6 @@ public interface Ship extends Moveable, Drawable, Entity {
 	public Weapon getActiveWeapon();
 	
 	public BodyDef getBodyDef();
-	
-	@Override
-	public Body getBody();
 	
 	public float getX();
 	

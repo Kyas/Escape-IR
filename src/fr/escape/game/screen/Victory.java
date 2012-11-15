@@ -13,11 +13,12 @@ import fr.escape.resources.texture.TextureLoader;
 
 /**
  * <p>
- * A screen that display "Victory !!!" and Credits.
+ * A screen that display "Victory !!!", Highscore and Credits.
  * 
  */
 public final class Victory implements Screen {
 
+	private static final long WAIT = 1337;
 	private static final String TAG = Victory.class.getSimpleName();
 	
 	private static final String VICTORY_TITLE = "Victory !!!";
@@ -38,6 +39,8 @@ public final class Victory implements Screen {
 	private final Texture user;
 	private final Runnable confirm;
 	
+	private long time = 0;
+	
 	public Victory(Escape game) {
 		this.game = game;
 		Font baseFont = game.getResources().getFont(FontLoader.VISITOR_ID);
@@ -46,6 +49,7 @@ public final class Victory implements Screen {
 		this.fontH3 = baseFont.deriveFont(FSIZE_H3);
 		this.background = game.getResources().getTexture(TextureLoader.BACKGROUND_VICTORY);
 		this.user = game.getResources().getTexture(TextureLoader.SHIP_RAPTOR);
+		this.time = 0;
 		this.confirm = new Runnable() {
 			
 			@Override
@@ -58,9 +62,15 @@ public final class Victory implements Screen {
 	
 	@Override
 	public boolean touch(Input i) {
-		Foundation.ACTIVITY.log(TAG, "User Launch: MENU_SCREEN");
-		Foundation.ACTIVITY.post(confirm);
-		return true;
+		
+		if(time >= WAIT) {
+			Foundation.ACTIVITY.log(TAG, "User Launch: MENU_SCREEN");
+			Foundation.ACTIVITY.post(confirm);
+			return true;
+		}
+		
+		Foundation.ACTIVITY.debug(TAG, "User may miss-click");
+		return false;
 	}
 
 	@Override
@@ -71,12 +81,17 @@ public final class Victory implements Screen {
 	@Override
 	public void render(long delta) {
 		
+		time += delta;
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 	
 		int x = (game.getGraphics().getWidth() / 2);
 		int y = (game.getGraphics().getHeight() / 4);
 		
 		Screens.drawStringInCenterPosition(game.getGraphics(), VICTORY_TITLE, x, y, fontH1, Color.WHITE);
+		
+		y += fontH1.getSize() * 1.3;
+		
+		Screens.drawStringInCenterPosition(game.getGraphics(), "Highscore: "+game.getUser().getHighscore(), x, y, fontH2, Color.WHITE);
 		
 		int ux = (game.getGraphics().getWidth() / 2) - (user.getWidth() / 2);
 		int uy = (game.getGraphics().getHeight() / 2) - (user.getWidth() / 2);
@@ -100,6 +115,7 @@ public final class Victory implements Screen {
 	@Override
 	public void show() {
 		game.getOverlay().hide();
+		time = 0;
 	}
 
 	@Override
