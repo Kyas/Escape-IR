@@ -269,6 +269,12 @@ public class ShipFactory {
 				
 				incActionCount();
 			}
+
+			@Override
+			public void normal() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		
 	}
@@ -309,6 +315,12 @@ public class ShipFactory {
 				
 				incActionCount();
 			}
+
+			@Override
+			public void normal() {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		
 	}
@@ -348,6 +360,12 @@ public class ShipFactory {
 				});
 				
 				incActionCount();
+			}
+
+			@Override
+			public void normal() {
+				// TODO Auto-generated method stub
+				
 			}
 		};
 		
