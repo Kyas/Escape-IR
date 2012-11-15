@@ -10,7 +10,13 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.shot.JupiterShot;
+import fr.escape.game.entity.weapons.shot.Shot;
+import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
+import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.AnimationTexture;
+import fr.escape.graphics.Texture;
+import fr.escape.resources.texture.TextureLoader;
 
 public abstract class AbstractBoss extends AbstractShip implements Boss {
 
@@ -19,6 +25,9 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	private boolean moveToRight;
 	private long timer;
 	private int actionCount;
+	
+	//TODO remove after redefinition de special dans la factory
+	final EntityContainer container;
 	
 	public AbstractBoss(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, 
 			int life, EntityContainer container, AnimationTexture textures,
@@ -30,6 +39,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		timer = 0;
 		actionCount = 1;
 		
+		this.container = container;
 	}
 	
 	@Override
@@ -42,7 +52,8 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		
 		draw(graphics);
 		
-		if(timer >= getSpecialWaitingTime()) {
+		//TODO Decommenter apres test
+		if(timer >= SPECIAL_FREQUENCY/*getSpecialWaitingTime()*/) {
 			special();
 		}
 		
@@ -117,10 +128,40 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	
 	@Override
 	public void special() {
-		
+		System.err.println("SPECIAL FIRE DONE");
 		//TODO fire special
+		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		ShotFactory shotFactory = new ShotFactory(Foundation.ACTIVITY.getWorld(), container);
 		
-		System.err.println("BOSS SPECIAL FIRE");
+		final JupiterShot s1 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+		final JupiterShot s2 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+		final JupiterShot s3 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+		final JupiterShot s4 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
+		
+		s1.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s2.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s3.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s4.setShotConfiguration(new ShotConfiguration(isPlayer(), texture.getWidth(), texture.getHeight()));
+		
+		s1.moveBy(new float[] {0.0f, 4.0f, 5.0f});
+		s2.moveBy(new float[] {0.0f, 1.25f, 5.0f});
+		s3.moveBy(new float[] {0.0f, -1.25f, 5.0f});
+		s4.moveBy(new float[] {0.0f, -4.0f, 5.0f});
+		
+		s1.receive(Shot.MESSAGE_CRUISE);
+		s2.receive(Shot.MESSAGE_CRUISE);
+		s3.receive(Shot.MESSAGE_CRUISE);
+		s4.receive(Shot.MESSAGE_CRUISE);
+		
+		Foundation.ACTIVITY.post(new Runnable() {
+			@Override
+			public void run() {
+				container.push(s1);
+				container.push(s2);
+				container.push(s3);
+				container.push(s4);
+			}
+		});
 		
 		resetTimer();
 		resetActionCount();
