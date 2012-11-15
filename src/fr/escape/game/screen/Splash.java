@@ -76,8 +76,7 @@ public class Splash implements Screen {
 		background.setYPercent(percent);
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
-		percent = ((float) time) / STAR_SPEED;
-		
+		star.setYPercent(((float) time) / STAR_SPEED);
 		game.getGraphics().draw(star, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
 		game.getUser().getShip().update(game.getGraphics(), delta);

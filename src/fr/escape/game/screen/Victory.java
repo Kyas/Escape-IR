@@ -2,6 +2,7 @@ package fr.escape.game.screen;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Objects;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Input;
@@ -13,39 +14,30 @@ import fr.escape.resources.texture.TextureLoader;
 
 /**
  * <p>
- * A screen that display "Victory !!!" and Credits.
+ * A screen that display "Victory !!!", Highscore and Credits.
  * 
  */
 public final class Victory implements Screen {
 
+	private static final long WAIT = 1337;
 	private static final String TAG = Victory.class.getSimpleName();
 	
-	private static final String VICTORY_TITLE = "Victory !!!";
-	private static final String VICTORY_CREDITS_TITLE = "Credits :";
-	private static final String AUTHOR_TQ = "Thomas QUANTIN";
-	private static final String AUTHOR_TL = "Thomas LE ROUX";
+	private static final float FSIZE_H2 = 18.0f;
 	
-	private static final float FSIZE_H1 = 22.0f;
-	private static final float FSIZE_H2 = 18.0f; 
-	private static final float FSIZE_H3 = 14.0f; 
-	private static final int CSPACE = 15; 
-	
-	private final Font fontH1;
-	private final Font fontH2;
-	private final Font fontH3;
+	private final Font font;
 	private final Escape game;
 	private final Texture background;
 	private final Texture user;
 	private final Runnable confirm;
 	
+	private long time = 0;
+	
 	public Victory(Escape game) {
-		this.game = game;
-		Font baseFont = game.getResources().getFont(FontLoader.VISITOR_ID);
-		this.fontH1 = baseFont.deriveFont(FSIZE_H1);
-		this.fontH2 = baseFont.deriveFont(FSIZE_H2);
-		this.fontH3 = baseFont.deriveFont(FSIZE_H3);
+		this.game = Objects.requireNonNull(game);
+		this.font = game.getResources().getFont(FontLoader.VISITOR_ID).deriveFont(FSIZE_H2);
 		this.background = game.getResources().getTexture(TextureLoader.BACKGROUND_VICTORY);
 		this.user = game.getResources().getTexture(TextureLoader.SHIP_RAPTOR);
+		this.time = 0;
 		this.confirm = new Runnable() {
 			
 			@Override
@@ -58,9 +50,15 @@ public final class Victory implements Screen {
 	
 	@Override
 	public boolean touch(Input i) {
-		Foundation.ACTIVITY.log(TAG, "User Launch: MENU_SCREEN");
-		Foundation.ACTIVITY.post(confirm);
-		return true;
+		
+		if(time >= WAIT) {
+			Foundation.ACTIVITY.log(TAG, "User Launch: MENU_SCREEN");
+			Foundation.ACTIVITY.post(confirm);
+			return true;
+		}
+		
+		Foundation.ACTIVITY.debug(TAG, "User may miss-click");
+		return false;
 	}
 
 	@Override
@@ -71,35 +69,25 @@ public final class Victory implements Screen {
 	@Override
 	public void render(long delta) {
 		
+		time += delta;
 		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 	
 		int x = (game.getGraphics().getWidth() / 2);
-		int y = (game.getGraphics().getHeight() / 4);
+		int y = (game.getGraphics().getHeight() / 4) + (int) (font.getSize() * 1.4);
 		
-		Screens.drawStringInCenterPosition(game.getGraphics(), VICTORY_TITLE, x, y, fontH1, Color.WHITE);
+		Screens.drawStringInCenterPosition(game.getGraphics(), "Highscore: "+game.getUser().getHighscore(), x, y, font, Color.WHITE);
 		
-		int ux = (game.getGraphics().getWidth() / 2) - (user.getWidth() / 2);
-		int uy = (game.getGraphics().getHeight() / 2) - (user.getWidth() / 2);
+		x = (game.getGraphics().getWidth() / 2) - (user.getWidth() / 2);
+		y = (game.getGraphics().getHeight() / 2) - (user.getWidth() / 2);
 		
-		game.getGraphics().draw(user, ux, uy);
-		
-		y = 3 * (game.getGraphics().getHeight() / 4);
-		
-		Screens.drawStringInCenterPosition(game.getGraphics(), VICTORY_CREDITS_TITLE, x, y, fontH2, Color.WHITE);
-		
-		y = y + CSPACE + (int) (fontH3.getSize() * 1.3);
-		
-		Screens.drawStringInCenterPosition(game.getGraphics(), AUTHOR_TL, x, y, fontH3, Color.WHITE);
-
-		y = y + (int) (fontH3.getSize() * 1.3);
-		
-		Screens.drawStringInCenterPosition(game.getGraphics(), AUTHOR_TQ, x, y, fontH3, Color.WHITE);
+		game.getGraphics().draw(user, x, y);
 		
 	}
 
 	@Override
 	public void show() {
 		game.getOverlay().hide();
+		time = 0;
 	}
 
 	@Override
