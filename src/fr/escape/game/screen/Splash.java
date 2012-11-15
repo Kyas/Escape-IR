@@ -67,7 +67,7 @@ public class Splash implements Screen {
 		time += delta;
 		activeEventTime += delta;
 		
-		float percent = ((float) time) / stage.getEstimatedScenarioTime();
+		float percent = ((float) time) / (stage.getEstimatedScenarioTime() * 1000);
 
 		if(percent >= 1.0f) {
 			percent = 1.0f;
