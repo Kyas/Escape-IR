@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Objects;
 
@@ -127,7 +126,6 @@ public final class ShiboleetShot extends AbstractShot {
 			Rectangle area = getEdge();
 			
 			graphics.draw(coreShiboleet, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
-			graphics.draw(getEdge(), Color.RED);
 		}
 	}
 	

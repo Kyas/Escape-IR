@@ -5,7 +5,6 @@ import java.util.List;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.FixtureDef;
 
-import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.EntityContainer;
@@ -13,8 +12,6 @@ import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.graphics.AnimationTexture;
 
 public abstract class AbstractBoss extends AbstractShip implements Boss {
-
-	private static final int SPECIAL_FREQUENCY = 7000;
 	
 	private boolean moveToRight;
 	private long timer;
@@ -134,31 +131,14 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		if(!moveToRight && x <= 1.0f) {
 			
 			moveToRight = true;
-			moveTo(1.0f, getY());
+			moveTo(1.0f, 2.0f);
 			
 		} else if(x <= 1.0f) {
 			
 			moveToRight = false;
-			moveTo(9.0f, getY());
+			moveTo(9.0f, 2.0f);
 			
 		}
-	}
-
-	@Override
-	public void fire() {
-		
-		setActiveWeapon(2);
-		
-		Foundation.ACTIVITY.post(new Runnable() {
-			@Override
-			public void run() {
-				loadWeapon();
-				fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
-			}
-		});
-		
-		System.err.println("BOSS FIRE");
-		++actionCount;
 	}
 
 }

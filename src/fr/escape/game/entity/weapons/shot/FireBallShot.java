@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -45,7 +44,6 @@ public final class FireBallShot extends AbstractShot {
 		if(isVisible) {
 			drawCoreBall(graphics);
 			drawRadiusEffect(graphics, (int) (timer % 100)*10);
-			graphics.draw(getEdge(), Color.RED);
 		}
 	}
 
@@ -93,7 +91,6 @@ public final class FireBallShot extends AbstractShot {
 				
 				isVisible = false;
 				
-				// TODO Remove ?
 				Foundation.ACTIVITY.post(new Runnable() {
 					
 					@Override
@@ -112,7 +109,6 @@ public final class FireBallShot extends AbstractShot {
 	}
 
 	@Override
-	// TODO Finish
 	protected Rectangle getEdge() {
 		
 		int x = CoordinateConverter.toPixelX(getX());

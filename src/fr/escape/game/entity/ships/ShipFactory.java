@@ -147,6 +147,23 @@ public class ShipFactory {
 				return 10000;
 			}
 			
+			@Override
+			public void fire() {
+				
+				setActiveWeapon(2);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						loadWeapon();
+						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+					}
+					
+				});
+				
+				incActionCount();
+			}
 		};
 		
 	}
