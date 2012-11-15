@@ -8,9 +8,12 @@ import org.jbox2d.dynamics.FixtureDef;
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
+import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.shot.EarthShot;
 import fr.escape.game.entity.weapons.shot.JupiterShot;
+import fr.escape.game.entity.weapons.shot.MoonShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
@@ -136,9 +139,10 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	public void special() {
 		
 		System.err.println("SPECIAL FIRE DONE");
-
-		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
 		ShotFactory shotFactory = new ShotFactory(Foundation.ACTIVITY.getWorld(), container);
+
+		//Jupiter Test
+		/*Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
 		
 		final JupiterShot s1 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
 		final JupiterShot s2 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
@@ -167,6 +171,34 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 				container.push(s2);
 				container.push(s3);
 				container.push(s4);
+			}
+		});*/
+		
+		/*Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
+		final MoonShot s1 = (MoonShot) shotFactory.createMoonShot(getX() - CoordinateConverter.toMeterX(20), getY() - CoordinateConverter.toMeterY(9));
+		
+		s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s1.moveBy(new float[] {0.0f, 0.0f, 2.5f});
+		s1.receive(Shot.MESSAGE_CRUISE);
+		
+		Foundation.ACTIVITY.post(new Runnable() {
+			@Override
+			public void run() {
+				container.push(s1);
+			}
+		});*/
+		
+		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
+		final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX(), getY());
+		
+		s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+		s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
+		s1.receive(Shot.MESSAGE_CRUISE);
+		
+		Foundation.ACTIVITY.post(new Runnable() {
+			@Override
+			public void run() {
+				container.push(s1);
 			}
 		});
 		

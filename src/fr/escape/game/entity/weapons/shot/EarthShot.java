@@ -24,7 +24,7 @@ public class EarthShot extends AbstractShot {
 	public EarthShot(Body body, EntityContainer container, CollisionBehavior collisionBehavior) {
 		super(body, container, container, collisionBehavior, 5);
 		
-		this.coreEarthShot = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		this.coreEarthShot = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class EarthShot extends AbstractShot {
 			
 			Rectangle area = getEdge();
 			
-			graphics.draw(coreEarthShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
+			graphics.draw(coreEarthShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), graphics.getHeight());
 			graphics.draw(getEdge(), Color.RED);
 		}
 	}
@@ -90,6 +90,8 @@ public class EarthShot extends AbstractShot {
 	protected Rectangle getEdge() {
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
+		
+		System.out.println("GETEDGE : " + x + " -> " + y);
 		
 		return new Rectangle(x - (coreEarthShot.getWidth() / 2), y - (coreEarthShot.getHeight() / 2), coreEarthShot.getWidth(), coreEarthShot.getHeight());
 	}

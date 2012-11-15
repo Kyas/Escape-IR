@@ -233,7 +233,7 @@ public class ShipFactory {
 		}
 	}
 	
-	public Boss createBoss(float x, float y) {
+	public Boss createJupiterBoss(float x, float y) {
 		
 		AnimationTexture jupiter = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_JUPITER));
 		
@@ -250,6 +250,86 @@ public class ShipFactory {
 			@Override
 			public int getSpecialWaitingTime() {
 				return 10000;
+			}
+			
+			@Override
+			public void fire() {
+				
+				setActiveWeapon(2);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						loadWeapon();
+						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+					}
+					
+				});
+				
+				incActionCount();
+			}
+		};
+		
+	}
+	
+	public Boss createMoonBoss(float x, float y) {
+		
+		AnimationTexture moon = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_MOON));
+		
+		BodyDef bodyDef = createBodyDef(x, y);
+		FixtureDef fixture = createFixtureForNpc(moon);
+		
+		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, moon, COMPUTER_COLLISION_BEHAVIOR) {
+
+			@Override
+			public int getFireWaitingTime() {
+				return 3000;
+			}
+
+			@Override
+			public int getSpecialWaitingTime() {
+				return 10000;
+			}
+			
+			@Override
+			public void fire() {
+				
+				setActiveWeapon(2);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						loadWeapon();
+						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+					}
+					
+				});
+				
+				incActionCount();
+			}
+		};
+		
+	}
+
+	public Boss createEarthBoss(float x, float y) {
+		
+		AnimationTexture earth = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_EARTH));
+		
+		BodyDef bodyDef = createBodyDef(x, y);
+		FixtureDef fixture = createFixtureForNpc(earth);
+		
+		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, earth, COMPUTER_COLLISION_BEHAVIOR) {
+	
+			@Override
+			public int getFireWaitingTime() {
+				return 3000;
+			}
+	
+			@Override
+			public int getSpecialWaitingTime() {
+				return 1000;
 			}
 			
 			@Override

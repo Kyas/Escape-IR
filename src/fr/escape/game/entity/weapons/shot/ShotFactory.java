@@ -192,7 +192,7 @@ public final class ShotFactory {
 	}
 	
 	public Shot createMoonShot(float x, float y) {
-		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
 		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
 		float shapeY = CoordinateConverter.toMeterY(coreJupiter.getHeight() / 2);
 		
@@ -222,7 +222,7 @@ public final class ShotFactory {
 	}
 	
 	public Shot createEarthShot(float x, float y) {
-		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
 		float shapeY = CoordinateConverter.toMeterY(coreJupiter.getHeight() / 2);
 		
@@ -244,7 +244,7 @@ public final class ShotFactory {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixture);
 
-		Shot shot = new JupiterShot(body, entityContainer, COLLISION_BEHAVIOR);
+		Shot shot = new EarthShot(body, entityContainer, COLLISION_BEHAVIOR);
 		
 		body.setUserData(shot);
 		

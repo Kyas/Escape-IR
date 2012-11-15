@@ -21,7 +21,7 @@ public final class Earth extends AbstractStage {
 		
 		super(world, container);
 		
-		boss = Objects.requireNonNull(factory.createBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
+		boss = Objects.requireNonNull(factory.createEarthBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
 		
 		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
 		add(e1);

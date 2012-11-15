@@ -24,7 +24,7 @@ public class MoonShot extends AbstractShot {
 	public MoonShot(Body body, EntityContainer container, CollisionBehavior collisionBehavior) {
 		super(body, container, container, collisionBehavior, 5);
 
-		this.coreMoonShot = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+		this.coreMoonShot = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
 	}
 
 	@Override
