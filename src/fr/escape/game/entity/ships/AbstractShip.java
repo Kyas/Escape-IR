@@ -19,7 +19,7 @@ import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
-import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
+import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.graphics.AnimationTexture;
 
 //TODO Comment
@@ -181,7 +181,7 @@ public abstract class AbstractShip implements Ship {
 		Weapon activeWeapon = getActiveWeapon();
 		
 		if(activeWeapon.load(getX(), getY() - CoordinateConverter.toMeterY(shipDrawable.getHeight()), 
-				new ShotConfiguration(isPlayer(), shipDrawable.getWidth(), shipDrawable.getHeight()))) {
+				new ShotContext(isPlayer(), shipDrawable.getWidth(), shipDrawable.getHeight()))) {
 			
 			isWeaponLoaded = true;
 			return true;
@@ -206,7 +206,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(velocity, new ShotConfiguration(isPlayer(), shipDrawable.getWidth(), shipDrawable.getHeight()))) {
+		if(activeWeapon.fire(velocity, new ShotContext(isPlayer(), shipDrawable.getWidth(), shipDrawable.getHeight()))) {
 			isWeaponLoaded = false;
 			return true;
 		}

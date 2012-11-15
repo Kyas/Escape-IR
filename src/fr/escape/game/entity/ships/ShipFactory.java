@@ -233,7 +233,7 @@ public class ShipFactory {
 		}
 	}
 	
-	public Ship createBoss(float x, float y) {
+	public Boss createBoss(float x, float y) {
 		
 		AnimationTexture jupiter = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_JUPITER));
 		

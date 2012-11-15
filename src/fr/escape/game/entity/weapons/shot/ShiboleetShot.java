@@ -93,10 +93,10 @@ public final class ShiboleetShot extends AbstractShot {
 		ShiboleetShot s3 = createChild();
 		ShiboleetShot s4 = createChild();
 		
-		s1.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
-		s2.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
-		s3.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
-		s4.setShotConfiguration(new ShotConfiguration(isPlayer(), getWidth(), getHeight()));
+		s1.setShotConfiguration(new ShotContext(isPlayer(), getWidth(), getHeight()));
+		s2.setShotConfiguration(new ShotContext(isPlayer(), getWidth(), getHeight()));
+		s3.setShotConfiguration(new ShotContext(isPlayer(), getWidth(), getHeight()));
+		s4.setShotConfiguration(new ShotContext(isPlayer(), getWidth(), getHeight()));
 		
 		s1.moveBy(new float[] {0.0f, 4.0f, (isPlayer())?-5.0f:5.0f});
 		s2.moveBy(new float[] {0.0f, 1.25f, (isPlayer())?-5.0f:5.0f});

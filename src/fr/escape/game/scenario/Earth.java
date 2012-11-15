@@ -1,59 +1,41 @@
 package fr.escape.game.scenario;
 
+import java.util.Objects;
+
 import org.jbox2d.dynamics.World;
 
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.EntityContainer;
-import fr.escape.game.entity.ships.Ship;
+import fr.escape.game.entity.ships.Boss;
 import fr.escape.game.entity.ships.ShipFactory;
 import fr.escape.resources.scenario.ScenarioLoader;
 
 public final class Earth extends AbstractStage {
-	private final Ship boss;
-
-	public Earth(ShipFactory factory, EntityContainer container) {
-		
-		super(container);
 	
-		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
+	private static final float BOSS_SPAWN_X = 5.0f;
+	private static final float BOSS_SPAWN_Y = 0.0f;
+	
+	private final Boss boss;
+
+	public Earth(World world, EntityContainer container, ShipFactory factory) {
 		
+		super(world, container);
+		
+		boss = Objects.requireNonNull(factory.createBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
+		
+		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
 		add(e1);
 		
-		boss = factory.createBoss(5.0f, 2.0f);
-		
-//		getWaitingScenario().put(Integer.valueOf(2), new Scenario() {
-//			
-//			@Override
-//			public int getStart() {
-//				return 2;
-//			}
-//			
-//			@Override
-//			public boolean hasFinished() {
-//				return false;
-//			}
-//			
-//			@Override
-//			public void action(int time) {
-//				System.out.println(time+" "+this);
-//			}
-//			
-//			public String toString() {
-//				return getID()+" -> "+getStart();
-//			}
-//
-//			@Override
-//			public int getID() {
-//				return 2;
-//			}
-//			
-//		});
+	}
+	
+	@Override
+	public long getEstimatedScenarioTime() {
+		return 12;
 	}
 
 	@Override
-	public void boss(World world, EntityContainer container) {
-		boss.createBody(world);
-		container.push(boss);
+	protected Boss getBoss() {
+		return boss;
 	}
 	
 }

@@ -3,7 +3,7 @@ package fr.escape.game.entity.weapons;
 import fr.escape.app.Graphics;
 import fr.escape.game.entity.Updateable;
 import fr.escape.game.entity.weapons.shot.Shot;
-import fr.escape.game.entity.weapons.shot.Shot.ShotConfiguration;
+import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.graphics.Texture;
 
 public interface Weapon extends Updateable {	
@@ -16,13 +16,13 @@ public interface Weapon extends Updateable {
 	
 	public Shot getShot();
 	
-	public boolean load(float x, float y, ShotConfiguration configuration);
+	public boolean load(float x, float y, ShotContext context);
 	
 	public boolean reload(int number);
 	
 	public boolean unload();
 	
-	public boolean fire(float[] velocity, ShotConfiguration configuration);
+	public boolean fire(float[] velocity, ShotContext context);
 
 	/**
 	 * Call {@link Updateable#update(Graphics, long)} on the loaded Shot if any
