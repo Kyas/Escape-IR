@@ -45,8 +45,7 @@ import fr.escape.game.ui.UIWeapons;
 import fr.escape.input.Booster;
 import fr.escape.input.Drift;
 import fr.escape.input.Gesture;
-import fr.escape.input.LeftLoop;
-import fr.escape.input.RightLoop;
+import fr.escape.input.Loop;
 import fr.escape.input.Slide;
 import fr.escape.resources.texture.TextureLoader;
 
@@ -369,8 +368,7 @@ public final class Escape extends Game implements LifeListener {
 		gestures.add(new Drift());
 		gestures.add(new Slide());
 		gestures.add(new Booster());
-		gestures.add(new LeftLoop());
-		gestures.add(new RightLoop());
+		gestures.add(new Loop());
 		
 		getUser().setGestures(gestures);
 	}
