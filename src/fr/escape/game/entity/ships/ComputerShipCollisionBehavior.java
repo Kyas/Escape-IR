@@ -32,7 +32,10 @@ public final class ComputerShipCollisionBehavior implements CollisionBehavior {
 				Shot shot = (Shot) other;
 				shot.receive(Shot.MESSAGE_HIT);
 
-				ship.damage(user,shot.getDamage());
+				if(ship.damage(shot.getDamage())) {
+					ship.toDestroy();
+				}
+				
 				user.addScore(HIT_SCORE);
 				
 				break;
@@ -40,8 +43,17 @@ public final class ComputerShipCollisionBehavior implements CollisionBehavior {
 			case Collisionable.PLAYER_TYPE: {
 				
 				Foundation.ACTIVITY.debug(TAG, "NPC hit a Player.");
-				user.addScore(HIT_SCORE);
-				user.getShip().damage(user, 1);
+				user.addScore(HIT_SCORE / 2);
+				
+				Ship player = (Ship) other;
+				
+				if(player.damage(HIT_DAMAGE)) {
+					user.removeOneLife();
+				}
+				
+				if(ship.damage(HIT_DAMAGE)) {
+					ship.toDestroy();
+				}
 				
 				break;
 			}

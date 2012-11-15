@@ -23,6 +23,7 @@ public final class PlayerShipCollisionBehavior implements CollisionBehavior {
 
 		Objects.requireNonNull(user);
 		Objects.requireNonNull(other);
+		Ship player = (Ship) Objects.requireNonNull(handler);
 		
 		switch(type) {
 			case Collisionable.SHOT_TYPE: { 
@@ -31,8 +32,10 @@ public final class PlayerShipCollisionBehavior implements CollisionBehavior {
 				
 				Shot shot = (Shot) other;
 				shot.receive(Shot.MESSAGE_HIT);
-
-				user.getShip().damage(user,shot.getDamage());
+				
+				if(player.damage(shot.getDamage())) {
+					user.removeOneLife();
+				}
 				
 				break;
 			}
@@ -52,10 +55,16 @@ public final class PlayerShipCollisionBehavior implements CollisionBehavior {
 				Foundation.ACTIVITY.debug(TAG, "Player hit a NPC.");
 				
 				Ship ship = (Ship) other;
-				user.getShip().damage(user,1);
-				user.addScore(50);
 				
-				ship.damage(user,1);
+				if(player.damage(HIT_DAMAGE)) {
+					user.removeOneLife();
+				}
+				
+				if(ship.damage(HIT_DAMAGE)) {
+					ship.toDestroy();
+				}
+				
+				user.addScore(HIT_SCORE / 2);
 				
 				break;
 			}

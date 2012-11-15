@@ -7,7 +7,6 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.game.User;
 import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.Moveable;
@@ -52,5 +51,6 @@ public interface Ship extends Moveable, Drawable, Entity {
 	
 	public boolean reset(World world);
 		
-	public void damage(User user, int value);
+	public boolean damage(int value);
+	
 }

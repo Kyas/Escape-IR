@@ -78,17 +78,16 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void damage(User user, int value) {
+	public boolean damage(int value) {
+		
 		life -= value;
 		
 		if(life <= 0) {
-			Foundation.ACTIVITY.error(TAG, "A Ship has been destroy.");
-			if(!isPlayer) {
-				this.toDestroy();
-			} else {
-				user.removeOneLife();
-			}
+			Foundation.ACTIVITY.debug(TAG, "A Ship has been destroy.");
+			return true;
 		}
+		
+		return false;
 	}
 	
 	@Override
@@ -247,27 +246,6 @@ public abstract class AbstractShip implements Ship {
 	}
 	
 	@Override
-	public void toDestroy() {
-		if(!isPlayer) {
-			
-			Foundation.ACTIVITY.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					popBonus();
-				}
-				
-			});
-			
-		}
-	}
-	
-	void popBonus() {
-		econtainer.pushBonus(getX(), getY());
-		econtainer.destroy(this);
-	}
-	
-	@Override
 	public void moveTo(float x, float y) {
 		float distanceX = x - getX();
 		float distanceY = y - getY();
@@ -346,6 +324,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public Rectangle getEdge() {
+		
 		int x = CoordinateConverter.toPixelX(getX());
 		int y = CoordinateConverter.toPixelY(getY());
 		
@@ -364,10 +343,14 @@ public abstract class AbstractShip implements Ship {
 		});
 	}
 	
-	CollisionBehavior getCollisionBehavior() {
+	final CollisionBehavior getCollisionBehavior() {
 		return collisionBehavior;
 	}
 	
+	final EntityContainer getEntityContainer() {
+		return econtainer;
+	}
+
 	@Override
 	public boolean reset(World world) {
 		

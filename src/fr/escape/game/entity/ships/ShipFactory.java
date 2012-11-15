@@ -48,9 +48,7 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(falcon);
 		
-		return new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, falcon, COMPUTER_COLLISION_BEHAVIOR) {
-			
-		};
+		return createNpcAbstractShip(bodyDef, fixture, falcon);
 		
 	}
 	
@@ -61,9 +59,7 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(vyper);
 		
-		return new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, vyper, COMPUTER_COLLISION_BEHAVIOR) {
-			
-		};
+		return createNpcAbstractShip(bodyDef, fixture, vyper);
 		
 	}
 	
@@ -74,11 +70,9 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(raptor);
 		
-		Ship ship = new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, raptor, COMPUTER_COLLISION_BEHAVIOR) {
-			
-		};
-		
+		Ship ship = createNpcAbstractShip(bodyDef, fixture, raptor);
 		ship.setRotation(180);
+		
 		return ship;
 	}
 	
@@ -102,6 +96,11 @@ public class ShipFactory {
 
 		return new AbstractShip(bodyDef, fixture, playerWeapons, true, PLAYER_ARMOR, econtainer, raptor, PLAYER_COLLISION_BEHAVIOR) {
 			
+			@Override
+			public void toDestroy() {
+				throw new UnsupportedOperationException();
+			}
+		
 		};
 		
 	}
@@ -169,5 +168,29 @@ public class ShipFactory {
 		fixture.filter.maskBits = PLAYERMASK;
 		
 		return fixture;
+	}
+	
+	private Ship createNpcAbstractShip(BodyDef bodyDef, FixtureDef fixture, AnimationTexture drawable) {
+		
+		return new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, drawable, COMPUTER_COLLISION_BEHAVIOR) {
+			
+			@Override
+			public void toDestroy() {
+				Foundation.ACTIVITY.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						popBonus();
+					}
+					
+				});
+			}
+			
+			void popBonus() {
+				getEntityContainer().pushBonus(getX(), getY());
+				getEntityContainer().destroy(this);
+			}
+			
+		};
 	}
 }
