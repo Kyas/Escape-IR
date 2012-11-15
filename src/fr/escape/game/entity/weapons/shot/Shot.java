@@ -72,4 +72,6 @@ public interface Shot extends Drawable, Moveable, Receiver, Entity {
 		}
 		
 	}
+
+	public void setUntouchable();
 }

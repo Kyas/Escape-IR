@@ -56,6 +56,7 @@ public abstract class AbstractWeapon implements Weapon {
 			
 			shot = Objects.requireNonNull(createShot(x, y));
 			shot.setShotConfiguration(context);
+			shot.setUntouchable();
 			shot.receive(Shot.MESSAGE_LOAD);
 			
 			return true;
