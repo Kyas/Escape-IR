@@ -26,6 +26,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	private boolean moveToRight;
 	private long timer;
 	private int actionCount;
+	private boolean specialMode;
 	
 	//TODO remove after redefinition de special dans la factory
 	final EntityContainer container;
@@ -39,6 +40,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		moveToRight = false;
 		timer = 0;
 		actionCount = 1;
+		specialMode = false;
 		
 		this.container = container;
 	}
@@ -56,11 +58,17 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		// Do we need to trigger Special Action ?
 		if(timer >= getSpecialWaitingTime()) {
 			special();
+			specialMode = true;
 		}
 		
-		// Do we need to trigger Fire Action ?
+		// Do we need to trigger Fire Action / Switch to Normal ?
 		if((timer / actionCount) >= getFireWaitingTime()) {
-			fire();	
+			if(specialMode) {
+				specialMode = false;
+				normal();
+			} else {
+				fire();
+			}	
 		}
 		
 	}
