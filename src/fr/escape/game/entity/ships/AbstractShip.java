@@ -36,12 +36,10 @@ public abstract class AbstractShip implements Ship {
 	private final BodyDef bodyDef;
 	private final FixtureDef fixture;
 	private final List<Weapon> weapons;
-	private final boolean isPlayer;
 	private final EntityContainer econtainer;
 	private final AnimationTexture coreShip;
 	private final Random random;
 	private final CollisionBehavior collisionBehavior;
-	private final ShotConfiguration shotConfiguration;
 	
 	private int activeWeapon;
 	private boolean isWeaponLoaded;
@@ -52,7 +50,7 @@ public abstract class AbstractShip implements Ship {
 	private int life;
 	private final int initialLife;
 	
-	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, boolean isPlayer, int life, 
+	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, int life, 
 			EntityContainer container, AnimationTexture textures, CollisionBehavior collisionBehavior) {
 		
 		this.bodyDef = Objects.requireNonNull(bodyDef);
@@ -61,9 +59,7 @@ public abstract class AbstractShip implements Ship {
 		this.econtainer = Objects.requireNonNull(container);
 		this.coreShip = Objects.requireNonNull(textures);
 		this.collisionBehavior = Objects.requireNonNull(collisionBehavior);
-		this.isPlayer = isPlayer;
 		this.random = new Random();
-		this.shotConfiguration = new ShotConfiguration(isPlayer, coreShip.getWidth(), coreShip.getHeight());
 		
 		this.activeWeapon = 0;
 		this.isWeaponLoaded = false;
@@ -72,11 +68,6 @@ public abstract class AbstractShip implements Ship {
 		this.life = life;
 		this.initialLife = life;
 		
-	}
-	
-	@Override
-	public boolean isPlayer() {
-		return isPlayer;
 	}
 	
 	@Override
@@ -215,7 +206,9 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.load(getX(), getY() - CoordinateConverter.toMeterY(coreShip.getHeight()), shotConfiguration)) {
+		if(activeWeapon.load(getX(), getY() - CoordinateConverter.toMeterY(coreShip.getHeight()), 
+				new ShotConfiguration(isPlayer(), coreShip.getWidth(), coreShip.getHeight()))) {
+			
 			isWeaponLoaded = true;
 			return true;
 		}
@@ -239,7 +232,7 @@ public abstract class AbstractShip implements Ship {
 		
 		Weapon activeWeapon = getActiveWeapon();
 		
-		if(activeWeapon.fire(velocity, shotConfiguration)) {
+		if(activeWeapon.fire(velocity, new ShotConfiguration(isPlayer(), coreShip.getWidth(), coreShip.getHeight()))) {
 			isWeaponLoaded = false;
 			return true;
 		}
@@ -355,8 +348,13 @@ public abstract class AbstractShip implements Ship {
 
 	@Override
 	public boolean reset(float x, float y) {
+		
 		life = initialLife;
+		
+		// Unload current Weapon
 		getActiveWeapon().unload();
+		
+		// Reset Body
 		getBody().setLinearVelocity(new Vec2(0.0f,0.0f));
 		getBody().setTransform(new Vec2(x, y), getBody().getAngle());
 		

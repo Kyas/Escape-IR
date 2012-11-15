@@ -9,7 +9,6 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
 import fr.escape.app.Foundation;
-import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.CoordinateConverter;
@@ -95,7 +94,12 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForPlayer(raptor);
 
-		return new AbstractShip(bodyDef, fixture, playerWeapons, true, PLAYER_ARMOR, econtainer, raptor, PLAYER_COLLISION_BEHAVIOR) {
+		return new AbstractShip(bodyDef, fixture, playerWeapons, PLAYER_ARMOR, econtainer, raptor, PLAYER_COLLISION_BEHAVIOR) {
+			
+			@Override
+			public boolean isPlayer() {
+				return true;
+			}
 			
 			@Override
 			public void toDestroy() {
@@ -125,53 +129,26 @@ public class ShipFactory {
 	}
 	
 	public Ship createBoss(float x, float y) {
-		AnimationTexture raptor = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_RAPTOR));
+		
+		AnimationTexture jupiter = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_JUPITER));
 		
 		BodyDef bodyDef = createBodyDef(x, y);
-		FixtureDef fixture = createFixtureForNpc(raptor);
+		FixtureDef fixture = createFixtureForNpc(jupiter);
 		
-		return new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, raptor, COMPUTER_COLLISION_BEHAVIOR) {
-			private boolean moveToRight = false;
-			private long timer = 0;
-			private long coeff = 1;
-			
+		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, jupiter, COMPUTER_COLLISION_BEHAVIOR) {
+
 			@Override
-			public void update(Graphics graphics, long delta) {
-				float x = Math.abs(getBody().getLinearVelocity().x);
-				timer += delta;
-				
-				if(!moveToRight && x <= 1.0f) {
-					moveToRight = true;
-					moveTo(1.0f, getY());
-				} else if(x <= 1.0f) {
-					moveToRight = false;
-					moveTo(9.0f, getY());
-				}
-				
-				draw(graphics);
-				
-				if(timer >= 5000) {
-					//TODO fire special
-					System.err.println("BOSS SPECIAL FIRE");
-					timer = 0;
-					coeff = 1;
-				}
-				
-				if(timer / coeff >= 1000) {
-					setActiveWeapon(2);
-					Foundation.ACTIVITY.post(new Runnable() {
-						@Override
-						public void run() {
-							loadWeapon();
-							fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
-						}
-					});
-					System.err.println("BOSS FIRE");
-					++coeff;
-				}
-				
+			public int getFireWaitingTime() {
+				return 3000;
 			}
+
+			@Override
+			public int getSpecialWaitingTime() {
+				return 10000;
+			}
+			
 		};
+		
 	}
 	
 	private static BodyDef createBodyDef(float x, float y) {
@@ -223,7 +200,7 @@ public class ShipFactory {
 	
 	private Ship createNpcAbstractShip(BodyDef bodyDef, FixtureDef fixture, AnimationTexture drawable) {
 		
-		return new AbstractShip(bodyDef, fixture, npcWeapons, false, DEFAULT_ARMOR, econtainer, drawable, COMPUTER_COLLISION_BEHAVIOR) {
+		return new AbstractShip(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, drawable, COMPUTER_COLLISION_BEHAVIOR) {
 			
 			@Override
 			public void toDestroy() {
@@ -240,6 +217,11 @@ public class ShipFactory {
 			void popBonus() {
 				getEntityContainer().pushBonus(getX(), getY());
 				getEntityContainer().destroy(this);
+			}
+
+			@Override
+			public boolean isPlayer() {
+				return false;
 			}
 			
 		};

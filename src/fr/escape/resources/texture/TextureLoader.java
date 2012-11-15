@@ -67,6 +67,10 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String SHIP_FALCON = "sfalcon.png";
 	public static final String SHIP_VIPER = "sviper.png";
 	
+	public static final String BOSS_JUPITER = "bsjupiter.png";
+	
+	public static final String JUPITER_SPECIAL = "bssjupiter.png";
+	
 	public static final String MENU_UI_GRID = "muigrid.png";
 	public static final String OVERLAY_STAR = "ostar.png";
 	

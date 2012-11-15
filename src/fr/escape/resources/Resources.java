@@ -119,6 +119,9 @@ public final class Resources {
 			postTextureLoader(TextureLoader.SHIP_FALCON);
 			postTextureLoader(TextureLoader.SHIP_VIPER);
 			
+			postTextureLoader(TextureLoader.BOSS_JUPITER);
+			postTextureLoader(TextureLoader.JUPITER_SPECIAL);
+			
 			postTextureLoader(TextureLoader.MENU_UI_GRID);
 			postTextureLoader(TextureLoader.OVERLAY_STAR);
 			

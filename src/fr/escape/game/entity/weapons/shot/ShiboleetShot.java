@@ -16,7 +16,7 @@ import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
-public class ShiboleetShot extends AbstractShot {
+public final class ShiboleetShot extends AbstractShot {
 	
 	static final float CHILD_RADIUS = 0.35f;
 	

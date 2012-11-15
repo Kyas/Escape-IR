@@ -3,13 +3,23 @@ package fr.escape.game.entity.ships;
 /**
  * <p>
  * An interface for {@link Ship} who are the Boss at the end of the Stage.
- * 
- * <p>
- * Kind of Flag for {@link Ship}
  *
  */
 public interface Boss {
 	
-	// No special action
+	/**
+	 * Perform a Special Action/Fire.
+	 */
+	public void special();
+	
+	/**
+	 * Perform a Movement Action
+	 */
+	public void move();
+	
+	/**
+	 * Perform a Simple Fire
+	 */
+	public void fire();
 	
 }

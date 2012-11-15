@@ -1,8 +1,0 @@
-Refactoring fr.escape.game.entity.weapons : Use Annonymous Class for each Weapons and create Factory
-Refactoring fr.escape.game.entity.weapons.shot : éviter la duplication de Code
-
-BONUS
-
-Modifier le EdgeNotifier pour render en compte les coordonées World plutôt que Graphics
-
-Les Factory d'Entity prennent un World et un EntityContainer en paramètre pour instancier des entités.
