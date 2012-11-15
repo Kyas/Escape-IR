@@ -1,10 +1,10 @@
 package fr.escape.resources.scenario;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.ships.ShipFactory;
@@ -40,61 +40,59 @@ public final class ScenarioParser {
 	 * Parse the given file and return a {@link Scenario}.
 	 * 
 	 * @param factory Ship Factory for Scenario
-	 * @param file File to parse
+	 * @param inputStream File to parse
 	 * @return Scenario
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static Scenario parse(ShipFactory factory, File file) throws FileNotFoundException, IOException {
+	public static Scenario parse(ShipFactory factory, InputStream inputStream) throws FileNotFoundException, IOException {
 
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		
-		String line;
-		int section = 0;
-		ScenarioConfiguration config = new ScenarioConfiguration();
-		
-		try {
-			
-			while((line = reader.readLine()) != null) {
+		try(InputStreamReader inputStreamReader = new InputStreamReader(inputStream)) {
+			try(BufferedReader reader = new BufferedReader(inputStreamReader)) {
 				
-				if(line.equals("%%")) {
+				String line;
+				int section = 0;
+				ScenarioConfiguration config = new ScenarioConfiguration();
 					
-					section++;
+				while((line = reader.readLine()) != null) {
 					
-					if(section == END_SECTION) {
-						return ScenarioFactory.create(config);
-					}
-					
-				} else {
-					
-					switch(section) {
-						case 1: {
-							section1(line, config);
-							break;
+					if(line.equals("%%")) {
+						
+						section++;
+						
+						if(section == END_SECTION) {
+							return ScenarioFactory.create(config);
 						}
-						case 2: {
-							section2(line, config);
-							break;
+						
+					} else {
+						
+						switch(section) {
+							case 1: {
+								section1(line, config);
+								break;
+							}
+							case 2: {
+								section2(line, config);
+								break;
+							}
+							case 3: {
+								section3(line, config, factory);
+								break;
+							}
+							case 4: {
+								section4(line, config);
+								break;
+							}
+							default: {
+								throw new IOException(EXCEPTION_MESSAGE+": Unknown Section %%"+section);
+							}
 						}
-						case 3: {
-							section3(line, config, factory);
-							break;
-						}
-						case 4: {
-							section4(line, config);
-							break;
-						}
-						default: {
-							throw new IOException(EXCEPTION_MESSAGE+": Unknown Section %%"+section);
-						}
+						
 					}
 					
 				}
 				
 			}
-			
-		} finally {
-			reader.close();
 		}
 		
 		throw new IOException(EXCEPTION_MESSAGE+": Information for Scenario are missing");

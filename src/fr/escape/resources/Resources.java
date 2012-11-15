@@ -12,6 +12,8 @@
 package fr.escape.resources;
 
 import java.awt.Font;
+import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -46,6 +48,7 @@ public final class Resources {
 	private final HashMap<String, FontLoader> fontLoader;
 	private final HashMap<String, TextureLoader> textureLoader;
 	private final HashMap<String, ScenarioLoader> scenarioLoader;
+	private final ClassLoader loader;
 	
 	/**
 	 * Is all resources loaded in memory ?
@@ -63,6 +66,7 @@ public final class Resources {
 		fontLoader = new HashMap<>();
 		textureLoader = new HashMap<>();
 		scenarioLoader = new HashMap<>();
+		loader = ClassLoader.getSystemClassLoader();
 		loaded = false;
 	}
 	
@@ -216,7 +220,7 @@ public final class Resources {
 	 * @param size Font size
 	 * @return FontLoader which will load the Font
 	 */
-	private static FontLoader createFontLoader(final String fontID, final float size) {
+	private FontLoader createFontLoader(final String fontID, final float size) {
 		return new FontLoader() {
 
 			private Font font;
@@ -224,9 +228,14 @@ public final class Resources {
 			@Override
 			public Font load() throws Exception {
 				if(font == null) {
+					
 					Foundation.ACTIVITY.debug(TAG, "Load Font: "+fontID);
-					font = Font.createFont(Font.TRUETYPE_FONT, getPath().resolve(fontID).toFile());
-					font = font.deriveFont(size);
+					
+					try(InputStream stream = getInputStream(getPath().resolve(fontID).toFile())) {
+						font = Font.createFont(Font.TRUETYPE_FONT, stream);
+						font = font.deriveFont(size);
+					}
+					
 				}
 				return font;
 			}
@@ -240,7 +249,7 @@ public final class Resources {
 	 * @param textureID Texture name
 	 * @return TextureLoader which will load the Texture
 	 */
-	private static TextureLoader createTextureLoader(final String textureID) {
+	private TextureLoader createTextureLoader(final String textureID) {
 		return new TextureLoader() {
 			
 			private Texture texture = null;
@@ -248,8 +257,13 @@ public final class Resources {
 			@Override
 			public Texture load() throws Exception {
 				if(texture == null) {
+					
 					Foundation.ACTIVITY.debug(TAG, "Load Texture: "+textureID);
-					texture = new Texture(getPath().resolve(textureID).toFile());
+					
+					try(InputStream stream = getInputStream(getPath().resolve(textureID).toFile())) {
+						texture = new Texture(stream);
+					}
+					
 				}
 				return texture;
 			}
@@ -263,7 +277,7 @@ public final class Resources {
 	 * @param scenarioID Scenario name
 	 * @return ScenarioLoader which will load the Scenario
 	 */
-	private static ScenarioLoader createScenarioLoader(final String scenarioID) {
+	private ScenarioLoader createScenarioLoader(final String scenarioID) {
 		return new ScenarioLoader() {
 			
 			private Scenario scenario = null;
@@ -271,8 +285,13 @@ public final class Resources {
 			@Override
 			public Scenario load() throws Exception {
 				if(scenario == null) {
+					
 					Foundation.ACTIVITY.debug(TAG, "Load Scenario: "+scenarioID);
-					scenario = ScenarioParser.parse(getShipCreator(), getPath().resolve(scenarioID).toFile());
+					
+					try(InputStream stream = getInputStream(getPath().resolve(scenarioID).toFile())) {
+						scenario = ScenarioParser.parse(getShipCreator(), stream);
+					}
+					
 				}
 				return scenario;
 			}
@@ -322,4 +341,7 @@ public final class Resources {
 		}
 	}
 	
+	InputStream getInputStream(File file) {
+		return loader.getResourceAsStream(file.toString());
+	}
 }

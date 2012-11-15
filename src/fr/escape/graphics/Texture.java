@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.util.Objects;
 
@@ -36,12 +37,12 @@ public final class Texture {
 	/**
 	 * Default Constructor for a Texture
 	 * 
-	 * @param file Texture file
+	 * @param stream Texture file
 	 * @throws IOException If we cannot create a Texture from this {@link File}
 	 */
-	public Texture(File file) throws IOException {
-		Objects.requireNonNull(file);
-		image = ImageIO.read(file);
+	public Texture(InputStream stream) throws IOException {
+		Objects.requireNonNull(stream);
+		image = ImageIO.read(stream);
 	}
 	
 	/**

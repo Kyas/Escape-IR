@@ -24,7 +24,7 @@ public interface ResourcesLoader<T> {
 	/**
 	 * Root Container Path for Resources.
 	 */
-	public static final Path PATH = Paths.get("src", "fr", "escape", "resources");
+	public static final Path PATH = Paths.get("fr", "escape", "resources");
 	
 	/**
 	 * Load in Memory and Return the Resources.
