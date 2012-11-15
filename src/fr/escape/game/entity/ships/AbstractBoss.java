@@ -189,7 +189,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		});*/
 		
 		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
-		final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX(), getY());
+		final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - CoordinateConverter.toMeterY(10), getY() + CoordinateConverter.toMeterY(50));
 		
 		s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
 		s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
@@ -211,7 +211,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		
 		float x = Math.abs(getBody().getLinearVelocity().x);
 		
-		if(!moveToRight && x <= 1.0f) {
+		/*if(!moveToRight && x <= 1.0f) {
 			
 			moveToRight = true;
 			moveTo(1.0f, 2.0f);
@@ -221,7 +221,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 			moveToRight = false;
 			moveTo(9.0f, 2.0f);
 			
-		}
+		}*/
 		
 	}
 	

@@ -329,7 +329,7 @@ public class ShipFactory {
 	
 			@Override
 			public int getSpecialWaitingTime() {
-				return 1000;
+				return 10000;
 			}
 			
 			@Override
