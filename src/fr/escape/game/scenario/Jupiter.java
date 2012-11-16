@@ -22,15 +22,14 @@ public class Jupiter extends AbstractStage {
 		super(world, container);
 		
 		boss = Objects.requireNonNull(factory.createJupiterBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
-		
-		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
-		add(e1);
+	
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_1, factory));
 		
 	}
 	
 	@Override
 	public long getEstimatedScenarioTime() {
-		return 12;
+		return 75;
 	}
 
 	@Override

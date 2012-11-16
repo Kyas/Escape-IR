@@ -25,6 +25,7 @@ import fr.escape.resources.ResourcesLoader;
 public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	
 	public static final String EARTH_1 = "earth_1.scn";
+	public static final String JUPITER_1 = "jupiter_1.scn";
 	
 	private ShipFactory factory;
 	

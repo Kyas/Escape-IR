@@ -78,6 +78,7 @@ public final class Resources {
 			
 			// Load Scenario
 			postScenarioLoader(ScenarioLoader.EARTH_1);
+			postScenarioLoader(ScenarioLoader.JUPITER_1);
 			
 			// Load Texture
 			postTextureLoader(TextureLoader.BACKGROUND_ERROR);
