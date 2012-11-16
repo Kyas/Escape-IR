@@ -11,7 +11,6 @@
 
 package fr.escape.resources.scenario;
 
-import java.nio.file.Path;
 import java.util.Objects;
 
 import fr.escape.game.entity.ships.ShipFactory;
@@ -30,8 +29,8 @@ public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	private ShipFactory factory;
 	
 	@Override
-	public Path getPath() {
-		return PATH.resolve("scenario");
+	public String getPath() {
+		return PATH+"/scenario";
 	}
 	
 	/**

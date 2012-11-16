@@ -6,13 +6,11 @@ import java.util.List;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
-import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
-import fr.escape.game.entity.Moveable;
 import fr.escape.game.entity.weapons.Weapon;
 
 // TODO Comment
-public interface Ship extends Moveable, Drawable, Entity {
+public interface Ship extends Entity {
 		
 	public List<Weapon> getAllWeapons();
 	

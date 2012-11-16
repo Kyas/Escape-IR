@@ -23,7 +23,7 @@ import org.jbox2d.dynamics.Body;
  * <b>Note:</b> This is an abstract concept.
  * 
  */
-public interface Entity extends Updateable, Collisionable {
+public interface Entity extends Updateable, Collisionable, Drawable, Moveable {
 	
 	public Body getBody();
 	

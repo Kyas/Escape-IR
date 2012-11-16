@@ -116,7 +116,7 @@ abstract class AbstractBonus implements Bonus {
 	}
 	
 	@Override
-	public void collision(final User user, int whoami, final Entity e, final int whois) {
+	public void collision(final User user, final Entity e, final int whois) {
 		Foundation.ACTIVITY.post(new Runnable() {
 			
 			@Override

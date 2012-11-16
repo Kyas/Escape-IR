@@ -11,8 +11,6 @@
 
 package fr.escape.resources.texture;
 
-import java.nio.file.Path;
-
 import fr.escape.graphics.Texture;
 import fr.escape.resources.ResourcesLoader;
 
@@ -84,8 +82,8 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String INTRO_EARTH = "iearth.png";
 	
 	@Override
-	public Path getPath() {
-		return PATH.resolve("texture");
+	public String getPath() {
+		return PATH+"/texture";
 	}
 	
 }

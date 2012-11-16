@@ -12,7 +12,6 @@
 package fr.escape.resources;
 
 import java.awt.Font;
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
@@ -48,7 +47,6 @@ public final class Resources {
 	private final HashMap<String, FontLoader> fontLoader;
 	private final HashMap<String, TextureLoader> textureLoader;
 	private final HashMap<String, ScenarioLoader> scenarioLoader;
-	private final ClassLoader loader;
 	
 	/**
 	 * Is all resources loaded in memory ?
@@ -66,7 +64,6 @@ public final class Resources {
 		fontLoader = new HashMap<>();
 		textureLoader = new HashMap<>();
 		scenarioLoader = new HashMap<>();
-		loader = ClassLoader.getSystemClassLoader();
 		loaded = false;
 	}
 	
@@ -231,7 +228,7 @@ public final class Resources {
 					
 					Foundation.ACTIVITY.debug(TAG, "Load Font: "+fontID);
 					
-					try(InputStream stream = getInputStream(getPath().resolve(fontID).toFile())) {
+					try(InputStream stream = getInputStream(getPath()+"/"+fontID)) {
 						font = Font.createFont(Font.TRUETYPE_FONT, stream);
 						font = font.deriveFont(size);
 					}
@@ -260,7 +257,7 @@ public final class Resources {
 					
 					Foundation.ACTIVITY.debug(TAG, "Load Texture: "+textureID);
 					
-					try(InputStream stream = getInputStream(getPath().resolve(textureID).toFile())) {
+					try(InputStream stream = getInputStream(getPath()+"/"+textureID)) {
 						texture = new Texture(stream);
 					}
 					
@@ -288,7 +285,7 @@ public final class Resources {
 					
 					Foundation.ACTIVITY.debug(TAG, "Load Scenario: "+scenarioID);
 					
-					try(InputStream stream = getInputStream(getPath().resolve(scenarioID).toFile())) {
+					try(InputStream stream = getInputStream(getPath()+"/"+scenarioID)) {
 						scenario = ScenarioParser.parse(getShipCreator(), stream);
 					}
 					
@@ -341,7 +338,7 @@ public final class Resources {
 		}
 	}
 	
-	InputStream getInputStream(File file) {
-		return loader.getResourceAsStream(file.toString());
+	InputStream getInputStream(String file) {
+		return getClass().getResourceAsStream(file);
 	}
 }

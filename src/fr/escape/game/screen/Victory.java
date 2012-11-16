@@ -97,6 +97,7 @@ public final class Victory implements Screen {
 	 * Launch Menu when the User touch the Screen.
 	 */
 	public void next() {
+		game.getUser().setHighscore(0);
 		game.setMenuScreen();
 	}
 	

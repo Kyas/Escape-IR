@@ -30,6 +30,6 @@ public interface Collisionable {
 	 * @param e {@link Entity} which collide.
 	 * @param whois {@link Entity} type which collide.
 	 */
-	public void collision(User user, int whoami, Entity e, int whois);
+	public void collision(User user, Entity e, int whois);
 	
 }

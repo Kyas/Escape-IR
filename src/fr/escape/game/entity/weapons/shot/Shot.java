@@ -1,12 +1,10 @@
 package fr.escape.game.entity.weapons.shot;
 
-import fr.escape.game.entity.Drawable;
 import fr.escape.game.entity.Entity;
-import fr.escape.game.entity.Moveable;
 import fr.escape.game.message.Receiver;
 
 //TODO Comment
-public interface Shot extends Drawable, Moveable, Receiver, Entity {
+public interface Shot extends Receiver, Entity {
 	
 	/**
 	 * @see Shot#receive(int)

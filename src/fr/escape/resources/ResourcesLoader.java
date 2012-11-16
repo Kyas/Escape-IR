@@ -11,11 +11,8 @@
 
 package fr.escape.resources;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 /**
- * An interface for Loading a Resource in Memory from Filesystem.
+ * An interface for Loading a Resource in Memory from JAR.
  * 
  * @param <T> A Resource
  */
@@ -24,7 +21,7 @@ public interface ResourcesLoader<T> {
 	/**
 	 * Root Container Path for Resources.
 	 */
-	public static final Path PATH = Paths.get("fr", "escape", "resources");
+	public static final String PATH = "/fr/escape/resources";
 	
 	/**
 	 * Load in Memory and Return the Resources.
@@ -34,6 +31,6 @@ public interface ResourcesLoader<T> {
 	/**
 	 * Return the Container Path for Resources.
 	 */
-	public Path getPath();
+	public String getPath();
 	
 }
