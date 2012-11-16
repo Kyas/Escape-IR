@@ -314,9 +314,8 @@ public class ShipFactory {
 			}
 
 			@Override
-			public void normal() {
-				// TODO Auto-generated method stub
-				
+			public boolean normal() {
+				return false;
 			}
 		};
 		
@@ -324,7 +323,10 @@ public class ShipFactory {
 	
 	public Boss createMoonBoss(float x, float y) {
 		
-		AnimationTexture moon = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_MOON));
+		AnimationTexture moon = new AnimationTexture(
+				Foundation.RESOURCES.getTexture(TextureLoader.BOSS_MOON),
+				Foundation.RESOURCES.getTexture(TextureLoader.BOSS_MOON_1)
+		);
 		
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(moon);
@@ -344,14 +346,11 @@ public class ShipFactory {
 			@Override
 			public void fire() {
 				
-				setActiveWeapon(2);
-				
 				Foundation.ACTIVITY.post(new Runnable() {
 					
 					@Override
 					public void run() {
-						loadWeapon();
-						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+						fireWeapon();
 					}
 					
 				});
@@ -377,9 +376,8 @@ public class ShipFactory {
 			}
 
 			@Override
-			public void normal() {
-				// TODO Auto-generated method stub
-				
+			public boolean normal() {
+				return false;
 			}
 		};
 		
@@ -387,13 +385,16 @@ public class ShipFactory {
 
 	public Boss createEarthBoss(float x, float y) {
 		
-		AnimationTexture earth = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_EARTH));
+		AnimationTexture earth = new AnimationTexture(
+				Foundation.RESOURCES.getTexture(TextureLoader.BOSS_EARTH),
+				Foundation.RESOURCES.getTexture(TextureLoader.BOSS_EARTH_1)
+		);
 		
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(earth);
 		
 		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, earth, COMPUTER_COLLISION_BEHAVIOR) {
-	
+			
 			@Override
 			public int getFireWaitingTime() {
 				return 3000;
@@ -407,7 +408,7 @@ public class ShipFactory {
 			@Override
 			public void fire() {
 				
-				setActiveWeapon(2);
+				setActiveWeapon(1);
 				
 				Foundation.ACTIVITY.post(new Runnable() {
 					
@@ -424,25 +425,31 @@ public class ShipFactory {
 			
 			@Override
 			public void special() {
-				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
-				final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - CoordinateConverter.toMeterY(10), getY() + CoordinateConverter.toMeterY(50));
-				
-				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
-				s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
-				s1.receive(Shot.MESSAGE_CRUISE);
-				
-				Foundation.ACTIVITY.post(new Runnable() {
-					@Override
-					public void run() {
-						container.push(s1);
-					}
-				});
+				Shot shot = getSpecialShot();
+				if(shot == null) {
+					getBossTexture().next();
+					Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
+					final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - CoordinateConverter.toMeterY(10), getY() + CoordinateConverter.toMeterY(50));
+						
+					s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+					s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
+					s1.receive(Shot.MESSAGE_CRUISE);
+					
+					Foundation.ACTIVITY.post(new Runnable() {
+						@Override
+						public void run() {
+							container.push(s1);
+						}
+					});
+					setSpecialShot(s1);
+				} else {
+					shot.getBody().setTransform(new Vec2(getX(),getY()), shot.getBody().getAngle());
+				}
 			}
 
 			@Override
-			public void normal() {
-				// TODO Auto-generated method stub
-				
+			public boolean normal() {
+				return false;
 			}
 		};
 		

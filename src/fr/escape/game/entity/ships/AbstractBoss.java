@@ -2,6 +2,7 @@ package fr.escape.game.entity.ships;
 
 import java.util.List;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.FixtureDef;
 
@@ -10,6 +11,7 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
+import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 
 public abstract class AbstractBoss extends AbstractShip implements Boss {
@@ -20,6 +22,8 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	private boolean specialMode;
 	
 	final EntityContainer container;
+	private Shot specialShot;
+	private final AnimationTexture bossTexture;
 	
 	public AbstractBoss(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, 
 			int life, EntityContainer container, AnimationTexture textures,
@@ -33,6 +37,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		specialMode = false;
 		
 		this.container = container;
+		this.bossTexture = textures;
 	}
 	
 	@Override
@@ -44,7 +49,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		move();
 		
 		draw(graphics);
-
+		
 		// Do we need to trigger Special Action ?
 		if(timer >= getSpecialWaitingTime()) {
 			special();
@@ -54,8 +59,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		// Do we need to trigger Fire Action / Switch to Normal ?
 		if((timer / actionCount) >= getFireWaitingTime()) {
 			if(specialMode) {
-				specialMode = false;
-				normal();
+				specialMode = normal();
 			} else {
 				fire();
 			}	
@@ -150,6 +154,18 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 			
 		}
 		
+	}
+
+	public AnimationTexture getBossTexture() {
+		return bossTexture;
+	}
+
+	public Shot getSpecialShot() {
+		return specialShot;
+	}
+
+	public void setSpecialShot(Shot specialShot) {
+		this.specialShot = specialShot;
 	}
 	
 }
