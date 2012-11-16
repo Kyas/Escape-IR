@@ -66,7 +66,7 @@
 	</target>
 
 	<target name="javadoc" depends="compile" description="Escape Documentation">
-		<javadoc destdir="${javadoc.dir}" package="true" use="true" version="false" author="false">
+		<javadoc destdir="${javadoc.dir}" package="true" use="true" version="false" author="false" windowtitle="Escape Documentation">
 			<fileset dir="${src.dir}">
 				<include name="**/*.java"/>
 			</fileset>
