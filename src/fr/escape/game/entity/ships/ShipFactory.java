@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
@@ -317,6 +318,9 @@ public class ShipFactory {
 			public boolean normal() {
 				return false;
 			}
+
+			@Override
+			public void moveShot(float x, float y) {}
 		};
 		
 	}
@@ -381,6 +385,9 @@ public class ShipFactory {
 				getBossTexture().rewind();
 				return false;
 			}
+
+			@Override
+			public void moveShot(float x, float y) {}
 		};
 		
 	}
@@ -396,6 +403,9 @@ public class ShipFactory {
 		FixtureDef fixture = createFixtureForNpc(earth);
 		
 		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, earth, COMPUTER_COLLISION_BEHAVIOR) {
+			private final float VARX = CoordinateConverter.toMeterY(10);
+			private final float VARY = CoordinateConverter.toMeterY(50);
+			private Shot specialShot;
 			
 			@Override
 			public int getFireWaitingTime() {
@@ -427,31 +437,43 @@ public class ShipFactory {
 			
 			@Override
 			public void special() {
-				Shot shot = getSpecialShot();
-				if(shot == null) {
-					getBossTexture().next();
-					Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
-					final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - CoordinateConverter.toMeterY(10), getY() + CoordinateConverter.toMeterY(50));
-						
-					s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
-					s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
-					s1.receive(Shot.MESSAGE_CRUISE);
+				getBossTexture().next();
+				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
+				final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - VARX, getY() + VARY);
 					
-					Foundation.ACTIVITY.post(new Runnable() {
-						@Override
-						public void run() {
-							container.push(s1);
-						}
-					});
-					setSpecialShot(s1);
-				} else {
-					shot.getBody().setTransform(new Vec2(getX(),getY()), shot.getBody().getAngle());
-				}
+				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
+				s1.moveBy(new float[] {0.0f, 0.0f, 0.0f});
+				s1.receive(Shot.MESSAGE_CRUISE);
+				
+				Foundation.ACTIVITY.post(new Runnable() {
+					@Override
+					public void run() {
+						container.push(s1);
+					}
+				});
+				
+				specialShot = s1;
 			}
 
 			@Override
 			public boolean normal() {
-				return false;
+				if(specialShot != null) {
+					specialShot.receive(Shot.MESSAGE_HIT);
+					getBossTexture().rewind();
+					specialShot = null;
+					return false;
+				}
+				return true;
+			}
+
+			@Override
+			public void moveShot(float x, float y) {
+				if(specialShot != null) {					
+					Body speBody = specialShot.getBody();
+					if(speBody != null) {
+						speBody.setTransform(new Vec2(x - VARX, y + VARY), 0.0f);
+					}
+				}
 			}
 		};
 		

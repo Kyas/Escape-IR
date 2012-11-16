@@ -10,7 +10,6 @@ import fr.escape.app.Graphics;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
-import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.graphics.AnimationTexture;
 
 public abstract class AbstractBoss extends AbstractShip implements Boss {
@@ -18,10 +17,8 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	private boolean moveToRight;
 	private long timer;
 	private int actionCount;
-	private boolean specialMode;
 	
 	final EntityContainer container;
-	private Shot specialShot;
 	private final AnimationTexture bossTexture;
 	
 	public AbstractBoss(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, 
@@ -33,7 +30,6 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		moveToRight = false;
 		timer = 0;
 		actionCount = 1;
-		specialMode = false;
 		
 		this.container = container;
 		this.bossTexture = textures;
@@ -44,28 +40,25 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 
 		timer += delta;
 		
+		if(getY() < 1.0f) bossTexture.rewind();
+		
 		// Handle Move
 		move();
-		
-		draw(graphics);
+		moveShot(getX(), getY());
 		
 		// Do we need to trigger Special Action ?
 		if(timer >= getSpecialWaitingTime()) {
 			special();
 			resetTimer();
 			resetActionCount();
-			specialMode = true;
 		}
 		
 		// Do we need to trigger Fire Action / Switch to Normal ?
 		if((timer / actionCount) >= getFireWaitingTime()) {
-			if(specialMode) {
-				specialMode = normal();
-			} else {
-				fire();
-			}	
+			fire();
 		}
 		
+		draw(graphics);
 	}
 
 	@Override
@@ -137,6 +130,8 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	 * @return Waiting time
 	 */
 	public abstract int getSpecialWaitingTime();
+	
+	public abstract void moveShot(float x, float y);
 
 	@Override
 	public void move() {
@@ -152,6 +147,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 			
 			moveToRight = false;
 			moveTo(9.0f, 2.0f);
+			normal();
 			
 		}
 		
@@ -159,14 +155,6 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 
 	public AnimationTexture getBossTexture() {
 		return bossTexture;
-	}
-
-	public Shot getSpecialShot() {
-		return specialShot;
-	}
-
-	public void setSpecialShot(Shot specialShot) {
-		this.specialShot = specialShot;
 	}
 	
 }
