@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.ships;
 
 import java.awt.Rectangle;
@@ -22,7 +33,9 @@ import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.graphics.AnimationTexture;
 
-//TODO Comment
+/**
+ * This class provide a skeletal implementation of any {@link Ship} for the game.
+ */
 public abstract class AbstractShip implements Ship {
 	
 	private static final String TAG = AbstractShip.class.getSimpleName();
@@ -43,6 +56,17 @@ public abstract class AbstractShip implements Ship {
 	private int angle;
 	private int life;
 	
+	/**
+	 * AbstractShip Constructor
+	 * 
+	 * @param bodyDef : The body definition for the JBox2D Object.
+	 * @param fixture : Fixture linked to the JBox2D Body.
+	 * @param weapons : List of {@link Weapon} usable by an {@link AbstractShip}.
+	 * @param life : Life of the {@link AbstractShip}.
+	 * @param container
+	 * @param textures
+	 * @param collisionBehavior
+	 */
 	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, int life, 
 			EntityContainer container, AnimationTexture textures, CollisionBehavior collisionBehavior) {
 		
