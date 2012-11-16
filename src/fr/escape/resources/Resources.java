@@ -79,6 +79,7 @@ public final class Resources {
 			// Load Scenario
 			postScenarioLoader(ScenarioLoader.EARTH_1);
 			postScenarioLoader(ScenarioLoader.JUPITER_1);
+			postScenarioLoader(ScenarioLoader.JUPITER_2);
 			
 			// Load Texture
 			postTextureLoader(TextureLoader.BACKGROUND_ERROR);
@@ -205,7 +206,7 @@ public final class Resources {
 			return loader.load();
 			
 		} catch(Exception e) {
-			NoSuchElementException exception = new NoSuchElementException("Cannot load the given Texture: "+name);
+			NoSuchElementException exception = new NoSuchElementException("Cannot load the given Scenario: "+name);
 			exception.initCause(e);
 			throw exception;
 		}

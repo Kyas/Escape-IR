@@ -38,7 +38,7 @@ class ScenarioConfiguration {
 	}
 	
 	public void addShip(int shipID, Ship ship) {
-		ships.put(shipID, Objects.requireNonNull(ship));
+		ships.put(Integer.valueOf(shipID), Objects.requireNonNull(ship));
 	}
 	
 	public void addScript(String line) {

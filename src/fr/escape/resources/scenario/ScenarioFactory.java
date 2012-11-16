@@ -1,6 +1,5 @@
 package fr.escape.resources.scenario;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,7 +30,7 @@ final class ScenarioFactory {
 			private final int id = scenario.getID();
 			private final int start = scenario.getTime();
 			private final HashMap<Integer, Ship> ships = scenario.getShip();
-			private final HashSet<Integer> spawns = new HashSet<Integer>();
+			private final HashSet<Integer> spawns = new HashSet<>();
 			private final String[] script = scenario.getScript();
 			
 			private EntityContainer container;
@@ -102,9 +101,6 @@ final class ScenarioFactory {
 					}
 
 					String[] commandArray = lineArray[LINE_COMMAND].split("\\s", 2);
-
-					System.err.println(Arrays.toString(commandArray));
-
 					String[] commandArgs = commandArray[COMMAND_ARGS].split("\\s+");
 
 					switch(commandArray[COMMAND_ACTION]) {
@@ -134,7 +130,7 @@ final class ScenarioFactory {
 
 			private void fire(String... args) {
 
-				Integer shipID = Integer.parseInt(args[0]);
+				Integer shipID = Integer.valueOf(args[0]);
 				
 				Ship ship = selectShip(shipID);
 				
@@ -146,7 +142,7 @@ final class ScenarioFactory {
 
 			private void move(String... args) {
 
-				Integer shipID = Integer.parseInt(args[0]);
+				Integer shipID = Integer.valueOf(args[0]);
 				float shipX = Float.parseFloat(args[1]);
 				float shipY = Float.parseFloat(args[2]);
 				
@@ -160,14 +156,11 @@ final class ScenarioFactory {
 
 			private void spawn(String[] args) {
 
-				Integer shipID = Integer.parseInt(args[0]);
+				Integer shipID = Integer.valueOf(args[0]);
 
 				Ship ship = fetchShip(shipID);
 				
-				Foundation.ACTIVITY.debug(tag, "Spawn "+ship);
 				spawns.add(shipID);
-				
-				//ship.getBody().setActive(true);
 				getContainer().pushShip(ship);
 				
 			}

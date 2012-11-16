@@ -24,6 +24,7 @@ public class Jupiter extends AbstractStage {
 		boss = Objects.requireNonNull(factory.createJupiterBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
 	
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_1, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_2, factory));
 		
 	}
 	
