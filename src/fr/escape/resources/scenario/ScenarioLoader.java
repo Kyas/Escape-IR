@@ -27,6 +27,8 @@ public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	public static final String EARTH_1 = "earth_1.scn";
 	public static final String JUPITER_1 = "jupiter_1.scn";
 	public static final String JUPITER_2 = "jupiter_2.scn";
+	public static final String JUPITER_3 = "jupiter_3.scn";
+	public static final String JUPITER_4 = "jupiter_4.scn";
 	
 	private ShipFactory factory;
 	
