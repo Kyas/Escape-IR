@@ -32,6 +32,7 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.graphics.AnimationTexture;
+import fr.escape.graphics.Texture;
 
 /**
  * This class provide a skeletal implementation of any {@link Ship} for the game.
@@ -62,10 +63,10 @@ public abstract class AbstractShip implements Ship {
 	 * @param bodyDef : The body definition for the JBox2D Object.
 	 * @param fixture : Fixture linked to the JBox2D Body.
 	 * @param weapons : List of {@link Weapon} usable by an {@link AbstractShip}.
-	 * @param life : Life of the {@link AbstractShip}.
-	 * @param container
-	 * @param textures
-	 * @param collisionBehavior
+	 * @param life : Initial life of the {@link AbstractShip}.
+	 * @param container : {@link EntityContainer} in witch the {@link AbstractShip} is contained.
+	 * @param textures : {@link Texture} use for the {@link AbstractShip}.
+	 * @param collisionBehavior : Behavior used by this {@link AbstractShip} to manage JBox2D Collisions.
 	 */
 	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, int life, 
 			EntityContainer container, AnimationTexture textures, CollisionBehavior collisionBehavior) {
@@ -87,6 +88,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean damage(int value) {
+		if(value < 0) throw new IllegalStateException();
 		
 		life -= value;
 		
@@ -145,10 +147,6 @@ public abstract class AbstractShip implements Ship {
 		}
 	}
 	
-	public int getRadius() {
-		return shipDrawable.getHeight() / 2;
-	}
-	
 	@Override
 	public float getX() {
 		return body.getPosition().x;
@@ -189,11 +187,7 @@ public abstract class AbstractShip implements Ship {
 	public void setRotation(int angle) {
 		this.angle = angle % 360;
 	}
-	
-	public int getAngle() {
-		return this.angle;
-	}
-	
+		
 	@Override
 	public boolean isWeaponLoaded() {
 		return isWeaponLoaded;
@@ -276,14 +270,23 @@ public abstract class AbstractShip implements Ship {
 		});
 	}
 	
+	/**
+	 * @return Return the {@link CollisionBehavior} of the {@link Ship}.
+	 */
 	final CollisionBehavior getCollisionBehavior() {
 		return collisionBehavior;
 	}
 	
+	/**
+	 * @return Return the {@link EntityContainer} in which the {@link Ship} is contained.
+	 */
 	final protected EntityContainer getEntityContainer() {
 		return econtainer;
 	}
 
+	/**
+	 * @return Return the {@link AnimationTexture} of the {@link Ship}.
+	 */
 	final protected AnimationTexture getShipDrawable() {
 		return shipDrawable;
 	}
