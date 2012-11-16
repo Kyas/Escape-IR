@@ -39,6 +39,9 @@ public class ShipFactory {
 	
 	private static final int DEFAULT_ARMOR = 1;
 	private static final int PLAYER_ARMOR = 10;
+	private static final int JUPITER_ARMOR = 10;
+	private static final int MOON_ARMOR = 25;
+	private static final int EARTH_ARMOR = 50;
 	
 	private final EntityContainer econtainer;
 	private final List<Weapon> playerWeapons;
@@ -249,7 +252,7 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(jupiter);
 		
-		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, jupiter, COMPUTER_COLLISION_BEHAVIOR) {
+		return new AbstractBoss(bodyDef, fixture, npcWeapons, JUPITER_ARMOR, econtainer, jupiter, COMPUTER_COLLISION_BEHAVIOR) {
 
 			@Override
 			public int getFireWaitingTime() {
@@ -335,7 +338,7 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(moon);
 		
-		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, moon, COMPUTER_COLLISION_BEHAVIOR) {
+		return new AbstractBoss(bodyDef, fixture, npcWeapons, MOON_ARMOR, econtainer, moon, COMPUTER_COLLISION_BEHAVIOR) {
 
 			@Override
 			public int getFireWaitingTime() {
@@ -402,7 +405,7 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(earth);
 		
-		return new AbstractBoss(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, earth, COMPUTER_COLLISION_BEHAVIOR) {
+		return new AbstractBoss(bodyDef, fixture, npcWeapons, EARTH_ARMOR, econtainer, earth, COMPUTER_COLLISION_BEHAVIOR) {
 			private final float VARX = CoordinateConverter.toMeterY(10);
 			private final float VARY = CoordinateConverter.toMeterY(50);
 			private Shot specialShot;
