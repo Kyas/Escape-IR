@@ -70,4 +70,6 @@ public interface Shot extends Receiver, Entity {
 		}
 		
 	}
+
+	public void setUntouchable();
 }

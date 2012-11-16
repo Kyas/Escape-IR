@@ -163,4 +163,9 @@ public abstract class AbstractShot implements Shot {
 		return player;
 	}
 	
+	@Override
+	public void setUntouchable() {
+		Objects.requireNonNull(getBody().getFixtureList()).m_filter.maskBits = 0x0001;
+	}
+	
 }

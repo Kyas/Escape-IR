@@ -29,7 +29,7 @@ public final class Drift implements Gesture {
 		downCoeffDir = (isRight)?(-COEFFICIENT_B):(COEFFICIENT_A);
 
 		double div = (end.getX() - start.getX());
-		double cd = (double) (end.getY() - start.getY()) / ((div!=0)?div:1);
+		double cd = (end.getY() - start.getY()) / ((div!=0)?div:1);
 
 		if(downCoeffDir < cd && cd < upCoeffDir) {
 
