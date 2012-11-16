@@ -41,6 +41,7 @@ import fr.escape.game.screen.Error;
 import fr.escape.game.screen.Victory;
 import fr.escape.game.ui.IngameUI;
 import fr.escape.game.ui.UIHighscore;
+import fr.escape.game.ui.UILife;
 import fr.escape.game.ui.UIWeapons;
 import fr.escape.input.Booster;
 import fr.escape.input.Drift;
@@ -376,9 +377,11 @@ public final class Escape extends Game implements LifeListener {
 	private void createOverlay() {
 		
 		UIHighscore uHighscore = new UIHighscore(this);
+		UILife uLife = new UILife(this);
 		UIWeapons uWeapons = new UIWeapons(this, getUser(), getUser().getAllWeapons(), getUser().getActiveWeapon());
 		
 		ingameUI.add(uHighscore);
+		ingameUI.add(uLife);
 		ingameUI.add(uWeapons);
 		
 		getUser().register(uHighscore);

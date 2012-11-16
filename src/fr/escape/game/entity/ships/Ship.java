@@ -44,4 +44,8 @@ public interface Ship extends Entity {
 		
 	public boolean damage(int value);
 	
+	public int getCurrentLife();
+	
+	public int getInitialLife();
+	
 }
