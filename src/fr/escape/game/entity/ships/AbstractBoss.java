@@ -2,7 +2,6 @@ package fr.escape.game.entity.ships;
 
 import java.util.List;
 
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.FixtureDef;
 
@@ -53,6 +52,8 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		// Do we need to trigger Special Action ?
 		if(timer >= getSpecialWaitingTime()) {
 			special();
+			resetTimer();
+			resetActionCount();
 			specialMode = true;
 		}
 		

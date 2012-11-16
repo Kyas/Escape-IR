@@ -360,6 +360,7 @@ public class ShipFactory {
 			
 			@Override
 			public void special() {
+				getBossTexture().next();
 				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
 				final MoonShot s1 = (MoonShot) shotFactory.createMoonShot(getX() - CoordinateConverter.toMeterX(20), getY() - CoordinateConverter.toMeterY(9));
 				
@@ -377,6 +378,7 @@ public class ShipFactory {
 
 			@Override
 			public boolean normal() {
+				getBossTexture().rewind();
 				return false;
 			}
 		};
