@@ -3,9 +3,7 @@ package fr.escape.game.entity.weapons.shot;
 import java.awt.Color;
 import java.awt.Rectangle;
 
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
@@ -22,7 +20,7 @@ public class EarthShot extends AbstractShot {
 	private boolean isVisible;
 
 	public EarthShot(Body body, EntityContainer container, CollisionBehavior collisionBehavior) {
-		super(body, container, container, collisionBehavior, 5);
+		super(body, container, container, collisionBehavior, 50);
 		
 		this.coreEarthShot = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 	}
@@ -42,8 +40,8 @@ public class EarthShot extends AbstractShot {
 				break;
 			}
 			case Shot.MESSAGE_HIT: {
-				getBody().setType(BodyType.STATIC);
-				getBody().setLinearVelocity(new Vec2(0.0f, 0.0f));
+				isVisible = false;
+				break;
 			}
 			case Shot.MESSAGE_DESTROY: {
 				
