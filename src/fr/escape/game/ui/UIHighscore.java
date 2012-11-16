@@ -49,20 +49,11 @@ public final class UIHighscore extends AbstractOverlay implements Receiver {
 		this.color = Color.WHITE;
 		this.highscore = 0;
 	}
-	
-	private int getTopPadding() {
-		return TOP_PADDING;
-	}
-	
-	private int getLeftMargin() {
-		return LEFT_MARGIN;
-	}
 
 	@Override
 	public void render(long delta) {
 		if(isVisible()) {
-			game.getGraphics().draw("Highscore: "+highscore, getLeftMargin(), getTopPadding(), font, color);
-			game.getGraphics().draw("FPS: "+game.getGraphics().getFramesPerSecond(), getLeftMargin(), getTopPadding() + 15, font, color);
+			game.getGraphics().draw("Highscore: "+highscore, LEFT_MARGIN, TOP_PADDING, font, color);
 		}
 	}
 

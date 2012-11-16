@@ -151,6 +151,10 @@ public final class User implements Receiver, Sender {
 		this.gestures = Objects.requireNonNull(gestures);
 	}
 	
+	public int getLife() {
+		return life;
+	}
+	
 	public void removeOneLife() {
 		
 		Foundation.ACTIVITY.debug(TAG, "Remove One Life for User");

@@ -34,14 +34,14 @@ public abstract class AbstractShip implements Ship {
 	private final AnimationTexture shipDrawable;
 	private final Random random;
 	private final CollisionBehavior collisionBehavior;
-	
+	private final int initialLife;
+
 	private int activeWeapon;
 	private boolean isWeaponLoaded;
 	
 	private Body body;
 	private int angle;
 	private int life;
-	private final int initialLife;
 	
 	public AbstractShip(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, int life, 
 			EntityContainer container, AnimationTexture textures, CollisionBehavior collisionBehavior) {
@@ -284,6 +284,16 @@ public abstract class AbstractShip implements Ship {
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public int getCurrentLife() {
+		return life;
+	}
+	
+	@Override
+	public int getInitialLife() {
+		return initialLife;
 	}
 	
 }
