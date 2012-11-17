@@ -27,7 +27,6 @@ public class Jupiter extends AbstractStage {
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_2, factory));
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_3, factory));
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_4, factory));
-		
 	}
 	
 	@Override

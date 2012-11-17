@@ -19,17 +19,19 @@ public final class Earth extends AbstractStage {
 
 	public Earth(World world, EntityContainer container, ShipFactory factory) {
 		
-		super(world, container);
+		super(world, container); 
 		
 		boss = Objects.requireNonNull(factory.createEarthBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
 		
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory));
-		
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_2, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_3, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_4, factory));
 	}
 	
 	@Override
 	public long getEstimatedScenarioTime() {
-		return 70;
+		return 52;
 	}
 
 	@Override

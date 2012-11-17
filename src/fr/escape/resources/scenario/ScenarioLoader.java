@@ -34,6 +34,9 @@ public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	public static final String MOON_3 = "moon_3.scn";
 	
 	public static final String EARTH_1 = "earth_1.scn";
+	public static final String EARTH_2 = "earth_2.scn";
+	public static final String EARTH_3 = "earth_3.scn";
+	public static final String EARTH_4 = "earth_4.scn";
 	
 	private ShipFactory factory;
 	

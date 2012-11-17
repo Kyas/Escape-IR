@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.dynamics.Body;
@@ -15,13 +14,13 @@ import fr.escape.resources.texture.TextureLoader;
 
 //TODO Comment
 public class EarthShot extends AbstractShot {
+	
 	private final Texture coreEarthShot;
 	
 	private boolean isVisible;
 
 	public EarthShot(Body body, EntityContainer container, CollisionBehavior collisionBehavior) {
-		super(body, container, container, collisionBehavior, 50);
-		
+		super(body, container, container, collisionBehavior, 50);	
 		this.coreEarthShot = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 	}
 
@@ -67,11 +66,8 @@ public class EarthShot extends AbstractShot {
 	@Override
 	public void draw(Graphics graphics) {
 		if(isVisible) {
-			
 			Rectangle area = getEdge();
-			
 			graphics.draw(coreEarthShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), graphics.getHeight());
-			graphics.draw(getEdge(), Color.RED);
 		}
 	}
 
