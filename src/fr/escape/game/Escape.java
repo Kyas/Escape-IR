@@ -12,6 +12,7 @@
 package fr.escape.game;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -168,7 +169,17 @@ public final class Escape extends Game implements LifeListener {
 		
 	}
 	
+	/**
+	 * Create a Hidden Wall for User Ship
+	 * 
+	 * @param world World to use.
+	 * @param x Position X
+	 * @param y Position Y
+	 * @param isRightOrLeft Is Right/Left or Top/Bottom
+	 */
 	private void createWall(World world, float x, float y, boolean isRightOrLeft) {
+		
+		Objects.requireNonNull(world);
 		
 		float shapeX = (isRightOrLeft) ? 1.0f : CoordinateConverter.toMeterX(getGraphics().getWidth());
 		float shapeY = (isRightOrLeft) ? CoordinateConverter.toMeterY(getGraphics().getHeight()) : 1.0f;
@@ -350,12 +361,23 @@ public final class Escape extends Game implements LifeListener {
 		return entityContainer;
 	}
 	
+	/**
+	 * Create a Player Ship
+	 */
 	private void createPlayerShip() {
-		Ship ship = getShipFactory().createPlayer(CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), CoordinateConverter.toMeterY(getGraphics().getHeight() - 100));
+		
+		Ship ship = getShipFactory().createPlayer(
+				CoordinateConverter.toMeterX(getGraphics().getWidth() / 2), 
+				CoordinateConverter.toMeterY(getGraphics().getHeight() - 100)
+		);
+		
 		ship.createBody(getWorld());
 		getUser().setShip(ship);
 	}
 	
+	/**
+	 * Create Gestures
+	 */
 	private void createGestures() {
 		
 		ArrayList<Gesture> gestures = new ArrayList<>();
@@ -368,6 +390,9 @@ public final class Escape extends Game implements LifeListener {
 		getUser().setGestures(gestures);
 	}
 	
+	/**
+	 * Create Overlay
+	 */
 	private void createOverlay() {
 		
 		UIHighscore uHighscore = new UIHighscore(this);
@@ -381,6 +406,9 @@ public final class Escape extends Game implements LifeListener {
 		getUser().register(uHighscore);
 	}
 	
+	/**
+	 * Create Screen
+	 */
 	private void createScreen() {
 		
 		lost = new Lost(this);

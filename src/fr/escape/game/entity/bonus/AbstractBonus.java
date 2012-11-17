@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.bonus;
 
 import java.awt.Rectangle;
@@ -16,6 +27,11 @@ import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 
+/**
+ * <p>
+ * An abstract class for {@link Bonus}.
+ * 
+ */
 abstract class AbstractBonus implements Bonus {
 	
 	private static int COEFFICIENT = 3;
@@ -27,6 +43,15 @@ abstract class AbstractBonus implements Bonus {
 	
 	private Body body;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param body Body for this Entity
+	 * @param drawable Texture used for drawing
+	 * @param eNotifier 
+	 * @param kNotifier
+	 * @param collisionBehavior 
+	 */
 	public AbstractBonus(Body body,Texture drawable, EdgeNotifier eNotifier, KillNotifier kNotifier, CollisionBehavior collisionBehavior) {
 		
 		this.body = Objects.requireNonNull(body);
@@ -127,6 +152,11 @@ abstract class AbstractBonus implements Bonus {
 		});	
 	}
 	
+	/**
+	 * Get {@link CollisionBehavior}
+	 * 
+	 * @return CollisionBehavior
+	 */
 	CollisionBehavior getCollisionBehavior() {
 		return collisionBehavior;
 	}
