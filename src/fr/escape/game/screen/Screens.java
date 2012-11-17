@@ -13,8 +13,8 @@ package fr.escape.game.screen;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import fr.escape.app.Graphics;
@@ -44,68 +44,36 @@ public final class Screens {
 	 */
 	public static void drawStringInCenterPosition(Graphics graphics, String message, int x, int y, Font font, Color color) {
 		
-		x -= ((message.length() / 2) * (font.getSize() / 2));
-		y += (font.getSize() / 4);
+		graphics.draw(message, x - ((message.length() / 2) * (font.getSize() / 2)), 
+				y + (font.getSize() / 4), font, color);
 		
-		graphics.draw(message, x, y, font, color);
 	}
-	
+
 	public static List<Input> drawEventsOnScreen(Graphics graphics, List<Input> events, Color color) {
-		return drawEventsOnScreen(graphics, events, color, true);
-	}
-	
-	public static List<Input> drawEventsOnScreen(Graphics graphics, List<Input> events, Color color, boolean filter) {
 		
 		Input lastInput = null;
-		List<Input> render = null;
-		
-		if(filter) {
-			render = new LinkedList<>();	
-		}
-		
-		int booster = (int) (events.size() * 0.1f);
-		int index = 0;
-		
+		List<Input> array = new ArrayList<>(events.size());
 		Iterator<Input> it = events.iterator();
 		
 		// Find First Input
 		if(it.hasNext()) {
 			
 			lastInput = it.next();
+			array.add(lastInput);
 			
-			if(filter) {
-				render.add(lastInput);
-			}
-			
-		}
-		
-		if(booster == 0) {
-			booster = 1;
-		}
-		
-		// Draw Line between Two Input 
-		while(it.hasNext()) {
-			
-			Input input = it.next();
-		
-			if(filter) {
+			// Draw Line between Two Input 
+			while(it.hasNext()) {
 				
-				// Create a small booster to skip input
-				while(it.hasNext() && index != booster - 1) {
-					index = (index + 1) % booster;
-					input = it.next();
-				}
-				
-				index = 0;
-				render.add(input);
+				Input input = it.next();
+
+				graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), color);
+				lastInput = input;
+				array.add(lastInput);
 			}
-			
-			graphics.draw(Shapes.createLine(lastInput.getX(), lastInput.getY(), input.getX(), input.getY()), color);
-			lastInput = input;
 			
 		}
 
-		return render;
+		return array;
 	}
 	
 }

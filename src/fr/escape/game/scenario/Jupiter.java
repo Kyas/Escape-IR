@@ -25,18 +25,24 @@ public class Jupiter extends AbstractStage {
 	
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_1, factory));
 		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_2, factory));
-		//add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_3, factory));
-		//add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_4, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_3, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.JUPITER_4, factory));
+		
 	}
 	
 	@Override
 	public long getEstimatedScenarioTime() {
-		return 75;
+		return 40;
 	}
 
 	@Override
 	protected Boss getBoss() {
 		return boss;
+	}
+
+	@Override
+	public void resetBoss() {
+		boss.reset(BOSS_SPAWN_X, BOSS_SPAWN_Y);
 	}
 
 }

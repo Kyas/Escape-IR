@@ -150,12 +150,21 @@ public abstract class AbstractStage implements Stage {
 		
 	}
 	
+	/**
+	 * <p>
+	 * This method is called by {@link AbstractStage#reset()}
+	 * 
+	 */
+	public abstract void resetBoss();
+	
 	@Override
 	public void reset() {
 		
 		Foundation.ACTIVITY.debug(TAG, "Reset Stage");
 		
 		spawn = false;
+		
+		
 		
 		getActiveScenario().clear();
 		getWaitingScenario().clear();

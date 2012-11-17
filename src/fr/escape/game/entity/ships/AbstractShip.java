@@ -88,7 +88,10 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean damage(int value) {
-		if(value < 0) throw new IllegalStateException();
+
+		if(value < 0) {
+			throw new IllegalArgumentException();
+		}
 		
 		life -= value;
 		

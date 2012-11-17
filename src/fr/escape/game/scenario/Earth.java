@@ -38,4 +38,9 @@ public final class Earth extends AbstractStage {
 		return boss;
 	}
 	
+	@Override
+	public void resetBoss() {
+		boss.reset(BOSS_SPAWN_X, BOSS_SPAWN_Y);
+	}
+	
 }

@@ -57,7 +57,7 @@ final class ScenarioFactory {
 					Entry<Integer, Ship> row = it.next();
 
 					if(spawns.contains(row.getKey()) && !getContainer().contains(row.getValue())) {
-						Foundation.ACTIVITY.debug(tag, "Remove "+row.getValue());
+						Foundation.ACTIVITY.debug(toString(), "Remove "+row.getValue());
 						spawns.remove(row.getKey());
 					}
 
@@ -122,7 +122,7 @@ final class ScenarioFactory {
 					}
 
 				} catch(Exception e) {
-					Foundation.ACTIVITY.error("Scenario - "+getID(), "An error has occurred", e);
+					Foundation.ACTIVITY.error(toString(), "An error has occurred", e);
 				}
 				
 				return true;
@@ -207,6 +207,11 @@ final class ScenarioFactory {
 				cursor = 0;
 				spawns.clear();
 				return false;
+			}
+			
+			@Override
+			public String toString() {
+				return tag;
 			}
 
 		};

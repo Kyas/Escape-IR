@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.common.Vec2;
@@ -68,11 +67,8 @@ public class JupiterShot extends AbstractShot {
 	@Override
 	public void draw(Graphics graphics) {
 		if(isVisible) {
-			
 			Rectangle area = getEdge();
-			
 			graphics.draw(coreJupiterShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
-			graphics.draw(getEdge(), Color.RED);
 		}
 	}
 
