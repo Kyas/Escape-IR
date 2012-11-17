@@ -1,6 +1,18 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.ships;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.FixtureDef;
@@ -50,11 +62,9 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		this.bossTexture = textures;
 	}
 	
-	/**
-	 * @see 
-	 */
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 
 		timer += delta;
 		
@@ -149,6 +159,12 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	 */
 	public abstract int getSpecialWaitingTime();
 	
+	/**
+	 * Move the Shot along with the {@link Boss}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 */
 	public abstract void moveShot(float x, float y);
 
 	@Override
@@ -171,6 +187,11 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		
 	}
 
+	/**
+	 * Get {@link AnimationTexture} for the {@link Boss}.
+	 * 
+	 * @return Return the {@link AnimationTexture}.
+	 */
 	public AnimationTexture getBossTexture() {
 		return bossTexture;
 	}

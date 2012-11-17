@@ -140,6 +140,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void createBody(World world) {
+		Objects.requireNonNull(world);
 		if(body == null) {
 			body = world.createBody(bodyDef);
 			body.createFixture(fixture);
@@ -159,6 +160,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void draw(Graphics graphics) {
+		Objects.requireNonNull(graphics);
 		
 		int x = CoordinateConverter.toPixelX(getX()) - (shipDrawable.getWidth() / 2);
 		int y = CoordinateConverter.toPixelY(getY()) - (shipDrawable.getHeight() / 2);
@@ -169,6 +171,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 		
 		draw(graphics);
 		getActiveWeapon().update(graphics, delta);
@@ -210,6 +213,10 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean reloadWeapon(int which, int number) {
+		if(which < 0 || which >= weapons.size()) {
+			throw new IndexOutOfBoundsException();
+		}
+		
 		return Objects.requireNonNull(weapons.get(which)).reload(number);
 	}
 	
@@ -259,6 +266,9 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public void collision(final User user, final Entity e, final int whois) {
+		Objects.requireNonNull(user);
+		Objects.requireNonNull(e);
+		
 		Foundation.ACTIVITY.post(new Runnable() {
 			
 			@Override
