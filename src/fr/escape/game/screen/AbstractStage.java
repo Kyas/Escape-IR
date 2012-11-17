@@ -24,8 +24,6 @@ import fr.escape.game.Escape;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.ships.Ship;
 
-import fr.escape.game.scenario.Earth;
-import fr.escape.game.scenario.Jupiter;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
@@ -33,16 +31,18 @@ import fr.escape.input.Gesture;
 import fr.escape.input.WeaponGesture;
 import fr.escape.resources.texture.TextureLoader;
 
-public class Splash implements Screen {
+public abstract class AbstractStage implements Screen {
 
-	private final static String TAG = Splash.class.getSimpleName();
+	public static final int STAGE_JUPITER = 0;
+	public static final int STAGE_MOON = STAGE_JUPITER + 1;
+	public static final int STAGE_EARTH = STAGE_MOON + 1;
 	
-	private final static int MAX_ACTIVE_EVENT_TIME = 2000;
+	private final static String TAG = AbstractStage.class.getSimpleName();
+	
+	private final static int MAX_ACTIVE_EVENT_TIME = 1337;
 	private final static long STAR_SPEED = 5000;
 	
 	private final Escape game;
-	private final Stage stage;
-	private final ScrollingTexture background;
 	private final ScrollingTexture star;
 	private final LinkedList<Input> events;
 	
@@ -52,12 +52,10 @@ public class Splash implements Screen {
 	private List<Input> activeEvents;
 	private long activeEventTime;
 	
-	public Splash(Escape game) {
+	public AbstractStage(Escape game) {
 		
-		this.game = game;
-		this.background = new ScrollingTexture(game.getResources().getTexture(TextureLoader.BACKGROUND_JUPITER), true);
+		this.game = Objects.requireNonNull(game);
 		this.star = new RepeatableScrollingTexture(game.getResources().getTexture(TextureLoader.OVERLAY_STAR), true);
-		this.stage = new Jupiter(game.getWorld(), game.getEntityContainer(), game.getShipFactory());
         this.events = new LinkedList<>();
         
 	}
@@ -68,14 +66,14 @@ public class Splash implements Screen {
 		time += delta;
 		activeEventTime += delta;
 		
-		float percent = ((float) time) / (stage.getEstimatedScenarioTime() * 1000);
+		float percent = ((float) time) / (getStage().getEstimatedScenarioTime() * 1000);
 
 		if(percent >= 1.0f) {
 			percent = 1.0f;
 		}
 		
-		background.setYPercent(percent);
-		game.getGraphics().draw(background, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
+		getBackground().setYPercent(percent);
+		game.getGraphics().draw(getBackground(), 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
 		
 		star.setYPercent(((float) time) / STAR_SPEED);
 		game.getGraphics().draw(star, 0, 0, game.getGraphics().getWidth(), game.getGraphics().getHeight());
@@ -83,7 +81,7 @@ public class Splash implements Screen {
 		game.getUser().getShip().update(game.getGraphics(), delta);
 		game.getUser().getShip().moveBy(velocity);
 		
-		stage.update((int) (time / 1000));
+		getStage().update((int) (time / 1000));
 		
 		game.getEntityContainer().update(game.getGraphics(), delta);
 		
@@ -105,7 +103,7 @@ public class Splash implements Screen {
 			
 			@Override
 			public void run() {
-				if(stage.hasFinished()) {
+				if(getStage().hasFinished()) {
 					next();
 				}
 			}
@@ -113,10 +111,12 @@ public class Splash implements Screen {
 		});
 	}
 
-	protected void next() {
-		game.setVictoryScreen();
+	protected Escape getGame() {
+		return game;
 	}
-
+	
+	protected abstract void next();
+	
 	@Override
 	public void show() {
 		
@@ -124,7 +124,7 @@ public class Splash implements Screen {
 		game.getEntityContainer().reset();
 		
 		time = 0;
-		stage.start();
+		getStage().start();
 		
 		if(activeEvents != null) {
 			activeEvents.clear();
@@ -152,7 +152,7 @@ public class Splash implements Screen {
 		velocity[0] = 0.0f;
 		game.getUser().getShip().reset(x, y);
 		
-		stage.reset();
+		getStage().reset();
 	}
 
 	@Override
@@ -235,4 +235,8 @@ public class Splash implements Screen {
 		return false;
 	}
 
+	protected abstract Stage getStage();
+	
+	protected abstract ScrollingTexture getBackground();
+	
 }

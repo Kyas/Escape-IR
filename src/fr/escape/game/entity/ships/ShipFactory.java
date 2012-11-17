@@ -254,6 +254,8 @@ public class ShipFactory {
 		
 		return new AbstractBoss(bodyDef, fixture, npcWeapons, JUPITER_ARMOR, econtainer, jupiter, COMPUTER_COLLISION_BEHAVIOR) {
 
+			private final Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
+			
 			@Override
 			public int getFireWaitingTime() {
 				return 3000;
@@ -284,7 +286,6 @@ public class ShipFactory {
 			
 			@Override
 			public void special() {
-				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
 				
 				final JupiterShot s1 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
 				final JupiterShot s2 = (JupiterShot) shotFactory.createJupiterShot(getX(), getY());
@@ -324,6 +325,7 @@ public class ShipFactory {
 
 			@Override
 			public void moveShot(float x, float y) {}
+			
 		};
 		
 	}
@@ -340,6 +342,8 @@ public class ShipFactory {
 		
 		return new AbstractBoss(bodyDef, fixture, npcWeapons, MOON_ARMOR, econtainer, moon, COMPUTER_COLLISION_BEHAVIOR) {
 
+			private final Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
+			
 			@Override
 			public int getFireWaitingTime() {
 				return 3000;
@@ -367,8 +371,9 @@ public class ShipFactory {
 			
 			@Override
 			public void special() {
+				
 				getBossTexture().next();
-				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
+
 				final MoonShot s1 = (MoonShot) shotFactory.createMoonShot(getX() - CoordinateConverter.toMeterX(20), getY() - CoordinateConverter.toMeterY(9));
 				
 				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
@@ -376,10 +381,12 @@ public class ShipFactory {
 				s1.receive(Shot.MESSAGE_CRUISE);
 				
 				Foundation.ACTIVITY.post(new Runnable() {
+					
 					@Override
 					public void run() {
 						container.push(s1);
 					}
+					
 				});
 			}
 
@@ -406,6 +413,8 @@ public class ShipFactory {
 		FixtureDef fixture = createFixtureForNpc(earth);
 		
 		return new AbstractBoss(bodyDef, fixture, npcWeapons, EARTH_ARMOR, econtainer, earth, COMPUTER_COLLISION_BEHAVIOR) {
+			
+			private final Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 			private final float VARX = CoordinateConverter.toMeterY(10);
 			private final float VARY = CoordinateConverter.toMeterY(50);
 			private Shot specialShot;
@@ -440,8 +449,9 @@ public class ShipFactory {
 			
 			@Override
 			public void special() {
+				
 				getBossTexture().next();
-				Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
+				
 				final EarthShot s1 = (EarthShot) shotFactory.createEarthShot(getX() - VARX, getY() + VARY);
 					
 				s1.setShotConfiguration(new ShotContext(isPlayer(), texture.getWidth(), texture.getHeight()));
