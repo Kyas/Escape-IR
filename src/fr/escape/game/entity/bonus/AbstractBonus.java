@@ -46,10 +46,10 @@ abstract class AbstractBonus implements Bonus {
 	/**
 	 * Default Constructor
 	 * 
-	 * @param body Body for this Entity
+	 * @param body {@link Body} for this Entity
 	 * @param drawable Texture used for drawing
-	 * @param eNotifier 
-	 * @param kNotifier
+	 * @param eNotifier EdgeNotifier
+	 * @param kNotifier KillNotifier
 	 * @param collisionBehavior 
 	 */
 	public AbstractBonus(Body body,Texture drawable, EdgeNotifier eNotifier, KillNotifier kNotifier, CollisionBehavior collisionBehavior) {
@@ -100,10 +100,20 @@ abstract class AbstractBonus implements Bonus {
 		return new Rectangle(x - (drawable.getWidth() / 2), y - (drawable.getHeight() / 2), drawable.getWidth(), drawable.getHeight());
 	}
 	
+	/**
+	 * Get {@link Body} coordinate on X axis in meters.
+	 * 
+	 * @return Return the X coordinate.
+	 */
 	private float getX() {
 		return body.getPosition().x;
 	}
 
+	/**
+	 * Get {@link Body} coordinate on Y axis in meters.
+	 * 
+	 * @return Return the Y coordinate.
+	 */
 	private float getY() {
 		return body.getPosition().y;
 	}

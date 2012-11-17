@@ -32,7 +32,13 @@ public final class Victory implements Screen {
 	
 	private long time = 0;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param game Escape Game
+	 */
 	public Victory(Escape game) {
+		
 		this.game = Objects.requireNonNull(game);
 		this.font = game.getResources().getFont(FontLoader.VISITOR_ID).deriveFont(FSIZE_H2);
 		this.background = game.getResources().getTexture(TextureLoader.BACKGROUND_VICTORY);

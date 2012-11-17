@@ -144,6 +144,11 @@ public abstract class AbstractShot implements Shot {
 	 */
 	protected abstract Rectangle getEdge();
 
+	/**
+	 * Get EdgeNotifier
+	 * 
+	 * @return EdgeNotifier
+	 */
 	protected EdgeNotifier getEdgeNotifier() {
 		return eNotifier;
 	}
