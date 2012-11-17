@@ -12,6 +12,9 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.graphics.AnimationTexture;
 
+/**
+ * This class provide a skeletal implementation of any {@link Boss} in the game.
+ */
 public abstract class AbstractBoss extends AbstractShip implements Boss {
 	
 	private boolean moveToRight;
