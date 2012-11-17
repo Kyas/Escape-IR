@@ -46,7 +46,7 @@ public final class Screens {
 	public static void drawStringInCenterPosition(Graphics graphics, String message, int x, int y, Font font, Color color) {
 		
 		Objects.requireNonNull(graphics).draw(message, x - ((message.length() / 2) * (font.getSize() / 2)), 
-				y + (font.getSize() / 4), Objects.requireNonNull(font), Objects.requireNonNull(color));
+				y + (font.getSize() / 4), font, color);
 		
 	}
 
@@ -59,6 +59,7 @@ public final class Screens {
 	 * @return Return a List of {@link Input}.
 	 */
 	public static List<Input> drawEventsOnScreen(Graphics graphics, List<Input> events, Color color) {
+		Objects.requireNonNull(graphics);
 		
 		Input lastInput = null;
 		List<Input> array = new ArrayList<>(events.size());
