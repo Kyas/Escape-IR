@@ -2,6 +2,7 @@ package fr.escape.game.entity.ships;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -63,7 +64,10 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(falcon);
 		
-		return createNpcAbstractShip(bodyDef, fixture, falcon);
+		Ship ship = createNpcAbstractShip(bodyDef, fixture, falcon);
+		ship.setActiveWeapon(2);
+		
+		return ship;
 		
 	}
 	
@@ -74,7 +78,10 @@ public class ShipFactory {
 		BodyDef bodyDef = createBodyDef(x, y);
 		FixtureDef fixture = createFixtureForNpc(vyper);
 		
-		return createNpcAbstractShip(bodyDef, fixture, vyper);
+		Ship ship = createNpcAbstractShip(bodyDef, fixture, vyper);
+		ship.setActiveWeapon(0);
+		
+		return ship;
 		
 	}
 	
@@ -87,6 +94,7 @@ public class ShipFactory {
 		
 		Ship ship = createNpcAbstractShip(bodyDef, fixture, raptor);
 		ship.setRotation(180);
+		ship.setActiveWeapon(1);
 		
 		return ship;
 	}
@@ -275,8 +283,7 @@ public class ShipFactory {
 					
 					@Override
 					public void run() {
-						loadWeapon();
-						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+						fireWeapon();
 					}
 					
 				});
@@ -343,6 +350,7 @@ public class ShipFactory {
 		return new AbstractBoss(bodyDef, fixture, npcWeapons, MOON_ARMOR, econtainer, moon, COMPUTER_COLLISION_BEHAVIOR) {
 
 			private final Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
+			private final Random random = new Random();
 			
 			@Override
 			public int getFireWaitingTime() {
@@ -356,6 +364,8 @@ public class ShipFactory {
 			
 			@Override
 			public void fire() {
+				
+				setActiveWeapon(random.nextInt(3));
 				
 				Foundation.ACTIVITY.post(new Runnable() {
 					
@@ -438,8 +448,7 @@ public class ShipFactory {
 					
 					@Override
 					public void run() {
-						loadWeapon();
-						fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
+						fireWeapon();
 					}
 					
 				});

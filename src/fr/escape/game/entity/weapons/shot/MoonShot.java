@@ -1,6 +1,5 @@
 package fr.escape.game.entity.weapons.shot;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.jbox2d.common.Vec2;
@@ -73,7 +72,6 @@ public class MoonShot extends AbstractShot {
 			Rectangle area = getEdge();
 			
 			graphics.draw(coreMoonShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
-			graphics.draw(getEdge(), Color.RED);
 		}
 	}
 

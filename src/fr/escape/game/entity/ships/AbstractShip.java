@@ -14,7 +14,6 @@ package fr.escape.game.entity.ships;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -35,7 +34,7 @@ import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Texture;
 
 /**
- * This class provide a skeletal implementation of any {@link Ship} for the game.
+ * This class provide a skeletal implementation of any {@link Ship} in the game.
  */
 public abstract class AbstractShip implements Ship {
 	
@@ -46,7 +45,6 @@ public abstract class AbstractShip implements Ship {
 	private final List<Weapon> weapons;
 	private final EntityContainer econtainer;
 	private final AnimationTexture shipDrawable;
-	private final Random random;
 	private final CollisionBehavior collisionBehavior;
 	private final int initialLife;
 
@@ -77,7 +75,6 @@ public abstract class AbstractShip implements Ship {
 		this.econtainer = Objects.requireNonNull(container);
 		this.shipDrawable = Objects.requireNonNull(textures);
 		this.collisionBehavior = Objects.requireNonNull(collisionBehavior);
-		this.random = new Random();
 		
 		this.activeWeapon = 0;
 		this.isWeaponLoaded = false;
@@ -218,7 +215,6 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean fireWeapon() {
-		setActiveWeapon(random.nextInt(3));
 		return loadWeapon() && fireWeapon(new float[]{0.0f, 0.0f, 5.0f});
 	}
 	
