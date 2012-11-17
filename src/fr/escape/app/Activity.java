@@ -32,8 +32,11 @@ import fr.umlv.zen2.MotionEvent.Kind;
  * Core Engine for Escape-IR
  * 
  * <p>
+ * This class initialize all necessary components for the Game.
+ * 
+ * <p>
+ * <b>Note :</b> DO NOT forget to call {@link Activity#create()} for launching it.
  */
-//TODO Finish this commment
 public final class Activity {
 
 	static final String TAG = Activity.class.getSimpleName();
@@ -58,7 +61,6 @@ public final class Activity {
 	private final String title;
 	
 	private int worldUpdateLeft;
-
 	private int logLevel;
 	
 	/**
@@ -78,7 +80,7 @@ public final class Activity {
 	 */
 	public Activity(Game game, Configuration configuration) {
 		
-		this.graphics = new Graphics(game, configuration);
+		this.graphics = new Graphics(Objects.requireNonNull(game), Objects.requireNonNull(configuration));
 		this.logLevel = LOG_INFO;
 		this.title = configuration.getTitle();
 		this.game = game;
@@ -107,6 +109,7 @@ public final class Activity {
 		
 		game.getResources().load();
 		
+		// Create Splash Screen
 		final Screen splash = new Screen() {
 
 			private final Texture background = getGame().getResources().getTexture(TextureLoader.BACKGROUND_SPLASH);

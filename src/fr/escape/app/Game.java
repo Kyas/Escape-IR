@@ -23,14 +23,25 @@ import fr.escape.resources.Resources;
  * 
  * <p>
  * Allowing multiple screens for a Game.
+ * 
+ * <p>
+ * This is the main Controller of the Game.
  */
-// TODO Comment
-// TODO Remove touch and move
 public abstract class Game implements RenderListener, EventListener {
 	
+	/**
+	 * Current Screen
+	 */
 	private Screen screen;
+	
+	/**
+	 * Game's World
+	 */
 	private World world;
 	
+	/**
+	 * Called when {@link Activity} start
+	 */
 	public abstract void create();
 	
 	@Override
@@ -93,18 +104,21 @@ public abstract class Game implements RenderListener, EventListener {
 	}
 	
 	/**
+	 * Return the Game's {@link World}
 	 * 
-	 * @return
+	 * @return {@link World}
 	 */
 	public World getWorld() {
 		return world;
 	}
 	
 	/**
+	 * Set the Game's {@link World}
 	 * 
-	 * @param world
+	 * @param world Game's World
 	 */
 	public void setWorld(World world) {
 		this.world = world;
 	}
+	
 }

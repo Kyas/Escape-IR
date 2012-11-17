@@ -13,6 +13,7 @@ package fr.escape.game.ui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Objects;
 
 import fr.escape.app.Game;
 import fr.escape.game.User;
@@ -43,8 +44,13 @@ public final class UIHighscore extends AbstractOverlay implements Receiver {
 	 */
 	private int highscore;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param game Game
+	 */
 	public UIHighscore(Game game) {
-		this.game = game;
+		this.game = Objects.requireNonNull(game);
 		this.font = game.getResources().getFont(FontLoader.VISITOR_ID);
 		this.color = Color.WHITE;
 		this.highscore = 0;
@@ -62,6 +68,11 @@ public final class UIHighscore extends AbstractOverlay implements Receiver {
 		setHighscore(message);
 	}
 	
+	/**
+	 * Set the Highscore to display.
+	 * 
+	 * @param highscore Highscore
+	 */
 	private void setHighscore(int highscore) {
 		this.highscore = highscore;
 	}

@@ -32,7 +32,7 @@ public final class Launcher {
 		Activity activity = new Activity(new Escape());
 		
 		// Launch Activity
-		activity.setLogLevel(Activity.LOG_DEBUG);
+		//activity.setLogLevel(Activity.LOG_DEBUG);
 		activity.debug(TAG, "Initialize Launcher");
 		activity.create();
 

@@ -19,6 +19,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 import fr.escape.graphics.RenderListener;
 import fr.escape.graphics.Texture;
@@ -26,7 +27,18 @@ import fr.escape.graphics.TextureOperator;
 import fr.umlv.zen2.ApplicationContext;
 import fr.umlv.zen2.ApplicationRenderCode;
 
-// TODO Comment this class
+/**
+ * <p>
+ * This class is a layer for AWT and Zen2 Library.
+ * 
+ * <p>
+ * This class auto-tune herself for sleep with the requested FPS.
+ * 
+ * <p>
+ * Use an Buffer in Rendering Phase and flush it when it's 
+ * done to the {@link Graphics2D} used for User Screen.
+ * 
+ */
 public final class Graphics {
 	
 	private final static int MINIMUM_WAKEUP_TIME = 0;
@@ -47,7 +59,16 @@ public final class Graphics {
 	private int smoothFps;
 	private int wakeUp;
 
+	/**
+	 * Default Listener
+	 * 
+	 * @param listener RenderListener
+	 * @param configuration Graphics Configuration
+	 */
 	public Graphics(RenderListener listener, Configuration configuration) {
+		
+		Objects.requireNonNull(listener);
+		Objects.requireNonNull(configuration);
 		
 		this.width = configuration.getWidth();
 		this.height = configuration.getHeight();
@@ -106,13 +127,6 @@ public final class Graphics {
 	}
 	
 	/**
-	 * @return Frequency of rendering
-	 */
-	public float getFrequency() {
-		return 1.0f / (getRequestedFramesPerSecond());
-	}
-	
-	/**
 	 * Return render listener for Drawing.
 	 * 
 	 * @return {@link RenderListener}
@@ -150,7 +164,8 @@ public final class Graphics {
 	 */
 	public void render(final ApplicationContext context) {
 
-		context.render(new ApplicationRenderCode() {
+		Objects.requireNonNull(context).render(new ApplicationRenderCode() {
+			
 			@Override
 			public void render(Graphics2D graphics) {
 				
@@ -166,6 +181,7 @@ public final class Graphics {
 				// Update Render Timing
 				updateRender(System.currentTimeMillis());
 			}
+			
 		});
 		
 	}
@@ -458,14 +474,32 @@ public final class Graphics {
 		g2d.setFont(f);
 	}
 	
+	/**
+	 * Draw a simple Shape
+	 * 
+	 * @param shape Shape to draw
+	 */
 	public void draw(final Shape shape) {
 		draw(shape, DEFAULT_COLOR, DEFAULT_STROKE);
 	}
 	
+	/**
+	 * Draw a simple Shape with the given Color
+	 * 
+	 * @param shape Shape to draw
+	 * @param color Color to use
+	 */
 	public void draw(final Shape shape, final Color color) {
 		draw(shape, color, DEFAULT_STROKE);
 	}
 	
+	/**
+	 * Draw a simple Shape with the given Color and Stroke
+	 * 
+	 * @param shape Shape to draw
+	 * @param color Color to use
+	 * @param stroke Stroke to use
+	 */
 	public void draw(final Shape shape, final Color color, final Stroke stroke) {
 
 		Color c = g2d.getColor();

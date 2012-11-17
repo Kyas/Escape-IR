@@ -22,8 +22,19 @@ import fr.escape.resources.Resources;
  */
 public class Foundation {
 	
+	/**
+	 * Game Activity
+	 */
 	public static Activity ACTIVITY;
+	
+	/**
+	 * Game Graphics
+	 */
 	public static Graphics GRAPHICS;
+	
+	/**
+	 * Game Resources
+	 */
 	public static Resources RESOURCES;
 	
 }

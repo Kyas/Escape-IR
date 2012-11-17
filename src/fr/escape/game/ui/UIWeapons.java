@@ -65,7 +65,7 @@ public final class UIWeapons extends AbstractOverlay implements Sender {
 			throw new IllegalArgumentException("weapons");
 		}
 		
-		if(!weapons.contains(activeWeapon)) {
+		if(!weapons.contains(Objects.requireNonNull(activeWeapon))) {
 			throw new IllegalArgumentException("activeWeapon");
 		}
 		
@@ -153,14 +153,37 @@ public final class UIWeapons extends AbstractOverlay implements Sender {
 	@Override
 	public void register(Receiver receiver) {}
 	
+	/**
+	 * Render a Weapon Icon.
+	 * 
+	 * @param weapon Texture to use
+	 * @param x Position in X Axis
+	 * @param y Position in Y Axis
+	 */
 	private void renderWeaponDrawable(Texture weapon, int x, int y) {
 		game.getGraphics().draw(weapon, x, y);
 	}
 	
+	/**
+	 * Render number of Weapon Ammunition.
+	 * 
+	 * @param ammunition Current Weapon Ammunition
+	 * @param x Position in X Axis
+	 * @param y Position in Y Axis
+	 * @param offset Use a offset (Font Size)
+	 */
 	private void renderWeaponAmmunition(String ammunition, int x, int y, int offset) {
 		game.getGraphics().draw(ammunition, x + offset, y - offset, font, FONT_COLOR);
 	}
 	
+	/**
+	 * Render a Overlay for the Weapon Icon.
+	 * 
+	 * @param x Starting Position X
+	 * @param y Starting Position Y
+	 * @param actived Draw "Active" Texture 
+	 * @param disabled Draw "Disable" Texture
+	 */
 	private void renderWeaponOverlay(int x, int y, boolean actived, boolean disabled) {
 		if(disabled) {
 			game.getGraphics().draw(disable, x, y);
@@ -169,4 +192,5 @@ public final class UIWeapons extends AbstractOverlay implements Sender {
 			game.getGraphics().draw(active, x, y);
 		}
 	}
+	
 }

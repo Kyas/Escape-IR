@@ -74,7 +74,6 @@ public final class ShiboleetShot extends AbstractShot {
 		switch(message) {
 			case Shot.MESSAGE_LOAD: {
 				isVisible = true;
-				System.err.println("m:"+this);
 				break;
 			}
 			case Shot.MESSAGE_FIRE: {
