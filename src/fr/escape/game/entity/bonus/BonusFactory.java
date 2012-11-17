@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.bonus;
 
 import java.util.Objects;
@@ -17,7 +28,11 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapons;
 import fr.escape.resources.texture.TextureLoader;
 
-//TODO Comment
+/**
+ * <p>
+ * A Bonus Factory which handle Luck percent.
+ * 
+ */
 public final class BonusFactory {
 	
 	private static final int MASK = Collisionable.PLAYER_TYPE;
@@ -35,9 +50,19 @@ public final class BonusFactory {
 	private static final Random RANDOM = new Random();
 	private static final BonusCollisionBehavior COLLISION_BEHAVIOR = new BonusCollisionBehavior();
 	
-	public static Bonus createBonus(World world, float x, float y, EntityContainer ec) {
+	/**
+	 * Create a Bonus (or not) depending on the Luck of the User.
+	 * 
+	 * @param world Game World
+	 * @param x Spawn at X Position
+	 * @param y Spawn at Y Position
+	 * @param econtainer Game EntityContainer
+	 * @return A Bonus if the User have luck, <b>null</b> otherwise.
+	 */
+	public static Bonus createBonus(World world, float x, float y, EntityContainer econtainer) {
 		
 		Objects.requireNonNull(world);
+		Objects.requireNonNull(econtainer);
 		
 		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getWidth() / 2);
 		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE).getHeight() / 2);
@@ -63,7 +88,7 @@ public final class BonusFactory {
 		Bonus bonus;
 		if(isBlackHoleBonus()) {
 		
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), ec, ec, COLLISION_BEHAVIOR) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_BLACKHOLE), econtainer, econtainer, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -79,7 +104,7 @@ public final class BonusFactory {
 			
 		} else if(isFireballBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_FIREBALL), ec, ec, COLLISION_BEHAVIOR) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_FIREBALL), econtainer, econtainer, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -95,7 +120,7 @@ public final class BonusFactory {
 			
 		} else if(isShiboleetBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET), ec, ec, COLLISION_BEHAVIOR) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_SHIBOLEET), econtainer, econtainer, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -111,7 +136,7 @@ public final class BonusFactory {
 			
 		} else if(isMissileBonus()) {
 			
-			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE), ec, ec, COLLISION_BEHAVIOR) {
+			bonus = new AbstractBonus(body, Foundation.RESOURCES.getTexture(TextureLoader.BONUS_WEAPON_MISSILE), econtainer, econtainer, COLLISION_BEHAVIOR) {
 				
 				@Override
 				public int getWeapon() {
@@ -131,31 +156,54 @@ public final class BonusFactory {
 		}
 
 		if(bonus != null) {
-			
-			bonus.moveBy(new float[]{0.0f, 0.0f, 2.0f});
-			
+			bonus.moveBy(new float[]{0.0f, 0.0f, 2.0f});	
 			body.setUserData(bonus);
 		}
 		
 		return bonus;
 	}
 	
+	/**
+	 * Is the bonus could be a Blackhole Bonus ?
+	 * 
+	 * @return True if the bonus could be a Blackhole Bonus.
+	 */
 	private static boolean isBlackHoleBonus() {
 		return getChance() > BLACKHOLE_CHANCE_PERCENT;
 	}
 	
+	/**
+	 * Is the bonus could be a Fireball Bonus ?
+	 * 
+	 * @return True if the bonus could be a Fireball Bonus.
+	 */
 	private static boolean isFireballBonus() {
 		return getChance() > FIREBALL_CHANCE_PERCENT;
 	}
 	
+	/**
+	 * Is the bonus could be a Shiboleet Bonus ?
+	 * 
+	 * @return True if the bonus could be a Shiboleet Bonus.
+	 */
 	private static boolean isShiboleetBonus() {
 		return getChance() > SHIBOLEET_CHANCE_PERCENT;
 	}
 	
+	/**
+	 * Is the bonus could be a Missile Bonus ?
+	 * 
+	 * @return True if the bonus could be a Missile Bonus.
+	 */
 	private static boolean isMissileBonus() {
 		return getChance() > MISSILE_CHANCE_PERCENT;
 	}
 	
+	/**
+	 * Get Chance Percent
+	 * 
+	 * @return Chance Percent
+	 */
 	private static int getChance() {
 		return RANDOM.nextInt(100);
 	}

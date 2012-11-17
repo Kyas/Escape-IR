@@ -22,7 +22,9 @@ import fr.escape.game.message.Receiver;
 import fr.escape.game.message.Sender;
 import fr.escape.input.Gesture;
 
-// TODO Finish
+/**
+ * User Model
+ */
 public final class User implements Receiver, Sender {
 	
 	private static final String TAG = User.class.getSimpleName();
@@ -38,6 +40,11 @@ public final class User implements Receiver, Sender {
 	private ArrayList<Gesture> gestures;
 	private int life;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param game Game
+	 */
 	User(Escape game) {
 		this.game = Objects.requireNonNull(game);
 		this.restart = new Runnable() {
@@ -61,15 +68,30 @@ public final class User implements Receiver, Sender {
 		this.life = INITIAL_LIFE;
 	}
 
+	/**
+	 * Get User Highscore
+	 * 
+	 * @return User Highscore
+	 */
 	public int getHighscore() {
 		return highscore;
 	}
 	
+	/**
+	 * Set User Highscore
+	 * 
+	 * @param highscore User new highscore
+	 */
 	public void setHighscore(int highscore) {
 		this.highscore = highscore;
 		this.send(highscore);
 	}
 	
+	/**
+	 * Add a given score to the current Highscore
+	 * 
+	 * @param score Score to add
+	 */
 	public void addScore(final int score) {
 		Foundation.ACTIVITY.log(TAG, "Add "+score+" to Highscore");
 		Foundation.ACTIVITY.post(new Runnable() {
@@ -82,6 +104,13 @@ public final class User implements Receiver, Sender {
 		});
 	}
 	
+	/**
+	 * Reset the User
+	 * 
+	 * @param x Position X
+	 * @param y Position Y
+	 * @return True if successful
+	 */
 	public boolean reset(float x, float y) {
 		Foundation.ACTIVITY.log(TAG, "User: Reset Requested");
 		this.highscore = 0;
@@ -133,28 +162,54 @@ public final class User implements Receiver, Sender {
 		this.receiver = Objects.requireNonNull(receiver);
 	}
 
-	// TODO DEBUG
+	/**
+	 * Set User Ship
+	 * 
+	 * @param ship New User Ship
+	 */
 	public void setShip(Ship ship) {
 		this.ship = Objects.requireNonNull(ship);
 	}
 	
-	// TODO DEBUG
+	/**
+	 * Get User Ship
+	 * 
+	 * @return Current User Ship
+	 */
 	public Ship getShip() {
 		return this.ship;
 	}
 	
+	/**
+	 * Get a List of User Gesture
+	 * 
+	 * @return List of Gesture
+	 */
 	public ArrayList<Gesture> getGestures() {
 		return gestures;
 	}
 	
+	/**
+	 * Set the List of User Gesture
+	 * 
+	 * @param gestures List of Gesture
+	 */
 	public void setGestures(ArrayList<Gesture> gestures) {
 		this.gestures = Objects.requireNonNull(gestures);
 	}
 	
+	/**
+	 * Get User Life
+	 * 
+	 * @return User Life
+	 */
 	public int getLife() {
 		return life;
 	}
 	
+	/**
+	 * Remove One Life to the User
+	 */
 	public void removeOneLife() {
 		
 		Foundation.ACTIVITY.debug(TAG, "Remove One Life for User");
@@ -167,19 +222,40 @@ public final class User implements Receiver, Sender {
 		}
 	}
 	
+	/**
+	 * Add a Bonus to User
+	 * 
+	 * @param weapon Which Weapon
+	 * @param number How many ammunition
+	 */
 	public void addBonus(int weapon, int number) {
 		Foundation.ACTIVITY.debug(TAG, "Bonus loaded in Player {"+weapon+", "+number+"}");
 		getShip().reloadWeapon(weapon, number);
 	}
 	
+	/**
+	 * Get a List of All Weapon available.
+	 * 
+	 * @return List of Weapon
+	 */
 	public List<Weapon> getAllWeapons() {
 		return Objects.requireNonNull(getShip(), "getShip() is empty").getAllWeapons();
 	}
 
+	/**
+	 * Get Active Weapon
+	 * 
+	 * @return Active Weapon
+	 */
 	public Weapon getActiveWeapon() {
 		return Objects.requireNonNull(getShip(), "getShip() is empty").getActiveWeapon();
 	}
 	
+	/**
+	 * Get the LifeListener
+	 * 
+	 * @return {@link LifeListener}
+	 */
 	public LifeListener getLifeListener() {
 		return game;
 	}

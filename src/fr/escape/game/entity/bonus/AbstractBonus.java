@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.bonus;
 
 import java.awt.Rectangle;
@@ -16,6 +27,11 @@ import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 import fr.escape.graphics.Texture;
 
+/**
+ * <p>
+ * An abstract class for {@link Bonus}.
+ * 
+ */
 abstract class AbstractBonus implements Bonus {
 	
 	private static int COEFFICIENT = 3;
@@ -27,6 +43,15 @@ abstract class AbstractBonus implements Bonus {
 	
 	private Body body;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param body {@link Body} for this Entity
+	 * @param drawable Texture used for drawing
+	 * @param eNotifier EdgeNotifier
+	 * @param kNotifier KillNotifier
+	 * @param collisionBehavior 
+	 */
 	public AbstractBonus(Body body,Texture drawable, EdgeNotifier eNotifier, KillNotifier kNotifier, CollisionBehavior collisionBehavior) {
 		
 		this.body = Objects.requireNonNull(body);
@@ -75,10 +100,20 @@ abstract class AbstractBonus implements Bonus {
 		return new Rectangle(x - (drawable.getWidth() / 2), y - (drawable.getHeight() / 2), drawable.getWidth(), drawable.getHeight());
 	}
 	
+	/**
+	 * Get {@link Body} coordinate on X axis in meters.
+	 * 
+	 * @return Return the X coordinate.
+	 */
 	private float getX() {
 		return body.getPosition().x;
 	}
 
+	/**
+	 * Get {@link Body} coordinate on Y axis in meters.
+	 * 
+	 * @return Return the Y coordinate.
+	 */
 	private float getY() {
 		return body.getPosition().y;
 	}
@@ -127,6 +162,11 @@ abstract class AbstractBonus implements Bonus {
 		});	
 	}
 	
+	/**
+	 * Get {@link CollisionBehavior}
+	 * 
+	 * @return CollisionBehavior
+	 */
 	CollisionBehavior getCollisionBehavior() {
 		return collisionBehavior;
 	}

@@ -35,6 +35,12 @@ public abstract class AbstractIntro implements Screen {
 	
 	private long time;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param game Escape Game
+	 * @param drawable Drawable Icon for Intro
+	 */
 	public AbstractIntro(Escape game, Texture drawable) {
 		
 		this.game = Objects.requireNonNull(game);

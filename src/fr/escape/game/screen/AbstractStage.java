@@ -30,11 +30,12 @@ import fr.escape.input.Gesture;
 import fr.escape.input.WeaponGesture;
 import fr.escape.resources.texture.TextureLoader;
 
+/**
+ * <p>
+ * Display a Screen which handle Game Stage.
+ * 
+ */
 public abstract class AbstractStage implements Screen {
-
-	public static final int STAGE_JUPITER = 0;
-	public static final int STAGE_MOON = STAGE_JUPITER + 1;
-	public static final int STAGE_EARTH = STAGE_MOON + 1;
 	
 	private final static String TAG = AbstractStage.class.getSimpleName();
 	
@@ -51,6 +52,11 @@ public abstract class AbstractStage implements Screen {
 	private List<Input> activeEvents;
 	private long activeEventTime;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param game Escape Game
+	 */
 	public AbstractStage(Escape game) {
 		
 		this.game = Objects.requireNonNull(game);
@@ -110,10 +116,19 @@ public abstract class AbstractStage implements Screen {
 		});
 	}
 
+	/**
+	 * Get the Game used for this Abstract Stage
+	 * 
+	 * @return Game linked to the {@link AbstractStage}
+	 */
 	protected Escape getGame() {
 		return game;
 	}
 	
+	/**
+	 * Triggered when we need to go on the next Screen 
+	 * in Game Lifecycle.
+	 */
 	protected abstract void next();
 	
 	@Override
@@ -234,8 +249,18 @@ public abstract class AbstractStage implements Screen {
 		return false;
 	}
 
+	/**
+	 * Get the Stage used for this {@link AbstractStage}
+	 * 
+	 * @return Stage
+	 */
 	protected abstract Stage getStage();
 	
+	/**
+	 * Get the Scrolling Texture used for this {@link AbstractStage} 
+	 * 
+	 * @return Background used for this Screen
+	 */
 	protected abstract ScrollingTexture getBackground();
 	
 }

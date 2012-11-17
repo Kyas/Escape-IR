@@ -50,7 +50,13 @@ public final class Menu implements Screen {
 	
 	private final Runnable newGame;
 	
+	/**
+	 * Default Constructor
+	 * 
+	 * @param game Escape Game
+	 */
 	public Menu(Escape game) {
+		
 		this.game = Objects.requireNonNull(game);
 		
 		Font baseFont = game.getResources().getFont(FontLoader.VISITOR_ID);
