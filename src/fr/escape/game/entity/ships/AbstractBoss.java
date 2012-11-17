@@ -11,6 +11,7 @@ import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.weapons.Weapon;
 import fr.escape.graphics.AnimationTexture;
+import fr.escape.graphics.Texture;
 
 /**
  * This class provide a skeletal implementation of any {@link Boss} in the game.
@@ -24,6 +25,17 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 	final EntityContainer container;
 	private final AnimationTexture bossTexture;
 	
+	/**
+	 * AbstractBoss Constructor using {@link AbstractShip} constructor
+	 * 
+	 * @param bodyDef : The body definition for the JBox2D Object.
+	 * @param fixture : Fixture linked to the JBox2D Body.
+	 * @param weapons : List of {@link Weapon} usable by an {@link AbstractShip}.
+	 * @param life : Initial life of the {@link AbstractShip}.
+	 * @param container : {@link EntityContainer} in witch the {@link AbstractShip} is contained.
+	 * @param textures : {@link Texture} use for the {@link AbstractShip}.
+	 * @param collisionBehavior : Behavior used by this {@link AbstractShip} to manage JBox2D Collisions.
+	 */
 	public AbstractBoss(BodyDef bodyDef, FixtureDef fixture, List<Weapon> weapons, 
 			int life, EntityContainer container, AnimationTexture textures,
 			CollisionBehavior collisionBehavior) {
@@ -38,6 +50,9 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 		this.bossTexture = textures;
 	}
 	
+	/**
+	 * @see 
+	 */
 	@Override
 	public void update(Graphics graphics, long delta) {
 
