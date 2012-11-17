@@ -81,12 +81,13 @@ public final class Resources {
 			postScenarioLoader(ScenarioLoader.JUPITER_2);
 			postScenarioLoader(ScenarioLoader.JUPITER_3);
 			postScenarioLoader(ScenarioLoader.JUPITER_4);
-			
 			postScenarioLoader(ScenarioLoader.MOON_1);
 			postScenarioLoader(ScenarioLoader.MOON_2);
 			postScenarioLoader(ScenarioLoader.MOON_3);
-			
 			postScenarioLoader(ScenarioLoader.EARTH_1);
+			postScenarioLoader(ScenarioLoader.EARTH_2);
+			postScenarioLoader(ScenarioLoader.EARTH_3);
+			postScenarioLoader(ScenarioLoader.EARTH_4);
 			
 			// Load Texture
 			postTextureLoader(TextureLoader.BACKGROUND_ERROR);
