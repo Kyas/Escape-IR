@@ -1,7 +1,23 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.scenario;
 
 import fr.escape.game.entity.EntityContainer;
 
+/**
+ * <p>
+ * A interface which represent a {@link Scenario} in {@link Stage}
+ * 
+ */
 public interface Scenario {
 	
 	public int getID();

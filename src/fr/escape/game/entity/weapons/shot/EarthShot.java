@@ -1,6 +1,18 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
+import java.util.Objects;
 
 import org.jbox2d.dynamics.Body;
 
@@ -12,13 +24,24 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-//TODO Comment
+/**
+ * This class implements the {@link EarthShot}.
+ * 
+ * @see AbstractShot
+ */
 public class EarthShot extends AbstractShot {
 	
 	private final Texture coreEarthShot;
 	
 	private boolean isVisible;
 
+	/**
+	 * {@link EarthShot} constructor.
+	 * 
+	 * @param body : The {@link Shot} JBox2D {@link Body}.
+	 * @param container : The {@link EntityContainer} that contains the {@link Shot}.
+	 * @param collisionBehavior : The {@link CollisionBehavior} use by the {@link Shot}
+	 */
 	public EarthShot(Body body, EntityContainer container, CollisionBehavior collisionBehavior) {
 		super(body, container, container, collisionBehavior, 50);	
 		this.coreEarthShot = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
@@ -65,6 +88,8 @@ public class EarthShot extends AbstractShot {
 
 	@Override
 	public void draw(Graphics graphics) {
+		Objects.requireNonNull(graphics);
+		
 		if(isVisible) {
 			Rectangle area = getEdge();
 			graphics.draw(coreEarthShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), graphics.getHeight());
@@ -73,6 +98,7 @@ public class EarthShot extends AbstractShot {
 
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 		draw(graphics);
 		
 		if(!getEdgeNotifier().isInside(getEdge())) {

@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.scenario;
 
 import java.util.Collection;
@@ -12,8 +23,11 @@ import org.jbox2d.dynamics.World;
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Boss;
+import fr.escape.game.entity.ships.Ship;
 
-// TODO
+/**
+ * This class provide a skeletal implementation of any {@link Ship} in the game.
+ */
 public abstract class AbstractStage implements Stage {
 
 	private static final String TAG = AbstractStage.class.getSimpleName();

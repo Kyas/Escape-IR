@@ -1,16 +1,31 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import fr.escape.app.Foundation;
 import fr.escape.game.entity.EntityContainer;
+import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-// TODO Comment
+/**
+ * Sort of factory that will create a List of Weapon use by {@link Ship}
+ */
 public class Weapons {
 
 	public static final int MISSILE_ID = 0;
@@ -28,7 +43,16 @@ public class Weapons {
 	
 	private Weapons() {}
 	
+	/**
+	 * Create a list of {@link Weapon} for the Player
+	 * 
+	 * @param entityContainer : The {@link EntityContainer} that will contain the {@link Weapon} {@link Shot}.
+	 * @param shotFactory : The {@link ShotFactory} that we will be use by each {@link Weapon}.
+	 * @return
+	 */
 	public static List<Weapon> createListOfWeapons(EntityContainer entityContainer, ShotFactory shotFactory) {
+		Objects.requireNonNull(entityContainer);
+		Objects.requireNonNull(shotFactory);
 		
 		List<Weapon> list = new ArrayList<>(4);
 		
@@ -88,10 +112,21 @@ public class Weapons {
 		return list;
 	}
 	
+	/**
+	 * Check if the {@link Weapon} is valid.
+	 * 
+	 * @param w : The {@link Weapon} to check.
+	 */
 	private static void validate(Weapon w) {
+		Objects.requireNonNull(w);
 		checkDrawableFormat(w.getDrawable());
 	}
 	
+	/**
+	 * Check the {@link Texture} format.
+	 * 
+	 * @param drawable : The {@link Texture} to check
+	 */
 	private static void checkDrawableFormat(Texture drawable) {
 		
 		if(drawable.getWidth() != WIDTH) {
@@ -102,16 +137,35 @@ public class Weapons {
 			throw new IllegalArgumentException("Drawable height must be equals to "+HEIGHT);
 		}
 	}
-	
+
+	/**
+	 * Get drawable width.
+	 * 
+	 * @return Return the drawable width.
+	 */
 	public static int getDrawableWidth() {
 		return WIDTH;
 	}
 	
+	/**
+	 * Get drawable height.
+	 * 
+	 * @return Return the drawable height.
+	 */
 	public static int getDrawableHeight() {
 		return HEIGHT;
 	}
 
+	/**
+	 * Create a list of {@link Weapon} with unlimited ammunition.
+	 * 
+	 * @param entityContainer : The {@link EntityContainer} that will contain the {@link Weapon} {@link Shot}.
+	 * @param shotFactory : The {@link ShotFactory} that we will be use by each {@link Weapon}.
+	 * @return
+	 */
 	public static List<Weapon> createListOfUnlimitedWeapons(EntityContainer entityContainer, ShotFactory shotFactory) {
+		Objects.requireNonNull(entityContainer);
+		Objects.requireNonNull(shotFactory);
 
 		List<Weapon> list = new ArrayList<>(3);
 		
