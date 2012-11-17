@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import fr.escape.app.Graphics;
 import fr.escape.app.Input;
@@ -44,11 +45,19 @@ public final class Screens {
 	 */
 	public static void drawStringInCenterPosition(Graphics graphics, String message, int x, int y, Font font, Color color) {
 		
-		graphics.draw(message, x - ((message.length() / 2) * (font.getSize() / 2)), 
-				y + (font.getSize() / 4), font, color);
+		Objects.requireNonNull(graphics).draw(message, x - ((message.length() / 2) * (font.getSize() / 2)), 
+				y + (font.getSize() / 4), Objects.requireNonNull(font), Objects.requireNonNull(color));
 		
 	}
 
+	/**
+	 * Draw a list of events on the screen.
+	 * 
+	 * @param graphics : {@link Graphics} to use.
+	 * @param events : List of {@link Input}.
+	 * @param color : {@link Color} to use.
+	 * @return Return a List of {@link Input}.
+	 */
 	public static List<Input> drawEventsOnScreen(Graphics graphics, List<Input> events, Color color) {
 		
 		Input lastInput = null;
