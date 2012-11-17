@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity;
 
 import org.jbox2d.callbacks.ContactImpulse;
@@ -7,11 +18,18 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import fr.escape.game.User;
 
-// TODO Comment
+/**
+ * This class implements {@link ContactListener}.
+ */
 public final class CollisionDetector implements ContactListener {
 	
 	private final User user;
 	
+	/**
+	 * {@link CollisionDetector} constructor.
+	 * 
+	 * @param user : User which is Playing
+	 */
 	public CollisionDetector(User user) {
 		this.user = user;
 	}

@@ -25,10 +25,23 @@ import org.jbox2d.dynamics.Body;
  */
 public interface Entity extends Updateable, Collisionable, Drawable, Moveable {
 	
+	/**
+	 * Get {@link Entity} JBox2D {@link Body}.
+	 * 
+	 * @return Return JBox2D {@link Body}
+	 */
 	public Body getBody();
 	
+	/**
+	 * Set the JBox2D {@link Body}
+	 * 
+	 * @param body : The new {@link Body} value.
+	 */
 	public void setBody(Body body);
 	
+	/**
+	 * Send to the {@link EntityContainer} a request to destroy this {@link Entity}.
+	 */
 	public void toDestroy();
 	
 }

@@ -42,12 +42,18 @@ public final class CoordinateConverter {
 		return (x / X_COEFF) * W_COEFF;
 	}
 	
+	/**
+	 * Convert a {@link Graphics} Coordinate to {@link World} Coordinate for Y axis. 
+	 * 
+	 * @param y Graphics Coordinate
+	 * @return World Coordinate
+	 */
 	public static float toMeterY(int y) {
 		return (y / Y_COEFF) * W_COEFF;
 	}
 	
 	/**
-	 * Convert a {@link World} Coordinate to {@link Graphics} Coordinate.
+	 * Convert a {@link World} Coordinate to {@link Graphics} Coordinate for X axis. 
 	 * 
 	 * @param x World Coordinate
 	 * @return Graphics Coordinate
@@ -56,6 +62,12 @@ public final class CoordinateConverter {
 		return (int) ((x / W_COEFF) * X_COEFF);
 	}
 	
+	/**
+	 * Convert a {@link World} Coordinate to {@link Graphics} Coordinate for Y axis. 
+	 * 
+	 * @param y World Coordinate
+	 * @return Graphics Coordinate
+	 */
 	public static int toPixelY(float y) {
 		return (int) ((y / W_COEFF) * Y_COEFF);
 	}
