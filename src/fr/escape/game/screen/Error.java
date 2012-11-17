@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import fr.escape.app.Game;
 import fr.escape.app.Input;
 import fr.escape.app.Screen;
 import fr.escape.game.Escape;
@@ -14,7 +15,11 @@ import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.resources.font.FontLoader;
 import fr.escape.resources.texture.TextureLoader;
 
-// TODO Finish
+/**
+ * This class define the {@link Screen} {@link Error}
+ * 
+ * @see Screen
+ */
 public class Error implements Screen {
 
 	private final static String TAG = Error.class.getSimpleName();
@@ -29,6 +34,11 @@ public class Error implements Screen {
 	private boolean fallbackBackground;
 	private boolean fallbackFont;
 	
+	/**
+	 * {@link Error} constructor
+	 * 
+	 * @param game : {@link Game}
+	 */
 	public Error(Escape game) {
 		
 		this.game = game;
@@ -105,6 +115,15 @@ public class Error implements Screen {
 		return false;
 	}
 	
+	/**
+	 * Draw the screen
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @param space : Space between draw on Y axis.
+	 * @param useFont : Use the {@link Font} to draw.
+	 * @param color : The {@link Color} use to draw.
+	 */
 	private void draw(int x, int y, int space, boolean useFont, Color color) {
 		
 		int yy = y;
