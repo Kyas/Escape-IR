@@ -26,6 +26,7 @@ import fr.escape.game.entity.ships.Ship;
 
 import fr.escape.game.scenario.Earth;
 import fr.escape.game.scenario.Jupiter;
+import fr.escape.game.scenario.Moon;
 import fr.escape.game.scenario.Stage;
 import fr.escape.graphics.RepeatableScrollingTexture;
 import fr.escape.graphics.ScrollingTexture;
@@ -57,7 +58,7 @@ public class Splash implements Screen {
 		this.game = game;
 		this.background = new ScrollingTexture(game.getResources().getTexture(TextureLoader.BACKGROUND_JUPITER), true);
 		this.star = new RepeatableScrollingTexture(game.getResources().getTexture(TextureLoader.OVERLAY_STAR), true);
-		this.stage = new Jupiter(game.getWorld(), game.getEntityContainer(), game.getShipFactory());
+		this.stage = new Moon(game.getWorld(), game.getEntityContainer(), game.getShipFactory());
         this.events = new LinkedList<>();
         
 	}

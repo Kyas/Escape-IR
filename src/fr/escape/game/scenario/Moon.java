@@ -23,14 +23,14 @@ public class Moon extends AbstractStage {
 		
 		boss = Objects.requireNonNull(factory.createMoonBoss(BOSS_SPAWN_X, BOSS_SPAWN_Y));
 		
-		Scenario e1 = Foundation.RESOURCES.getScenario(ScenarioLoader.EARTH_1, factory);
-		add(e1);
-		
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.MOON_1, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.MOON_2, factory));
+		add(Foundation.RESOURCES.getScenario(ScenarioLoader.MOON_3, factory));
 	}
 	
 	@Override
 	public long getEstimatedScenarioTime() {
-		return 12;
+		return 55;
 	}
 
 	@Override

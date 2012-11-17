@@ -24,11 +24,16 @@ import fr.escape.resources.ResourcesLoader;
  */
 public abstract class ScenarioLoader implements ResourcesLoader<Scenario> {
 	
-	public static final String EARTH_1 = "earth_1.scn";
 	public static final String JUPITER_1 = "jupiter_1.scn";
 	public static final String JUPITER_2 = "jupiter_2.scn";
 	public static final String JUPITER_3 = "jupiter_3.scn";
 	public static final String JUPITER_4 = "jupiter_4.scn";
+	
+	public static final String MOON_1 = "moon_1.scn";
+	public static final String MOON_2 = "moon_2.scn";
+	public static final String MOON_3 = "moon_3.scn";
+	
+	public static final String EARTH_1 = "earth_1.scn";
 	
 	private ShipFactory factory;
 	

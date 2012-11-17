@@ -77,11 +77,16 @@ public final class Resources {
 			postFontLoader(FontLoader.VISITOR_ID, 18.0f);
 			
 			// Load Scenario
-			postScenarioLoader(ScenarioLoader.EARTH_1);
 			postScenarioLoader(ScenarioLoader.JUPITER_1);
 			postScenarioLoader(ScenarioLoader.JUPITER_2);
 			postScenarioLoader(ScenarioLoader.JUPITER_3);
 			postScenarioLoader(ScenarioLoader.JUPITER_4);
+			
+			postScenarioLoader(ScenarioLoader.MOON_1);
+			postScenarioLoader(ScenarioLoader.MOON_2);
+			postScenarioLoader(ScenarioLoader.MOON_3);
+			
+			postScenarioLoader(ScenarioLoader.EARTH_1);
 			
 			// Load Texture
 			postTextureLoader(TextureLoader.BACKGROUND_ERROR);
