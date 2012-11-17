@@ -29,6 +29,7 @@ public abstract class TextureLoader implements ResourcesLoader<Texture> {
 	public static final String BACKGROUND_JUPITER = "bjupiter.png";
 	public static final String BACKGROUND_MOON = "bmoon.png";
 	public static final String BACKGROUND_EARTH = "bearth.png";
+	public static final String BACKGROUND_SPLASH = "bsplash.png";
 	
 	public static final String WEAPON_UI_DISABLED = "wuidisabled.png";
 	public static final String WEAPON_UI_ACTIVATED = "wuiactivated.png";

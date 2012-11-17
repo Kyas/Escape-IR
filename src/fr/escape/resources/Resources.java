@@ -90,6 +90,7 @@ public final class Resources {
 			postScenarioLoader(ScenarioLoader.EARTH_4);
 			
 			// Load Texture
+			postTextureLoader(TextureLoader.BACKGROUND_SPLASH);
 			postTextureLoader(TextureLoader.BACKGROUND_ERROR);
 			postTextureLoader(TextureLoader.BACKGROUND_LOST);
 			postTextureLoader(TextureLoader.BACKGROUND_MENU);

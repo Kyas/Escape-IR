@@ -92,20 +92,6 @@ public abstract class Game implements RenderListener, EventListener {
 		return Foundation.RESOURCES;
 	}
 	
-//	/**
-//	 * 
-//	 */
-//	public boolean touch(Input i) {
-//		return true;
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	public boolean move(Input i) {
-//		return true;
-//	}
-	
 	/**
 	 * 
 	 * @return

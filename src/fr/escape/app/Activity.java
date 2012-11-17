@@ -17,8 +17,10 @@ import java.util.Queue;
 
 import org.jbox2d.dynamics.World;
 
+import fr.escape.graphics.Texture;
 import fr.escape.input.EventListener;
 import fr.escape.resources.Resources;
+import fr.escape.resources.texture.TextureLoader;
 import fr.umlv.zen2.Application;
 import fr.umlv.zen2.ApplicationCode;
 import fr.umlv.zen2.ApplicationContext;
@@ -52,7 +54,7 @@ public final class Activity {
 	
 	private final Game game;
 	private final Graphics graphics;
-	private final Queue<Runnable> runnables = new LinkedList<Runnable>();
+	private final Queue<Runnable> runnables = new LinkedList<>();
 	private final String title;
 	
 	private int worldUpdateLeft;
@@ -95,9 +97,6 @@ public final class Activity {
 		Foundation.GRAPHICS = graphics;
 		Foundation.RESOURCES = new Resources();
 		
-		Foundation.RESOURCES.load();
-
-		game.create();
 		initialize();
 	}
 	
@@ -106,7 +105,34 @@ public final class Activity {
 	 */
 	private void initialize () {
 		
-		// TODO May need to remove comment for Run Exec
+		game.getResources().load();
+		
+		final Screen splash = new Screen() {
+
+			private final Texture background = getGame().getResources().getTexture(TextureLoader.BACKGROUND_SPLASH);
+			
+			@Override
+			public boolean touch(Input i) {
+				return false;
+			}
+
+			@Override
+			public boolean move(Input i) {
+				return false;
+			}
+
+			@Override
+			public void render(long delta) {
+				getGraphics().draw(background, 0, 0, getGraphics().getWidth(), getGraphics().getHeight());
+			}
+
+			@Override
+			public void show() {}
+
+			@Override
+			public void hide() {}
+			
+		};
 		
 		Application.run(this.title, graphics.getWidth(), graphics.getHeight(), new ApplicationCode() {
 			
@@ -117,6 +143,13 @@ public final class Activity {
 					
 					debug(TAG, "Application started");
 					Input lastEvent = null;
+					
+					debug(TAG, "Show Splash Screen");
+					getGame().setScreen(splash);
+					getGraphics().render(context);
+					
+					debug(TAG, "Create Game");
+					getGame().create();
 					
 					for(;;) {
 						
@@ -258,6 +291,19 @@ public final class Activity {
 			}
 		}
 		
+	}
+	
+	/**
+	 * <p>
+	 * Return the Game.
+	 * 
+	 * <p>
+	 * Wrapper for Anonymous Class in {@link Activity#initialize()}.
+	 * 
+	 * @return Game
+	 */
+	Game getGame() {
+		return game;
 	}
 	
 	/**

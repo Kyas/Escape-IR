@@ -109,7 +109,7 @@ public final class Graphics {
 	 * @return Frequency of rendering
 	 */
 	public float getFrequency() {
-		return 1.0f / ((float) getRequestedFramesPerSecond());
+		return 1.0f / (getRequestedFramesPerSecond());
 	}
 	
 	/**

@@ -68,9 +68,7 @@ public class MoonShot extends AbstractShot {
 	@Override
 	public void draw(Graphics graphics) {
 		if(isVisible) {
-			
 			Rectangle area = getEdge();
-			
 			graphics.draw(coreMoonShot, (int) area.getX(), (int) area.getY(), (int) area.getMaxX(), (int) area.getMaxY(), getAngle());
 		}
 	}
