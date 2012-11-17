@@ -12,6 +12,7 @@
 package fr.escape.graphics;
 
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 /**
  * <p>
@@ -64,6 +65,8 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	 */
 	@Override
 	public void draw(Graphics2D graphics, int x, int y, int width, int height, double angle) {
+	
+		Objects.requireNonNull(graphics);
 		
 		boolean repeatX = true;
 		boolean repeatY = true;
@@ -191,6 +194,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	 * 
 	 * @see ScrollingTexture#setXPercent(float)
 	 */
+	@Override
 	public void setXPercent(float percent) {
 		super.setXPercent(percent % 1.0f);
 	}
@@ -201,6 +205,7 @@ public final class RepeatableScrollingTexture extends ScrollingTexture {
 	 * 
 	 * @see ScrollingTexture#setXPercent(float)
 	 */
+	@Override
 	public void setYPercent(float percent) {
 		super.setYPercent(percent % 1.0f);
 	}

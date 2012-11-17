@@ -25,13 +25,17 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 
 /**
+ * <p>
+ * A wrapper for {@link Image} which represent a drawable texture.
  * 
  * <p>
  * This class is Immutable.
  */
-// TODO Comment
 public final class Texture {
 
+	/**
+	 * Image used for rendering
+	 */
 	private final BufferedImage image;
 	
 	/**
@@ -129,6 +133,8 @@ public final class Texture {
 	public void draw(Graphics2D graphics, int x, int y, int width, int height,
 			int srcX, int srcY, int srcWidth, int srcHeight, double angle) {
 
+		Objects.requireNonNull(graphics);
+		
 		AffineTransform transformMatrix = null;
 		boolean updateMatrix = false;
 		

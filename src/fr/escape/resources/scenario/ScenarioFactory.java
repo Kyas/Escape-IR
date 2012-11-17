@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.resources.scenario;
 
 import java.util.HashMap;
@@ -11,6 +22,11 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.ships.Ship;
 import fr.escape.game.scenario.Scenario;
 
+/**
+ * <p>
+ * A {@link Scenario} Factory which create Scenario from a {@link ScenarioConfiguration} 
+ * 
+ */
 final class ScenarioFactory {
 
 	/**
@@ -21,8 +37,16 @@ final class ScenarioFactory {
 	private static final int COMMAND_ACTION = 0;
 	private static final int COMMAND_ARGS = 1;
 
-
+	/**
+	 * Create a Scenario
+	 * 
+	 * @param scenario Scenario Configuration
+	 * @return Scenario
+	 */
 	static Scenario create(final ScenarioConfiguration scenario) {
+		
+		Objects.requireNonNull(scenario);
+		
 		return new Scenario() {
 			
 			private final String tag = "Scenario#"+scenario.getID();
@@ -66,6 +90,11 @@ final class ScenarioFactory {
 				return ships.isEmpty();
 			}
 
+			/**
+			 * Check if we reach the End of Script
+			 * 
+			 * @return True if we reach the end of script
+			 */
 			private boolean endOfScript() {
 				return cursor == script.length;
 			}
@@ -88,7 +117,14 @@ final class ScenarioFactory {
 				}
 
 			}
-
+			
+			/**
+			 * Read and perform a command for this Scenario.
+			 * 
+			 * @param line Command
+			 * @param time Time in Gameplay
+			 * @return True if the Scenario tried to execute this line 
+			 */
 			private boolean execute(String line, int time) {
 				try {
 
@@ -128,6 +164,11 @@ final class ScenarioFactory {
 				return true;
 			}
 
+			/**
+			 * Execute a fire Action form the given Ship ID
+			 * 
+			 * @param args Options
+			 */
 			private void fire(String... args) {
 
 				Integer shipID = Integer.valueOf(args[0]);
@@ -140,6 +181,11 @@ final class ScenarioFactory {
 
 			}
 
+			/**
+			 * Move the given Ship to the given location
+			 * 
+			 * @param args Options
+			 */
 			private void move(String... args) {
 
 				Integer shipID = Integer.valueOf(args[0]);
@@ -154,6 +200,11 @@ final class ScenarioFactory {
 				
 			}
 
+			/**
+			 * Spawn the Ship with the given Ship ID
+			 * 
+			 * @param args Options
+			 */
 			private void spawn(String[] args) {
 
 				Integer shipID = Integer.valueOf(args[0]);
@@ -197,6 +248,11 @@ final class ScenarioFactory {
 				return Objects.requireNonNull(ships.get(shipID));
 			}
 			
+			/**
+			 * Get the Entity Container for this Scenario
+			 * 
+			 * @return Entity Container
+			 */
 			private EntityContainer getContainer() {
 				assert container != null;
 				return container;

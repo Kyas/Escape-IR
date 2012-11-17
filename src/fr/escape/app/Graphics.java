@@ -106,13 +106,6 @@ public final class Graphics {
 	}
 	
 	/**
-	 * @return Frequency of rendering
-	 */
-	public float getFrequency() {
-		return 1.0f / (getRequestedFramesPerSecond());
-	}
-	
-	/**
 	 * Return render listener for Drawing.
 	 * 
 	 * @return {@link RenderListener}

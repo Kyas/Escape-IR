@@ -12,6 +12,7 @@
 package fr.escape.graphics;
 
 import java.awt.Graphics2D;
+import java.util.Objects;
 
 /**
  * <p>
@@ -61,7 +62,7 @@ public class ScrollingTexture implements TextureOperator {
 	 * @param reverse Apply a reverse scrolling.
 	 */
 	public ScrollingTexture(Texture texture, boolean reverse) {
-		this.texture = texture;
+		this.texture = Objects.requireNonNull(texture);
 		this.percentX = 0;
 		this.percentY = 0;
 		this.reverse = reverse;
@@ -76,6 +77,8 @@ public class ScrollingTexture implements TextureOperator {
 	 */
 	@Override
 	public void draw(Graphics2D graphics, int x, int y, int width, int height, double angle) {
+		
+		Objects.requireNonNull(graphics);
 		
 		/**
 		 * Compute and Check Drawing Area
@@ -198,7 +201,7 @@ public class ScrollingTexture implements TextureOperator {
 	 * @param src Axis
 	 * @return Suggested Axis
 	 */
-	protected int checkMinimumBoundary(int src) {
+	protected static int checkMinimumBoundary(int src) {
 		return (src < 0)?0:src;
 	}
 	
@@ -209,7 +212,7 @@ public class ScrollingTexture implements TextureOperator {
 	 * @param max Maximum Axis
 	 * @return Suggested Axis
 	 */
-	protected int checkMaximumBoundary(int src, int max) {
+	protected static int checkMaximumBoundary(int src, int max) {
 		return (src > max)?max:src;
 	}
 	

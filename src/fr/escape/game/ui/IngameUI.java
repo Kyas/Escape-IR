@@ -13,6 +13,7 @@ package fr.escape.game.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import fr.escape.app.Input;
 import fr.escape.app.Overlay;
@@ -45,7 +46,7 @@ public final class IngameUI extends AbstractOverlay {
 	 * @return Is successful
 	 */
 	public boolean add(Overlay overlay) {
-		return overlays.add(overlay);
+		return overlays.add(Objects.requireNonNull(overlay));
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public final class IngameUI extends AbstractOverlay {
 	 * @return Is successful
 	 */
 	public boolean remove(Overlay overlay) {
-		return overlays.remove(overlay);
+		return overlays.remove(Objects.requireNonNull(overlay));
 	}
 
 	@Override
@@ -85,6 +86,9 @@ public final class IngameUI extends AbstractOverlay {
 
 	@Override
 	public boolean touch(Input touch) {
+		
+		Objects.requireNonNull(touch);
+		
 		if(isVisible()) {
 			for(Overlay o : overlays) {
 				if(o.touch(touch)) {
@@ -97,6 +101,9 @@ public final class IngameUI extends AbstractOverlay {
 
 	@Override
 	public boolean move(Input move) {
+		
+		Objects.requireNonNull(move);
+		
 		if(isVisible()) {
 			for(Overlay o : overlays) {
 				if(o.touch(move)) {

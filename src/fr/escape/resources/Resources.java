@@ -349,6 +349,12 @@ public final class Resources {
 		}
 	}
 	
+	/**
+	 * Retrieve an InputStream for the given {@link ResourcesLoader} ID.
+	 * 
+	 * @param file Resource ID
+	 * @return InputStream of File
+	 */
 	InputStream getInputStream(String file) {
 		return getClass().getResourceAsStream(file);
 	}
