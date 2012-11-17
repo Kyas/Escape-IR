@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.util.Objects;
@@ -9,6 +20,9 @@ import fr.escape.game.entity.Collisionable;
 import fr.escape.game.entity.Entity;
 import fr.escape.game.entity.ships.Ship;
 
+/**
+ * This class implement the {@link CollisionBehavior} for any {@link Shot}.
+ */
 public final class ShotCollisionBehavior implements CollisionBehavior {
 
 	private static final String TAG = ShotCollisionBehavior.class.getSimpleName();

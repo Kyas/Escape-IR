@@ -20,16 +20,15 @@ import fr.escape.app.Input;
  * An interface which represent an User Gesture ingame.
  * 
  */
-// TODO Comment
 public interface Gesture {
 	
 	/**
+	 * Verify if the given {@link Gesture} was valid.
 	 * 
-	 * 
-	 * @param start First Input for this Gesture
-	 * @param events
-	 * @param end
-	 * @param velocity
+	 * @param start : First {@link Input} for this {@link Gesture}
+	 * @param events : List of all {@link Input} use for this {@link Gesture}
+	 * @param end : Last {@link Input} for this {@link Gesture}.
+	 * @param velocity : Array in which the velocity for the {@link Gesture} will be set.
 	 * @return True if the Gesture is detected as successful.
 	 */
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity);

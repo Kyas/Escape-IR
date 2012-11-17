@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
@@ -9,12 +20,17 @@ import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-//TODO Comment
+/**
+ * This class implements the {@link ShiboleetShot}.
+ * 
+ * @see AbstractShot
+ */
 public final class ShiboleetShot extends AbstractShot {
 	
 	static final float CHILD_RADIUS = 0.35f;
@@ -26,6 +42,15 @@ public final class ShiboleetShot extends AbstractShot {
 	private boolean isVisible;
 	private boolean isChild;
 
+	/**
+	 * {@link ShiboleetShot} constructor.
+	 * 
+	 * @param body : The {@link Shot} JBox2D {@link Body}.
+	 * @param isChild : true if the {@link ShiboleetShot} is a child, false otherwise.
+	 * @param container : The {@link EntityContainer} that contains the {@link Shot}.
+	 * @param collisionBehavior : The {@link CollisionBehavior} use by the {@link Shot}
+	 * @param factory : The {@link ShotFactory}.
+	 */
 	public ShiboleetShot(Body body, boolean isChild, EntityContainer container, ShotCollisionBehavior collisionBehavior, ShotFactory factory) {
 		super(body, container, container, collisionBehavior, 1);
 
@@ -86,6 +111,9 @@ public final class ShiboleetShot extends AbstractShot {
 		}
 	}
 
+	/**
+	 * Create the mini-{@link ShiboleetShot} after firing the {@link ShiboleetShot}.
+	 */
 	private void explode() {
 		
 		ShiboleetShot s1 = createChild();
@@ -115,12 +143,19 @@ public final class ShiboleetShot extends AbstractShot {
 		
 	}
 	
+	/**
+	 * Create a smaller {@link ShiboleetShot}.
+	 * 
+	 * @return Return a small {@link ShiboleetShot}.
+	 */
 	private ShiboleetShot createChild() {
 		return (ShiboleetShot) shotFactory.createShiboleetShot(getX(), getY(), true);
 	}
 
 	@Override
 	public void draw(Graphics graphics) {
+		Objects.requireNonNull(graphics);
+		
 		if(isVisible) {
 			
 			Rectangle area = getEdge();
@@ -131,6 +166,7 @@ public final class ShiboleetShot extends AbstractShot {
 	
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 		
 		draw(graphics);
 		

@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
@@ -10,10 +21,13 @@ import fr.escape.app.Foundation;
 import fr.escape.game.User;
 import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.Entity;
+import fr.escape.game.entity.EntityContainer;
 import fr.escape.game.entity.notifier.EdgeNotifier;
 import fr.escape.game.entity.notifier.KillNotifier;
 
-//TODO Comment
+/**
+ * This class provide a skeletal implementation of any {@link Shot} in the game.
+ */
 public abstract class AbstractShot implements Shot {
 	
 	private static final int PLAYER_SHOT_MASK = NPC_TYPE;
@@ -25,7 +39,6 @@ public abstract class AbstractShot implements Shot {
 	private CollisionBehavior collisionBehavior;
 	
 	private Body body;
-	private int state;
 	
 	private int angle;
 	private int damage;
@@ -34,6 +47,15 @@ public abstract class AbstractShot implements Shot {
 	private int height;
 	private boolean player;
 	
+	/**
+	 * {@link AbstractShot} constructor.
+	 * 
+	 * @param body : The {@link Body} for the new {@link Shot}.
+	 * @param edgeNotifier : The {@link EntityContainer} in which the {@link Shot} will be push.
+	 * @param killNotifier : The {@link EntityContainer} in which the {@link Shot} will be push.
+	 * @param collisionBehavior : {@link CollisionBehavior} that the {@link Shot} will use.
+	 * @param defaultDamage : The damage done by the {@link Shot}.
+	 */
 	public AbstractShot(Body body, EdgeNotifier edgeNotifier, KillNotifier killNotifier, CollisionBehavior collisionBehavior, int defaultDamage) {
 		
 		this.body = Objects.requireNonNull(body);
@@ -43,8 +65,6 @@ public abstract class AbstractShot implements Shot {
 		
 		this.angle = 0;
 		this.damage = defaultDamage;
-		
-		this.state = MESSAGE_LOAD;
 	}
 
 	@Override
@@ -85,14 +105,29 @@ public abstract class AbstractShot implements Shot {
 		this.body = body;
 	}
 	
+	/**
+	 * Get {@link Body} coordinate on X axis in meters.
+	 * 
+	 * @return Return the X coordinate.
+	 */
 	protected float getX() {
 		return getBody().getPosition().x;
 	}
 	
+	/**
+	 * Get {@link Body} coordinate on Y axis in meters.
+	 * 
+	 * @return Return the Y coordinate.
+	 */
 	protected float getY() {
 		return getBody().getPosition().y;
 	}
 	
+	/**
+	 * Get the {@link Shot} rotation angle.
+	 * 
+	 * @return Return the rotation angle.
+	 */
 	protected int getAngle() {
 		return this.angle;
 	}
@@ -102,15 +137,11 @@ public abstract class AbstractShot implements Shot {
 		kNotifier.destroy(this);		
 	}
 	
-	@Override
-	public int getState() {
-		return state;
-	}
-	
-	public  void setState(int state) {
-		this.state = state;
-	}
-	
+	/**
+	 * Get {@link Shot} edge.
+	 * 
+	 * @return Return the {@link Rectangle} that contains the {@link Shot} {@link Body}.
+	 */
 	protected abstract Rectangle getEdge();
 
 	protected EdgeNotifier getEdgeNotifier() {
@@ -124,6 +155,9 @@ public abstract class AbstractShot implements Shot {
 	
 	@Override
 	public void collision(final User user, final Entity e, final int whois) {
+		Objects.requireNonNull(user);
+		Objects.requireNonNull(e);
+		
 		Foundation.ACTIVITY.post(new Runnable() {
 			
 			@Override
@@ -134,6 +168,11 @@ public abstract class AbstractShot implements Shot {
 		});
 	}
 	
+	/**
+	 * Get the {@link Shot} {@link CollisionBehavior}.
+	 * 
+	 * @return Return the {@link CollisionBehavior} use by the {@link Shot}.
+	 */
 	CollisionBehavior getCollisionBehavior() {
 		return collisionBehavior;
 	}
@@ -151,14 +190,29 @@ public abstract class AbstractShot implements Shot {
 		return true;
 	}
 	
+	/**
+	 * Get {@link ShotContext} width.
+	 * 
+	 * @return Return {@link ShotContext} width.
+	 */
 	int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Get {@link ShotContext} height.
+	 * 
+	 * @return Return {@link ShotContext} height.
+	 */
 	int getHeight() {
 		return height;
 	}
 	
+	/**
+	 * Check if the {@link Shot} belong to the Player.
+	 * 
+	 * @return Return true if th {@link Shot} was launched by the Player, false otherwise.
+	 */
 	boolean isPlayer() {
 		return player;
 	}

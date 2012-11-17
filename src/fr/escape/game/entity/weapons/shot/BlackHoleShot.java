@@ -1,6 +1,18 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
+import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -9,12 +21,17 @@ import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-// TODO Finish & Comment
+/**
+ * This class implements the {@link BlackHoleShot}.
+ * 
+ * @see AbstractShot
+ */
 public final class BlackHoleShot extends AbstractShot {
 
 	private static final int ROTATION_SPEED = 600;
@@ -33,6 +50,13 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	private long timer;
 	
+	/**
+	 * {@link BlackHoleShot} constructor.
+	 * 
+	 * @param body : The {@link Shot} JBox2D {@link Body}.
+	 * @param container : The {@link EntityContainer} that contains the {@link Shot}.
+	 * @param collisionBehavior : The {@link CollisionBehavior} use by the {@link Shot}
+	 */
 	public BlackHoleShot(Body body, EntityContainer container, ShotCollisionBehavior collisionBehavior) {
 		super(body, container, container, collisionBehavior, 5);
 		
@@ -94,10 +118,11 @@ public final class BlackHoleShot extends AbstractShot {
 				throw new IllegalArgumentException("Unknown Message: "+message);
 			}
 		}
-		
-		setState(message);
 	}
 
+	/**
+	 * Resize the {@link PolygonShape} size of the {@link Body}.
+	 */
 	private void setShapeRadius() {
 		float shapeX, shapeY;
 		
@@ -120,6 +145,7 @@ public final class BlackHoleShot extends AbstractShot {
 
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 		
 		timer += delta;
 		draw(graphics);
@@ -136,6 +162,8 @@ public final class BlackHoleShot extends AbstractShot {
 	
 	@Override
 	public void draw(Graphics graphics) {
+		Objects.requireNonNull(graphics);
+		
 		if(isVisible) {
 
 			if(drawLeftAndRightHelix) {
@@ -147,12 +175,16 @@ public final class BlackHoleShot extends AbstractShot {
 			if(drawEventHorizon) {
 				drawEventHorizon(graphics);
 			}
-			
-			//graphics.draw(getEdge(), Color.RED);
 		}
 	}
 
+	/**
+	 * Draw the coreHelix {@link Texture}.
+	 * 
+	 * @param graphics : {@link Graphics} use to draw the {@link Shot}.
+	 */
 	private void drawCoreHelix(Graphics graphics) {
+		Objects.requireNonNull(graphics);
 		
 		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreHelix.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreHelix.getHeight() / 2;
@@ -160,7 +192,13 @@ public final class BlackHoleShot extends AbstractShot {
 		graphics.draw(coreHelix, x, y, getAngle());
 	}
 	
+	/**
+	 * Draw the leftAndRightHelix {@link Texture}.
+	 * 
+	 * @param graphics : {@link Graphics} use to draw the {@link Shot}.
+	 */
 	private void drawLeftAndRightHelix(Graphics graphics) {
+		Objects.requireNonNull(graphics);
 		
 		int centerX = CoordinateConverter.toPixelX(getBody().getPosition().x);
 		int centerY = CoordinateConverter.toPixelY(getBody().getPosition().y);
@@ -178,7 +216,13 @@ public final class BlackHoleShot extends AbstractShot {
 		graphics.draw(rightHelix, x, y, angle);
 	}
 	
+	/**
+	 * Draw th eventHorizon {@link Texture}.
+	 * 
+	 * @param graphics : {@link Graphics} use to draw the {@link Shot}.
+	 */
 	private void drawEventHorizon(Graphics graphics) {
+		Objects.requireNonNull(graphics);
 
 		float size = getEventHorizonSize();
 		
@@ -193,6 +237,11 @@ public final class BlackHoleShot extends AbstractShot {
 		graphics.draw(eventHorizon, x, y, x + width, y + height);
 	}
 	
+	/**
+	 * Get the size of the eventHorizon {@link Texture}.
+	 * 
+	 * @return Return the eventHorizon size.
+	 */
 	private float getEventHorizonSize() {
 		
 		long time = timer;

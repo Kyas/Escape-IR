@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.util.Objects;
@@ -15,7 +26,9 @@ import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-// TODO Comment
+/**
+ * Factory use to create {@link Shot}.
+ */
 public final class ShotFactory {
 	
 	private static final int MASK = 0x0001;
@@ -24,16 +37,29 @@ public final class ShotFactory {
 	private final World world;
 	private final EntityContainer entityContainer;
 
+	/**
+	 * {@link ShotFactory} constructor.
+	 * 
+	 * @param world : The {@link World} that will contain the {@link Shot}
+	 * @param entityContainer : The {@link EntityContainer} in which the {@link Shot} will be push.
+	 */
 	public ShotFactory(World world, EntityContainer entityContainer) {
 		this.world = Objects.requireNonNull(world);
 		this.entityContainer = Objects.requireNonNull(entityContainer);
 	}
 
+	/**
+	 * Create a {@link BlackHoleShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @return Return {@link BlackHoleShot}.
+	 */
 	public Shot createBlackholeShot(float x, float y) {
+		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT);
 
-		// TODO Find something more elegant
-		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT).getWidth() / 2);
-		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_BLACKHOLE_CORE_SHOT).getHeight() / 2);
+		float shapeX = CoordinateConverter.toMeterX(texture.getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(texture.getHeight() / 2);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
@@ -60,11 +86,18 @@ public final class ShotFactory {
 		return shot;
 	}
 	
+	/**
+	 * Create a {@link FireBallShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @return Return {@link FireBallShot}.
+	 */
 	public Shot createFireBallShot(float x, float y) {
+		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT);
 
-		// TODO Find something more elegant
-		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT).getWidth() / 2);
-		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT).getHeight() / 2);
+		float shapeX = CoordinateConverter.toMeterX(texture.getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(texture.getHeight() / 2);
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
@@ -91,11 +124,18 @@ public final class ShotFactory {
 		return shot;
 	}
 	
+	/**
+	 * Create a {@link MissileShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @return Return {@link MissileShot}.
+	 */
 	public Shot createMissileShot(float x, float y) {
+		Texture texture = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_MISSILE_SHOT);
 
-		// TODO Find something more elegant
-		float shapeX = CoordinateConverter.toMeterX(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT).getWidth() / 2);
-		float shapeY = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_FIREBALL_CORE_SHOT).getHeight() / 2);
+		float shapeX = CoordinateConverter.toMeterX(texture.getWidth() / 2);
+		float shapeY = CoordinateConverter.toMeterY(texture.getHeight() / 2);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(x, y);
@@ -122,12 +162,18 @@ public final class ShotFactory {
 		return shot;
 	}
 
+	/**
+	 * Create a {@link ShiboleetShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @param isChild : true if is a small {@link ShiboleetShot}, false otherwise.
+	 * @return Return {@link ShiboleetShot}.
+	 */
 	public Shot createShiboleetShot(float x, float y, boolean isChild) {
-		
 		Texture coreShiboleet = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 		float shapeX, shapeY;
 
-		// TODO Find something more elegant
 		float shipSize = CoordinateConverter.toMeterY(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_RAPTOR).getHeight());
 		if(isChild) {
 			shapeX = CoordinateConverter.toMeterX(coreShiboleet.getWidth() / 2 - 10);
@@ -162,6 +208,13 @@ public final class ShotFactory {
 		return shot;
 	}
 	
+	/**
+	 * Create a {@link JupiterShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @return Return {@link JupiterShot}.
+	 */
 	public Shot createJupiterShot(float x, float y) {
 		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.JUPITER_SPECIAL);
 		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
@@ -192,6 +245,13 @@ public final class ShotFactory {
 		return shot;
 	}
 	
+	/**
+	 * Create a {@link MoonShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @return Return {@link MoonShot}.
+	 */
 	public Shot createMoonShot(float x, float y) {
 		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.MOON_SPECIAL);
 		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);
@@ -222,6 +282,13 @@ public final class ShotFactory {
 		return shot;
 	}
 	
+	/**
+	 * Create a {@link EarthShot}.
+	 * 
+	 * @param x : Coordinate on X axis in meters.
+	 * @param y : Coordinate on Y axis in meters.
+	 * @return Return {@link EarthShot}.
+	 */
 	public Shot createEarthShot(float x, float y) {
 		Texture coreJupiter = Foundation.RESOURCES.getTexture(TextureLoader.EARTH_SPECIAL);
 		float shapeX = CoordinateConverter.toMeterX(coreJupiter.getWidth() / 2);

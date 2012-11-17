@@ -1,6 +1,18 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.weapons.shot;
 
 import java.awt.Rectangle;
+import java.util.Objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
@@ -9,12 +21,17 @@ import org.jbox2d.dynamics.BodyType;
 
 import fr.escape.app.Foundation;
 import fr.escape.app.Graphics;
+import fr.escape.game.entity.CollisionBehavior;
 import fr.escape.game.entity.CoordinateConverter;
 import fr.escape.game.entity.EntityContainer;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-//TODO Comment
+/**
+ * This class implements the {@link FireBallShot}.
+ * 
+ * @see AbstractShot
+ */
 public final class FireBallShot extends AbstractShot {
 
 	private static final int FIREBALL_SPEED = 4000;
@@ -28,6 +45,13 @@ public final class FireBallShot extends AbstractShot {
 	private float radiusSize;
 	private long timer;
 	
+	/**
+	 * {@link FireBallShot} constructor.
+	 * 
+	 * @param body : The {@link Shot} JBox2D {@link Body}.
+	 * @param container : The {@link EntityContainer} that contains the {@link Shot}.
+	 * @param collisionBehavior : The {@link CollisionBehavior} use by the {@link Shot}
+	 */
 	public FireBallShot(Body body, EntityContainer container, ShotCollisionBehavior collisionBehavior) {
 		super(body, container, container, collisionBehavior, 3);
 		
@@ -41,6 +65,7 @@ public final class FireBallShot extends AbstractShot {
 
 	@Override
 	public void draw(Graphics graphics) {
+		Objects.requireNonNull(graphics);
 		if(isVisible) {
 			drawCoreBall(graphics);
 			drawRadiusEffect(graphics, (int) (timer % 100)*10);
@@ -49,6 +74,7 @@ public final class FireBallShot extends AbstractShot {
 
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 		
 		timer += delta;
 		draw(graphics);
@@ -124,7 +150,13 @@ public final class FireBallShot extends AbstractShot {
 		return new Rectangle(x - (width / 2), y - (height / 2), width, height);
 	}
 
+	/**
+	 * Draw the {@link FireBallShot} core.
+	 * 
+	 * @param graphics : {@link Graphics} use to draw
+	 */
 	private void drawCoreBall(Graphics graphics) {
+		Objects.requireNonNull(graphics);
 		
 		int x = CoordinateConverter.toPixelX(getBody().getPosition().x) - coreBall.getWidth() / 2;
 		int y = CoordinateConverter.toPixelY(getBody().getPosition().y) - coreBall.getHeight() / 2;
@@ -132,7 +164,14 @@ public final class FireBallShot extends AbstractShot {
 		graphics.draw(coreBall, x, y, getAngle());
 	}
 	
+	/**
+	 * Draw the radius effect.
+	 * 
+	 * @param graphics : {@link Graphics} use to draw.
+	 * @param random : A random angle.
+	 */
 	private void drawRadiusEffect(Graphics graphics, int random) {
+		Objects.requireNonNull(graphics);
 		
 		int width = (int) (radiusEffect.getWidth() * radiusSize);
 		int height = (int) (radiusEffect.getHeight() * radiusSize);
@@ -144,6 +183,11 @@ public final class FireBallShot extends AbstractShot {
 		
 	}
 	
+	/**
+	 * Get the radius effect size.
+	 * 
+	 * @return Return the radius effect size.
+	 */
 	private float getRadiusEffectSize() {
 		
 		long time = timer;

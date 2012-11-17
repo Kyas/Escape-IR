@@ -1,16 +1,34 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.input;
 
 import java.util.List;
+import java.util.Objects;
 
 import fr.escape.app.Input;
 
-// TODO Comment
+/**
+ * This class implements {@link Gesture} to provide the LeftLoop and RightLoop {@link Gesture}
+ */
 public final class Loop implements Gesture {
 	private final static float RIGHT_FLAG = 1.0f;
 	private final static float LEFT_FLAG = 2.0f;
 
 	@Override
 	public boolean accept(Input start, List<Input> events, Input end, float[] velocity) {
+		Objects.requireNonNull(start);
+		Objects.requireNonNull(events);
+		Objects.requireNonNull(end);
+		
 		int faultTolerance = 90;
 		int coeff = 25;
 		Input maxX = start;
