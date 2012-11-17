@@ -63,7 +63,7 @@ public abstract class AbstractShip implements Ship {
 	
 	@Override
 	public boolean damage(int value) {
-		
+
 		life -= value;
 		
 		if(life <= 0) {

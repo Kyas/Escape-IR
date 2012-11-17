@@ -30,12 +30,17 @@ public class Moon extends AbstractStage {
 	
 	@Override
 	public long getEstimatedScenarioTime() {
-		return 12;
+		return 40;
 	}
 
 	@Override
 	protected Boss getBoss() {
 		return boss;
+	}
+	
+	@Override
+	public void resetBoss() {
+		boss.reset(BOSS_SPAWN_X, BOSS_SPAWN_Y);
 	}
 	
 }

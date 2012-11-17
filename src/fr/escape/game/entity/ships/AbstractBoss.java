@@ -72,7 +72,7 @@ public abstract class AbstractBoss extends AbstractShip implements Boss {
 			
 		});
 	}
-
+	
 	@Override
 	public boolean isPlayer() {
 		return false;

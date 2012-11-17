@@ -123,6 +123,7 @@ public final class ShotFactory {
 	}
 
 	public Shot createShiboleetShot(float x, float y, boolean isChild) {
+		
 		Texture coreShiboleet = Foundation.RESOURCES.getTexture(TextureLoader.WEAPON_SHIBOLEET_SHOT);
 		float shapeX, shapeY;
 

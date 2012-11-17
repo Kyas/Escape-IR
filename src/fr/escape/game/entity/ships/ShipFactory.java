@@ -38,7 +38,7 @@ public class ShipFactory {
 	private static final CollisionBehavior PLAYER_COLLISION_BEHAVIOR = new PlayerShipCollisionBehavior();
 	
 	private static final int DEFAULT_ARMOR = 1;
-	private static final int PLAYER_ARMOR = 10;
+	private static final int PLAYER_ARMOR = 50;
 	private static final int JUPITER_ARMOR = 10;
 	private static final int MOON_ARMOR = 25;
 	private static final int EARTH_ARMOR = 50;
