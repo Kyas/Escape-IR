@@ -1,6 +1,6 @@
 /*****************************************************************************
  * 
-  * Copyright 2012 See AUTHORS file.
+ * Copyright 2012 See AUTHORS file.
  * 
  * This file is part of Escape-IR.
  * 
@@ -81,6 +81,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if successful
 	 */
 	private boolean remove(Entity e) {
+		Objects.requireNonNull(e);
 		Foundation.ACTIVITY.debug(TAG, "Remove this Entity: "+e);
 		return this.entities.remove(e);
 	}
@@ -99,6 +100,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	
 	@Override
 	public void update(Graphics graphics, long delta) {
+		Objects.requireNonNull(graphics);
 		for(Entity e : entities) {
 			e.update(graphics, delta);
 		}
@@ -179,6 +181,7 @@ public final class EntityContainer implements Updateable, KillNotifier, EdgeNoti
 	 * @return True if this container contains the given {@link Entity}
 	 */
 	public boolean contains(Entity e) {
+		Objects.requireNonNull(e);
 		return entities.contains(e);
 	}
 	

@@ -42,31 +42,43 @@ public interface Ship extends Entity {
 	public void setActiveWeapon(int which);
 	
 	/**
+	 * Get the active {@link Weapon}
+	 * 
 	 * @return The {@link Weapon} currently used by the {@link Ship}.
 	 */
 	public Weapon getActiveWeapon();
 	
 	/**
+	 * Get the {@link BodyDef}.
+	 * 
 	 * @return The initial JBox2D {@link BodyDef} that set the JBox2D {@link Body} of a {@link Ship}.
 	 */
 	public BodyDef getBodyDef();
 	
 	/**
+	 * Get body coordinate on X axis.
+	 * 
 	 * @return The coordinate on X axis in meters.
 	 */
 	public float getX();
 	
 	/**
+	 * Get body coordinate on Y axis.
+	 * 
 	 * @return The coordinate on Y axis in meters.
 	 */
 	public float getY();
 	
 	/**
+	 * Check if this {@link Ship} belong to the Player.
+	 * 
 	 * @return Return true if the current {@link Ship} is the player {@link Ship}, false otherwise.
 	 */
 	public boolean isPlayer();
 	
 	/**
+	 * Check if a {@link Shot} is loaded in the active {@link Weapon}
+	 * 
 	 * @return Return true if the active {@link Weapon} has loaded her {@link Shot} and is ready to fire, flase otherwise.
 	 */
 	public boolean isWeaponLoaded();
@@ -110,6 +122,8 @@ public interface Ship extends Entity {
 	public boolean fireWeapon(float[] velocity);
 
 	/**
+	 * Get the {@link Body} edge.
+	 * 
 	 * @return A {@link Rectangle} in which the JBox2D {@link Body} is contained.
 	 */
 	public Rectangle getEdge();
@@ -131,11 +145,15 @@ public interface Ship extends Entity {
 	public boolean damage(int value);
 	
 	/**
+	 * Get current life.
+	 * 
 	 * @return Current life of the {@link Ship}
 	 */
 	public int getCurrentLife();
 	
 	/**
+	 * Get initial life.
+	 * 
 	 * @return Initial life of the {@link Ship}
 	 */
 	public int getInitialLife();

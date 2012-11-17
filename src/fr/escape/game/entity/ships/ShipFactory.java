@@ -1,3 +1,14 @@
+/*****************************************************************************
+ * 
+ * Copyright 2012 See AUTHORS file.
+ * 
+ * This file is part of Escape-IR.
+ * 
+ * Escape-IR is free software: you can redistribute it and/or modify
+ * it under the terms of the zlib license. See the COPYING file.
+ * 
+ *****************************************************************************/
+
 package fr.escape.game.entity.ships;
 
 import java.util.List;
@@ -25,11 +36,14 @@ import fr.escape.game.entity.weapons.shot.MoonShot;
 import fr.escape.game.entity.weapons.shot.Shot;
 import fr.escape.game.entity.weapons.shot.Shot.ShotContext;
 import fr.escape.game.entity.weapons.shot.ShotFactory;
+import fr.escape.game.scenario.Scenario;
 import fr.escape.graphics.AnimationTexture;
 import fr.escape.graphics.Texture;
 import fr.escape.resources.texture.TextureLoader;
 
-//TODO Comment
+/**
+ * Factory use to create {@link Ship}.
+ */
 public class ShipFactory {
 	
 	private static final int PLAYERMASK = Collisionable.NPC_TYPE | Collisionable.SHOT_TYPE | Collisionable.BONUS_TYPE | Collisionable.WALL_TYPE;
@@ -50,6 +64,12 @@ public class ShipFactory {
 	
 	final ShotFactory shotFactory;
 	
+	/**
+	 * {@link ShipFactory} constructor
+	 * 
+	 * @param ec : {@link EntityContainer} in which the {@link Ship} will be push.
+	 * @param factory : {@link ShotFactory} use to create the {@link Weapon} {@link Shot}.
+	 */
 	public ShipFactory(EntityContainer ec, ShotFactory factory) {
 		this.econtainer = Objects.requireNonNull(ec);
 		this.playerWeapons = Weapons.createListOfWeapons(this.econtainer, Objects.requireNonNull(factory));
@@ -57,6 +77,13 @@ public class ShipFactory {
 		this.shotFactory = factory;
 	}
 	
+	/**
+	 * Create a Falcon {@link Ship}
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Falcon {@link Ship} created.
+	 */
 	public Ship createFalcon(float x, float y) {
 		
 		AnimationTexture falcon = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_FALCON));
@@ -71,6 +98,13 @@ public class ShipFactory {
 		
 	}
 	
+	/**
+	 * Create a Viper {@link Ship}
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Viper {@link Ship} created.
+	 */
 	public Ship createViper(float x, float y) {
 		
 		AnimationTexture vyper = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_VIPER));
@@ -85,6 +119,13 @@ public class ShipFactory {
 		
 	}
 	
+	/**
+	 * Create a Raptor {@link Ship}
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Raptor {@link Ship} created.
+	 */
 	public Ship createRaptor(float x, float y) {
 		
 		AnimationTexture raptor = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.SHIP_RAPTOR));
@@ -99,6 +140,13 @@ public class ShipFactory {
 		return ship;
 	}
 	
+	/**
+	 * Create a Player {@link Ship}
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Player {@link Ship} created.
+	 */
 	public Ship createPlayer(float x, float y) {
 		
 		AnimationTexture raptor = new AnimationTexture( 
@@ -139,6 +187,7 @@ public class ShipFactory {
 			
 			@Override
 			public void update(Graphics graphics, long delta) {
+				Objects.requireNonNull(graphics);
 				
 				if(executeRightLoop || executeLeftLoop) {
 					
@@ -196,6 +245,11 @@ public class ShipFactory {
 				getBody().getFixtureList().m_filter.maskBits = (invulnerable)?INVULNERABILITY_MASK:PLAYER_MASK;
 			}
 			
+			/**
+			 * Player {@link Ship} execute a looping
+			 * 
+			 * @param velocity : parameters for the looping.
+			 */
 			private void doLooping(float[] velocity) {
 				
 				int mode = (int) velocity[3];
@@ -235,7 +289,14 @@ public class ShipFactory {
 		
 	}
 	
-	// TODO
+	/**
+	 * Create a {@link Ship} for {@link Scenario}.
+	 * 
+	 * @param type : {@link Ship} type
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the created {@link Ship}.
+	 */
 	public Ship createShipForScenario(int type, float x, float y) {
 		switch(type) {
 			case 0: {
@@ -253,6 +314,13 @@ public class ShipFactory {
 		}
 	}
 	
+	/**
+	 * Create the {@link Boss} for {@link Scenario} Jupiter.
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Jupiter {@link Boss}.
+	 */
 	public Boss createJupiterBoss(float x, float y) {
 		
 		AnimationTexture jupiter = new AnimationTexture(Foundation.RESOURCES.getTexture(TextureLoader.BOSS_JUPITER));
@@ -337,6 +405,13 @@ public class ShipFactory {
 		
 	}
 	
+	/**
+	 * Create the {@link Boss} for {@link Scenario} Moon.
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Moon {@link Boss}.
+	 */
 	public Boss createMoonBoss(float x, float y) {
 		
 		AnimationTexture moon = new AnimationTexture(
@@ -412,6 +487,13 @@ public class ShipFactory {
 		
 	}
 
+	/**
+	 * Create the {@link Boss} for {@link Scenario} Earth.
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the Earth {@link Boss}.
+	 */
 	public Boss createEarthBoss(float x, float y) {
 		
 		AnimationTexture earth = new AnimationTexture(
@@ -501,6 +583,13 @@ public class ShipFactory {
 		
 	}
 	
+	/**
+	 * Create the {@link BodyDef}.
+	 * 
+	 * @param x : Coordinate on X axis.
+	 * @param y : Coordinate on Y axis.
+	 * @return Return the {@link BodyDef}.
+	 */
 	private static BodyDef createBodyDef(float x, float y) {
 		
 		BodyDef bodyDef = new BodyDef();
@@ -510,6 +599,12 @@ public class ShipFactory {
 		return bodyDef;
 	}
 	
+	/**
+	 * Create a {@link PolygonShape}.
+	 * 
+	 * @param drawable : The {@link AnimationTexture} use to create the {@link PolygonShape}
+	 * @return Return a {@link PolygonShape}.
+	 */
 	private static PolygonShape createShape(AnimationTexture drawable) {
 		
 		Objects.requireNonNull(drawable);
@@ -523,6 +618,12 @@ public class ShipFactory {
 		return shape;
 	}
 	
+	/**
+	 * Create a {@link FixtureDef}.
+	 * 
+	 * @param drawable : The {@link AnimationTexture} use to create the {@link FixtureDef}
+	 * @return Return a {@link FixtureDef}.
+	 */
 	private static FixtureDef createFixtureForNpc(AnimationTexture drawable) {
 		
 		Objects.requireNonNull(drawable);
@@ -538,6 +639,12 @@ public class ShipFactory {
 		return fixture;
 	}
 	
+	/**
+	 * Create the {@link FixtureDef} for the Player {@link Ship}
+	 *  
+	 * @param drawable : The {@link AnimationTexture} use to create the {@link FixtureDef}
+	 * @return Return the Player {@link Ship} {@link FixtureDef}.
+	 */
 	private static FixtureDef createFixtureForPlayer(AnimationTexture drawable) {
 		
 		FixtureDef fixture = createFixtureForNpc(drawable);
@@ -548,7 +655,18 @@ public class ShipFactory {
 		return fixture;
 	}
 	
+	/**
+	 * Create a NPC {@link Ship}.
+	 * 
+	 * @param bodyDef : The {@link BodyDef} needed to create the JBox2D {@link Body}
+	 * @param fixture : The {@link FixtureDef} needed to create the JBox2D {@link Body}
+	 * @param drawable : The {@link AnimationTexture} use for this {@link Ship}
+	 * @return Return the created {@link Ship}
+	 */
 	private Ship createNpcAbstractShip(BodyDef bodyDef, FixtureDef fixture, AnimationTexture drawable) {
+		Objects.requireNonNull(bodyDef);
+		Objects.requireNonNull(fixture);
+		Objects.requireNonNull(drawable);
 		
 		return new AbstractShip(bodyDef, fixture, npcWeapons, DEFAULT_ARMOR, econtainer, drawable, COMPUTER_COLLISION_BEHAVIOR) {
 			
